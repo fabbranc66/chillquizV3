@@ -33,7 +33,6 @@ class Sessione
 
         $sessioneId = (int) $this->pdo->lastInsertId();
 
-        // 🔥 Genera le domande per la sessione
         $selezione = new \App\Models\SelezioneDomande();
         $selezione->genera($sessioneId, $configurazioneId);
 
@@ -69,6 +68,22 @@ class Sessione
 
     public function cambiaStato(int $id, string $stato): bool
     {
+        if ($stato === 'domanda') {
+
+            $stmt = $this->pdo->prepare(
+                "UPDATE sessioni
+                 SET stato = :stato,
+                     inizio_domanda = :inizio
+                 WHERE id = :id"
+            );
+
+            return $stmt->execute([
+                'stato' => $stato,
+                'inizio' => time(),
+                'id' => $id
+            ]);
+        }
+
         $stmt = $this->pdo->prepare(
             "UPDATE sessioni
              SET stato = :stato
@@ -81,48 +96,47 @@ class Sessione
         ]);
     }
 
-public function avanzaDomanda(int $id): void
-{
-    // Recupera sessione
-    $stmt = $this->pdo->prepare(
-        "SELECT s.domanda_corrente, c.numero_domande
-         FROM sessioni s
-         JOIN configurazioni_quiz c ON c.id = s.configurazione_id
-         WHERE s.id = :id
-         LIMIT 1"
-    );
-
-    $stmt->execute(['id' => $id]);
-    $data = $stmt->fetch();
-
-    if (!$data) {
-        return;
-    }
-
-    $corrente = (int) $data['domanda_corrente'];
-    $totale = (int) $data['numero_domande'];
-
-    if ($corrente >= $totale) {
-
-        // Fine partita
-        $update = $this->pdo->prepare(
-            "UPDATE sessioni
-             SET stato = 'conclusa'
-             WHERE id = :id"
+    public function avanzaDomanda(int $id): void
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT s.domanda_corrente, c.numero_domande
+             FROM sessioni s
+             JOIN configurazioni_quiz c ON c.id = s.configurazione_id
+             WHERE s.id = :id
+             LIMIT 1"
         );
 
-        $update->execute(['id' => $id]);
+        $stmt->execute(['id' => $id]);
+        $data = $stmt->fetch();
 
-    } else {
+        if (!$data) {
+            return;
+        }
 
-        // Avanza e torna a puntata
-        $update = $this->pdo->prepare(
-            "UPDATE sessioni
-             SET domanda_corrente = domanda_corrente + 1,
-                 stato = 'puntata'
-             WHERE id = :id"
-        );
+        $corrente = (int) $data['domanda_corrente'];
+        $totale = (int) $data['numero_domande'];
 
-        $update->execute(['id' => $id]);
+        if ($corrente >= $totale) {
+
+            $update = $this->pdo->prepare(
+                "UPDATE sessioni
+                 SET stato = 'conclusa'
+                 WHERE id = :id"
+            );
+
+            $update->execute(['id' => $id]);
+
+        } else {
+
+            $update = $this->pdo->prepare(
+                "UPDATE sessioni
+                 SET domanda_corrente = domanda_corrente + 1,
+                     stato = 'puntata',
+                     inizio_domanda = NULL
+                 WHERE id = :id"
+            );
+
+            $update->execute(['id' => $id]);
+        }
     }
-}}
+}

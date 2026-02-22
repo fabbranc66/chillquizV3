@@ -66,15 +66,9 @@ class Partecipazione
     {
         $partecipazione = $this->trova($partecipazioneId);
 
-        if (!$partecipazione) {
-            return false;
-        }
+        if (!$partecipazione) return false;
+        if ($importo <= 0 || $importo > $partecipazione['capitale_attuale']) return false;
 
-        if ($importo <= 0 || $importo > $partecipazione['capitale_attuale']) {
-            return false;
-        }
-
-        // Salviamo temporaneamente la puntata nella sessione PHP
         $_SESSION['puntate'][$partecipazioneId] = $importo;
 
         return true;
@@ -91,18 +85,46 @@ class Partecipazione
     ): ?array {
 
         $partecipazione = $this->trova($partecipazioneId);
-
-        if (!$partecipazione) {
-            return null;
-        }
+        if (!$partecipazione) return null;
 
         $puntata = $_SESSION['puntate'][$partecipazioneId] ?? 0;
+        if ($puntata <= 0) return null;
 
-        if ($puntata <= 0) {
+        // Recupera sessione e timer
+        $stmt = $this->pdo->prepare(
+            "SELECT s.inizio_domanda, c.id as config_id
+             FROM partecipazioni p
+             JOIN sessioni s ON s.id = p.sessione_id
+             JOIN configurazioni_quiz c ON c.id = s.configurazione_id
+             WHERE p.id = :id
+             LIMIT 1"
+        );
+
+        $stmt->execute(['id' => $partecipazioneId]);
+        $sessionData = $stmt->fetch();
+
+        if (!$sessionData || !$sessionData['inizio_domanda']) {
             return null;
         }
 
-        // Verifica correttezza opzione
+        $inizioDomanda = (int) $sessionData['inizio_domanda'];
+
+        $sistema = new Sistema();
+        $durata = (int) $sistema->get('durata_domanda');
+        $fattoreMax = (float) $sistema->get('fattore_velocita_max');
+        $bonusPrimoAttivo = (int) $sistema->get('bonus_primo_attivo');
+        $coeffBonusPrimo = (float) $sistema->get('coefficiente_bonus_primo');
+
+        $tempoRisposta = time() - $inizioDomanda;
+        $tempoRimanente = max(0, $durata - $tempoRisposta);
+
+        $percentuale = $durata > 0
+            ? ($tempoRimanente / $durata)
+            : 0;
+
+        $fattoreVelocita = round($percentuale * $fattoreMax, 2);
+
+        // Verifica correttezza
         $stmt = $this->pdo->prepare(
             "SELECT corretta FROM opzioni
              WHERE id = :id LIMIT 1"
@@ -111,13 +133,11 @@ class Partecipazione
         $stmt->execute(['id' => $opzioneId]);
         $opzione = $stmt->fetch();
 
-        if (!$opzione) {
-            return null;
-        }
+        if (!$opzione) return null;
 
         $corretta = (int) $opzione['corretta'];
 
-        // Recupera difficoltà domanda
+        // Difficoltà
         $stmt = $this->pdo->prepare(
             "SELECT difficolta FROM domande
              WHERE id = :id LIMIT 1"
@@ -127,15 +147,6 @@ class Partecipazione
         $domanda = $stmt->fetch();
 
         $difficolta = $domanda ? (float) $domanda['difficolta'] : 1.0;
-
-        $sistema = new Sistema();
-
-        $fattoreMax = (float) $sistema->get('fattore_velocita_max');
-        $bonusPrimoAttivo = (int) $sistema->get('bonus_primo_attivo');
-        $coeffBonusPrimo = (float) $sistema->get('coefficiente_bonus_primo');
-
-        // Simuliamo fattore velocità (per ora 1)
-        $fattoreVelocita = $fattoreMax;
 
         $punti = 0;
 
@@ -150,7 +161,9 @@ class Partecipazione
             }
 
             $punti = (int) round($puntiBase + $bonusPrimo);
+
         } else {
+
             $punti = -$puntata;
         }
 
@@ -180,7 +193,7 @@ class Partecipazione
             'puntata' => $puntata,
             'corretta' => $corretta,
             'punti' => $punti,
-            'tempo' => 0,
+            'tempo' => $tempoRisposta,
             'data' => time()
         ]);
 
@@ -188,13 +201,11 @@ class Partecipazione
 
         return [
             'corretta' => (bool) $corretta,
-            'punti' => $punti
+            'punti' => $punti,
+            'fattore_velocita' => $fattoreVelocita,
+            'tempo_risposta' => $tempoRisposta
         ];
     }
-
-    /* ======================
-       TROVA
-    ====================== */
 
     public function trova(int $id): ?array
     {
@@ -204,14 +215,8 @@ class Partecipazione
         );
 
         $stmt->execute(['id' => $id]);
-        $result = $stmt->fetch();
-
-        return $result ?: null;
+        return $stmt->fetch() ?: null;
     }
-
-    /* ======================
-       CLASSIFICA
-    ====================== */
 
     public function classifica(int $sessioneId): array
     {
