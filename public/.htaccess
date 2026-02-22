@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# Se il file o cartella esiste, non riscrivere
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Tutto passa a index.php
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
