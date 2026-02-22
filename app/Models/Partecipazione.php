@@ -14,6 +14,10 @@ class Partecipazione
         $this->pdo = Database::getInstance();
     }
 
+    /* ======================
+       ENTRA SESSIONE
+    ====================== */
+
     public function entra(int $sessioneId, int $utenteId): int
     {
         $stmt = $this->pdo->prepare(
@@ -54,12 +58,149 @@ class Partecipazione
         return (int) $this->pdo->lastInsertId();
     }
 
+    /* ======================
+       REGISTRA PUNTATA
+    ====================== */
+
+    public function registraPuntata(int $partecipazioneId, int $importo): bool
+    {
+        $partecipazione = $this->trova($partecipazioneId);
+
+        if (!$partecipazione) {
+            return false;
+        }
+
+        if ($importo <= 0 || $importo > $partecipazione['capitale_attuale']) {
+            return false;
+        }
+
+        // Salviamo temporaneamente la puntata nella sessione PHP
+        $_SESSION['puntate'][$partecipazioneId] = $importo;
+
+        return true;
+    }
+
+    /* ======================
+       REGISTRA RISPOSTA
+    ====================== */
+
+    public function registraRisposta(
+        int $partecipazioneId,
+        int $domandaId,
+        int $opzioneId
+    ): ?array {
+
+        $partecipazione = $this->trova($partecipazioneId);
+
+        if (!$partecipazione) {
+            return null;
+        }
+
+        $puntata = $_SESSION['puntate'][$partecipazioneId] ?? 0;
+
+        if ($puntata <= 0) {
+            return null;
+        }
+
+        // Verifica correttezza opzione
+        $stmt = $this->pdo->prepare(
+            "SELECT corretta FROM opzioni
+             WHERE id = :id LIMIT 1"
+        );
+
+        $stmt->execute(['id' => $opzioneId]);
+        $opzione = $stmt->fetch();
+
+        if (!$opzione) {
+            return null;
+        }
+
+        $corretta = (int) $opzione['corretta'];
+
+        // Recupera difficoltà domanda
+        $stmt = $this->pdo->prepare(
+            "SELECT difficolta FROM domande
+             WHERE id = :id LIMIT 1"
+        );
+
+        $stmt->execute(['id' => $domandaId]);
+        $domanda = $stmt->fetch();
+
+        $difficolta = $domanda ? (float) $domanda['difficolta'] : 1.0;
+
+        $sistema = new Sistema();
+
+        $fattoreMax = (float) $sistema->get('fattore_velocita_max');
+        $bonusPrimoAttivo = (int) $sistema->get('bonus_primo_attivo');
+        $coeffBonusPrimo = (float) $sistema->get('coefficiente_bonus_primo');
+
+        // Simuliamo fattore velocità (per ora 1)
+        $fattoreVelocita = $fattoreMax;
+
+        $punti = 0;
+
+        if ($corretta) {
+
+            $puntiBase = $puntata * $difficolta * $fattoreVelocita;
+
+            $bonusPrimo = 0;
+
+            if ($bonusPrimoAttivo) {
+                $bonusPrimo = $puntata * $coeffBonusPrimo;
+            }
+
+            $punti = (int) round($puntiBase + $bonusPrimo);
+        } else {
+            $punti = -$puntata;
+        }
+
+        // Aggiorna capitale
+        $update = $this->pdo->prepare(
+            "UPDATE partecipazioni
+             SET capitale_attuale = capitale_attuale + :punti
+             WHERE id = :id"
+        );
+
+        $update->execute([
+            'punti' => $punti,
+            'id' => $partecipazioneId
+        ]);
+
+        // Salva risposta
+        $insert = $this->pdo->prepare(
+            "INSERT INTO risposte
+             (partecipazione_id, domanda_id, puntata, corretta, punti, tempo_risposta, data_risposta)
+             VALUES
+             (:partecipazione_id, :domanda_id, :puntata, :corretta, :punti, :tempo, :data)"
+        );
+
+        $insert->execute([
+            'partecipazione_id' => $partecipazioneId,
+            'domanda_id' => $domandaId,
+            'puntata' => $puntata,
+            'corretta' => $corretta,
+            'punti' => $punti,
+            'tempo' => 0,
+            'data' => time()
+        ]);
+
+        unset($_SESSION['puntate'][$partecipazioneId]);
+
+        return [
+            'corretta' => (bool) $corretta,
+            'punti' => $punti
+        ];
+    }
+
+    /* ======================
+       TROVA
+    ====================== */
+
     public function trova(int $id): ?array
     {
         $stmt = $this->pdo->prepare(
             "SELECT * FROM partecipazioni
-             WHERE id = :id
-             LIMIT 1"
+             WHERE id = :id LIMIT 1"
         );
 
         $stmt->execute(['id' => $id]);
@@ -67,6 +208,10 @@ class Partecipazione
 
         return $result ?: null;
     }
+
+    /* ======================
+       CLASSIFICA
+    ====================== */
 
     public function classifica(int $sessioneId): array
     {

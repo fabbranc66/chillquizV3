@@ -31,7 +31,6 @@ class ApiController
         }
 
         $numero = (int) $sessione['domanda_corrente'];
-
         $domanda = $selezione->domandaCorrente($sessioneId, $numero);
 
         $this->json($domanda ?: []);
@@ -41,6 +40,72 @@ class ApiController
     {
         $classifica = (new Partecipazione())->classifica($sessioneId);
         $this->json($classifica);
+    }
+
+    /* ======================
+       PLAYER ACTIONS (Punto 15)
+    ====================== */
+
+    public function puntata(int $sessioneId): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->json(['errore' => 'Metodo non consentito']);
+            return;
+        }
+
+        $partecipazioneId = (int) ($_POST['partecipazione_id'] ?? 0);
+        $importo = (int) ($_POST['puntata'] ?? 0);
+
+        if ($partecipazioneId <= 0 || $importo <= 0) {
+            $this->json(['errore' => 'Dati non validi']);
+            return;
+        }
+
+        $partecipazione = new Partecipazione();
+
+        $ok = $partecipazione->registraPuntata($partecipazioneId, $importo);
+
+        if (!$ok) {
+            $this->json(['errore' => 'Puntata non valida']);
+            return;
+        }
+
+        $this->json([
+            'ok' => true,
+            'puntata' => $importo
+        ]);
+    }
+
+    public function risposta(int $sessioneId): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->json(['errore' => 'Metodo non consentito']);
+            return;
+        }
+
+        $partecipazioneId = (int) ($_POST['partecipazione_id'] ?? 0);
+        $domandaId = (int) ($_POST['domanda_id'] ?? 0);
+        $opzioneId = (int) ($_POST['opzione_id'] ?? 0);
+
+        if ($partecipazioneId <= 0 || $domandaId <= 0 || $opzioneId <= 0) {
+            $this->json(['errore' => 'Dati non validi']);
+            return;
+        }
+
+        $partecipazione = new Partecipazione();
+
+        $risultato = $partecipazione->registraRisposta(
+            $partecipazioneId,
+            $domandaId,
+            $opzioneId
+        );
+
+        if (!$risultato) {
+            $this->json(['errore' => 'Errore registrazione risposta']);
+            return;
+        }
+
+        $this->json($risultato);
     }
 
     /* ======================

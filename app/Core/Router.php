@@ -14,33 +14,31 @@ class Router
         $controllerName = $segments[0] ?? 'game';
 
         /* ======================
-           GESTIONE API SPECIALE
+           GESTIONE API
         ====================== */
 
         if ($controllerName === 'api') {
 
             $api = new \App\Controllers\ApiController();
 
-            // Caso api/admin/azione/id
+            // api/admin/azione/id
             if (($segments[1] ?? '') === 'admin') {
 
-                $action = $segments[2] ?? '';
-                $id = isset($segments[3]) ? (int) $segments[3] : 0;
-
-                $api->admin($action, $id);
+                $params = array_slice($segments, 2);
+                $api->admin(...$params);
                 return;
             }
 
-            // Caso api/stato/13
+            // api/metodo/param1/param2/...
             $method = $segments[1] ?? 'stato';
-            $id = isset($segments[2]) ? (int) $segments[2] : 0;
+            $params = array_slice($segments, 2);
 
             if (!method_exists($api, $method)) {
                 $this->abort(404, 'API metodo non trovato');
                 return;
             }
 
-            $api->$method($id);
+            $api->$method(...$params);
             return;
         }
 
@@ -65,14 +63,13 @@ class Router
             return;
         }
 
-        call_user_func_array([$controller, $methodName], $params);
+        $controller->$methodName(...$params);
     }
 
     private function resolveController(string $name): ?string
     {
         $map = [
             'admin'     => 'App\\Controllers\\AdminController',
-            'api'       => 'App\\Controllers\\ApiController',
             'game'      => 'App\\Controllers\\GameController',
             'player'    => 'App\\Controllers\\PlayerController',
             'screen'    => 'App\\Controllers\\ScreenController',
