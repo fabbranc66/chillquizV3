@@ -12,6 +12,16 @@ class ApiController
        PUBLIC API
     ====================== */
 
+    public function crea(int $configurazioneId): void
+    {
+        $sessioneId = (new Sessione())->crea($configurazioneId);
+
+        $this->json([
+            'ok' => true,
+            'sessione_id' => $sessioneId
+        ]);
+    }
+
     public function stato(int $sessioneId): void
     {
         $sessione = (new Sessione())->trova($sessioneId);
@@ -43,7 +53,7 @@ class ApiController
     }
 
     /* ======================
-       PLAYER ACTIONS (Punto 15)
+       PLAYER ACTIONS
     ====================== */
 
     public function puntata(int $sessioneId): void

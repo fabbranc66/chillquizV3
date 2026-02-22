@@ -1,22 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Test Puntata</title>
-</head>
-<body>
+<form method="POST" action="http://localhost/chillquizV3/public/?url=api/puntata/31">
 
-<h2>Test Puntata</h2>
+    <input type="number" name="partecipazione_id" value="46">
 
-<form method="POST" action="http://localhost/chillquizV3/public/?url=api/puntata/1">
-    <label>Partecipazione ID:</label><br>
-    <input type="number" name="partecipazione_id" value="11"><br><br>
-
-    <label>Puntata:</label><br>
-    <input type="number" name="puntata" value="200"><br><br>
+    <input type="number" name="puntata" value="200">
 
     <button type="submit">Invia Puntata</button>
 </form>
-
-</body>
-</html>

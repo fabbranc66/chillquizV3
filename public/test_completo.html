@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Test Completo ChillQuiz</title>
+</head>
+<body>
+
+<h2>TEST COMPLETO BONUS PRIMO</h2>
+
+<label>Sessione ID:</label>
+<input type="number" id="sessione" value="1"><br><br>
+
+<label>Partecipazione 1:</label>
+<input type="number" id="p1" value="1"><br><br>
+
+<label>Partecipazione 2:</label>
+<input type="number" id="p2" value="2"><br><br>
+
+<hr>
+
+<button onclick="creaSessione()">Crea Sessione</button>
+<button onclick="avviaDomanda()">Avvia Domanda</button>
+<button onclick="stato()">Stato</button>
+<button onclick="classifica()">Classifica</button>
+
+<hr>
+
+<h3>Utente 1</h3>
+<button onclick="puntata(1)">Puntata 200</button>
+<button onclick="risposta(1)">Risposta Corretta</button>
+
+<h3>Utente 2</h3>
+<button onclick="puntata(2)">Puntata 200</button>
+<button onclick="risposta(2)">Risposta Corretta</button>
+
+<hr>
+
+<pre id="output"></pre>
+
+<script>
+
+const base = "http://localhost/chillquizV3/public/?url=";
+
+function out(data) {
+    document.getElementById("output").textContent =
+        JSON.stringify(data, null, 2);
+}
+
+function creaSessione() {
+    fetch(base + "api/crea/1")
+        .then(r => r.json())
+        .then(d => {
+            document.getElementById("sessione").value = d.sessione_id;
+            out(d);
+        });
+}
+
+function avviaDomanda() {
+    const s = document.getElementById("sessione").value;
+    fetch(base + "api/admin/avvia-domanda/" + s)
+        .then(r => r.json())
+        .then(out);
+}
+
+function stato() {
+    const s = document.getElementById("sessione").value;
+    fetch(base + "api/stato/" + s)
+        .then(r => r.json())
+        .then(out);
+}
+
+function classifica() {
+    const s = document.getElementById("sessione").value;
+    fetch(base + "api/classifica/" + s)
+        .then(r => r.json())
+        .then(out);
+}
+
+function puntata(user) {
+    const id = user === 1
+        ? document.getElementById("p1").value
+        : document.getElementById("p2").value;
+
+    fetch(base + "api/puntata", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "partecipazione_id=" + id + "&puntata=200"
+    })
+    .then(r => r.json())
+    .then(out);
+}
+
+function risposta(user) {
+    const id = user === 1
+        ? document.getElementById("p1").value
+        : document.getElementById("p2").value;
+
+    const s = document.getElementById("sessione").value;
+
+    fetch(base + "api/risposta/" + s, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "partecipazione_id=" + id + "&domanda_id=1&opzione_id=2"
+    })
+    .then(r => r.json())
+    .then(out);
+}
+
+</script>
+
+</body>
+</html>
