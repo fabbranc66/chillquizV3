@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>ChillQuiz V3 - Test Admin</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #111;
+            color: #eee;
+            padding: 40px;
+        }
+
+        button {
+            padding: 12px 20px;
+            margin: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            color: white;
+        }
+
+        .enabled { background: #2ecc71; }
+        .disabled { background: #c0392b; }
+
+        .secondary { background: #3498db; }
+
+        pre {
+            background: #222;
+            padding: 20px;
+            margin-top: 20px;
+            min-height: 120px;
+        }
+
+        #stato {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        #conclusaBanner {
+            display: none;
+            font-size: 32px;
+            font-weight: bold;
+            color: #f1c40f;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<h2>🎛 ChillQuiz V3 – Test Regia Admin (Sessione 30)</h2>
+
+<div id="stato">Stato: ...</div>
+
+<div id="conclusaBanner">🎉 SESSIONE CONCLUSA</div>
+
+<button id="btnPuntata" onclick="callAdmin('avvia-puntata')">Avvia Puntata</button>
+<button id="btnDomanda" onclick="callAdmin('avvia-domanda')">Avvia Domanda</button>
+<button id="btnRisultati" onclick="callAdmin('risultati')">Chiudi Domanda</button>
+<button id="btnProssima" onclick="callAdmin('prossima')">Prossima Fase</button>
+
+<br><br>
+
+<button id="btnRiavvia" class="secondary" onclick="riavviaSessione()">🔄 Riavvia Sessione</button>
+<button id="btnNuova" class="secondary" onclick="nuovaSessione()">➕ Nuova Sessione</button>
+
+<pre id="output">In attesa di chiamata API...</pre>
+
+<script>
+const SESSIONE_ID = 30;
+const CONFIG_ID = 1; // configurazione attuale
+const ADMIN_TOKEN = "SUPERSEGRETO123";
+
+const btnPuntata  = document.getElementById('btnPuntata');
+const btnDomanda  = document.getElementById('btnDomanda');
+const btnRisultati = document.getElementById('btnRisultati');
+const btnProssima = document.getElementById('btnProssima');
+const statoDiv = document.getElementById('stato');
+const banner = document.getElementById('conclusaBanner');
+
+function setButton(button, enabled) {
+    if (enabled) {
+        button.classList.remove('disabled');
+        button.classList.add('enabled');
+        button.disabled = false;
+    } else {
+        button.classList.remove('enabled');
+        button.classList.add('disabled');
+        button.disabled = true;
+    }
+}
+
+function aggiornaUI(stato) {
+
+    statoDiv.textContent = "Stato: " + stato;
+
+    setButton(btnPuntata, stato === 'attesa');
+    setButton(btnDomanda, stato === 'puntata');
+    setButton(btnRisultati, stato === 'domanda');
+    setButton(btnProssima, stato === 'risultati');
+
+    if (stato === 'conclusa') {
+        banner.style.display = 'block';
+    } else {
+        banner.style.display = 'none';
+    }
+}
+
+function callAdmin(action) {
+
+    fetch(`index.php?url=api/admin/${action}/${SESSIONE_ID}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-ADMIN-TOKEN': ADMIN_TOKEN
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('output').textContent =
+            JSON.stringify(data, null, 4);
+        aggiornaStato();
+    });
+}
+
+function riavviaSessione() {
+
+    fetch(`index.php?url=api/admin/riavvia/${SESSIONE_ID}`, {
+        method: 'POST',
+        headers: {
+            'X-ADMIN-TOKEN': ADMIN_TOKEN
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('output').textContent =
+            JSON.stringify(data, null, 4);
+        aggiornaStato();
+    });
+}
+
+function nuovaSessione() {
+
+    fetch(`index.php?url=api/crea/${CONFIG_ID}`)
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('output').textContent =
+            JSON.stringify(data, null, 4);
+    });
+}
+
+function aggiornaStato() {
+
+    fetch(`index.php?url=api/stato/${SESSIONE_ID}`)
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            aggiornaUI(data.sessione.stato);
+        }
+    });
+}
+
+setInterval(aggiornaStato, 2000);
+aggiornaStato();
+</script>
+
+</body>
+</html>

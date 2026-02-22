@@ -209,33 +209,47 @@ class ApiController
 
     public function admin(string $action, int $sessioneId): void
     {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->json([
+                'success' => false,
+                'error' => 'Metodo non consentito'
+            ]);
+            return;
+        }
+
         try {
 
             $service = new SessioneService($sessioneId);
 
-            switch ($action) {
+switch ($action) {
 
-                case 'avvia-puntata':
-                    $service->avviaPuntata();
-                    break;
+    case 'avvia-puntata':
+        $service->avviaPuntata();
+        break;
 
-                case 'avvia-domanda':
-                    $service->avviaDomanda();
-                    break;
+    case 'avvia-domanda':
+        $service->avviaDomanda();
+        break;
 
-                case 'risultati':
-                    $service->chiudiDomanda();
-                    break;
+    case 'risultati':
+        $service->chiudiDomanda();
+        break;
 
-                case 'prossima':
-                    $service->prossimaFase();
-                    break;
+    case 'prossima':
+        $service->prossimaFase();
+        break;
 
-                default:
-                    $this->json(['success' => false, 'error' => 'Azione non valida']);
-                    return;
-            }
+    case 'riavvia':
+        $service->resetTotale();
+        break;
 
+    default:
+        $this->json([
+            'success' => false,
+            'error' => 'Azione non valida'
+        ]);
+        return;
+}
             $this->json([
                 'success' => true,
                 'action' => $action,
