@@ -8,29 +8,21 @@ class GameController
 {
     public function index()
     {
-        echo "<h2>TEST DOMANDA CORRENTE - SESSIONE 30</h2>";
+        echo "<h2>TEST BLOCCO SESSIONE CONCLUSA</h2>";
 
         try {
 
             $service = new SessioneService(30);
 
-            echo "Sessione caricata.<br>";
+            echo "Stato attuale: " . $service->stato() . "<br><br>";
 
-            echo "Domanda corrente: " . $service->stato() . "<br><br>";
+            echo "Provo ad avviare puntata...<br>";
+            $service->avviaPuntata();
 
-            $domanda = $service->domandaCorrente();
-
-            if (!$domanda) {
-                echo "Nessuna domanda trovata.";
-                return;
-            }
-
-            echo "<pre>";
-            print_r($domanda);
-            echo "</pre>";
+            echo "ERRORE: NON dovrebbe arrivare qui.";
 
         } catch (\Throwable $e) {
-            echo "ERRORE:<br>";
+            echo "<strong>Eccezione catturata:</strong><br>";
             echo $e->getMessage();
         }
     }

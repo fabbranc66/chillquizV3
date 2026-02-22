@@ -28,6 +28,10 @@ class SessioneService
         $this->sessione = $result;
     }
 
+    /* ===============================
+       STATO
+    =============================== */
+
     public function stato(): string
     {
         return $this->sessione['stato'];
@@ -42,6 +46,13 @@ class SessioneService
         }
     }
 
+    private function assertNonConclusa(): void
+    {
+        if ($this->sessione['stato'] === 'conclusa') {
+            throw new RuntimeException("La sessione è conclusa. Operazione non consentita.");
+        }
+    }
+
     public function puoPuntare(): bool
     {
         return $this->sessione['stato'] === 'puntata';
@@ -52,8 +63,14 @@ class SessioneService
         return $this->sessione['stato'] === 'domanda';
     }
 
+    /* ===============================
+       TRANSIZIONI
+    =============================== */
+
     public function avviaPuntata(): void
     {
+        $this->assertNonConclusa();
+
         $stato = $this->sessione['stato'];
 
         if (!in_array($stato, ['attesa', 'risultati'], true)) {
@@ -67,6 +84,8 @@ class SessioneService
 
     public function avviaDomanda(): void
     {
+        $this->assertNonConclusa();
+
         if ($this->sessione['stato'] !== 'puntata') {
             throw new RuntimeException(
                 "Impossibile avviare domanda. Stato attuale: {$this->sessione['stato']}"
@@ -90,6 +109,8 @@ class SessioneService
 
     public function chiudiDomanda(): void
     {
+        $this->assertNonConclusa();
+
         if ($this->sessione['stato'] !== 'domanda') {
             throw new RuntimeException(
                 "Impossibile chiudere domanda. Stato attuale: {$this->sessione['stato']}"
@@ -101,6 +122,8 @@ class SessioneService
 
     public function prossimaFase(): void
     {
+        $this->assertNonConclusa();
+
         if ($this->sessione['stato'] !== 'risultati') {
             throw new RuntimeException(
                 "Impossibile avanzare fase. Stato attuale: {$this->sessione['stato']}"
@@ -142,6 +165,10 @@ class SessioneService
         }
     }
 
+    /* ===============================
+       TIMER
+    =============================== */
+
     public function verificaTimer(): void
     {
         if ($this->sessione['stato'] !== 'domanda') {
@@ -164,131 +191,141 @@ class SessioneService
             return;
         }
 
-        $fine = $inizio + $durata;
-
-        if (time() >= $fine) {
+        if (time() >= ($inizio + $durata)) {
             $this->chiudiDomanda();
         }
     }
 
-public function generaDomandeSessione(): void
-{
-    // Evita doppia generazione
-    $stmt = $this->pdo->prepare("
-        SELECT COUNT(*) as totale
-        FROM sessione_domande
-        WHERE sessione_id = ?
-    ");
-    $stmt->execute([$this->sessioneId]);
-    $check = $stmt->fetch();
+    /* ===============================
+       POOL DOMANDE
+    =============================== */
 
-    if ($check['totale'] > 0) {
-        return;
-    }
-
-    // Recupera configurazione
-    $stmt = $this->pdo->prepare("
-        SELECT numero_domande, pool_tipo, argomento_id, selezione_tipo
-        FROM configurazioni_quiz
-        WHERE id = ?
-    ");
-
-    $stmt->execute([$this->sessione['configurazione_id']]);
-    $config = $stmt->fetch();
-
-    if (!$config) {
-        throw new RuntimeException("Configurazione quiz non trovata.");
-    }
-
-    $numeroDomande = (int)$config['numero_domande'];
-    $poolTipo = $config['pool_tipo'];
-    $argomentoId = $config['argomento_id'];
-    $selezione = $config['selezione_tipo'];
-
-    // Costruzione query base
-    $query = "SELECT id FROM domande WHERE attiva = 1";
-
-    $params = [];
-
-    if ($poolTipo === 'mono' && $argomentoId) {
-        $query .= " AND argomento_id = ?";
-        $params[] = $argomentoId;
-    }
-
-    if ($selezione === 'random') {
-        $query .= " ORDER BY RAND()";
-    } else {
-        $query .= " ORDER BY id ASC";
-    }
-
-    $query .= " LIMIT " . $numeroDomande;
-
-    $stmt = $this->pdo->prepare($query);
-    $stmt->execute($params);
-    $domande = $stmt->fetchAll();
-
-    if (count($domande) < $numeroDomande) {
-        throw new RuntimeException("Domande insufficienti per generare la sessione.");
-    }
-
-    // Salvataggio nel pool sessione
-    $posizione = 1;
-
-    foreach ($domande as $d) {
+    public function generaDomandeSessione(): void
+    {
         $stmt = $this->pdo->prepare("
-            INSERT INTO sessione_domande
-            (sessione_id, domanda_id, posizione)
-            VALUES (?, ?, ?)
+            SELECT COUNT(*) as totale
+            FROM sessione_domande
+            WHERE sessione_id = ?
+        ");
+        $stmt->execute([$this->sessioneId]);
+        $check = $stmt->fetch();
+
+        if ($check['totale'] > 0) {
+            return;
+        }
+
+        $stmt = $this->pdo->prepare("
+            SELECT numero_domande, pool_tipo, argomento_id, selezione_tipo
+            FROM configurazioni_quiz
+            WHERE id = ?
+        ");
+
+        $stmt->execute([$this->sessione['configurazione_id']]);
+        $config = $stmt->fetch();
+
+        if (!$config) {
+            throw new RuntimeException("Configurazione quiz non trovata.");
+        }
+
+        $numeroDomande = (int)$config['numero_domande'];
+        $poolTipo = $config['pool_tipo'];
+        $argomentoId = $config['argomento_id'];
+        $selezione = $config['selezione_tipo'];
+
+        $query = "SELECT id FROM domande WHERE attiva = 1";
+        $params = [];
+
+        if ($poolTipo === 'mono' && $argomentoId) {
+            $query .= " AND argomento_id = ?";
+            $params[] = $argomentoId;
+        }
+
+        $query .= ($selezione === 'random')
+            ? " ORDER BY RAND()"
+            : " ORDER BY id ASC";
+
+        $query .= " LIMIT " . $numeroDomande;
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute($params);
+        $domande = $stmt->fetchAll();
+
+        if (count($domande) < $numeroDomande) {
+            throw new RuntimeException("Domande insufficienti per generare la sessione.");
+        }
+
+        $posizione = 1;
+
+        foreach ($domande as $d) {
+            $stmt = $this->pdo->prepare("
+                INSERT INTO sessione_domande
+                (sessione_id, domanda_id, posizione)
+                VALUES (?, ?, ?)
+            ");
+
+            $stmt->execute([
+                $this->sessioneId,
+                $d['id'],
+                $posizione
+            ]);
+
+            $posizione++;
+        }
+    }
+
+    public function domandaCorrente(): ?array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT d.id, d.testo, d.difficolta
+            FROM sessione_domande sd
+            JOIN domande d ON d.id = sd.domanda_id
+            WHERE sd.sessione_id = ?
+            AND sd.posizione = ?
+            LIMIT 1
         ");
 
         $stmt->execute([
             $this->sessioneId,
-            $d['id'],
-            $posizione
+            $this->sessione['domanda_corrente']
         ]);
 
-        $posizione++;
-    }
-}
+        $domanda = $stmt->fetch();
 
-public function domandaCorrente(): ?array
-{
-    // Recupera domanda_id dalla sessione
-    $stmt = $this->pdo->prepare("
-        SELECT d.id, d.testo, d.difficolta
-        FROM sessione_domande sd
-        JOIN domande d ON d.id = sd.domanda_id
-        WHERE sd.sessione_id = ?
-        AND sd.posizione = ?
-        LIMIT 1
-    ");
+        if (!$domanda) {
+            return null;
+        }
 
-    $stmt->execute([
-        $this->sessioneId,
-        $this->sessione['domanda_corrente']
-    ]);
+        $stmt = $this->pdo->prepare("
+            SELECT id, testo
+            FROM opzioni
+            WHERE domanda_id = ?
+            ORDER BY id ASC
+        ");
 
-    $domanda = $stmt->fetch();
+        $stmt->execute([$domanda['id']]);
+        $domanda['opzioni'] = $stmt->fetchAll();
 
-    if (!$domanda) {
-        return null;
+        return $domanda;
     }
 
-    // Recupera opzioni
-    $stmt = $this->pdo->prepare("
-        SELECT id, testo
-        FROM opzioni
-        WHERE domanda_id = ?
-        ORDER BY id ASC
-    ");
+    public function classifica(): array
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT 
+                p.utente_id,
+                u.nome,
+                p.capitale_attuale
+            FROM partecipazioni p
+            JOIN utenti u ON u.id = p.utente_id
+            WHERE p.sessione_id = ?
+            ORDER BY p.capitale_attuale DESC
+        ");
 
-    $stmt->execute([$domanda['id']]);
-    $opzioni = $stmt->fetchAll();
+        $stmt->execute([$this->sessioneId]);
 
-    $domanda['opzioni'] = $opzioni;
+        return $stmt->fetchAll();
+    }
 
-    return $domanda;
-}
     private function aggiornaStato(string $nuovoStato): void
     {
         $stmt = $this->pdo->prepare("

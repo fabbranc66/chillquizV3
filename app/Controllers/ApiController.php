@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Sessione;
 use App\Models\SelezioneDomande;
 use App\Models\Partecipazione;
+use App\Services\SessioneService;
 
 class ApiController
 {
@@ -17,39 +18,80 @@ class ApiController
         $sessioneId = (new Sessione())->crea($configurazioneId);
 
         $this->json([
-            'ok' => true,
+            'success' => true,
             'sessione_id' => $sessioneId
         ]);
     }
 
     public function stato(int $sessioneId): void
     {
-        $sessione = (new Sessione())->trova($sessioneId);
-        $this->json($sessione ?: []);
+        try {
+
+            $service = new SessioneService($sessioneId);
+            $service->verificaTimer();
+
+            $sessione = (new Sessione())->trova($sessioneId);
+
+            $this->json([
+                'success' => true,
+                'sessione' => $sessione
+            ]);
+
+        } catch (\Throwable $e) {
+            $this->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     public function domanda(int $sessioneId): void
     {
-        $sessioneModel = new Sessione();
-        $selezione = new SelezioneDomande();
+        try {
 
-        $sessione = $sessioneModel->trova($sessioneId);
+            $service = new SessioneService($sessioneId);
+            $service->verificaTimer();
 
-        if (!$sessione) {
-            $this->json([]);
-            return;
+            if ($service->stato() !== 'domanda') {
+                $this->json([
+                    'success' => false,
+                    'error' => 'Domanda non disponibile in questo stato'
+                ]);
+                return;
+            }
+
+            $domanda = $service->domandaCorrente();
+
+            $this->json([
+                'success' => true,
+                'domanda' => $domanda
+            ]);
+
+        } catch (\Throwable $e) {
+            $this->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
         }
-
-        $numero = (int) $sessione['domanda_corrente'];
-        $domanda = $selezione->domandaCorrente($sessioneId, $numero);
-
-        $this->json($domanda ?: []);
     }
 
     public function classifica(int $sessioneId): void
     {
-        $classifica = (new Partecipazione())->classifica($sessioneId);
-        $this->json($classifica);
+        try {
+
+            $service = new SessioneService($sessioneId);
+
+            $this->json([
+                'success' => true,
+                'classifica' => $service->classifica()
+            ]);
+
+        } catch (\Throwable $e) {
+            $this->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     /* ======================
@@ -59,7 +101,7 @@ class ApiController
     public function puntata(int $sessioneId): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->json(['errore' => 'Metodo non consentito']);
+            $this->json(['success' => false, 'error' => 'Metodo non consentito']);
             return;
         }
 
@@ -67,29 +109,47 @@ class ApiController
         $importo = (int) ($_POST['puntata'] ?? 0);
 
         if ($partecipazioneId <= 0 || $importo <= 0) {
-            $this->json(['errore' => 'Dati non validi']);
+            $this->json(['success' => false, 'error' => 'Dati non validi']);
             return;
         }
 
-        $partecipazione = new Partecipazione();
+        try {
 
-        $ok = $partecipazione->registraPuntata($partecipazioneId, $importo);
+            $service = new SessioneService($sessioneId);
 
-        if (!$ok) {
-            $this->json(['errore' => 'Puntata non valida']);
-            return;
+            if (!$service->puoPuntare()) {
+                $this->json([
+                    'success' => false,
+                    'error' => 'Non è il momento di puntare'
+                ]);
+                return;
+            }
+
+            $partecipazione = new Partecipazione();
+            $ok = $partecipazione->registraPuntata($partecipazioneId, $importo);
+
+            if (!$ok) {
+                $this->json(['success' => false, 'error' => 'Puntata non valida']);
+                return;
+            }
+
+            $this->json([
+                'success' => true,
+                'puntata' => $importo
+            ]);
+
+        } catch (\Throwable $e) {
+            $this->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
         }
-
-        $this->json([
-            'ok' => true,
-            'puntata' => $importo
-        ]);
     }
 
     public function risposta(int $sessioneId): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->json(['errore' => 'Metodo non consentito']);
+            $this->json(['success' => false, 'error' => 'Metodo non consentito']);
             return;
         }
 
@@ -98,24 +158,49 @@ class ApiController
         $opzioneId = (int) ($_POST['opzione_id'] ?? 0);
 
         if ($partecipazioneId <= 0 || $domandaId <= 0 || $opzioneId <= 0) {
-            $this->json(['errore' => 'Dati non validi']);
+            $this->json(['success' => false, 'error' => 'Dati non validi']);
             return;
         }
 
-        $partecipazione = new Partecipazione();
+        try {
 
-        $risultato = $partecipazione->registraRisposta(
-            $partecipazioneId,
-            $domandaId,
-            $opzioneId
-        );
+            $service = new SessioneService($sessioneId);
 
-        if (!$risultato) {
-            $this->json(['errore' => 'Errore registrazione risposta']);
-            return;
+            if (!$service->puoRispondere()) {
+                $this->json([
+                    'success' => false,
+                    'error' => 'Non è il momento di rispondere'
+                ]);
+                return;
+            }
+
+            $partecipazione = new Partecipazione();
+
+            $risultato = $partecipazione->registraRisposta(
+                $partecipazioneId,
+                $domandaId,
+                $opzioneId
+            );
+
+            if (!$risultato) {
+                $this->json([
+                    'success' => false,
+                    'error' => 'Errore registrazione risposta'
+                ]);
+                return;
+            }
+
+            $this->json([
+                'success' => true,
+                'risultato' => $risultato
+            ]);
+
+        } catch (\Throwable $e) {
+            $this->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
         }
-
-        $this->json($risultato);
     }
 
     /* ======================
@@ -124,36 +209,45 @@ class ApiController
 
     public function admin(string $action, int $sessioneId): void
     {
-        $sessioneModel = new Sessione();
+        try {
 
-        switch ($action) {
+            $service = new SessioneService($sessioneId);
 
-            case 'avvia-puntata':
-                $sessioneModel->cambiaStato($sessioneId, 'puntata');
-                break;
+            switch ($action) {
 
-            case 'avvia-domanda':
-                $sessioneModel->cambiaStato($sessioneId, 'domanda');
-                break;
+                case 'avvia-puntata':
+                    $service->avviaPuntata();
+                    break;
 
-            case 'risultati':
-                $sessioneModel->cambiaStato($sessioneId, 'risultati');
-                break;
+                case 'avvia-domanda':
+                    $service->avviaDomanda();
+                    break;
 
-            case 'prossima':
-                $sessioneModel->avanzaDomanda($sessioneId);
-                break;
+                case 'risultati':
+                    $service->chiudiDomanda();
+                    break;
 
-            default:
-                $this->json(['errore' => 'Azione non valida']);
-                return;
+                case 'prossima':
+                    $service->prossimaFase();
+                    break;
+
+                default:
+                    $this->json(['success' => false, 'error' => 'Azione non valida']);
+                    return;
+            }
+
+            $this->json([
+                'success' => true,
+                'action' => $action,
+                'sessione_id' => $sessioneId
+            ]);
+
+        } catch (\Throwable $e) {
+            $this->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
         }
-
-        $this->json([
-            'ok' => true,
-            'azione' => $action,
-            'sessione_id' => $sessioneId
-        ]);
     }
 
     private function json($data): void

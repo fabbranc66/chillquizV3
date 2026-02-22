@@ -19,27 +19,37 @@ class Router
 
         if ($controllerName === 'api') {
 
-            $api = new \App\Controllers\ApiController();
+            header('Content-Type: application/json');
 
-            // api/admin/azione/id
-            if (($segments[1] ?? '') === 'admin') {
+            try {
 
+                $api = new \App\Controllers\ApiController();
+
+                // api/admin/azione/id
+                if (($segments[1] ?? '') === 'admin') {
+
+                    $params = array_slice($segments, 2);
+                    $api->admin(...$params);
+                    return;
+                }
+
+                // api/metodo/param1/param2/...
+                $method = $segments[1] ?? 'stato';
                 $params = array_slice($segments, 2);
-                $api->admin(...$params);
+
+                if (!method_exists($api, $method)) {
+                    $this->apiAbort(404, 'API metodo non trovato');
+                    return;
+                }
+
+                $api->$method(...$params);
+                return;
+
+            } catch (\Throwable $e) {
+
+                $this->apiAbort(500, $e->getMessage());
                 return;
             }
-
-            // api/metodo/param1/param2/...
-            $method = $segments[1] ?? 'stato';
-            $params = array_slice($segments, 2);
-
-            if (!method_exists($api, $method)) {
-                $this->abort(404, 'API metodo non trovato');
-                return;
-            }
-
-            $api->$method(...$params);
-            return;
         }
 
         /* ======================
@@ -82,6 +92,18 @@ class Router
     {
         http_response_code($code);
         echo $message;
+        exit;
+    }
+
+    private function apiAbort(int $code, string $message): void
+    {
+        http_response_code($code);
+
+        echo json_encode([
+            'success' => false,
+            'error'   => $message
+        ]);
+
         exit;
     }
 }
