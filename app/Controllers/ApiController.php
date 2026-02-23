@@ -111,54 +111,79 @@ class ApiController
        PLAYER ACTIONS
     ====================== */
 
-    public function join($sessioneId): void
-    {
-        $sessioneId = (int) $sessioneId;
+public function join($sessioneId): void
+{
+    $sessioneId = (int) $sessioneId;
 
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $this->json([
-                'success' => false,
-                'error' => 'Metodo non consentito'
-            ]);
-            return;
-        }
-
-        $nome = trim($_POST['nome'] ?? '');
-
-        if ($nome === '') {
-            $this->json([
-                'success' => false,
-                'error' => 'Nome non valido'
-            ]);
-            return;
-        }
-
-        try {
-
-            $utenteModel = new Utente();
-            $utenteId = $utenteModel->creaTemporaneo($nome);
-
-            $partecipazioneModel = new Partecipazione();
-            $partecipazioneId = $partecipazioneModel->entra($sessioneId, $utenteId);
-
-            $partecipazione = $partecipazioneModel->trova($partecipazioneId);
-
-            $this->json([
-                'success' => true,
-                'utente_id' => $utenteId,
-                'partecipazione_id' => $partecipazioneId,
-                'capitale' => $partecipazione['capitale_attuale'] ?? 0
-            ]);
-
-        } catch (\Throwable $e) {
-
-            $this->json([
-                'success' => false,
-                'error' => $e->getMessage()
-            ]);
-        }
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $this->json([
+            'success' => false,
+            'error' => 'Metodo non consentito'
+        ]);
+        return;
     }
 
+    $nome = trim($_POST['nome'] ?? '');
+
+    if ($nome === '') {
+        $this->json([
+            'success' => false,
+            'error' => 'Nome non valido'
+        ]);
+        return;
+    }
+
+    try {
+
+        // 🔒 BLOCCO: nome già usato nella stessa sessione (anche temporanei)
+        $pdo = \App\Core\Database::getInstance();
+
+        $check = $pdo->prepare("
+            SELECT 1
+            FROM partecipazioni p
+            JOIN utenti u ON u.id = p.utente_id
+            WHERE p.sessione_id = :sessione_id
+              AND LOWER(u.nome) = LOWER(:nome)
+            LIMIT 1
+        ");
+
+        $check->execute([
+            'sessione_id' => $sessioneId,
+            'nome' => $nome
+        ]);
+
+        if ($check->fetch()) {
+            $this->json([
+                'success' => false,
+                'error' => 'Nome già utilizzato in questa sessione'
+            ]);
+            return;
+        }
+
+        // ✅ Se non esiste, crea utente temporaneo e partecipa
+        $utenteModel = new Utente();
+        $utenteId = $utenteModel->creaTemporaneo($nome);
+
+        $partecipazioneModel = new Partecipazione();
+        $partecipazioneId = $partecipazioneModel->entra($sessioneId, $utenteId);
+
+        $partecipazione = $partecipazioneModel->trova($partecipazioneId);
+
+        $this->json([
+            'success' => true,
+            'utente_id' => $utenteId,
+            'partecipazione_id' => $partecipazioneId,
+            'capitale' => $partecipazione['capitale_attuale'] ?? 0
+        ]);
+
+    } catch (\Throwable $e) {
+
+        $this->json([
+            'success' => false,
+            'error' => $e->getMessage()
+        ]);
+    }
+}
     public function puntata($sessioneId): void
     {
         $sessioneId = (int) $sessioneId;
