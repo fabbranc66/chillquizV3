@@ -1,20 +1,126 @@
+/* RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: #111;
+    background: linear-gradient(135deg, #5f27cd, #341f97);
     color: white;
-    text-align: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#app {
+    width: 100%;
+    max-width: 480px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+.header {
+    padding: 15px;
+    background: rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.capitale {
+    color: #00ff88;
+}
+
+/* CONTENT */
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
 .screen {
-    margin-top: 50px;
+    width: 100%;
+    text-align: center;
 }
 
 .hidden {
     display: none;
 }
 
-button {
-    padding: 10px 20px;
-    margin: 10px;
+/* INPUT */
+input {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+}
+
+/* BUTTON */
+.btn-primary {
+    margin-top: 15px;
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    background: #00d2ff;
+    color: black;
     cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-primary:active {
+    transform: scale(0.95);
+}
+
+/* DOMANDA */
+#domanda-testo {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+/* OPZIONI KAHOOT STYLE */
+.grid-opzioni {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.grid-opzioni button {
+    padding: 30px 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    color: white;
+    transition: transform 0.1s;
+}
+
+.grid-opzioni button:nth-child(1) { background: #e84118; }
+.grid-opzioni button:nth-child(2) { background: #0097e6; }
+.grid-opzioni button:nth-child(3) { background: #fbc531; color: black; }
+.grid-opzioni button:nth-child(4) { background: #4cd137; }
+
+.grid-opzioni button:active {
+    transform: scale(0.95);
+}
+.grid-opzioni button.selected {
+    outline: 4px solid white;
+    transform: scale(1.05);
+}
+
+.grid-opzioni button.dimmed {
+    opacity: 0.4;
 }

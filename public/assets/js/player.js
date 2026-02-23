@@ -1,62 +1,139 @@
 // ==========================================
-// CHILLQUIZ V3 - PLAYER UI CORE
+// CHILLQUIZ V3 - PLAYER UI (QR READY)
 // ==========================================
 
 const API_BASE = '/chillquizV3/public/?url=api';
 
+let sessioneId = null;
+let partecipazioneId = null;
 let currentState = null;
 let pollingInterval = null;
-let playerId = null;
 
-// ===============================
-// INIT
-// ===============================
+let rispostaInviata = false;
+let puntataInviata = false;
+
+/* ===============================
+   INIT
+=============================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    document.getElementById('btn-entra').addEventListener('click', handleAccess);
+    const urlParam = new URLSearchParams(window.location.search).get('url');
 
-    startPolling();
+    if (urlParam && urlParam.startsWith('player/')) {
+        sessioneId = urlParam.split('/')[1];
+    }
 
+    console.log('Sessione ID:', sessioneId);
+
+    if (!sessioneId || isNaN(sessioneId)) {
+        alert('Sessione non valida');
+        return;
+    }
+
+    sessioneId = parseInt(sessioneId);
+
+    document.getElementById('btn-entra').addEventListener('click', handleJoin);
+    document.getElementById('btn-punta').addEventListener('click', handlePuntata);
 });
 
-// ===============================
-// POLLING STATO
-// ===============================
+/* ===============================
+   JOIN
+=============================== */
 
-function startPolling() {
-    pollingInterval = setInterval(fetchState, 1000);
-}
+async function handleJoin() {
 
-async function fetchState() {
+    const nome = document.getElementById('player-name').value.trim();
+
+    if (!nome) {
+        alert('Inserisci un nome');
+        return;
+    }
+
     try {
 
-        const response = await fetch(`${API_BASE}/stato`);
+        const formData = new FormData();
+        formData.append('nome', nome);
+
+        const response = await fetch(
+            `${API_BASE}/join/${sessioneId}`,
+            {
+                method: 'POST',
+                body: formData
+            }
+        );
+
         const data = await response.json();
 
         if (!data.success) {
-            console.error(data.error);
+            alert(data.error);
             return;
         }
 
-        if (data.stato !== currentState) {
-            currentState = data.stato;
-            renderState(currentState, data);
-        }
+        partecipazioneId = data.partecipazione_id;
+document.getElementById('player-display-name').innerText = nome;
+document.getElementById('capitale-value').innerText = data.capitale;
+        startPolling();
+        show('screen-lobby');
 
-    } catch (error) {
-        console.error('Errore fetch stato:', error);
+    } catch (err) {
+        console.error(err);
     }
 }
-// ===============================
-// RENDER STATO
-// ===============================
 
-function renderState(state, data) {
+/* ===============================
+   POLLING STATO
+=============================== */
+
+function startPolling() {
+    pollingInterval = setInterval(fetchStato, 1000);
+}
+
+async function fetchStato() {
+
+    if (!sessioneId) return;
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE}/stato/${sessioneId}`
+        );
+
+        const data = await response.json();
+
+        if (!data.success) return;
+
+        const stato = data.sessione.stato;
+
+        if (stato !== currentState) {
+            currentState = stato;
+            rispostaInviata = false;
+            puntataInviata = false;
+            renderState(stato);
+        }
+
+        if (stato === 'domanda') {
+            fetchDomanda();
+        }
+
+        if (stato === 'risultati') {
+            fetchClassifica();
+        }
+
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+/* ===============================
+   RENDER STATO
+=============================== */
+
+function renderState(stato) {
 
     hideAllScreens();
 
-    switch (state) {
+    switch (stato) {
 
         case 'attesa':
             show('screen-lobby');
@@ -68,62 +145,216 @@ function renderState(state, data) {
 
         case 'domanda':
             show('screen-domanda');
-            renderDomanda(data);
             break;
 
         case 'risultati':
             show('screen-risultati');
+
+            // aspettiamo un micro tick DOM prima di renderizzare
+            setTimeout(() => {
+                fetchClassifica();
+            }, 100);
+
             break;
 
-        case 'conclusa':
-            show('screen-fine');
-            break;
+case 'conclusa':
+    show('screen-risultati');
+    fetchClassifica();
+    break;    }
+}
+/* ===============================
+   DOMANDA
+=============================== */
 
-        default:
-            show('screen-accesso');
+async function fetchDomanda() {
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE}/domanda/${sessioneId}`
+        );
+
+        const data = await response.json();
+
+        if (!data.success) return;
+
+        renderDomanda(data.domanda);
+
+    } catch (err) {
+        console.error(err);
     }
 }
 
-// ===============================
-// DOMANDA
-// ===============================
+function renderDomanda(domanda) {
 
-function renderDomanda(data) {
+    if (!domanda) return;
 
-    if (!data.domanda) return;
-
-    document.getElementById('domanda-testo').innerText = data.domanda.testo;
+    document.getElementById('domanda-testo').innerText = domanda.testo || '';
 
     const opzioniDiv = document.getElementById('opzioni');
     opzioniDiv.innerHTML = '';
 
-    data.domanda.opzioni.forEach(opzione => {
-        const btn = document.createElement('button');
-        btn.innerText = opzione.testo;
-        btn.onclick = () => console.log('Risposta scelta:', opzione.id);
-        opzioniDiv.appendChild(btn);
-    });
-}
-
-// ===============================
-// ACCESSO
-// ===============================
-
-function handleAccess() {
-    const nome = document.getElementById('player-name').value;
-
-    if (!nome) {
-        alert('Inserisci un nome');
+    if (!domanda.opzioni || !Array.isArray(domanda.opzioni)) {
+        console.warn('Opzioni non valide:', domanda);
         return;
     }
 
-    console.log('Accesso con nome:', nome);
-    // Qui faremo chiamata API join
+    domanda.opzioni.forEach((opzione, index) => {
+
+        const btn = document.createElement('button');
+        btn.innerText = opzione.testo;
+
+btn.dataset.id = opzione.id;
+btn.onclick = () => inviaRisposta(domanda.id, opzione.id);
+        opzioniDiv.appendChild(btn);
+    });
+}
+async function inviaRisposta(domandaId, opzioneId) {
+
+    if (rispostaInviata) return;
+    rispostaInviata = true;
+
+    // evidenzia scelta
+    const buttons = document.querySelectorAll('#opzioni button');
+    buttons.forEach(btn => {
+        btn.disabled = true;
+
+        if (btn.dataset.id == opzioneId) {
+            btn.classList.add('selected');
+        } else {
+            btn.classList.add('dimmed');
+        }
+    });
+
+    try {
+
+        const formData = new FormData();
+        formData.append('partecipazione_id', partecipazioneId);
+        formData.append('domanda_id', domandaId);
+        formData.append('opzione_id', opzioneId);
+
+        const response = await fetch(
+            `/chillquizV3/public/?url=api/risposta/${sessioneId}`,
+            {
+                method: 'POST',
+                body: formData
+            }
+        );
+
+        const data = await response.json();
+
+        if (!data.success) {
+            alert(data.error);
+            rispostaInviata = false;
+        }
+
+if (data.success && data.risultato) {
+    const capitaleSpan = document.getElementById('capitale-value');
+    const attuale = parseInt(capitaleSpan.innerText);
+    capitaleSpan.innerText = attuale + data.risultato.punti;
+}
+    } catch (err) {
+        console.error(err);
+        rispostaInviata = false;
+    }
+}
+/* ===============================
+   PUNTATA
+=============================== */
+
+async function handlePuntata() {
+
+    if (puntataInviata) return;
+
+    const importo = document.getElementById('puntata').value;
+
+    if (!importo || importo <= 0) {
+        alert('Inserisci importo valido');
+        return;
+    }
+
+    puntataInviata = true;
+
+    try {
+
+        const formData = new FormData();
+        formData.append('partecipazione_id', partecipazioneId);
+        formData.append('puntata', parseInt(importo));
+
+        const response = await fetch(
+            `${API_BASE}/puntata/${sessioneId}`,
+            {
+                method: 'POST',
+                body: formData
+            }
+        );
+
+        const data = await response.json();
+
+        if (!data.success) {
+            alert(data.error);
+            puntataInviata = false;
+        }
+
+    } catch (err) {
+        console.error(err);
+        puntataInviata = false;
+    }
 }
 
-// ===============================
-// UTILITY
-// ===============================
+/* ===============================
+   CLASSIFICA
+=============================== */
+
+async function fetchClassifica() {
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE}/classifica/${sessioneId}`
+        );
+
+        const data = await response.json();
+
+        console.log("CLASSIFICA RESPONSE:", data);
+
+        if (!data.success) return;
+
+        const container = document.getElementById('classifica');
+
+        if (!container) {
+            console.warn("Container classifica non trovato");
+            return;
+        }
+
+        container.innerHTML = '';
+
+        if (!data.classifica || data.classifica.length === 0) {
+            container.innerHTML = "<div>Nessun giocatore</div>";
+            return;
+        }
+
+        data.classifica.forEach((riga, index) => {
+
+            const div = document.createElement('div');
+            div.className = "classifica-item";
+
+            div.innerHTML = `
+                <strong>${index + 1}.</strong> 
+                ${riga.nome} 
+                <span>💰 ${riga.capitale_attuale}</span>
+            `;
+
+            container.appendChild(div);
+        });
+
+    } catch (err) {
+        console.error("Errore classifica:", err);
+    }
+}
+/* ===============================
+   UTILITY
+=============================== */
 
 function hideAllScreens() {
     document.querySelectorAll('.screen').forEach(screen => {

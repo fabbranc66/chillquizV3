@@ -3,8 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\Sessione;
-use App\Models\SelezioneDomande;
 use App\Models\Partecipazione;
+use App\Models\Utente;
 use App\Services\SessioneService;
 
 class ApiController
@@ -13,8 +13,10 @@ class ApiController
        PUBLIC API
     ====================== */
 
-    public function crea(int $configurazioneId): void
+    public function crea($configurazioneId): void
     {
+        $configurazioneId = (int) $configurazioneId;
+
         $sessioneId = (new Sessione())->crea($configurazioneId);
 
         $this->json([
@@ -23,8 +25,10 @@ class ApiController
         ]);
     }
 
-    public function stato(int $sessioneId): void
+    public function stato($sessioneId): void
     {
+        $sessioneId = (int) $sessioneId;
+
         try {
 
             $service = new SessioneService($sessioneId);
@@ -46,8 +50,10 @@ class ApiController
         }
     }
 
-    public function domanda(int $sessioneId): void
+    public function domanda($sessioneId): void
     {
+        $sessioneId = (int) $sessioneId;
+
         try {
 
             $service = new SessioneService($sessioneId);
@@ -79,8 +85,10 @@ class ApiController
         }
     }
 
-    public function classifica(int $sessioneId): void
+    public function classifica($sessioneId): void
     {
+        $sessioneId = (int) $sessioneId;
+
         try {
 
             $service = new SessioneService($sessioneId);
@@ -103,15 +111,63 @@ class ApiController
        PLAYER ACTIONS
     ====================== */
 
-    public function puntata(int $sessioneId): void
+    public function join($sessioneId): void
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $sessioneId = (int) $sessioneId;
 
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->json([
                 'success' => false,
                 'error' => 'Metodo non consentito'
             ]);
+            return;
+        }
 
+        $nome = trim($_POST['nome'] ?? '');
+
+        if ($nome === '') {
+            $this->json([
+                'success' => false,
+                'error' => 'Nome non valido'
+            ]);
+            return;
+        }
+
+        try {
+
+            $utenteModel = new Utente();
+            $utenteId = $utenteModel->creaTemporaneo($nome);
+
+            $partecipazioneModel = new Partecipazione();
+            $partecipazioneId = $partecipazioneModel->entra($sessioneId, $utenteId);
+
+            $partecipazione = $partecipazioneModel->trova($partecipazioneId);
+
+            $this->json([
+                'success' => true,
+                'utente_id' => $utenteId,
+                'partecipazione_id' => $partecipazioneId,
+                'capitale' => $partecipazione['capitale_attuale'] ?? 0
+            ]);
+
+        } catch (\Throwable $e) {
+
+            $this->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function puntata($sessioneId): void
+    {
+        $sessioneId = (int) $sessioneId;
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->json([
+                'success' => false,
+                'error' => 'Metodo non consentito'
+            ]);
             return;
         }
 
@@ -119,12 +175,10 @@ class ApiController
         $importo = (int) ($_POST['puntata'] ?? 0);
 
         if ($partecipazioneId <= 0 || $importo <= 0) {
-
             $this->json([
                 'success' => false,
                 'error' => 'Dati non validi'
             ]);
-
             return;
         }
 
@@ -133,12 +187,10 @@ class ApiController
             $service = new SessioneService($sessioneId);
 
             if (!$service->puoPuntare()) {
-
                 $this->json([
                     'success' => false,
                     'error' => 'Non è il momento di puntare'
                 ]);
-
                 return;
             }
 
@@ -146,12 +198,10 @@ class ApiController
             $ok = $partecipazione->registraPuntata($partecipazioneId, $importo);
 
             if (!$ok) {
-
                 $this->json([
                     'success' => false,
                     'error' => 'Puntata non valida'
                 ]);
-
                 return;
             }
 
@@ -169,15 +219,15 @@ class ApiController
         }
     }
 
-    public function risposta(int $sessioneId): void
+    public function risposta($sessioneId): void
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $sessioneId = (int) $sessioneId;
 
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->json([
                 'success' => false,
                 'error' => 'Metodo non consentito'
             ]);
-
             return;
         }
 
@@ -186,12 +236,10 @@ class ApiController
         $opzioneId = (int) ($_POST['opzione_id'] ?? 0);
 
         if ($partecipazioneId <= 0 || $domandaId <= 0 || $opzioneId <= 0) {
-
             $this->json([
                 'success' => false,
                 'error' => 'Dati non validi'
             ]);
-
             return;
         }
 
@@ -200,12 +248,10 @@ class ApiController
             $service = new SessioneService($sessioneId);
 
             if (!$service->puoRispondere()) {
-
                 $this->json([
                     'success' => false,
                     'error' => 'Non è il momento di rispondere'
                 ]);
-
                 return;
             }
 
@@ -218,12 +264,10 @@ class ApiController
             );
 
             if (!$risultato) {
-
                 $this->json([
                     'success' => false,
                     'error' => 'Errore registrazione risposta'
                 ]);
-
                 return;
             }
 
@@ -245,15 +289,15 @@ class ApiController
        ADMIN CONTROL
     ====================== */
 
-    public function admin(string $action, int $sessioneId): void
+    public function admin($action, $sessioneId): void
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        $sessioneId = (int) $sessioneId;
 
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $this->json([
                 'success' => false,
                 'error' => 'Metodo non consentito'
             ]);
-
             return;
         }
 
@@ -262,54 +306,39 @@ class ApiController
             switch ($action) {
 
                 case 'nuova-sessione':
-
                     $nuovaId = (new Sessione())->crea(1);
-
                     $this->json([
                         'success' => true,
                         'action' => $action,
                         'sessione_id' => $nuovaId
                     ]);
-
                     return;
 
                 case 'avvia-puntata':
-
-                    $service = new SessioneService($sessioneId);
-                    $service->avviaPuntata();
+                    (new SessioneService($sessioneId))->avviaPuntata();
                     break;
 
                 case 'avvia-domanda':
-
-                    $service = new SessioneService($sessioneId);
-                    $service->avviaDomanda();
+                    (new SessioneService($sessioneId))->avviaDomanda();
                     break;
 
                 case 'risultati':
-
-                    $service = new SessioneService($sessioneId);
-                    $service->chiudiDomanda();
+                    (new SessioneService($sessioneId))->chiudiDomanda();
                     break;
 
                 case 'prossima':
-
-                    $service = new SessioneService($sessioneId);
-                    $service->prossimaFase();
+                    (new SessioneService($sessioneId))->prossimaFase();
                     break;
 
                 case 'riavvia':
-
-                    $service = new SessioneService($sessioneId);
-                    $service->resetTotale();
+                    (new SessioneService($sessioneId))->resetTotale();
                     break;
 
                 default:
-
                     $this->json([
                         'success' => false,
                         'error' => 'Azione non valida'
                     ]);
-
                     return;
             }
 
@@ -332,5 +361,6 @@ class ApiController
     {
         header('Content-Type: application/json');
         echo json_encode($data);
+        exit;
     }
 }

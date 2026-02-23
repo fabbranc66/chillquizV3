@@ -56,9 +56,14 @@ class Router
            ROUTING STANDARD
         ====================== */
 
-        $methodName = $segments[1] ?? 'index';
-        $params     = array_slice($segments, 2);
-
+// Caso speciale: player/{id}
+if ($controllerName === 'player' && isset($segments[1]) && is_numeric($segments[1])) {
+    $methodName = 'index';
+    $params = [(int)$segments[1]];
+} else {
+    $methodName = $segments[1] ?? 'index';
+    $params     = array_slice($segments, 2);
+}
         $controllerClass = $this->resolveController($controllerName);
 
         if (!$controllerClass) {
