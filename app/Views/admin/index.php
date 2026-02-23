@@ -2,13 +2,33 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>ChillQuiz V3 - Test Admin</title>
+    <title>ChillQuiz V3 - Regia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         body {
-            font-family: Arial;
+            font-family: Arial, sans-serif;
             background: #111;
             color: #eee;
             padding: 40px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        .info-bar {
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #333;
+            border-radius: 20px;
+            font-size: 14px;
+            margin: 5px;
         }
 
         button {
@@ -18,26 +38,27 @@
             cursor: pointer;
             border: none;
             color: white;
+            border-radius: 6px;
+            transition: 0.2s;
         }
 
-        .enabled {
-            background: #2ecc71;
-        }
+        .enabled { background: #2ecc71; }
+        .disabled { background: #c0392b; }
 
-        .disabled {
-            background: #c0392b;
-        }
+        button:hover { opacity: 0.85; }
 
         pre {
             background: #222;
             padding: 20px;
-            margin-top: 20px;
+            margin-top: 30px;
             min-height: 120px;
+            text-align: left;
+            border-radius: 6px;
         }
 
         #stato {
             font-size: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         #conclusa {
@@ -46,30 +67,61 @@
             margin-top: 20px;
             display: none;
         }
+
+        .row { margin-top: 25px; }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
     </style>
 </head>
 <body>
 
-<h2 id="titolo">🎛 ChillQuiz V3 – Test Regia Admin (Sessione 30)</h2>
+<div class="container">
+
+<h2>🎛 ChillQuiz V3 – Regia</h2>
+
+<div class="info-bar">
+    <div class="badge">
+        Sessione ID: <strong id="sessione-id">30</strong>
+    </div>
+    <div class="badge">
+        Domanda: <strong id="domanda-numero">1</strong>
+    </div>
+</div>
 
 <div id="stato">Stato: ...</div>
 <div id="conclusa">🎉 SESSIONE CONCLUSA</div>
 
-<button id="btnNuova">Nuova Sessione</button>
-<button id="btnPuntata">Avvia Puntata</button>
-<button id="btnDomanda">Avvia Domanda</button>
-<button id="btnRisultati">Chiudi Domanda</button>
-<button id="btnProssima">Prossima Fase</button>
-<button id="btnRiavvia">Riavvia</button>
+<!-- FASI -->
+<div class="row">
+    <button id="btnPuntata">Avvia Puntata</button>
+    <button id="btnDomanda">Avvia Domanda</button>
+    <button id="btnRisultati">Chiudi Domanda</button>
+    <button id="btnProssima">Prossima Fase</button>
+</div>
+
+<!-- SISTEMA -->
+<div class="row">
+    <button id="btnNuova">Nuova Sessione</button>
+    <button id="btnRiavvia">Riavvia</button>
+</div>
 
 <pre id="output">In attesa di chiamata API...</pre>
 
+</div>
+
 <script>
 
-let SESSIONE_ID = 30;
-const ADMIN_TOKEN = "SUPERSEGRETO123";
+let SESSIONE_ID = <?= (int)$sessioneId ?>;
 
-const titolo        = document.getElementById('titolo');
+const ADMIN_TOKEN = "SUPERSEGRETO123";
+const API_BASE = 'index.php?url=api';
+
+const sessioneIdSpan  = document.getElementById('sessione-id');
+const domandaNumero   = document.getElementById('domanda-numero');
+
 const btnNuova      = document.getElementById('btnNuova');
 const btnPuntata    = document.getElementById('btnPuntata');
 const btnDomanda    = document.getElementById('btnDomanda');
@@ -93,27 +145,26 @@ function setButton(button, enabled) {
     }
 }
 
-function aggiornaUI(stato) {
+function aggiornaUI(sessione) {
 
-    titolo.textContent = `🎛 ChillQuiz V3 – Test Regia Admin (Sessione ${SESSIONE_ID})`;
+    sessioneIdSpan.textContent = SESSIONE_ID;
+    domandaNumero.textContent  = sessione.domanda_corrente;
 
-    statoDiv.textContent = "Stato: " + stato;
+    statoDiv.textContent = "Stato: " + sessione.stato;
+    conclusaDiv.style.display = (sessione.stato === 'conclusa') ? 'block' : 'none';
 
-    conclusaDiv.style.display = (stato === 'conclusa') ? 'block' : 'none';
+    setButton(btnPuntata,  sessione.stato === 'attesa' || sessione.stato === 'risultati');
+    setButton(btnDomanda,  sessione.stato === 'puntata');
+    setButton(btnRisultati, sessione.stato === 'domanda');
+    setButton(btnProssima, sessione.stato === 'risultati');
 
-    // Stati di gioco
-    setButton(btnPuntata,  stato === 'attesa' || stato === 'risultati');
-    setButton(btnDomanda,  stato === 'puntata');
-    setButton(btnRisultati, stato === 'domanda');
-    setButton(btnProssima, stato === 'risultati');
-
-    // Sempre attivi
     setButton(btnNuova, true);
     setButton(btnRiavvia, true);
 }
+
 async function callAdmin(action) {
 
-    const res = await fetch(`index.php?url=api/admin/${action}/${SESSIONE_ID}`, {
+    const res = await fetch(`${API_BASE}/admin/${action}/${SESSIONE_ID}`, {
         method: 'POST',
         headers: {
             'X-ADMIN-TOKEN': ADMIN_TOKEN
@@ -128,7 +179,7 @@ async function callAdmin(action) {
 
 async function nuovaSessione() {
 
-    const res = await fetch(`index.php?url=api/admin/nuova-sessione/0`, {
+    const res = await fetch(`${API_BASE}/admin/nuova-sessione/0`, {
         method: 'POST',
         headers: {
             'X-ADMIN-TOKEN': ADMIN_TOKEN
@@ -146,11 +197,11 @@ async function nuovaSessione() {
 
 async function aggiornaStato() {
 
-    const res = await fetch(`index.php?url=api/stato/${SESSIONE_ID}`);
+    const res = await fetch(`${API_BASE}/stato/${SESSIONE_ID}`);
     const data = await res.json();
 
     if (data.success) {
-        aggiornaUI(data.sessione.stato);
+        aggiornaUI(data.sessione);
     }
 }
 
