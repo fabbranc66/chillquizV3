@@ -58,9 +58,29 @@
             margin: auto;
         }
 
-        .timer {
-            font-weight: bold;
-            color: #f39c12;
+        .timer-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timer-indicator {
+            --progress: 0deg;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: conic-gradient(#f39c12 var(--progress), #2a2a2a 0deg);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timer-indicator-inner {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #111;
+            border: 1px solid #333;
         }
 
         /* ===== LOG LEGGIBILE ===== */
@@ -174,6 +194,32 @@
             font-size: 12px;
             margin-top: 8px;
         }
+
+        .live-wrap {
+            margin-top: 24px;
+            text-align: left;
+        }
+
+        .live-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #151515;
+            border: 1px solid #222;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .live-table th,
+        .live-table td {
+            padding: 10px;
+            border-bottom: 1px solid #222;
+            font-size: 14px;
+        }
+
+        .live-table th {
+            background: #1c1c1c;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -193,7 +239,7 @@
         Partecipanti: <strong id="partecipanti-numero">0</strong>
     </div>
     <div class="badge">
-        Timer: <strong id="timer" class="timer">--</strong>
+        <span class="timer-wrap">Timer: <span id="timer-indicator" class="timer-indicator"><span class="timer-indicator-inner"></span></span></span>
     </div>
 </div>
 
@@ -212,6 +258,29 @@
 <div class="row">
     <button id="btnNuova">Nuova Sessione</button>
     <button id="btnRiavvia">Riavvia</button>
+</div>
+
+<!-- CLASSIFICA LIVE -->
+<div class="live-wrap">
+    <div class="log-head">
+        <div class="log-title">📊 Classifica live (puntata + esito risposta)</div>
+    </div>
+    <table class="live-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Giocatore</th>
+                <th>Capitale</th>
+                <th>Puntata</th>
+                <th>Esito</th>
+                <th>Tempo risposta (s)</th>
+                <th>Vincita domanda</th>
+            </tr>
+        </thead>
+        <tbody id="classifica-live">
+            <tr><td colspan="7">Nessun dato</td></tr>
+        </tbody>
+    </table>
 </div>
 
 <!-- LOG -->
@@ -239,7 +308,7 @@ const API_BASE = 'index.php?url=api';
 const sessioneIdSpan   = document.getElementById('sessione-id');
 const domandaNumero    = document.getElementById('domanda-numero');
 const partecipantiSpan = document.getElementById('partecipanti-numero');
-const timerSpan        = document.getElementById('timer');
+const timerIndicator   = document.getElementById('timer-indicator');
 
 const btnNuova      = document.getElementById('btnNuova');
 const btnPuntata    = document.getElementById('btnPuntata');
@@ -252,6 +321,7 @@ const btnClearLog   = document.getElementById('btnClearLog');
 const statoDiv    = document.getElementById('stato');
 const conclusaDiv = document.getElementById('conclusa');
 const logEl       = document.getElementById('log');
+const classificaLiveEl = document.getElementById('classifica-live');
 
 let timerInterval = null;
 
@@ -294,6 +364,32 @@ function addLog({ ok, title, message, data }) {
 
 function clearLog() {
     logEl.innerHTML = '';
+}
+
+function renderClassificaLive(lista) {
+    if (!Array.isArray(lista) || lista.length === 0) {
+        classificaLiveEl.innerHTML = '<tr><td colspan="7">Nessun partecipante</td></tr>';
+        return;
+    }
+
+    classificaLiveEl.innerHTML = lista.map((p, index) => {
+        const capitale = Number(p.capitale_attuale ?? 0);
+        const puntata = Number(p.ultima_puntata ?? 0);
+        const esito = p.esito ?? '-';
+        const tempo = (p.tempo_risposta === null || p.tempo_risposta === undefined) ? '-' : Number(p.tempo_risposta);
+        const vincita = (p.vincita_domanda === null || p.vincita_domanda === undefined) ? '-' : Number(p.vincita_domanda);
+        return `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${p.nome ?? '-'}<\/td>
+                <td>${capitale}<\/td>
+                <td>${puntata}<\/td>
+                <td>${esito}<\/td>
+                <td>${tempo}<\/td>
+                <td>${vincita}<\/td>
+            </tr>
+        `;
+    }).join('');
 }
 
 /* ===== UI ===== */
@@ -343,6 +439,7 @@ async function aggiornaPartecipanti() {
         const numeroAttuale = lista.length;
 
         partecipantiSpan.textContent = numeroAttuale;
+        renderClassificaLive(lista);
 
         // 🔔 NUOVO PLAYER ENTRATO
         if (numeroAttuale > ultimoNumeroPartecipanti) {
@@ -368,23 +465,25 @@ async function aggiornaPartecipanti() {
 function aggiornaTimer(sessione) {
 
     clearInterval(timerInterval);
-    timerSpan.textContent = "--";
+    timerIndicator.style.setProperty('--progress', '0deg');
 
     if (sessione.stato !== 'domanda' || !sessione.inizio_domanda) return;
 
     const durata = 120; // se vuoi dopo lo leggiamo da configurazioni_sistema
-    timerInterval = setInterval(() => {
 
-        const elapsed = Math.floor(Date.now()/1000) - sessione.inizio_domanda;
+    const aggiornaCerchio = () => {
+        const elapsed = Math.floor(Date.now() / 1000) - sessione.inizio_domanda;
         const remaining = Math.max(0, durata - elapsed);
-
-        timerSpan.textContent = remaining + "s";
+        const progressDeg = Math.max(0, Math.min(360, (remaining / durata) * 360));
+        timerIndicator.style.setProperty('--progress', progressDeg + 'deg');
 
         if (remaining <= 0) {
             clearInterval(timerInterval);
         }
+    };
 
-    }, 1000);
+    aggiornaCerchio();
+    timerInterval = setInterval(aggiornaCerchio, 1000);
 }
 
 /* ===== API calls ===== */
@@ -459,7 +558,7 @@ btnRiavvia.onclick   = () => callAdmin('riavvia');
 btnClearLog.onclick  = clearLog;
 
 /* ===== start ===== */
-setInterval(aggiornaStato, 2000);
+setInterval(aggiornaStato, 1000);
 aggiornaStato();
 
 </script>

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Core\Database;
 use RuntimeException;
 
+
 class SessioneService
 {
     private $pdo;
@@ -79,6 +80,7 @@ class SessioneService
             );
         }
 
+        $this->svuotaPuntateLive();
         $this->aggiornaStato('puntata');
     }
 
@@ -105,6 +107,7 @@ class SessioneService
 
         $this->sessione['stato'] = 'domanda';
         $this->sessione['inizio_domanda'] = $timestamp;
+        $this->svuotaPuntateLive();
     }
 
     public function chiudiDomanda(): void
@@ -195,6 +198,7 @@ class SessioneService
         $this->sessione['stato'] = 'attesa';
         $this->sessione['domanda_corrente'] = 1;
         $this->sessione['inizio_domanda'] = null;
+        $this->svuotaPuntateLive();
     }
 
     /* ===============================
@@ -340,22 +344,144 @@ class SessioneService
         return $domanda;
     }
 
+    public function salvaPuntataLive(int $partecipazioneId, int $importo): void
+    {
+        $this->ensurePuntateLiveTable();
+
+        $stmt = $this->pdo->prepare("
+            INSERT INTO puntate_live (sessione_id, partecipazione_id, importo, aggiornato_il)
+            VALUES (:sessione_id, :partecipazione_id, :importo, :aggiornato_il)
+            ON DUPLICATE KEY UPDATE
+                importo = VALUES(importo),
+                aggiornato_il = VALUES(aggiornato_il)
+        ");
+
+        $stmt->execute([
+            'sessione_id' => $this->sessioneId,
+            'partecipazione_id' => $partecipazioneId,
+            'importo' => $importo,
+            'aggiornato_il' => time(),
+        ]);
+    }
+
+    public function rimuoviPuntataLive(int $partecipazioneId): void
+    {
+        $this->ensurePuntateLiveTable();
+
+        $stmt = $this->pdo->prepare("
+            DELETE FROM puntate_live
+            WHERE sessione_id = :sessione_id
+              AND partecipazione_id = :partecipazione_id
+        ");
+
+        $stmt->execute([
+            'sessione_id' => $this->sessioneId,
+            'partecipazione_id' => $partecipazioneId,
+        ]);
+    }
+
     public function classifica(): array
     {
+        $this->ensurePuntateLiveTable();
+        $domandaId = $this->domandaCorrenteId();
+
         $stmt = $this->pdo->prepare("
-            SELECT 
+            SELECT
+                p.id AS partecipazione_id,
                 p.utente_id,
                 u.nome,
-                p.capitale_attuale
+                p.capitale_attuale,
+                COALESCE(pl.importo, r_corrente.puntata, 0) AS ultima_puntata,
+                r_corrente.corretta AS esito_corretta,
+                r_corrente.tempo_risposta,
+                r_corrente.punti AS vincita_domanda
             FROM partecipazioni p
             JOIN utenti u ON u.id = p.utente_id
-            WHERE p.sessione_id = ?
-            ORDER BY p.capitale_attuale DESC
+            LEFT JOIN puntate_live pl
+                ON pl.sessione_id = p.sessione_id
+               AND pl.partecipazione_id = p.id
+            LEFT JOIN (
+                SELECT r1.partecipazione_id, r1.puntata, r1.corretta, r1.tempo_risposta, r1.punti
+                FROM risposte r1
+                INNER JOIN (
+                    SELECT partecipazione_id, MAX(id) AS max_id
+                    FROM risposte
+                    WHERE domanda_id = :domanda_id
+                    GROUP BY partecipazione_id
+                ) r2 ON r2.max_id = r1.id
+            ) r_corrente ON r_corrente.partecipazione_id = p.id
+            WHERE p.sessione_id = :sessione_id
+            ORDER BY
+                CASE WHEN r_corrente.tempo_risposta IS NULL THEN 1 ELSE 0 END ASC,
+                r_corrente.tempo_risposta ASC,
+                p.capitale_attuale DESC
+        ");
+
+        $stmt->execute([
+            'domanda_id' => $domandaId,
+            'sessione_id' => $this->sessioneId,
+        ]);
+
+        $rows = $stmt->fetchAll();
+
+        foreach ($rows as &$row) {
+            $row['ultima_puntata'] = (int) ($row['ultima_puntata'] ?? 0);
+            $row['esito'] = ($row['esito_corretta'] === null)
+                ? null
+                : ((int) $row['esito_corretta'] === 1 ? 'corretta' : 'errata');
+            $row['tempo_risposta'] = $row['tempo_risposta'] === null ? null : (int) $row['tempo_risposta'];
+            $row['vincita_domanda'] = $row['vincita_domanda'] === null ? null : (int) $row['vincita_domanda'];
+            unset($row['esito_corretta']);
+        }
+        unset($row);
+
+        return $rows;
+    }
+
+    private function domandaCorrenteId(): int
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT sd.domanda_id
+            FROM sessione_domande sd
+            WHERE sd.sessione_id = ?
+              AND sd.posizione = ?
+            LIMIT 1
+        ");
+
+        $stmt->execute([
+            $this->sessioneId,
+            $this->sessione['domanda_corrente'],
+        ]);
+
+        $row = $stmt->fetch();
+
+        return (int) ($row['domanda_id'] ?? 0);
+    }
+
+    private function svuotaPuntateLive(): void
+    {
+        $this->ensurePuntateLiveTable();
+
+        $stmt = $this->pdo->prepare("
+            DELETE FROM puntate_live
+            WHERE sessione_id = ?
         ");
 
         $stmt->execute([$this->sessioneId]);
+    }
 
-        return $stmt->fetchAll();
+    private function ensurePuntateLiveTable(): void
+    {
+        $this->pdo->exec("
+            CREATE TABLE IF NOT EXISTS puntate_live (
+                sessione_id INT NOT NULL,
+                partecipazione_id INT NOT NULL,
+                importo INT NOT NULL,
+                aggiornato_il INT NOT NULL,
+                PRIMARY KEY (sessione_id, partecipazione_id),
+                KEY idx_sessione (sessione_id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+        ");
     }
 
     private function aggiornaStato(string $nuovoStato): void

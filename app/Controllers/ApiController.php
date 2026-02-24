@@ -2,27 +2,19 @@
 
 namespace App\Controllers;
 
-use App\Models\Sessione;
 use App\Models\Partecipazione;
+use App\Models\Risposta;
+use App\Models\Sessione;
 use App\Models\Utente;
 use App\Services\SessioneService;
+use Throwable;
 
 class ApiController
 {
-    /* ======================
-       PUBLIC API
-    ====================== */
-
-    public function crea($configurazioneId): void
+    private function json(array $data): void
     {
-        $configurazioneId = (int) $configurazioneId;
-
-        $sessioneId = (new Sessione())->crea($configurazioneId);
-
-        $this->json([
-            'success' => true,
-            'sessione_id' => $sessioneId
-        ]);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 
     public function stato($sessioneId): void
@@ -30,18 +22,19 @@ class ApiController
         $sessioneId = (int) $sessioneId;
 
         try {
-
             $service = new SessioneService($sessioneId);
             $service->verificaTimer();
 
-            $sessione = (new Sessione())->trova($sessioneId);
+            $pdo = \App\Core\Database::getInstance();
+            $stmt = $pdo->prepare("SELECT * FROM sessioni WHERE id = ?");
+            $stmt->execute([$sessioneId]);
 
             $this->json([
                 'success' => true,
-                'sessione' => $sessione
+                'sessione' => $stmt->fetch()
             ]);
 
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
 
             $this->json([
                 'success' => false,
@@ -57,26 +50,13 @@ class ApiController
         try {
 
             $service = new SessioneService($sessioneId);
-            $service->verificaTimer();
-
-            if ($service->stato() !== 'domanda') {
-
-                $this->json([
-                    'success' => false,
-                    'error' => 'Domanda non disponibile in questo stato'
-                ]);
-
-                return;
-            }
-
-            $domanda = $service->domandaCorrente();
 
             $this->json([
                 'success' => true,
-                'domanda' => $domanda
+                'domanda' => $service->domandaCorrente()
             ]);
 
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
 
             $this->json([
                 'success' => false,
@@ -98,7 +78,7 @@ class ApiController
                 'classifica' => $service->classifica()
             ]);
 
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
 
             $this->json([
                 'success' => false,
@@ -230,6 +210,8 @@ public function join($sessioneId): void
                 return;
             }
 
+            $service->salvaPuntataLive($partecipazioneId, $importo);
+
             $this->json([
                 'success' => true,
                 'puntata' => $importo
@@ -295,6 +277,8 @@ public function join($sessioneId): void
                 ]);
                 return;
             }
+
+            $service->rimuoviPuntataLive($partecipazioneId);
 
             $this->json([
                 'success' => true,
@@ -369,8 +353,7 @@ public function join($sessioneId): void
 
             $this->json([
                 'success' => true,
-                'action' => $action,
-                'sessione_id' => $sessioneId
+                'action' => $action
             ]);
 
         } catch (\Throwable $e) {
@@ -380,12 +363,5 @@ public function join($sessioneId): void
                 'error' => $e->getMessage()
             ]);
         }
-    }
-
-    private function json($data): void
-    {
-        header('Content-Type: application/json');
-        echo json_encode($data);
-        exit;
     }
 }
