@@ -221,6 +221,19 @@
             text-align: left;
         }
 
+        .live-row-primo {
+            background: rgba(46, 125, 50, 0.18);
+        }
+
+        .live-row-primo td {
+            border-bottom-color: rgba(76, 175, 80, 0.45);
+            font-weight: 600;
+        }
+
+        .first-win-icon {
+            margin-right: 6px;
+        }
+
 
         .join-wrap {
             margin-top: 24px;
@@ -409,11 +422,24 @@ function clearLog() {
     logEl.innerHTML = '';
 }
 
+function escapeHtml(value) {
+    const div = document.createElement('div');
+    div.innerText = value ?? '';
+    return div.innerHTML;
+}
+
 function renderClassificaLive(lista) {
     if (!Array.isArray(lista) || lista.length === 0) {
         classificaLiveEl.innerHTML = '<tr><td colspan="7">Nessun partecipante</td></tr>';
         return;
     }
+
+    const primoVeloceCorretto = lista
+        .filter((p) => p.esito === 'corretta' && p.tempo_risposta !== null && p.tempo_risposta !== undefined)
+        .reduce((best, p) => {
+            if (!best) return p;
+            return Number(p.tempo_risposta) < Number(best.tempo_risposta) ? p : best;
+        }, null);
 
     classificaLiveEl.innerHTML = lista.map((p, index) => {
         const capitale = Number(p.capitale_attuale ?? 0);
@@ -421,10 +447,17 @@ function renderClassificaLive(lista) {
         const esito = p.esito ?? '-';
         const tempo = (p.tempo_risposta === null || p.tempo_risposta === undefined) ? '-' : Number(p.tempo_risposta);
         const vincita = (p.vincita_domanda === null || p.vincita_domanda === undefined) ? '-' : Number(p.vincita_domanda);
+        const isPrimoVincente = primoVeloceCorretto && Number(primoVeloceCorretto.partecipazione_id) === Number(p.partecipazione_id);
+        const rowClass = isPrimoVincente ? 'live-row-primo' : '';
+        const nomeSafe = escapeHtml(p.nome ?? '-');
+        const nomeConIcona = isPrimoVincente
+            ? `<span class="first-win-icon" title="Primo a rispondere correttamente">🥇⚡</span>${nomeSafe}`
+            : nomeSafe;
+
         return `
-            <tr>
+            <tr class="${rowClass}">
                 <td>${index + 1}</td>
-                <td>${p.nome ?? '-'}<\/td>
+                <td>${nomeConIcona}<\/td>
                 <td>${capitale}<\/td>
                 <td>${puntata}<\/td>
                 <td>${esito}<\/td>
@@ -617,7 +650,7 @@ async function callAdmin(action) {
     });
 
     aggiornaStato();
-aggiornaJoinRichieste();
+    aggiornaJoinRichieste();
 }
 
 async function nuovaSessione() {
@@ -643,7 +676,7 @@ async function nuovaSessione() {
     if (data.success) {
         SESSIONE_ID = data.sessione_id;
         aggiornaStato();
-aggiornaJoinRichieste();
+        aggiornaJoinRichieste();
     }
 }
 

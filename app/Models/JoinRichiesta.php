@@ -41,6 +41,21 @@ class JoinRichiesta
         $esistente = $check->fetch();
 
         if ($esistente) {
+            if (empty($esistente['partecipazione_id']) && $partecipazioneId > 0) {
+                $update = $this->pdo->prepare(
+                    "UPDATE join_richieste
+                     SET partecipazione_id = :partecipazione_id
+                     WHERE id = :id"
+                );
+
+                $update->execute([
+                    'partecipazione_id' => $partecipazioneId,
+                    'id' => $esistente['id'],
+                ]);
+
+                $esistente['partecipazione_id'] = $partecipazioneId;
+            }
+
             return $esistente;
         }
 
@@ -107,6 +122,10 @@ class JoinRichiesta
             return false;
         }
 
+        if ($stato === 'approvata') {
+            return $this->approva($id, $sessioneId);
+        }
+
         $stmt = $this->pdo->prepare(
             "UPDATE join_richieste
              SET stato = :stato,
@@ -118,6 +137,85 @@ class JoinRichiesta
 
         $stmt->execute([
             'stato' => $stato,
+            'gestita_il' => time(),
+            'id' => $id,
+            'sessione_id' => $sessioneId,
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
+
+    private function approva(int $id, int $sessioneId): bool
+    {
+        $richiesta = $this->trovaPerId($id, $sessioneId);
+
+        if (!$richiesta || $richiesta['stato'] !== 'pending') {
+            return false;
+        }
+
+        $partecipazioneId = (int) ($richiesta['partecipazione_id'] ?? 0);
+
+        // 1) Se già presente, deve appartenere alla sessione corrente
+        if ($partecipazioneId > 0) {
+            $checkPartecipazione = $this->pdo->prepare(
+                "SELECT id
+                 FROM partecipazioni
+                 WHERE id = :id
+                   AND sessione_id = :sessione_id
+                 LIMIT 1"
+            );
+
+            $checkPartecipazione->execute([
+                'id' => $partecipazioneId,
+                'sessione_id' => $sessioneId,
+            ]);
+
+            if (!$checkPartecipazione->fetch()) {
+                $partecipazioneId = 0;
+            }
+        }
+
+        // 2) Fallback robusto: recupera la partecipazione della STESSA sessione via nome
+        if ($partecipazioneId <= 0) {
+            $recuperaPartecipazione = $this->pdo->prepare(
+                "SELECT p.id
+                 FROM partecipazioni p
+                 JOIN utenti u ON u.id = p.utente_id
+                 WHERE p.sessione_id = :sessione_id
+                   AND LOWER(u.nome) = LOWER(:nome)
+                 ORDER BY p.id DESC
+                 LIMIT 1"
+            );
+
+            $recuperaPartecipazione->execute([
+                'sessione_id' => $sessioneId,
+                'nome' => $richiesta['nome'],
+            ]);
+
+            $partecipazione = $recuperaPartecipazione->fetch();
+
+            if ($partecipazione) {
+                $partecipazioneId = (int) $partecipazione['id'];
+            }
+        }
+
+        // 3) Se non troviamo una partecipazione valida, NON approviamo (evita approvazioni "orfane")
+        if ($partecipazioneId <= 0) {
+            return false;
+        }
+
+        $stmt = $this->pdo->prepare(
+            "UPDATE join_richieste
+             SET stato = 'approvata',
+                 partecipazione_id = :partecipazione_id,
+                 gestita_il = :gestita_il
+             WHERE id = :id
+               AND sessione_id = :sessione_id
+               AND stato = 'pending'"
+        );
+
+        $stmt->execute([
+            'partecipazione_id' => $partecipazioneId,
             'gestita_il' => time(),
             'id' => $id,
             'sessione_id' => $sessioneId,

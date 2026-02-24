@@ -89,8 +89,14 @@ async function handleJoin() {
 function completeJoin(nome, capitale) {
     document.getElementById('player-display-name').innerText = nome;
     document.getElementById('capitale-value').innerText = capitale;
+    currentState = null;
     startPolling();
+
+    hideAllScreens();
     show('screen-lobby');
+
+    // allineamento immediato allo stato corrente della sessione
+    fetchStato();
 }
 
 function watchJoinRequest(requestId, nome) {
@@ -142,6 +148,10 @@ function watchJoinRequest(requestId, nome) {
 =============================== */
 
 function startPolling() {
+    if (pollingInterval) {
+        clearInterval(pollingInterval);
+    }
+
     pollingInterval = setInterval(fetchStato, 1000);
 }
 
@@ -304,11 +314,6 @@ async function inviaRisposta(domandaId, opzioneId) {
             rispostaInviata = false;
         }
 
-if (data.success && data.risultato) {
-    const capitaleSpan = document.getElementById('capitale-value');
-    const attuale = parseInt(capitaleSpan.innerText);
-    capitaleSpan.innerText = attuale + data.risultato.punti;
-}
     } catch (err) {
         console.error(err);
         rispostaInviata = false;
@@ -362,6 +367,19 @@ async function handlePuntata() {
    CLASSIFICA
 =============================== */
 
+function aggiornaCapitaleDaClassifica(lista) {
+    if (!Array.isArray(lista) || lista.length === 0) return;
+
+    const nomeGiocatore = (document.getElementById('player-display-name')?.innerText || '').trim().toLowerCase();
+    if (!nomeGiocatore) return;
+
+    const miaRiga = lista.find((riga) => (riga.nome || '').trim().toLowerCase() === nomeGiocatore);
+    if (!miaRiga) return;
+
+    const capitale = Number(miaRiga.capitale_attuale ?? 0);
+    document.getElementById('capitale-value').innerText = capitale;
+}
+
 async function fetchClassifica() {
 
     try {
@@ -375,6 +393,8 @@ async function fetchClassifica() {
         console.log("CLASSIFICA RESPONSE:", data);
 
         if (!data.success) return;
+
+        aggiornaCapitaleDaClassifica(data.classifica);
 
         const container = document.getElementById('classifica');
 
