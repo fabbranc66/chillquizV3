@@ -8,6 +8,7 @@ let sessioneId = null;
 let partecipazioneId = null;
 let currentState = null;
 let pollingInterval = null;
+let joinRequestPolling = null;
 
 let rispostaInviata = false;
 let puntataInviata = false;
@@ -66,19 +67,74 @@ async function handleJoin() {
         const data = await response.json();
 
         if (!data.success) {
+            if (data.requires_approval && data.request_id) {
+                alert(data.error);
+                watchJoinRequest(data.request_id, nome);
+                return;
+            }
+
             alert(data.error);
             return;
         }
 
         partecipazioneId = data.partecipazione_id;
-document.getElementById('player-display-name').innerText = nome;
-document.getElementById('capitale-value').innerText = data.capitale;
-        startPolling();
-        show('screen-lobby');
+        completeJoin(nome, data.capitale);
 
     } catch (err) {
         console.error(err);
     }
+}
+
+
+function completeJoin(nome, capitale) {
+    document.getElementById('player-display-name').innerText = nome;
+    document.getElementById('capitale-value').innerText = capitale;
+    startPolling();
+    show('screen-lobby');
+}
+
+function watchJoinRequest(requestId, nome) {
+    if (joinRequestPolling) {
+        clearInterval(joinRequestPolling);
+    }
+
+    const checkStatus = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('request_id', requestId);
+
+            const response = await fetch(
+                `${API_BASE}/joinStato/${sessioneId}`,
+                {
+                    method: 'POST',
+                    body: formData
+                }
+            );
+
+            const data = await response.json();
+
+            if (!data.success) return;
+
+            if (data.stato === 'approvata' && data.partecipazione_id) {
+                partecipazioneId = data.partecipazione_id;
+                clearInterval(joinRequestPolling);
+                joinRequestPolling = null;
+                completeJoin(nome, data.capitale ?? 0);
+                return;
+            }
+
+            if (data.stato === 'rifiutata') {
+                clearInterval(joinRequestPolling);
+                joinRequestPolling = null;
+                alert('Richiesta di accesso rifiutata dalla regia');
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    checkStatus();
+    joinRequestPolling = setInterval(checkStatus, 2000);
 }
 
 /* ===============================

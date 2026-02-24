@@ -220,6 +220,36 @@
             background: #1c1c1c;
             text-align: left;
         }
+
+
+        .join-wrap {
+            margin-top: 24px;
+            text-align: left;
+        }
+
+        .join-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .join-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            background: #161616;
+        }
+
+        .join-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-join-ok { background: #2e7d32; }
+        .btn-join-no { background: #b71c1c; }
+
     </style>
 </head>
 <body>
@@ -283,6 +313,18 @@
     </table>
 </div>
 
+
+
+<!-- RICHIESTE JOIN -->
+<div class="join-wrap">
+    <div class="log-head">
+        <div class="log-title">🙋 Richieste accesso (nomi già presenti)</div>
+    </div>
+    <div id="join-richieste" class="join-list">
+        <div class="join-item">Nessuna richiesta pending</div>
+    </div>
+</div>
+
 <!-- LOG -->
 <div class="log-wrap">
     <div class="log-head">
@@ -322,6 +364,7 @@ const statoDiv    = document.getElementById('stato');
 const conclusaDiv = document.getElementById('conclusa');
 const logEl       = document.getElementById('log');
 const classificaLiveEl = document.getElementById('classifica-live');
+const joinRichiesteEl = document.getElementById('join-richieste');
 
 let timerInterval = null;
 
@@ -457,11 +500,75 @@ async function aggiornaPartecipanti() {
         }
 
         ultimoNumeroPartecipanti = numeroAttuale;
+        aggiornaJoinRichieste();
 
     } catch (e) {
         // silenzioso
     }
 }
+
+
+function renderJoinRichieste(lista) {
+    if (!Array.isArray(lista) || lista.length === 0) {
+        joinRichiesteEl.innerHTML = '<div class="join-item">Nessuna richiesta pending</div>';
+        return;
+    }
+
+    joinRichiesteEl.innerHTML = lista.map((r) => `
+        <div class="join-item">
+            <div>
+                <strong>${r.nome}</strong> · richiesta #${r.id}
+            </div>
+            <div class="join-actions">
+                <button class="btn-join-ok" onclick="gestisciJoin(${r.id}, 'approva-join')">Approva</button>
+                <button class="btn-join-no" onclick="gestisciJoin(${r.id}, 'rifiuta-join')">Rifiuta</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function aggiornaJoinRichieste() {
+    const res = await fetch(`${API_BASE}/admin/join-richieste/${SESSIONE_ID}`, {
+        method: 'POST',
+        headers: {
+            'X-ADMIN-TOKEN': ADMIN_TOKEN
+        }
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+        return;
+    }
+
+    renderJoinRichieste(data.richieste ?? []);
+}
+
+async function gestisciJoin(requestId, action) {
+    const formData = new FormData();
+    formData.append('request_id', requestId);
+
+    const res = await fetch(`${API_BASE}/admin/${action}/${SESSIONE_ID}`, {
+        method: 'POST',
+        headers: {
+            'X-ADMIN-TOKEN': ADMIN_TOKEN
+        },
+        body: formData
+    });
+
+    const data = await res.json();
+
+    addLog({
+        ok: !!data.success,
+        title: `Join: ${action}`,
+        message: data.success
+            ? `Richiesta #${requestId} gestita` : (data.error || 'Errore gestione richiesta'),
+        data
+    });
+
+    aggiornaJoinRichieste();
+}
+
 function aggiornaTimer(sessione) {
 
     clearInterval(timerInterval);
@@ -510,6 +617,7 @@ async function callAdmin(action) {
     });
 
     aggiornaStato();
+aggiornaJoinRichieste();
 }
 
 async function nuovaSessione() {
@@ -535,6 +643,7 @@ async function nuovaSessione() {
     if (data.success) {
         SESSIONE_ID = data.sessione_id;
         aggiornaStato();
+aggiornaJoinRichieste();
     }
 }
 
@@ -559,7 +668,9 @@ btnClearLog.onclick  = clearLog;
 
 /* ===== start ===== */
 setInterval(aggiornaStato, 1000);
+setInterval(aggiornaJoinRichieste, 2000);
 aggiornaStato();
+aggiornaJoinRichieste();
 
 </script>
 

@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Partecipazione;
 use App\Models\Risposta;
 use App\Models\Sessione;
+use App\Models\JoinRichiesta;
 use App\Models\Utente;
 use App\Services\SessioneService;
 use Throwable;
@@ -115,11 +116,11 @@ public function join($sessioneId): void
 
     try {
 
-        // 🔒 BLOCCO: nome già usato nella stessa sessione (anche temporanei)
+        // 🔒 BLOCCO: nome già usato nella stessa sessione (richiede approvazione admin)
         $pdo = \App\Core\Database::getInstance();
 
         $check = $pdo->prepare("
-            SELECT 1
+            SELECT p.id
             FROM partecipazioni p
             JOIN utenti u ON u.id = p.utente_id
             WHERE p.sessione_id = :sessione_id
@@ -132,10 +133,21 @@ public function join($sessioneId): void
             'nome' => $nome
         ]);
 
-        if ($check->fetch()) {
+        $esistente = $check->fetch();
+
+        if ($esistente) {
+            $joinRichiesta = new JoinRichiesta();
+            $richiesta = $joinRichiesta->creaORiprendiPending(
+                $sessioneId,
+                $nome,
+                (int) $esistente['id']
+            );
+
             $this->json([
                 'success' => false,
-                'error' => 'Nome già utilizzato in questa sessione'
+                'requires_approval' => true,
+                'request_id' => (int) $richiesta['id'],
+                'error' => 'Nome già utilizzato: richiesta inviata alla regia'
             ]);
             return;
         }
@@ -164,6 +176,64 @@ public function join($sessioneId): void
         ]);
     }
 }
+
+    public function joinStato($sessioneId): void
+    {
+        $sessioneId = (int) $sessioneId;
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->json([
+                'success' => false,
+                'error' => 'Metodo non consentito'
+            ]);
+            return;
+        }
+
+        $richiestaId = (int) ($_POST['request_id'] ?? 0);
+
+        if ($richiestaId <= 0) {
+            $this->json([
+                'success' => false,
+                'error' => 'Richiesta non valida'
+            ]);
+            return;
+        }
+
+        try {
+            $joinRichiesta = new JoinRichiesta();
+            $richiesta = $joinRichiesta->trovaPerId($richiestaId, $sessioneId);
+
+            if (!$richiesta) {
+                $this->json([
+                    'success' => false,
+                    'error' => 'Richiesta non trovata'
+                ]);
+                return;
+            }
+
+            $response = [
+                'success' => true,
+                'stato' => $richiesta['stato']
+            ];
+
+            if ($richiesta['stato'] === 'approvata' && !empty($richiesta['partecipazione_id'])) {
+                $partecipazione = (new Partecipazione())->trova((int) $richiesta['partecipazione_id']);
+
+                if ($partecipazione) {
+                    $response['partecipazione_id'] = (int) $partecipazione['id'];
+                    $response['capitale'] = (int) ($partecipazione['capitale_attuale'] ?? 0);
+                }
+            }
+
+            $this->json($response);
+
+        } catch (\Throwable $e) {
+            $this->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
     public function puntata($sessioneId): void
     {
         $sessioneId = (int) $sessioneId;
@@ -342,6 +412,39 @@ public function join($sessioneId): void
                 case 'riavvia':
                     (new SessioneService($sessioneId))->resetTotale();
                     break;
+
+                case 'join-richieste':
+                    $joinRichiesta = new JoinRichiesta();
+                    $this->json([
+                        'success' => true,
+                        'action' => $action,
+                        'richieste' => $joinRichiesta->listaPending($sessioneId)
+                    ]);
+                    return;
+
+                case 'approva-join':
+                case 'rifiuta-join':
+                    $richiestaId = (int) ($_POST['request_id'] ?? 0);
+                    if ($richiestaId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Richiesta non valida'
+                        ]);
+                        return;
+                    }
+
+                    $joinRichiesta = new JoinRichiesta();
+                    $stato = $action === 'approva-join' ? 'approvata' : 'rifiutata';
+                    $ok = $joinRichiesta->gestisci($richiestaId, $sessioneId, $stato);
+
+                    $this->json([
+                        'success' => $ok,
+                        'action' => $action,
+                        'request_id' => $richiestaId,
+                        'stato' => $stato,
+                        'error' => $ok ? null : 'Impossibile aggiornare richiesta'
+                    ]);
+                    return;
 
                 default:
                     $this->json([
