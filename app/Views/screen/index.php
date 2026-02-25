@@ -21,6 +21,7 @@
             grid-template-rows: auto 1fr auto;
             gap: 18px;
             padding: 22px;
+            position: relative;
         }
 
         .stage-header,
@@ -86,20 +87,41 @@
 
         .stage-placeholder {
             color: #b7c1d1;
-            font-size: clamp(20px, 2vw, 30px);
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        #placeholder-message {
+            margin: 0;
+            font-size: clamp(20px, 2vw, 30px);
+        }
+
+        .state-image {
+            width: min(560px, 70vw);
+            max-height: 56vh;
+            border-radius: 18px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            object-fit: cover;
         }
 
         .stage-qr {
-            margin-top: 18px;
+            position: absolute;
+            top: 22px;
+            right: 22px;
             display: grid;
             justify-items: center;
             gap: 8px;
+            z-index: 3;
         }
 
         .stage-qr img {
-            width: 150px;
-            height: 150px;
+            width: 130px;
+            height: 130px;
             background: #fff;
             border-radius: 12px;
             padding: 8px;
@@ -107,7 +129,9 @@
 
         .stage-qr small {
             color: #b7c1d1;
-            font-size: 14px;
+            font-size: 12px;
+            text-align: center;
+            max-width: 140px;
         }
 
         .hidden { display: none !important; }
@@ -121,6 +145,11 @@
         <p>Schermo regia</p>
     </header>
 
+    <div id="screen-qr" class="stage-qr">
+        <img id="sessione-qr" alt="QR accesso sessione">
+        <small>Scansiona per entrare nella sessione</small>
+    </div>
+
     <main class="stage-main">
         <div id="screen-domanda" class="hidden">
             <h2 id="domanda-testo"></h2>
@@ -128,12 +157,8 @@
         </div>
 
         <div id="screen-placeholder" class="stage-placeholder">
-            In attesa della prossima domanda...
-
-            <div id="screen-qr" class="stage-qr">
-                <img id="sessione-qr" alt="QR accesso sessione">
-                <small>Scansiona per entrare nella sessione</small>
-            </div>
+            <p id="placeholder-message">In attesa della prossima domanda...</p>
+            <img id="state-image" class="state-image" alt="Stato sessione">
         </div>
     </main>
 
@@ -147,6 +172,7 @@ const API_BASE = '/chillquizV3/public/?url=api';
 let sessioneId = <?= (int)($sessioneId ?? 0) ?>;
 let currentState = null;
 let poll = null;
+let domandaRenderizzata = false;
 
 function extractSessioneIdFromUrl() {
     const raw = new URLSearchParams(window.location.search).get('url') || '';
@@ -167,21 +193,93 @@ function setupSessionQr() {
     qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(joinUrl)}`;
 }
 
+function getStateMeta(state) {
+    if (state === 'classifica') {
+        return {
+            message: 'Classifica in aggiornamento...',
+            imageUrl: 'https://picsum.photos/seed/chillquiz-classifica/1200/700'
+        };
+    }
+
+    if (state === 'risultati') {
+        return {
+            message: 'Risultati del round',
+            imageUrl: 'https://picsum.photos/seed/chillquiz-risultati/1200/700'
+        };
+    }
+
+    if (state === 'fine') {
+        return {
+            message: 'Quiz terminato',
+            imageUrl: 'https://picsum.photos/seed/chillquiz-fine/1200/700'
+        };
+    }
+
+    return {
+        message: 'In attesa della prossima domanda...',
+        imageUrl: 'https://picsum.photos/seed/chillquiz-attesa/1200/700'
+    };
+}
+
+function renderStateImage(state) {
+    const img = document.getElementById('state-image');
+    const message = document.getElementById('placeholder-message');
+    if (!img || !message) return;
+
+    const meta = getStateMeta(state);
+    message.innerText = meta.message;
+    img.src = meta.imageUrl;
+    img.alt = `Immagine stato: ${meta.message}`;
+}
+
 function hideDomandaView() {
     document.getElementById('screen-domanda').classList.add('hidden');
     document.getElementById('screen-placeholder').classList.remove('hidden');
     document.getElementById('domanda-testo').innerText = '';
     document.getElementById('opzioni').innerHTML = '';
+    domandaRenderizzata = false;
+
+    if (currentState !== 'domanda') {
+        renderStateImage(currentState);
+    }
 }
 
 function showDomandaView() {
     document.getElementById('screen-placeholder').classList.add('hidden');
     document.getElementById('screen-domanda').classList.remove('hidden');
+
+    const stateImage = document.getElementById('state-image');
+    if (stateImage) {
+        stateImage.removeAttribute('src');
+    }
+}
+
+function showDomandaLoadingView() {
+    showDomandaView();
+
+    // Se la domanda è già renderizzata, evita qualsiasi intercalamento col loading
+    if (domandaRenderizzata) return;
+
+    const titolo = document.getElementById('domanda-testo');
+    const opzioni = document.getElementById('opzioni');
+    if (!titolo || !opzioni) return;
+
+    titolo.innerText = 'Caricamento domanda...';
+
+    if (opzioni.children.length > 0) return;
+
+    opzioni.innerHTML = '';
+    for (let i = 0; i < 4; i += 1) {
+        const el = document.createElement('div');
+        el.className = 'opzione';
+        el.innerText = '...';
+        opzioni.appendChild(el);
+    }
 }
 
 function renderDomanda(domanda) {
     if (!domanda || !Array.isArray(domanda.opzioni)) {
-        hideDomandaView();
+        showDomandaLoadingView();
         return;
     }
 
@@ -198,6 +296,7 @@ function renderDomanda(domanda) {
         opzioni.appendChild(el);
     });
 
+    domandaRenderizzata = true;
     showDomandaView();
 }
 
@@ -210,7 +309,13 @@ async function fetchDomandaIfActive() {
     try {
         const r = await fetch(`${API_BASE}/domanda/${sessioneId}`);
         const data = await r.json();
-        if (!data.success || currentState !== 'domanda') return;
+        if (currentState !== 'domanda') return;
+
+        if (!data.success) {
+            if (!domandaRenderizzata) showDomandaLoadingView();
+            return;
+        }
+
         renderDomanda(data.domanda);
     } catch (e) {
         console.error(e);
@@ -234,6 +339,7 @@ async function fetchStato() {
         currentState = data.sessione?.stato || null;
 
         if (currentState === 'domanda') {
+            showDomandaLoadingView();
             fetchDomandaIfActive();
         } else {
             hideDomandaView();
