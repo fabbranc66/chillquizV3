@@ -234,7 +234,6 @@
             margin-right: 6px;
         }
 
-
         .join-wrap {
             margin-top: 24px;
             text-align: left;
@@ -301,6 +300,7 @@
 <div class="row">
     <button id="btnNuova">Nuova Sessione</button>
     <button id="btnRiavvia">Riavvia</button>
+    <button id="btnSchermo">Attiva Schermo</button>
 </div>
 
 <!-- CLASSIFICA LIVE -->
@@ -325,8 +325,6 @@
         </tbody>
     </table>
 </div>
-
-
 
 <!-- RICHIESTE JOIN -->
 <div class="join-wrap">
@@ -371,6 +369,7 @@ const btnDomanda    = document.getElementById('btnDomanda');
 const btnRisultati  = document.getElementById('btnRisultati');
 const btnProssima   = document.getElementById('btnProssima');
 const btnRiavvia    = document.getElementById('btnRiavvia');
+const btnSchermo    = document.getElementById('btnSchermo');
 const btnClearLog   = document.getElementById('btnClearLog');
 
 const statoDiv    = document.getElementById('stato');
@@ -496,6 +495,7 @@ function aggiornaUI(sessione) {
 
     setButton(btnNuova, true);
     setButton(btnRiavvia, true);
+    setButton(btnSchermo, true);
 
     aggiornaPartecipanti();
     aggiornaTimer(sessione);
@@ -539,7 +539,6 @@ async function aggiornaPartecipanti() {
         // silenzioso
     }
 }
-
 
 function renderJoinRichieste(lista) {
     if (!Array.isArray(lista) || lista.length === 0) {
@@ -680,6 +679,19 @@ async function nuovaSessione() {
     }
 }
 
+function apriSchermo() {
+    const url = new URL(window.location.href);
+    url.searchParams.set('url', `screen/${SESSIONE_ID}`);
+    window.open(url.toString(), '_blank', 'noopener,noreferrer');
+
+    addLog({
+        ok: true,
+        title: 'Screen',
+        message: `Schermo attivato per sessione ${SESSIONE_ID}`,
+        data: { sessione_id: SESSIONE_ID }
+    });
+}
+
 async function aggiornaStato() {
     const res = await fetch(`${API_BASE}/stato/${SESSIONE_ID}`);
     const data = await res.json();
@@ -696,6 +708,7 @@ btnDomanda.onclick   = () => callAdmin('avvia-domanda');
 btnRisultati.onclick = () => callAdmin('risultati');
 btnProssima.onclick  = () => callAdmin('prossima');
 btnRiavvia.onclick   = () => callAdmin('riavvia');
+btnSchermo.onclick   = apriSchermo;
 
 btnClearLog.onclick  = clearLog;
 

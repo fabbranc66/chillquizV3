@@ -124,3 +124,42 @@ input {
 .grid-opzioni button.dimmed {
     opacity: 0.4;
 }
+/* fallback classi esplicite colori kahoot */
+.grid-opzioni button.opzione-kahoot-1 { background: #e84118; color: #fff; }
+.grid-opzioni button.opzione-kahoot-2 { background: #0097e6; color: #fff; }
+.grid-opzioni button.opzione-kahoot-3 { background: #fbc531; color: #111; }
+.grid-opzioni button.opzione-kahoot-4 { background: #4cd137; color: #fff; }
+
+
+/* RISULTATI / CLASSIFICA KAHOOT STYLE */
+#screen-risultati h2 {
+    margin-bottom: 14px;
+}
+
+#classifica {
+    display: grid;
+    gap: 10px;
+}
+
+.classifica-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.classifica-item:nth-child(4n+1) { background: #e84118; }
+.classifica-item:nth-child(4n+2) { background: #0097e6; }
+.classifica-item:nth-child(4n+3) { background: #fbc531; color: #111; }
+.classifica-item:nth-child(4n+4) { background: #4cd137; }
+
+#risultato-personale.risultato-box {
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.14);
+    font-weight: 700;
+    min-height: 24px;
+}

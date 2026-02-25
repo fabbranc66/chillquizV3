@@ -12,6 +12,7 @@ let joinRequestPolling = null;
 
 let rispostaInviata = false;
 let puntataInviata = false;
+let domandaFetchNonce = 0;
 
 /* ===============================
    INIT
@@ -175,16 +176,15 @@ async function fetchStato() {
             currentState = stato;
             rispostaInviata = false;
             puntataInviata = false;
-            renderState(stato);
         }
+
+        // Render sempre: evita UI incoerente anche con transizioni/lag di stato
+        renderState(stato);
 
         if (stato === 'domanda') {
             fetchDomanda();
         }
 
-        if (stato === 'risultati') {
-            fetchClassifica();
-        }
 
     } catch (err) {
         console.error(err);
@@ -199,7 +199,22 @@ function renderState(stato) {
 
     hideAllScreens();
 
+    if (!isDomandaAttiva(stato)) {
+        // invalida eventuali fetch domanda ancora in volo
+        domandaFetchNonce++;
+        resetDomandaView();
+    }
+
     switch (stato) {
+        case 'domanda':
+            show('screen-domanda');
+            break;
+
+        case 'risultati':
+        case 'conclusa':
+            show('screen-risultati');
+            fetchClassifica();
+            break;
 
         case 'attesa':
             show('screen-lobby');
@@ -209,30 +224,20 @@ function renderState(stato) {
             show('screen-puntata');
             break;
 
-        case 'domanda':
-            show('screen-domanda');
+        default:
+            show('screen-lobby');
             break;
-
-        case 'risultati':
-            show('screen-risultati');
-
-            // aspettiamo un micro tick DOM prima di renderizzare
-            setTimeout(() => {
-                fetchClassifica();
-            }, 100);
-
-            break;
-
-case 'conclusa':
-    show('screen-risultati');
-    fetchClassifica();
-    break;    }
+    }
 }
 /* ===============================
    DOMANDA
 =============================== */
 
 async function fetchDomanda() {
+
+    if (!isDomandaAttiva()) return;
+
+    const requestNonce = ++domandaFetchNonce;
 
     try {
 
@@ -242,7 +247,8 @@ async function fetchDomanda() {
 
         const data = await response.json();
 
-        if (!data.success) return;
+        // Evita render ritardati se lo stato cambia durante la fetch
+        if (!data.success || !isDomandaAttiva() || requestNonce !== domandaFetchNonce) return;
 
         renderDomanda(data.domanda);
 
@@ -253,28 +259,47 @@ async function fetchDomanda() {
 
 function renderDomanda(domanda) {
 
-    if (!domanda) return;
+    if (!isDomandaAttiva()) return;
 
-    document.getElementById('domanda-testo').innerText = domanda.testo || '';
-
-    const opzioniDiv = document.getElementById('opzioni');
-    opzioniDiv.innerHTML = '';
-
-    if (!domanda.opzioni || !Array.isArray(domanda.opzioni)) {
-        console.warn('Opzioni non valide:', domanda);
+    if (!domanda || !Array.isArray(domanda.opzioni)) {
+        resetDomandaView();
         return;
     }
+
+    const domandaTesto = document.getElementById('domanda-testo');
+    const opzioniDiv = document.getElementById('opzioni');
+
+    if (!domandaTesto || !opzioniDiv) return;
+
+    domandaTesto.innerText = domanda.testo || '';
+    opzioniDiv.innerHTML = '';
 
     domanda.opzioni.forEach((opzione, index) => {
 
         const btn = document.createElement('button');
         btn.innerText = opzione.testo;
+        btn.dataset.id = opzione.id;
 
-btn.dataset.id = opzione.id;
-btn.onclick = () => inviaRisposta(domanda.id, opzione.id);
+        const paletteIndex = (index % 4) + 1;
+        btn.classList.add(`opzione-kahoot-${paletteIndex}`);
+
+        btn.onclick = () => inviaRisposta(domanda.id, opzione.id);
         opzioniDiv.appendChild(btn);
     });
 }
+
+function isDomandaAttiva(stato = currentState) {
+    return stato === 'domanda';
+}
+
+function resetDomandaView() {
+    const domandaTesto = document.getElementById('domanda-testo');
+    const opzioniDiv = document.getElementById('opzioni');
+
+    if (domandaTesto) domandaTesto.innerText = '';
+    if (opzioniDiv) opzioniDiv.innerHTML = '';
+}
+
 async function inviaRisposta(domandaId, opzioneId) {
 
     if (rispostaInviata) return;
@@ -394,7 +419,11 @@ async function fetchClassifica() {
 
         if (!data.success) return;
 
-        aggiornaCapitaleDaClassifica(data.classifica);
+        const classificaOrdinata = Array.isArray(data.classifica)
+            ? [...data.classifica].sort((a, b) => Number(b.capitale_attuale ?? 0) - Number(a.capitale_attuale ?? 0))
+            : [];
+
+        aggiornaCapitaleDaClassifica(classificaOrdinata);
 
         const container = document.getElementById('classifica');
 
@@ -405,12 +434,12 @@ async function fetchClassifica() {
 
         container.innerHTML = '';
 
-        if (!data.classifica || data.classifica.length === 0) {
+        if (classificaOrdinata.length === 0) {
             container.innerHTML = "<div>Nessun giocatore</div>";
             return;
         }
 
-        data.classifica.forEach((riga, index) => {
+        classificaOrdinata.forEach((riga, index) => {
 
             const div = document.createElement('div');
             div.className = "classifica-item";
@@ -435,9 +464,14 @@ async function fetchClassifica() {
 function hideAllScreens() {
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.add('hidden');
+        screen.style.display = 'none';
     });
 }
 
 function show(id) {
-    document.getElementById(id).classList.remove('hidden');
+    const screen = document.getElementById(id);
+    if (!screen) return;
+
+    screen.classList.remove('hidden');
+    screen.style.display = 'block';
 }

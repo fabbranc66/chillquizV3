@@ -56,8 +56,8 @@ class Router
            ROUTING STANDARD
         ====================== */
 
-// Caso speciale: player/{id}
-if ($controllerName === 'player' && isset($segments[1]) && is_numeric($segments[1])) {
+// Caso speciale: player/{id} e screen/{id}
+if (($controllerName === 'player' || $controllerName === 'screen') && isset($segments[1]) && is_numeric($segments[1])) {
     $methodName = 'index';
     $params = [(int)$segments[1]];
 } else {
