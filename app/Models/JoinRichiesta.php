@@ -204,6 +204,8 @@ class JoinRichiesta
             return false;
         }
 
+        $this->ripristinaCapitaleRientroSeAzzerato($partecipazioneId, $sessioneId);
+
         $stmt = $this->pdo->prepare(
             "UPDATE join_richieste
              SET stato = 'approvata',
@@ -222,5 +224,64 @@ class JoinRichiesta
         ]);
 
         return $stmt->rowCount() > 0;
+    }
+
+    private function ripristinaCapitaleRientroSeAzzerato(int $partecipazioneId, int $sessioneId): void
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT capitale_attuale
+             FROM partecipazioni
+             WHERE id = :id
+               AND sessione_id = :sessione_id
+             LIMIT 1"
+        );
+
+        $stmt->execute([
+            'id' => $partecipazioneId,
+            'sessione_id' => $sessioneId,
+        ]);
+
+        $row = $stmt->fetch();
+        $capitaleAttuale = (int) ($row['capitale_attuale'] ?? 0);
+
+        if ($capitaleAttuale > 0) {
+            return;
+        }
+
+        $ultimoInClassificaStmt = $this->pdo->prepare(
+            "SELECT capitale_attuale
+             FROM partecipazioni
+             WHERE sessione_id = :sessione_id
+               AND id <> :partecipazione_id
+               AND capitale_attuale > 0
+             ORDER BY capitale_attuale ASC, id DESC
+             LIMIT 1"
+        );
+
+        $ultimoInClassificaStmt->execute([
+            'sessione_id' => $sessioneId,
+            'partecipazione_id' => $partecipazioneId,
+        ]);
+
+        $ultimo = $ultimoInClassificaStmt->fetch();
+
+        if (!$ultimo) {
+            return;
+        }
+
+        $capitaleRientro = (int) ($ultimo['capitale_attuale'] ?? 0);
+
+        $update = $this->pdo->prepare(
+            "UPDATE partecipazioni
+             SET capitale_attuale = :capitale
+             WHERE id = :id
+               AND sessione_id = :sessione_id"
+        );
+
+        $update->execute([
+            'capitale' => $capitaleRientro,
+            'id' => $partecipazioneId,
+            'sessione_id' => $sessioneId,
+        ]);
     }
 }

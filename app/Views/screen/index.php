@@ -277,6 +277,10 @@ function getStateMeta(state) {
 }
 
 function renderStateImage(state) {
+    if (state === 'risultati') {
+        return;
+    }
+
     const img = document.getElementById('state-image');
     const message = document.getElementById('placeholder-message');
     if (!img || !message) return;
@@ -454,7 +458,7 @@ async function fetchMediaAttiva() {
 
         mediaAttiva = data.media || null;
 
-        if (currentState !== 'domanda') {
+        if (currentState !== 'domanda' && currentState !== 'risultati') {
             renderStateImage(currentState);
         }
     } catch (e) {
@@ -472,7 +476,11 @@ async function fetchStato() {
         const r = await fetch(`${API_BASE}/stato/${sessioneId}`);
         const data = await r.json();
         if (!data.success) {
-            hideDomandaView();
+            if (currentState === 'risultati') {
+                showRisultatiView();
+            } else {
+                hideDomandaView();
+            }
             return;
         }
 
