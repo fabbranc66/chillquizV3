@@ -40,36 +40,32 @@ class ScreenMedia
         return (int) $this->pdo->lastInsertId();
     }
 
-    public function attiva(int $id): bool
+    public function impostaAttiva(int $id, bool $attiva): bool
     {
-        $this->pdo->beginTransaction();
+        $existsStmt = $this->pdo->prepare(
+            "SELECT id
+             FROM screen_media
+             WHERE id = :id
+             LIMIT 1"
+        );
+        $existsStmt->execute(['id' => $id]);
 
-        try {
-            $this->pdo->exec("UPDATE screen_media SET attiva = 0");
-
-            $stmt = $this->pdo->prepare(
-                "UPDATE screen_media
-                 SET attiva = 1
-                 WHERE id = :id"
-            );
-
-            $stmt->execute(['id' => $id]);
-            $ok = $stmt->rowCount() > 0;
-
-            if ($ok) {
-                $this->pdo->commit();
-                return true;
-            }
-
-            $this->pdo->rollBack();
+        if (!$existsStmt->fetch()) {
             return false;
-        } catch (\Throwable $e) {
-            if ($this->pdo->inTransaction()) {
-                $this->pdo->rollBack();
-            }
-
-            throw $e;
         }
+
+        $stmt = $this->pdo->prepare(
+            "UPDATE screen_media
+             SET attiva = :attiva
+             WHERE id = :id"
+        );
+
+        $stmt->execute([
+            'attiva' => $attiva ? 1 : 0,
+            'id' => $id,
+        ]);
+
+        return true;
     }
 
     public function disattivaTutte(): bool
@@ -78,17 +74,51 @@ class ScreenMedia
         return $stmt->execute();
     }
 
-    public function mediaAttiva(): ?array
+    public function mediaAttive(): array
     {
         $stmt = $this->pdo->query(
             "SELECT id, titolo, file_path, attiva
              FROM screen_media
              WHERE attiva = 1
-             ORDER BY id DESC
-             LIMIT 1"
+             ORDER BY id DESC"
         );
 
+        return $stmt->fetchAll();
+    }
+
+    public function mediaAttivaRandom(): ?array
+    {
+        $countStmt = $this->pdo->query(
+            "SELECT COUNT(*) AS totale
+             FROM screen_media
+             WHERE attiva = 1"
+        );
+        $row = $countStmt->fetch();
+        $totale = (int) ($row['totale'] ?? 0);
+
+        if ($totale <= 0) {
+            return null;
+        }
+
+        $offset = random_int(0, $totale - 1);
+
+        $stmt = $this->pdo->prepare(
+            "SELECT id, titolo, file_path, attiva
+             FROM screen_media
+             WHERE attiva = 1
+             ORDER BY id DESC
+             LIMIT 1 OFFSET :offset"
+        );
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
         return $stmt->fetch() ?: null;
+    }
+
+    // Compatibilità retroattiva: mantiene il vecchio nome metodo
+    public function attiva(int $id): bool
+    {
+        return $this->impostaAttiva($id, true);
     }
 
     public function trova(int $id): ?array

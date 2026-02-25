@@ -226,9 +226,12 @@ const BASE_PUBLIC_URL = window.location.pathname.replace(/index\.php$/, '');
 const API_BASE = `${BASE_PUBLIC_URL}index.php?url=api`;
 let sessioneId = <?= (int)($sessioneId ?? 0) ?>;
 let currentState = null;
-let poll = null;
+let pollStato = null;
+let pollMedia = null;
 let domandaRenderizzata = false;
 let mediaAttiva = null;
+const STATO_POLL_MS = 1000;
+const MEDIA_POLL_MS = 10000;
 
 function extractSessioneIdFromUrl() {
     const raw = new URLSearchParams(window.location.search).get('url') || '';
@@ -501,11 +504,15 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchMediaAttiva();
     fetchStato();
 
-    if (poll) clearInterval(poll);
-    poll = setInterval(() => {
+    if (pollStato) clearInterval(pollStato);
+    pollStato = setInterval(() => {
         fetchStato();
+    }, STATO_POLL_MS);
+
+    if (pollMedia) clearInterval(pollMedia);
+    pollMedia = setInterval(() => {
         fetchMediaAttiva();
-    }, 1000);
+    }, MEDIA_POLL_MS);
 });
 </script>
 

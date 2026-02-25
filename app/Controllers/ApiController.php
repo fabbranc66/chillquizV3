@@ -407,7 +407,7 @@ public function join($sessioneId): void
     public function mediaAttiva(): void
     {
         try {
-            $media = (new ScreenMedia())->mediaAttiva();
+            $media = (new ScreenMedia())->mediaAttivaRandom();
 
             $this->json([
                 'success' => true,
@@ -588,6 +588,7 @@ public function join($sessioneId): void
 
                 case 'media-attiva':
                     $mediaId = (int) ($_POST['media_id'] ?? 0);
+                    $attiva = (int) ($_POST['attiva'] ?? 1) === 1;
                     if ($mediaId <= 0) {
                         $this->json([
                             'success' => false,
@@ -596,10 +597,11 @@ public function join($sessioneId): void
                         return;
                     }
 
-                    $ok = (new ScreenMedia())->attiva($mediaId);
+                    $ok = (new ScreenMedia())->impostaAttiva($mediaId, $attiva);
                     $this->json([
                         'success' => $ok,
                         'media_id' => $mediaId,
+                        'attiva' => $attiva,
                         'error' => $ok ? null : 'Media non trovato'
                     ]);
                     return;

@@ -40,7 +40,7 @@
         </form>
         <div class="toolbar">
             <button id="btn-refresh" type="button" class="secondary">Aggiorna lista</button>
-            <button id="btn-disattiva" type="button" class="warn">Disattiva immagine attiva</button>
+            <button id="btn-disattiva" type="button" class="warn">Disattiva tutte</button>
         </div>
         <div id="log" class="log"></div>
     </div>
@@ -104,7 +104,7 @@ async function loadMedia() {
                     <div><small>${escapeHtml(m.file_path)}</small></div>
                 </div>
                 <div class="actions">
-                    <button type="button" onclick="attivaMedia(${Number(m.id)})">Attiva</button>
+                    <button type="button" class="secondary" onclick="toggleMedia(${Number(m.id)}, ${Number(m.attiva) === 1 ? 0 : 1})">${Number(m.attiva) === 1 ? 'Disattiva' : 'Attiva'}</button>
                     <button type="button" class="warn" onclick="eliminaMedia(${Number(m.id)})">Elimina</button>
                 </div>
             </div>
@@ -112,9 +112,10 @@ async function loadMedia() {
     }).join('');
 }
 
-async function attivaMedia(id) {
+async function toggleMedia(id, attiva) {
     const formData = new FormData();
     formData.append('media_id', String(id));
+    formData.append('attiva', String(attiva));
 
     const res = await fetch(`${API_BASE}/admin/media-attiva/0`, {
         method: 'POST',
@@ -128,7 +129,7 @@ async function attivaMedia(id) {
         return;
     }
 
-    showLog('Immagine attivata correttamente');
+    showLog(attiva === 1 ? 'Immagine attivata correttamente' : 'Immagine disattivata correttamente');
     await loadMedia();
 }
 
