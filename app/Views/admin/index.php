@@ -301,6 +301,7 @@
     <button id="btnNuova">Nuova Sessione</button>
     <button id="btnRiavvia">Riavvia</button>
     <button id="btnSchermo">Attiva Schermo</button>
+    <button id="btnMedia">Gestione Media</button>
 </div>
 
 <!-- CLASSIFICA LIVE -->
@@ -370,6 +371,7 @@ const btnRisultati  = document.getElementById('btnRisultati');
 const btnProssima   = document.getElementById('btnProssima');
 const btnRiavvia    = document.getElementById('btnRiavvia');
 const btnSchermo    = document.getElementById('btnSchermo');
+const btnMedia      = document.getElementById('btnMedia');
 const btnClearLog   = document.getElementById('btnClearLog');
 
 const statoDiv    = document.getElementById('stato');
@@ -496,6 +498,7 @@ function aggiornaUI(sessione) {
     setButton(btnNuova, true);
     setButton(btnRiavvia, true);
     setButton(btnSchermo, true);
+    setButton(btnMedia, true);
 
     aggiornaPartecipanti();
     aggiornaTimer(sessione);
@@ -679,6 +682,19 @@ async function nuovaSessione() {
     }
 }
 
+function apriMedia() {
+    const url = new URL(window.location.href);
+    url.searchParams.set('url', 'admin/media');
+    window.open(url.toString(), '_blank', 'noopener,noreferrer');
+
+    addLog({
+        ok: true,
+        title: 'Media',
+        message: 'Aperta gestione media',
+        data: {}
+    });
+}
+
 function apriSchermo() {
     const url = new URL(window.location.href);
     url.searchParams.set('url', `screen/${SESSIONE_ID}`);
@@ -709,6 +725,7 @@ btnRisultati.onclick = () => callAdmin('risultati');
 btnProssima.onclick  = () => callAdmin('prossima');
 btnRiavvia.onclick   = () => callAdmin('riavvia');
 btnSchermo.onclick   = apriSchermo;
+btnMedia.onclick     = apriMedia;
 
 btnClearLog.onclick  = clearLog;
 

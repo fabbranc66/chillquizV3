@@ -24,4 +24,9 @@ class AdminController
 
         require BASE_PATH . '/app/Views/admin/index.php';
     }
+
+    public function media(): void
+    {
+        require BASE_PATH . '/app/Views/admin/media.php';
+    }
 }

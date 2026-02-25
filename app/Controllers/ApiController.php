@@ -7,6 +7,7 @@ use App\Models\Risposta;
 use App\Models\Sessione;
 use App\Models\JoinRichiesta;
 use App\Models\Utente;
+use App\Models\ScreenMedia;
 use App\Services\SessioneService;
 use Throwable;
 
@@ -17,6 +18,44 @@ class ApiController
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
     }
+
+    private function getRequestHeader(string $name): ?string
+    {
+        $key = 'HTTP_' . strtoupper(str_replace('-', '_', $name));
+
+        if (isset($_SERVER[$key])) {
+            return trim((string) $_SERVER[$key]);
+        }
+
+        if (function_exists('getallheaders')) {
+            $headers = getallheaders();
+            foreach ($headers as $headerName => $headerValue) {
+                if (strcasecmp((string) $headerName, $name) === 0) {
+                    return trim((string) $headerValue);
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private function getAdminToken(): string
+    {
+        $token = getenv('ADMIN_TOKEN');
+        return is_string($token) && $token !== '' ? $token : 'SUPERSEGRETO123';
+    }
+
+    private function isAdminAuthorized(): bool
+    {
+        $incoming = $this->getRequestHeader('X-ADMIN-TOKEN');
+
+        if ($incoming === null || $incoming === '') {
+            return false;
+        }
+
+        return hash_equals($this->getAdminToken(), $incoming);
+    }
+
 
     public function stato($sessioneId): void
     {
@@ -364,6 +403,24 @@ public function join($sessioneId): void
         }
     }
 
+
+    public function mediaAttiva(): void
+    {
+        try {
+            $media = (new ScreenMedia())->mediaAttiva();
+
+            $this->json([
+                'success' => true,
+                'media' => $media
+            ]);
+        } catch (\Throwable $e) {
+            $this->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
     /* ======================
        ADMIN CONTROL
     ====================== */
@@ -376,6 +433,15 @@ public function join($sessioneId): void
             $this->json([
                 'success' => false,
                 'error' => 'Metodo non consentito'
+            ]);
+            return;
+        }
+
+        if (!$this->isAdminAuthorized()) {
+            http_response_code(403);
+            $this->json([
+                'success' => false,
+                'error' => 'Token admin non valido'
             ]);
             return;
         }
@@ -419,6 +485,164 @@ public function join($sessioneId): void
                         'success' => true,
                         'action' => $action,
                         'richieste' => $joinRichiesta->listaPending($sessioneId)
+                    ]);
+                    return;
+
+                case 'media-list':
+                    $this->json([
+                        'success' => true,
+                        'media' => (new ScreenMedia())->lista()
+                    ]);
+                    return;
+
+                case 'media-upload':
+                    if (!isset($_FILES['immagine']) || !is_array($_FILES['immagine'])) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'File immagine mancante'
+                        ]);
+                        return;
+                    }
+
+                    $file = $_FILES['immagine'];
+
+                    if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Upload non valido'
+                        ]);
+                        return;
+                    }
+
+                    $maxSizeBytes = 8 * 1024 * 1024;
+                    $size = (int) ($file['size'] ?? 0);
+                    if ($size <= 0 || $size > $maxSizeBytes) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Dimensione file non valida (max 8MB)'
+                        ]);
+                        return;
+                    }
+
+                    $tmpName = $file['tmp_name'] ?? '';
+                    $detectedMime = @mime_content_type($tmpName) ?: '';
+                    if (strpos($detectedMime, 'image/') !== 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => "Formato non supportato: carica un'immagine"
+                        ]);
+                        return;
+                    }
+
+                    $originalName = (string) ($file['name'] ?? '');
+                    $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+                    $allowedExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                    if (!in_array($ext, $allowedExt, true)) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Estensione non consentita'
+                        ]);
+                        return;
+                    }
+
+                    $uploadDir = BASE_PATH . '/public/upload/image';
+                    if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true) && !is_dir($uploadDir)) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Impossibile creare cartella upload'
+                        ]);
+                        return;
+                    }
+
+                    $safeBase = preg_replace('/[^a-zA-Z0-9_-]+/', '-', pathinfo($originalName, PATHINFO_FILENAME));
+                    $safeBase = trim((string) $safeBase, '-');
+                    if ($safeBase === '') {
+                        $safeBase = 'media';
+                    }
+
+                    $fileName = $safeBase . '-' . time() . '-' . random_int(1000, 9999) . '.' . $ext;
+                    $destPath = $uploadDir . '/' . $fileName;
+
+                    if (!move_uploaded_file($tmpName, $destPath)) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Errore salvataggio file'
+                        ]);
+                        return;
+                    }
+
+                    $titolo = trim((string) ($_POST['titolo'] ?? ''));
+                    if ($titolo === '') {
+                        $titolo = pathinfo($originalName, PATHINFO_FILENAME) ?: 'Immagine';
+                    }
+
+                    $filePath = '/upload/image/' . $fileName;
+                    $id = (new ScreenMedia())->crea($titolo, $filePath);
+
+                    $this->json([
+                        'success' => true,
+                        'media_id' => $id,
+                        'file_path' => $filePath
+                    ]);
+                    return;
+
+                case 'media-attiva':
+                    $mediaId = (int) ($_POST['media_id'] ?? 0);
+                    if ($mediaId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Media non valido'
+                        ]);
+                        return;
+                    }
+
+                    $ok = (new ScreenMedia())->attiva($mediaId);
+                    $this->json([
+                        'success' => $ok,
+                        'media_id' => $mediaId,
+                        'error' => $ok ? null : 'Media non trovato'
+                    ]);
+                    return;
+
+                case 'media-disattiva':
+                    $ok = (new ScreenMedia())->disattivaTutte();
+                    $this->json([
+                        'success' => $ok
+                    ]);
+                    return;
+
+                case 'media-elimina':
+                    $mediaId = (int) ($_POST['media_id'] ?? 0);
+                    if ($mediaId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Media non valido'
+                        ]);
+                        return;
+                    }
+
+                    $mediaModel = new ScreenMedia();
+                    $media = $mediaModel->trova($mediaId);
+
+                    if (!$media) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Media non trovato'
+                        ]);
+                        return;
+                    }
+
+                    $ok = $mediaModel->elimina($mediaId);
+
+                    if ($ok) {
+                        $file = BASE_PATH . '/public' . ($media['file_path'] ?? '');
+                        if (is_file($file)) {
+                            @unlink($file);
+                        }
+                    }
+
+                    $this->json([
+                        'success' => $ok
                     ]);
                     return;
 

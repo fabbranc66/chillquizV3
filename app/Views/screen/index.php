@@ -168,11 +168,13 @@
 </div>
 
 <script>
-const API_BASE = '/chillquizV3/public/?url=api';
+const BASE_PUBLIC_URL = window.location.pathname.replace(/index\.php$/, '');
+const API_BASE = `${BASE_PUBLIC_URL}index.php?url=api`;
 let sessioneId = <?= (int)($sessioneId ?? 0) ?>;
 let currentState = null;
 let poll = null;
 let domandaRenderizzata = false;
+let mediaAttiva = null;
 
 function extractSessioneIdFromUrl() {
     const raw = new URLSearchParams(window.location.search).get('url') || '';
@@ -189,35 +191,31 @@ function setupSessionQr() {
     const qrImg = document.getElementById('sessione-qr');
     if (!qrImg) return;
 
-    const joinUrl = `${window.location.origin}/chillquizV3/public/?url=player/${sessioneId}`;
+    const joinUrl = `${window.location.origin}${BASE_PUBLIC_URL}index.php?url=player/${sessioneId}`;
     qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(joinUrl)}`;
 }
 
 function getStateMeta(state) {
     if (state === 'classifica') {
         return {
-            message: 'Classifica in aggiornamento...',
-            imageUrl: 'https://picsum.photos/seed/chillquiz-classifica/1200/700'
+            message: 'Classifica in aggiornamento...'
         };
     }
 
     if (state === 'risultati') {
         return {
-            message: 'Risultati del round',
-            imageUrl: 'https://picsum.photos/seed/chillquiz-risultati/1200/700'
+            message: 'Risultati del round'
         };
     }
 
     if (state === 'fine') {
         return {
-            message: 'Quiz terminato',
-            imageUrl: 'https://picsum.photos/seed/chillquiz-fine/1200/700'
+            message: 'Quiz terminato'
         };
     }
 
     return {
-        message: 'In attesa della prossima domanda...',
-        imageUrl: 'https://picsum.photos/seed/chillquiz-attesa/1200/700'
+        message: 'In attesa della prossima domanda...'
     };
 }
 
@@ -228,7 +226,15 @@ function renderStateImage(state) {
 
     const meta = getStateMeta(state);
     message.innerText = meta.message;
-    img.src = meta.imageUrl;
+
+    if (mediaAttiva && mediaAttiva.file_path) {
+        const mediaPath = mediaAttiva.file_path.startsWith('/') ? mediaAttiva.file_path.substring(1) : mediaAttiva.file_path;
+        img.src = `${window.location.origin}${BASE_PUBLIC_URL}${mediaPath}`;
+        img.alt = mediaAttiva.titolo || `Immagine stato: ${meta.message}`;
+        return;
+    }
+
+    img.removeAttribute('src');
     img.alt = `Immagine stato: ${meta.message}`;
 }
 
@@ -322,6 +328,24 @@ async function fetchDomandaIfActive() {
     }
 }
 
+
+async function fetchMediaAttiva() {
+    try {
+        const r = await fetch(`${API_BASE}/mediaAttiva`);
+        const data = await r.json();
+
+        if (!data.success) return;
+
+        mediaAttiva = data.media || null;
+
+        if (currentState !== 'domanda') {
+            renderStateImage(currentState);
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 async function fetchStato() {
     if (!sessioneId) {
         hideDomandaView();
@@ -357,10 +381,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     setupSessionQr();
     hideDomandaView();
+    fetchMediaAttiva();
     fetchStato();
 
     if (poll) clearInterval(poll);
-    poll = setInterval(fetchStato, 1000);
+    poll = setInterval(() => {
+        fetchStato();
+        fetchMediaAttiva();
+    }, 1000);
 });
 </script>
 
