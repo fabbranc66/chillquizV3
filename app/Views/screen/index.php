@@ -134,6 +134,55 @@
             max-width: 140px;
         }
 
+        .scoreboard-wrap {
+            width: min(1200px, 96vw);
+        }
+
+        .scoreboard-title {
+            margin: 0 0 20px;
+            font-size: clamp(28px, 3vw, 46px);
+            text-align: center;
+        }
+
+        .scoreboard-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .scoreboard-item {
+            border-radius: 14px;
+            padding: 16px 20px;
+            display: grid;
+            grid-template-columns: 64px 1fr auto;
+            align-items: center;
+            gap: 14px;
+            font-weight: 700;
+            font-size: clamp(18px, 2vw, 30px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+        }
+
+        .score-rank {
+            font-size: clamp(20px, 2.4vw, 34px);
+            text-align: center;
+        }
+
+        .score-points {
+            font-size: clamp(20px, 2.2vw, 34px);
+        }
+
+        .scoreboard-item:nth-child(1) { background: #e84118; }
+        .scoreboard-item:nth-child(2) { background: #0097e6; }
+        .scoreboard-item:nth-child(3) { background: #fbc531; color: #111; }
+        .scoreboard-item:nth-child(4) { background: #4cd137; }
+        .scoreboard-item:nth-child(n+5) { background: #6c5ce7; }
+
+        .scoreboard-empty {
+            text-align: center;
+            color: #d8deea;
+            font-size: clamp(18px, 1.8vw, 28px);
+            padding: 20px;
+        }
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -154,6 +203,11 @@
         <div id="screen-domanda" class="hidden">
             <h2 id="domanda-testo"></h2>
             <div id="opzioni" class="grid-opzioni"></div>
+        </div>
+
+        <div id="screen-risultati" class="scoreboard-wrap hidden">
+            <h2 class="scoreboard-title">🏆 Classifica</h2>
+            <div id="scoreboard-list" class="scoreboard-list"></div>
         </div>
 
         <div id="screen-placeholder" class="stage-placeholder">
@@ -238,7 +292,66 @@ function renderStateImage(state) {
     img.alt = `Immagine stato: ${meta.message}`;
 }
 
+
+function hideRisultatiView() {
+    document.getElementById('screen-risultati').classList.add('hidden');
+}
+
+function showRisultatiView() {
+    document.getElementById('screen-placeholder').classList.add('hidden');
+    document.getElementById('screen-domanda').classList.add('hidden');
+    document.getElementById('screen-risultati').classList.remove('hidden');
+
+    const stateImage = document.getElementById('state-image');
+    if (stateImage) {
+        stateImage.removeAttribute('src');
+    }
+}
+
+function renderClassificaRisultati(classifica) {
+    const listEl = document.getElementById('scoreboard-list');
+    if (!listEl) return;
+
+    if (!Array.isArray(classifica) || classifica.length === 0) {
+        listEl.innerHTML = '<div class="scoreboard-empty">Nessun giocatore in classifica.</div>';
+        return;
+    }
+
+    const ordinata = [...classifica].sort((a, b) => Number(b.capitale_attuale ?? 0) - Number(a.capitale_attuale ?? 0));
+
+    listEl.innerHTML = ordinata.map((p, index) => {
+        const nome = p.nome || 'Giocatore';
+        const punti = Number(p.capitale_attuale ?? 0);
+        return `
+            <div class="scoreboard-item">
+                <div class="score-rank">#${index + 1}</div>
+                <div>${nome}</div>
+                <div class="score-points">${punti}</div>
+            </div>
+        `;
+    }).join('');
+}
+
+async function fetchClassificaRisultati() {
+    if (!sessioneId) return;
+
+    try {
+        const r = await fetch(`${API_BASE}/classifica/${sessioneId}`);
+        const data = await r.json();
+
+        if (!data.success) {
+            renderClassificaRisultati([]);
+            return;
+        }
+
+        renderClassificaRisultati(data.classifica || []);
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 function hideDomandaView() {
+    hideRisultatiView();
     document.getElementById('screen-domanda').classList.add('hidden');
     document.getElementById('screen-placeholder').classList.remove('hidden');
     document.getElementById('domanda-testo').innerText = '';
@@ -363,8 +476,12 @@ async function fetchStato() {
         currentState = data.sessione?.stato || null;
 
         if (currentState === 'domanda') {
+            hideRisultatiView();
             showDomandaLoadingView();
             fetchDomandaIfActive();
+        } else if (currentState === 'risultati') {
+            showRisultatiView();
+            fetchClassificaRisultati();
         } else {
             hideDomandaView();
         }
