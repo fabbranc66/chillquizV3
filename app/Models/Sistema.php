@@ -36,4 +36,19 @@ class Sistema
 
         return $result['valore'] ?? null;
     }
+
+    public function set(string $chiave, string $valore): bool
+    {
+        $stmt = $this->pdo->prepare(
+            "INSERT INTO configurazioni_sistema (chiave, valore)
+             VALUES (:chiave, :valore)
+             ON DUPLICATE KEY UPDATE valore = VALUES(valore)"
+        );
+
+        return $stmt->execute([
+            'chiave' => $chiave,
+            'valore' => $valore,
+        ]);
+    }
+
 }

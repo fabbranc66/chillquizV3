@@ -8,6 +8,7 @@ use App\Models\Sessione;
 use App\Models\JoinRichiesta;
 use App\Models\Utente;
 use App\Models\ScreenMedia;
+use App\Models\AppSettings;
 use App\Services\SessioneService;
 use Throwable;
 
@@ -485,6 +486,32 @@ public function join($sessioneId): void
                         'success' => true,
                         'action' => $action,
                         'richieste' => $joinRichiesta->listaPending($sessioneId)
+                    ]);
+                    return;
+
+
+                case 'settings-get':
+                    $this->json([
+                        'success' => true,
+                        'settings' => (new AppSettings())->all()
+                    ]);
+                    return;
+
+                case 'settings-save':
+                    $settingsModel = new AppSettings();
+
+                    $rawConfig = (string) ($_POST['configurazioni_json'] ?? '{}');
+                    $decoded = json_decode($rawConfig, true);
+                    $configurazioni = is_array($decoded) ? $decoded : [];
+
+                    $showModuleTags = (int) ($_POST['show_module_tags'] ?? (($configurazioni['show_module_tags'] ?? '1'))) === 1;
+                    $configurazioni['show_module_tags'] = $showModuleTags ? '1' : '0';
+
+                    $settingsModel->saveConfigurazioni($configurazioni);
+
+                    $this->json([
+                        'success' => true,
+                        'settings' => $settingsModel->all()
                     ]);
                     return;
 

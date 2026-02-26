@@ -163,3 +163,24 @@ input {
     font-weight: 700;
     min-height: 24px;
 }
+
+
+.module-debug-tag {
+    display: block;
+    width: max-content;
+    margin: 0 0 6px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+    text-align: left;
+}
+
+body.module-tags-off .module-debug-tag {
+    display: none !important;
+}

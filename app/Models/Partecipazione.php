@@ -160,6 +160,7 @@ $stmt = $this->pdo->prepare(
     ====================== */
 
     $bonusPrimo = 0;
+    $isPrimoARispondere = false;
 
     if ($bonusPrimoAttivo) {
 
@@ -179,6 +180,7 @@ $stmt = $this->pdo->prepare(
         $row = $check->fetch();
 
         if ((int)$row['totale'] === 0) {
+            $isPrimoARispondere = true;
             $bonusPrimo = (int) round($puntata * $coeffBonusPrimo);
         }
     }
@@ -246,6 +248,9 @@ $stmt = $this->pdo->prepare(
         'bonus_primo' => $bonusPrimo,
         'fattore_velocita' => $fattoreVelocita,
         'tempo_risposta' => $tempoRisposta,
+        'difficolta_domanda' => $difficolta,
+        'primo_a_rispondere' => $isPrimoARispondere,
+        'vincita_domanda' => $punti,
         'capitale' => $capitaleFinale
     ];
 }

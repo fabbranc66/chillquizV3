@@ -1,3 +1,9 @@
+<?php /*
+ * FILE: app/Views/player/index.php
+ * RUOLO: Layout pagina Player, compone moduli player/classifica e carica bootstrap JS player.
+ * MODULI INCLUSI: modules/player/* e modules/classifica/live_player.php.
+ * JS UTILIZZATO: public/assets/js/player.js
+ */ ?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -6,65 +12,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/chillquizV3/public/assets/css/player.css">
 </head>
-<body>
+<body class="<?= !empty($showModuleTags) ? 'module-tags-on' : 'module-tags-off' ?>">
 
 <div id="app">
 
-    <!-- HEADER -->
-    <div class="header">
-        <div id="player-display-name">Player</div>
-        <div class="capitale">
-            💰 <span id="capitale-value">0</span>
-        </div>
-    </div>
+    <?php require BASE_PATH . '/app/Views/modules/player/header_bar.php'; ?>
 
     <div class="content">
 
-        <!-- ACCESSO -->
-        <div id="screen-accesso" class="screen">
-            <h1>ChillQuiz</h1>
-            <input type="text" id="player-name" placeholder="Inserisci il tuo nome">
-            <button id="btn-entra" class="btn-primary">Entra</button>
-        </div>
-
-        <!-- LOBBY -->
-        <div id="screen-lobby" class="screen hidden">
-            <h2>In attesa che inizi la partita...</h2>
-        </div>
-
-        <!-- PUNTATA -->
-        <div id="screen-puntata" class="screen hidden">
-            <h2>Fai la tua puntata</h2>
-            <input type="number" id="puntata" placeholder="Importo">
-            <button id="btn-punta" class="btn-primary">Punta</button>
-        </div>
-
-        <!-- DOMANDA -->
-        <div id="screen-domanda" class="screen hidden">
-            <h2 id="domanda-testo"></h2>
-            <div id="opzioni" class="grid-opzioni"></div>
-        </div>
-
-        <!-- RISULTATI -->
-        <div id="screen-risultati" class="screen hidden">
-            <h2>Risultati</h2>
-
-            <div id="risultato-personale" class="risultato-box"></div>
-
-            <hr style="margin:20px 0;">
-
-            <div id="classifica"></div>
-        </div>
-
-        <!-- FINE -->
-        <div id="screen-fine" class="screen hidden">
-            <h2>Partita conclusa</h2>
-        </div>
+        <?php require BASE_PATH . '/app/Views/modules/player/screen_accesso.php'; ?>
+        <?php require BASE_PATH . '/app/Views/modules/player/screen_lobby.php'; ?>
+        <?php require BASE_PATH . '/app/Views/modules/player/screen_puntata.php'; ?>
+        <?php require BASE_PATH . '/app/Views/modules/player/screen_domanda.php'; ?>
+        <?php require BASE_PATH . '/app/Views/modules/classifica/live_player.php'; ?>
+        <?php require BASE_PATH . '/app/Views/modules/player/screen_fine.php'; ?>
 
     </div>
 
 </div>
 
+<!-- BLOCCO LOGICO: BOOTSTRAP JS PLAYER -->
+<script>
+window.PLAYER_BOOTSTRAP = {
+    sessioneId: <?= (int)($sessioneId ?? 0) ?>,
+    apiBase: '/chillquizV3/public/?url=api'
+};
+</script>
+
+<!-- FILE JS: public/assets/js/player.js -->
 <script src="/chillquizV3/public/assets/js/player.js"></script>
 
 </body>

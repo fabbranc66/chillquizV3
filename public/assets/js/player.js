@@ -1,10 +1,24 @@
-// ==========================================
-// CHILLQUIZ V3 - PLAYER UI (QR READY)
-// ==========================================
+/**
+ * FILE: public/assets/js/player.js
+ * SCOPO: Gestione UI Player (join, polling stato, puntata, risposta, classifica live, risultato personale).
+ * UTILIZZATO DA: app/Views/player/index.php tramite <script src="/chillquizV3/public/assets/js/player.js"></script>.
+ * CHIAMATO DA: Browser (load player page), setInterval scheduler, eventi click sui pulsanti.
+ *
+ * METODI PRINCIPALI E CONSUMATORI:
+ * - handleJoin(): chiamato da click su #btn-entra.
+ * - fetchStato(): chiamato da scheduler 1s + allineamento iniziale.
+ * - handlePuntata(): chiamato da click su #btn-punta.
+ * - inviaRisposta(): chiamato dai bottoni opzioni renderizzati.
+ * - fetchClassifica(): chiamato durante stati risultati/conclusa.
+ */
 
-const API_BASE = '/chillquizV3/public/?url=api';
+/* ===============================
+   BLOCCO LOGICO: BOOTSTRAP CONFIG
+   =============================== */
+const PLAYER_BOOTSTRAP = window.PLAYER_BOOTSTRAP || {};
+const API_BASE = String(PLAYER_BOOTSTRAP.apiBase || '/chillquizV3/public/?url=api');
 
-let sessioneId = null;
+let sessioneId = Number(PLAYER_BOOTSTRAP.sessioneId || 0);
 let partecipazioneId = null;
 let currentState = null;
 let pollingInterval = null;
@@ -15,37 +29,33 @@ let puntataInviata = false;
 let domandaFetchNonce = 0;
 
 /* ===============================
-   INIT
-=============================== */
-
+   BLOCCO LOGICO: INIT
+   =============================== */
 document.addEventListener('DOMContentLoaded', () => {
-
-    const urlParam = new URLSearchParams(window.location.search).get('url');
-
-    if (urlParam && urlParam.startsWith('player/')) {
-        sessioneId = urlParam.split('/')[1];
+    if (!sessioneId) {
+        const urlParam = new URLSearchParams(window.location.search).get('url');
+        if (urlParam && urlParam.startsWith('player/')) {
+            sessioneId = Number(urlParam.split('/')[1] || 0);
+        }
     }
 
-    console.log('Sessione ID:', sessioneId);
-
-    if (!sessioneId || isNaN(sessioneId)) {
+    if (!sessioneId || Number.isNaN(sessioneId)) {
         alert('Sessione non valida');
         return;
     }
 
-    sessioneId = parseInt(sessioneId);
+    const btnEntra = document.getElementById('btn-entra');
+    const btnPunta = document.getElementById('btn-punta');
 
-    document.getElementById('btn-entra').addEventListener('click', handleJoin);
-    document.getElementById('btn-punta').addEventListener('click', handlePuntata);
+    if (btnEntra) btnEntra.addEventListener('click', handleJoin);
+    if (btnPunta) btnPunta.addEventListener('click', handlePuntata);
 });
 
 /* ===============================
-   JOIN
-=============================== */
-
+   BLOCCO LOGICO: JOIN
+   =============================== */
 async function handleJoin() {
-
-    const nome = document.getElementById('player-name').value.trim();
+    const nome = (document.getElementById('player-name')?.value || '').trim();
 
     if (!nome) {
         alert('Inserisci un nome');
@@ -53,50 +63,48 @@ async function handleJoin() {
     }
 
     try {
-
         const formData = new FormData();
         formData.append('nome', nome);
 
-        const response = await fetch(
-            `${API_BASE}/join/${sessioneId}`,
-            {
-                method: 'POST',
-                body: formData
-            }
-        );
+        const response = await fetch(`${API_BASE}/join/${sessioneId}`, {
+            method: 'POST',
+            body: formData
+        });
 
         const data = await response.json();
 
         if (!data.success) {
             if (data.requires_approval && data.request_id) {
-                alert(data.error);
+                alert(data.error || 'Richiesta in approvazione');
                 watchJoinRequest(data.request_id, nome);
                 return;
             }
 
-            alert(data.error);
+            alert(data.error || 'Join non riuscito');
             return;
         }
 
-        partecipazioneId = data.partecipazione_id;
-        completeJoin(nome, data.capitale);
+        partecipazioneId = Number(data.partecipazione_id || 0);
+        completeJoin(nome, Number(data.capitale || 0));
 
     } catch (err) {
         console.error(err);
     }
 }
 
-
 function completeJoin(nome, capitale) {
-    document.getElementById('player-display-name').innerText = nome;
-    document.getElementById('capitale-value').innerText = capitale;
+    const displayName = document.getElementById('player-display-name');
+    const capitaleValue = document.getElementById('capitale-value');
+
+    if (displayName) displayName.innerText = nome;
+    if (capitaleValue) capitaleValue.innerText = String(capitale);
+
     currentState = null;
     startPolling();
 
     hideAllScreens();
     show('screen-lobby');
 
-    // allineamento immediato allo stato corrente della sessione
     fetchStato();
 }
 
@@ -110,23 +118,20 @@ function watchJoinRequest(requestId, nome) {
             const formData = new FormData();
             formData.append('request_id', requestId);
 
-            const response = await fetch(
-                `${API_BASE}/joinStato/${sessioneId}`,
-                {
-                    method: 'POST',
-                    body: formData
-                }
-            );
+            const response = await fetch(`${API_BASE}/joinStato/${sessioneId}`, {
+                method: 'POST',
+                body: formData
+            });
 
             const data = await response.json();
 
             if (!data.success) return;
 
             if (data.stato === 'approvata' && data.partecipazione_id) {
-                partecipazioneId = data.partecipazione_id;
+                partecipazioneId = Number(data.partecipazione_id || 0);
                 clearInterval(joinRequestPolling);
                 joinRequestPolling = null;
-                completeJoin(nome, data.capitale ?? 0);
+                completeJoin(nome, Number(data.capitale || 0));
                 return;
             }
 
@@ -145,9 +150,8 @@ function watchJoinRequest(requestId, nome) {
 }
 
 /* ===============================
-   POLLING STATO
-=============================== */
-
+   BLOCCO LOGICO: POLLING STATO
+   =============================== */
 function startPolling() {
     if (pollingInterval) {
         clearInterval(pollingInterval);
@@ -157,18 +161,13 @@ function startPolling() {
 }
 
 async function fetchStato() {
-
     if (!sessioneId) return;
 
     try {
-
-        const response = await fetch(
-            `${API_BASE}/stato/${sessioneId}`
-        );
-
+        const response = await fetch(`${API_BASE}/stato/${sessioneId}`);
         const data = await response.json();
 
-        if (!data.success) return;
+        if (!data.success || !data.sessione) return;
 
         const stato = data.sessione.stato;
 
@@ -178,13 +177,11 @@ async function fetchStato() {
             puntataInviata = false;
         }
 
-        // Render sempre: evita UI incoerente anche con transizioni/lag di stato
         renderState(stato);
 
         if (stato === 'domanda') {
             fetchDomanda();
         }
-
 
     } catch (err) {
         console.error(err);
@@ -192,15 +189,12 @@ async function fetchStato() {
 }
 
 /* ===============================
-   RENDER STATO
-=============================== */
-
+   BLOCCO LOGICO: RENDER STATO
+   =============================== */
 function renderState(stato) {
-
     hideAllScreens();
 
     if (!isDomandaAttiva(stato)) {
-        // invalida eventuali fetch domanda ancora in volo
         domandaFetchNonce++;
         resetDomandaView();
     }
@@ -229,25 +223,19 @@ function renderState(stato) {
             break;
     }
 }
+
 /* ===============================
-   DOMANDA
-=============================== */
-
+   BLOCCO LOGICO: DOMANDA/RISPOSTA
+   =============================== */
 async function fetchDomanda() {
-
     if (!isDomandaAttiva()) return;
 
     const requestNonce = ++domandaFetchNonce;
 
     try {
-
-        const response = await fetch(
-            `${API_BASE}/domanda/${sessioneId}`
-        );
-
+        const response = await fetch(`${API_BASE}/domanda/${sessioneId}`);
         const data = await response.json();
 
-        // Evita render ritardati se lo stato cambia durante la fetch
         if (!data.success || !isDomandaAttiva() || requestNonce !== domandaFetchNonce) return;
 
         renderDomanda(data.domanda);
@@ -258,7 +246,6 @@ async function fetchDomanda() {
 }
 
 function renderDomanda(domanda) {
-
     if (!isDomandaAttiva()) return;
 
     if (!domanda || !Array.isArray(domanda.opzioni)) {
@@ -275,10 +262,9 @@ function renderDomanda(domanda) {
     opzioniDiv.innerHTML = '';
 
     domanda.opzioni.forEach((opzione, index) => {
-
         const btn = document.createElement('button');
-        btn.innerText = opzione.testo;
-        btn.dataset.id = opzione.id;
+        btn.innerText = opzione.testo || '';
+        btn.dataset.id = String(opzione.id || '');
 
         const paletteIndex = (index % 4) + 1;
         btn.classList.add(`opzione-kahoot-${paletteIndex}`);
@@ -301,16 +287,14 @@ function resetDomandaView() {
 }
 
 async function inviaRisposta(domandaId, opzioneId) {
-
     if (rispostaInviata) return;
     rispostaInviata = true;
 
-    // evidenzia scelta
     const buttons = document.querySelectorAll('#opzioni button');
     buttons.forEach(btn => {
         btn.disabled = true;
 
-        if (btn.dataset.id == opzioneId) {
+        if (String(btn.dataset.id) === String(opzioneId)) {
             btn.classList.add('selected');
         } else {
             btn.classList.add('dimmed');
@@ -318,41 +302,40 @@ async function inviaRisposta(domandaId, opzioneId) {
     });
 
     try {
-
         const formData = new FormData();
-        formData.append('partecipazione_id', partecipazioneId);
-        formData.append('domanda_id', domandaId);
-        formData.append('opzione_id', opzioneId);
+        formData.append('partecipazione_id', String(partecipazioneId || 0));
+        formData.append('domanda_id', String(domandaId || 0));
+        formData.append('opzione_id', String(opzioneId || 0));
 
-        const response = await fetch(
-            `/chillquizV3/public/?url=api/risposta/${sessioneId}`,
-            {
-                method: 'POST',
-                body: formData
-            }
-        );
+        const response = await fetch(`${API_BASE}/risposta/${sessioneId}`, {
+            method: 'POST',
+            body: formData
+        });
 
         const data = await response.json();
 
         if (!data.success) {
-            alert(data.error);
+            alert(data.error || 'Errore invio risposta');
             rispostaInviata = false;
+            return;
         }
+
+        renderRisultatoPersonaleImmediato(data.risultato);
 
     } catch (err) {
         console.error(err);
         rispostaInviata = false;
     }
 }
+
 /* ===============================
-   PUNTATA
-=============================== */
-
+   BLOCCO LOGICO: PUNTATA
+   =============================== */
 async function handlePuntata() {
-
     if (puntataInviata) return;
 
-    const importo = document.getElementById('puntata').value;
+    const importoRaw = document.getElementById('puntata')?.value;
+    const importo = Number(importoRaw);
 
     if (!importo || importo <= 0) {
         alert('Inserisci importo valido');
@@ -362,23 +345,19 @@ async function handlePuntata() {
     puntataInviata = true;
 
     try {
-
         const formData = new FormData();
-        formData.append('partecipazione_id', partecipazioneId);
-        formData.append('puntata', parseInt(importo));
+        formData.append('partecipazione_id', String(partecipazioneId || 0));
+        formData.append('puntata', String(parseInt(String(importo), 10)));
 
-        const response = await fetch(
-            `${API_BASE}/puntata/${sessioneId}`,
-            {
-                method: 'POST',
-                body: formData
-            }
-        );
+        const response = await fetch(`${API_BASE}/puntata/${sessioneId}`, {
+            method: 'POST',
+            body: formData
+        });
 
         const data = await response.json();
 
         if (!data.success) {
-            alert(data.error);
+            alert(data.error || 'Errore puntata');
             puntataInviata = false;
         }
 
@@ -389,33 +368,82 @@ async function handlePuntata() {
 }
 
 /* ===============================
-   CLASSIFICA
-=============================== */
+   BLOCCO LOGICO: CLASSIFICA/RISULTATO PERSONALE
+   =============================== */
+function getMiaRigaClassifica(lista) {
+    if (!Array.isArray(lista) || lista.length === 0) return null;
 
-function aggiornaCapitaleDaClassifica(lista) {
-    if (!Array.isArray(lista) || lista.length === 0) return;
+    if (partecipazioneId) {
+        const byId = lista.find((riga) => Number(riga.partecipazione_id || 0) === Number(partecipazioneId));
+        if (byId) return byId;
+    }
 
     const nomeGiocatore = (document.getElementById('player-display-name')?.innerText || '').trim().toLowerCase();
-    if (!nomeGiocatore) return;
+    if (!nomeGiocatore) return null;
 
-    const miaRiga = lista.find((riga) => (riga.nome || '').trim().toLowerCase() === nomeGiocatore);
+    return lista.find((riga) => (riga.nome || '').trim().toLowerCase() === nomeGiocatore) || null;
+}
+
+function aggiornaCapitaleDaClassifica(lista) {
+    const miaRiga = getMiaRigaClassifica(lista);
     if (!miaRiga) return;
 
     const capitale = Number(miaRiga.capitale_attuale ?? 0);
-    document.getElementById('capitale-value').innerText = capitale;
+    const capitaleEl = document.getElementById('capitale-value');
+    if (capitaleEl) capitaleEl.innerText = String(capitale);
+}
+
+function renderRisultatoPersonaleDaClassifica(lista) {
+    const container = document.getElementById('risultato-personale');
+    if (!container) return;
+
+    const miaRiga = getMiaRigaClassifica(lista);
+
+    if (!miaRiga) {
+        container.innerHTML = '<div>Risultato personale non disponibile.</div>';
+        return;
+    }
+
+    const esito = miaRiga.esito ?? '-';
+    const ultimaPuntata = Number(miaRiga.ultima_puntata ?? 0);
+    const vincita = miaRiga.vincita_domanda === null || miaRiga.vincita_domanda === undefined
+        ? '-'
+        : Number(miaRiga.vincita_domanda);
+    const tempo = miaRiga.tempo_risposta === null || miaRiga.tempo_risposta === undefined
+        ? '-'
+        : Number(miaRiga.tempo_risposta);
+    const capitale = Number(miaRiga.capitale_attuale ?? 0);
+
+    container.innerHTML = `
+        <div><strong>Esito:</strong> ${esito}</div>
+        <div><strong>Puntata:</strong> 💰 ${ultimaPuntata}</div>
+        <div><strong>Vincita domanda:</strong> ${vincita}</div>
+        <div><strong>Tempo risposta:</strong> ${tempo}</div>
+        <div><strong>Capitale attuale:</strong> 💰 ${capitale}</div>
+    `;
+}
+
+function renderRisultatoPersonaleImmediato(risultato) {
+    const container = document.getElementById('risultato-personale');
+    if (!container || !risultato || typeof risultato !== 'object') return;
+
+    const esito = risultato.corretta ? 'corretta' : 'errata';
+    const punti = Number(risultato.punti ?? 0);
+    const tempo = Number(risultato.tempo_risposta ?? 0);
+    const capitale = Number(risultato.capitale ?? 0);
+
+    container.innerHTML = `
+        <div><strong>Esito:</strong> ${esito}</div>
+        <div><strong>Punti:</strong> ${punti}</div>
+        <div><strong>Tempo risposta:</strong> ${tempo}</div>
+        <div><strong>Capitale attuale:</strong> 💰 ${capitale}</div>
+    `;
 }
 
 async function fetchClassifica() {
-
     try {
-
-        const response = await fetch(
-            `${API_BASE}/classifica/${sessioneId}`
-        );
-
+        const response = await fetch(`${API_BASE}/classifica/${sessioneId}`);
         const data = await response.json();
-
-        console.log("CLASSIFICA RESPONSE:", data);
 
         if (!data.success) return;
 
@@ -424,43 +452,42 @@ async function fetchClassifica() {
             : [];
 
         aggiornaCapitaleDaClassifica(classificaOrdinata);
+        renderRisultatoPersonaleDaClassifica(classificaOrdinata);
 
         const container = document.getElementById('classifica');
-
-        if (!container) {
-            console.warn("Container classifica non trovato");
-            return;
-        }
+        if (!container) return;
 
         container.innerHTML = '';
 
         if (classificaOrdinata.length === 0) {
-            container.innerHTML = "<div>Nessun giocatore</div>";
+            container.innerHTML = '<div>Nessun giocatore</div>';
             return;
         }
 
         classificaOrdinata.forEach((riga, index) => {
-
             const div = document.createElement('div');
-            div.className = "classifica-item";
+            div.className = 'classifica-item';
+
+            const nome = riga.nome || '-';
+            const capitale = Number(riga.capitale_attuale ?? 0);
 
             div.innerHTML = `
-                <strong>${index + 1}.</strong> 
-                ${riga.nome} 
-                <span>💰 ${riga.capitale_attuale}</span>
+                <strong>${index + 1}.</strong>
+                ${nome}
+                <span>💰 ${capitale}</span>
             `;
 
             container.appendChild(div);
         });
 
     } catch (err) {
-        console.error("Errore classifica:", err);
+        console.error('Errore classifica:', err);
     }
 }
-/* ===============================
-   UTILITY
-=============================== */
 
+/* ===============================
+   BLOCCO LOGICO: UTILITY UI
+   =============================== */
 function hideAllScreens() {
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.add('hidden');
