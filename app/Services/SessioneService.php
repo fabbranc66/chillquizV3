@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Core\Database;
+use App\Models\Partecipazione;
 use App\Models\Sistema;
 use RuntimeException;
 
@@ -120,6 +121,9 @@ class SessioneService
                 "Impossibile chiudere domanda. Stato attuale: {$this->sessione['stato']}"
             );
         }
+
+        $partecipazioneModel = new Partecipazione();
+        $partecipazioneModel->ripristinaCapitaleEliminatiFineFase($this->sessioneId);
 
         $this->aggiornaStato('risultati');
     }

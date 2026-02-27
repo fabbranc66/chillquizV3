@@ -214,8 +214,6 @@ $stmt = $this->pdo->prepare(
         'id' => $partecipazioneId
     ]);
 
-    $this->ripristinaCapitaleSeAzzerato($partecipazioneId, $sessioneId);
-
     /* ======================
        Salva risposta
     ====================== */
@@ -255,33 +253,12 @@ $stmt = $this->pdo->prepare(
     ];
 }
 
-    private function ripristinaCapitaleSeAzzerato(int $partecipazioneId, int $sessioneId): void
+    public function ripristinaCapitaleEliminatiFineFase(int $sessioneId): void
     {
-        $currentStmt = $this->pdo->prepare(
-            "SELECT capitale_attuale
-             FROM partecipazioni
-             WHERE id = :id
-               AND sessione_id = :sessione_id
-             LIMIT 1"
-        );
-
-        $currentStmt->execute([
-            'id' => $partecipazioneId,
-            'sessione_id' => $sessioneId,
-        ]);
-
-        $current = $currentStmt->fetch();
-        $capitaleAttuale = (int) ($current['capitale_attuale'] ?? 0);
-
-        if ($capitaleAttuale > 0) {
-            return;
-        }
-
         $ultimoConPuntiStmt = $this->pdo->prepare(
             "SELECT capitale_attuale
              FROM partecipazioni
              WHERE sessione_id = :sessione_id
-               AND id <> :partecipazione_id
                AND capitale_attuale > 0
              ORDER BY capitale_attuale ASC, id DESC
              LIMIT 1"
@@ -289,7 +266,6 @@ $stmt = $this->pdo->prepare(
 
         $ultimoConPuntiStmt->execute([
             'sessione_id' => $sessioneId,
-            'partecipazione_id' => $partecipazioneId,
         ]);
 
         $ultimoConPunti = $ultimoConPuntiStmt->fetch();
@@ -298,18 +274,22 @@ $stmt = $this->pdo->prepare(
             return;
         }
 
-        $capitaleRipristino = (int) ($ultimoConPunti['capitale_attuale'] ?? 0);
+        $capitaleRipristinoBase = (int) ($ultimoConPunti['capitale_attuale'] ?? 0);
+        $capitaleRipristino = (int) floor($capitaleRipristinoBase * 0.25);
+
+        if ($capitaleRipristino <= 0) {
+            return;
+        }
 
         $update = $this->pdo->prepare(
             "UPDATE partecipazioni
              SET capitale_attuale = :capitale
-             WHERE id = :id
-               AND sessione_id = :sessione_id"
+             WHERE sessione_id = :sessione_id
+               AND capitale_attuale <= 0"
         );
 
         $update->execute([
             'capitale' => $capitaleRipristino,
-            'id' => $partecipazioneId,
             'sessione_id' => $sessioneId,
         ]);
     }

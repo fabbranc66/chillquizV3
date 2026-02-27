@@ -27,6 +27,18 @@ class AppSettings
             $config[$chiave] = (string) ($row['valore'] ?? '');
         }
 
+
+        $defaultConfigurazioni = [
+            'capitale_iniziale' => '1000',
+            'coefficiente_rientro_zero' => '0.25',
+        ];
+
+        foreach ($defaultConfigurazioni as $key => $value) {
+            if (!array_key_exists($key, $config)) {
+                $config[$key] = $value;
+            }
+        }
+
         $moduleTagsValue = $config[self::KEY_SHOW_MODULE_TAGS] ?? getenv('SHOW_MODULE_TAGS') ?? '1';
 
         return [

@@ -62,17 +62,21 @@ class Risposta
         $fattoreMax = (float) $sistema->get('fattore_velocita_max');
         $durata = (int) $sistema->get('durata_domanda');
 
-        $fattoreTempo = $fattoreMax * ($tempoRisposta / $durata);
+        $tempoRimanente = max(0, $durata - $tempoRisposta);
+        $percentuale = $durata > 0 ? ($tempoRimanente / $durata) : 0;
+        $fattoreTempo = round($percentuale * $fattoreMax, 2);
 
         $bonusPrimoAttivo = (int) $sistema->get('bonus_primo_attivo');
-        $coeffBonus = (float) $sistema->get('coefficiente_bonus_primo');
+        $coeffBonus = 0.25;
 
         $punti = 0;
         $bonusPrimo = 0;
 
         if ($corretta) {
 
-            $puntiBase = $puntata * $difficolta * $fattoreTempo;
+            $bonusDifficolta = $puntata * $difficolta;
+            $bonusVelocita = $puntata * $fattoreTempo;
+            $puntiBase = $bonusDifficolta + $bonusVelocita;
 
             if ($bonusPrimoAttivo) {
 

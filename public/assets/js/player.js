@@ -400,6 +400,7 @@ function renderRisultatoPersonaleDaClassifica(lista) {
     const miaRiga = getMiaRigaClassifica(lista);
 
     if (!miaRiga) {
+        container.classList.remove('esito-corretta', 'esito-errata');
         container.innerHTML = '<div>Risultato personale non disponibile.</div>';
         return;
     }
@@ -414,12 +415,19 @@ function renderRisultatoPersonaleDaClassifica(lista) {
         : Number(miaRiga.tempo_risposta);
     const capitale = Number(miaRiga.capitale_attuale ?? 0);
 
+    container.classList.remove('esito-corretta', 'esito-errata');
+    if (esito === 'corretta') {
+        container.classList.add('esito-corretta');
+    } else if (esito === 'errata') {
+        container.classList.add('esito-errata');
+    }
+
     container.innerHTML = `
-        <div><strong>Esito:</strong> ${esito}</div>
-        <div><strong>Puntata:</strong> 💰 ${ultimaPuntata}</div>
-        <div><strong>Vincita domanda:</strong> ${vincita}</div>
-        <div><strong>Tempo risposta:</strong> ${tempo}</div>
-        <div><strong>Capitale attuale:</strong> 💰 ${capitale}</div>
+        <div class="risultato-row"><strong>Esito:</strong><span>${esito}</span></div>
+        <div class="risultato-row"><strong>Puntata:</strong><span class="valore-numerico">💰 ${ultimaPuntata}</span></div>
+        <div class="risultato-row"><strong>Vincita domanda:</strong><span class="valore-numerico">${vincita}</span></div>
+        <div class="risultato-row"><strong>Tempo risposta:</strong><span class="valore-numerico">${tempo}</span></div>
+        <div class="risultato-row"><strong>Capitale attuale:</strong><span class="valore-numerico">💰 ${capitale}</span></div>
     `;
 }
 
@@ -432,11 +440,14 @@ function renderRisultatoPersonaleImmediato(risultato) {
     const tempo = Number(risultato.tempo_risposta ?? 0);
     const capitale = Number(risultato.capitale ?? 0);
 
+    container.classList.remove('esito-corretta', 'esito-errata');
+    container.classList.add(risultato.corretta ? 'esito-corretta' : 'esito-errata');
+
     container.innerHTML = `
-        <div><strong>Esito:</strong> ${esito}</div>
-        <div><strong>Punti:</strong> ${punti}</div>
-        <div><strong>Tempo risposta:</strong> ${tempo}</div>
-        <div><strong>Capitale attuale:</strong> 💰 ${capitale}</div>
+        <div class="risultato-row"><strong>Esito:</strong><span>${esito}</span></div>
+        <div class="risultato-row"><strong>Punti:</strong><span class="valore-numerico">${punti}</span></div>
+        <div class="risultato-row"><strong>Tempo risposta:</strong><span class="valore-numerico">${tempo}</span></div>
+        <div class="risultato-row"><strong>Capitale attuale:</strong><span class="valore-numerico">💰 ${capitale}</span></div>
     `;
 }
 

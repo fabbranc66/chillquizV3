@@ -164,6 +164,33 @@ input {
     min-height: 24px;
 }
 
+#risultato-personale.risultato-box.esito-corretta {
+    background: linear-gradient(135deg, #00c853 0%, #69f0ae 100%);
+    border: 2px solid rgba(0, 200, 83, 0.95);
+    box-shadow: 0 10px 24px rgba(0, 200, 83, 0.35), inset 0 1px 0 rgba(255,255,255,0.3);
+    color: #042b12;
+}
+
+#risultato-personale.risultato-box.esito-errata {
+    background: linear-gradient(135deg, #ff1744 0%, #ff8a80 100%);
+    border: 2px solid rgba(213, 0, 0, 0.9);
+    box-shadow: 0 10px 24px rgba(213, 0, 0, 0.33), inset 0 1px 0 rgba(255,255,255,0.25);
+    color: #fff;
+}
+
+#risultato-personale .risultato-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+#risultato-personale .valore-numerico {
+    text-align: right;
+    min-width: 84px;
+    display: inline-block;
+}
+
 
 .module-debug-tag {
     display: block;
