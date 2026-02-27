@@ -52,6 +52,22 @@ class Router
             }
         }
 
+
+        if ($controllerName === 'api-v2') {
+
+            header('Content-Type: application/json');
+
+            try {
+                $controller = new \App\Controllers\ApiQuizConfigController();
+                $action = $segments[1] ?? 'list';
+                $controller->handle($action);
+                return;
+            } catch (\Throwable $e) {
+                $this->apiAbort(500, $e->getMessage());
+                return;
+            }
+        }
+
         /* ======================
            ROUTING STANDARD
         ====================== */

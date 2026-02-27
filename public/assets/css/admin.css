@@ -258,19 +258,28 @@ pre.json {
 .module-debug-tag {
     display: block;
     width: max-content;
-    margin: 0 0 6px;
-    padding: 2px 8px;
-    border-radius: 999px;
+    margin: 0 auto 8px;
     font-size: 11px;
-    font-weight: 700;
     letter-spacing: .3px;
-    text-transform: uppercase;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    color: #fff;
-    text-align: left;
+    color: #111;
+    background: #f1c40f;
+    border-radius: 999px;
+    padding: 4px 8px;
+    opacity: .9;
 }
 
 body.module-tags-off .module-debug-tag {
     display: none !important;
+}
+
+#btnQuizConfigV2 {
+    background: #2980b9;
+}
+
+#btnQuizConfigV2.disabled {
+    background: #c0392b;
+}
+
+#btnQuizConfigV2.enabled {
+    background: #2980b9;
 }

@@ -39,6 +39,7 @@ const btnRiavvia    = document.getElementById('btnRiavvia');
 const btnSchermo    = document.getElementById('btnSchermo');
 const btnMedia      = document.getElementById('btnMedia');
 const btnSettings   = document.getElementById('btnSettings');
+const btnQuizConfigV2 = document.getElementById('btnQuizConfigV2');
 const btnClearLog   = document.getElementById('btnClearLog');
 
 const statoDiv    = document.getElementById('stato');
@@ -167,6 +168,7 @@ function aggiornaUI(sessione) {
     setButton(btnSchermo, true);
     setButton(btnMedia, true);
     setButton(btnSettings, true);
+    setButton(btnQuizConfigV2, true);
 
     aggiornaPartecipanti();
     aggiornaTimer(sessione);
@@ -398,6 +400,20 @@ function apriSettings() {
     });
 }
 
+
+function apriQuizConfigV2() {
+    const url = new URL(window.location.href);
+    url.searchParams.set('url', 'admin/quizConfigV2');
+    window.open(url.toString(), '_blank', 'noopener,noreferrer');
+
+    addLog({
+        ok: true,
+        title: 'Quiz Config V2',
+        message: 'Aperto pannello SQL/API Quiz Config V2',
+        data: {}
+    });
+}
+
 async function aggiornaStato() {
     const res = await fetch(`${API_BASE}/stato/${SESSIONE_ID}`);
     const data = await res.json();
@@ -417,6 +433,9 @@ btnRiavvia.onclick   = () => callAdmin('riavvia');
 btnSchermo.onclick   = apriSchermo;
 btnMedia.onclick     = apriMedia;
 btnSettings.onclick  = apriSettings;
+if (btnQuizConfigV2) {
+    btnQuizConfigV2.onclick = apriQuizConfigV2;
+}
 
 btnClearLog.onclick  = clearLog;
 

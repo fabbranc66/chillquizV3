@@ -12,4 +12,5 @@
     <button id="btnSchermo">Attiva Schermo</button>
     <button id="btnMedia">Gestione Media</button>
     <button id="btnSettings">Settings</button>
+    <button id="btnQuizConfigV2" class="enabled">Quiz Config V2</button>
 </div>

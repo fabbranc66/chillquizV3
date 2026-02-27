@@ -39,4 +39,11 @@ class AdminController
 
         require BASE_PATH . '/app/Views/admin/settings.php';
     }
+
+    public function quizConfigV2(): void
+    {
+        $showModuleTags = (new AppSettings())->all()['show_module_tags'];
+
+        require BASE_PATH . '/app/Views/admin/quiz_config_v2.php';
+    }
 }
