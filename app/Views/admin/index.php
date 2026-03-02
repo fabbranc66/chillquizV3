@@ -1,9 +1,3 @@
-<?php /*
- * FILE: app/Views/admin/index.php
- * RUOLO: Layout pagina Regia (struttura HTML+CSS), compone moduli admin e carica bootstrap/js.
- * MODULI INCLUSI: modules/admin/* e modules/classifica/live_admin.php.
- * JS UTILIZZATO: public/assets/js/admin.js
- */ ?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -28,16 +22,15 @@
 
 </div>
 
-<!-- BLOCCO LOGICO: BOOTSTRAP JS ADMIN -->
 <script>
 window.ADMIN_BOOTSTRAP = {
     sessioneId: <?= (int)($sessioneId ?? 0) ?>,
+    nomeSessione: <?= json_encode((string)($nomeSessione ?? ''), JSON_UNESCAPED_UNICODE) ?>,
     adminToken: "SUPERSEGRETO123",
     apiBase: 'index.php?url=api'
 };
 </script>
 
-<!-- FILE JS: public/assets/js/admin.js -->
 <script src="/chillquizV3/public/assets/js/admin.js"></script>
 
 </body>

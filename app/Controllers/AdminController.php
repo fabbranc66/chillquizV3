@@ -2,26 +2,18 @@
 
 namespace App\Controllers;
 
-use App\Core\Database;
 use App\Models\AppSettings;
+use App\Models\Sessione;
 
 class AdminController
 {
     public function index()
     {
-        $pdo = Database::getInstance();
+        $sessioneModel = new Sessione();
+        $corrente = $sessioneModel->corrente();
 
-        // Prende l'ultima sessione creata
-        $stmt = $pdo->query("
-            SELECT id
-            FROM sessioni
-            ORDER BY id DESC
-            LIMIT 1
-        ");
-
-        $row = $stmt->fetch();
-
-        $sessioneId = $row['id'] ?? 0;
+        $sessioneId = (int) ($corrente['id'] ?? 0);
+        $nomeSessione = trim((string) (($corrente['nome_sessione'] ?? $corrente['nome'] ?? $corrente['titolo'] ?? '')));
 
         $showModuleTags = (new AppSettings())->all()['show_module_tags'];
 

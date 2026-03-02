@@ -452,11 +452,13 @@ public function join($sessioneId): void
             switch ($action) {
 
                 case 'nuova-sessione':
-                    $nuovaId = (new Sessione())->crea(1);
+                    $nomeSessione = trim((string) ($_POST['nome'] ?? $_POST['sessione_nome'] ?? ''));
+                    $nuovaId = (new Sessione())->crea(1, $nomeSessione);
                     $this->json([
                         'success' => true,
                         'action' => $action,
-                        'sessione_id' => $nuovaId
+                        'sessione_id' => $nuovaId,
+                        'nome_sessione' => $nomeSessione !== '' ? $nomeSessione : null
                     ]);
                     return;
 
@@ -489,6 +491,65 @@ public function join($sessioneId): void
                     ]);
                     return;
 
+                case 'sessioni-lista':
+                    $sessioneModel = new Sessione();
+                    $corrente = $sessioneModel->corrente();
+
+                    $this->json([
+                        'success' => true,
+                        'action' => $action,
+                        'sessione_corrente_id' => (int) ($corrente['id'] ?? 0),
+                        'sessioni' => $sessioneModel->disponibili(200)
+                    ]);
+                    return;
+
+                case 'set-corrente':
+                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? 0);
+                    if ($targetSessioneId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Sessione non valida'
+                        ]);
+                        return;
+                    }
+
+                    $ok = (new Sessione())->impostaCorrente($targetSessioneId);
+                    $this->json([
+                        'success' => $ok,
+                        'action' => $action,
+                        'sessione_id' => $targetSessioneId,
+                        'error' => $ok ? null : 'Impossibile impostare sessione corrente'
+                    ]);
+                    return;
+
+                case 'domande-sessione':
+                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                    if ($targetSessioneId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Sessione non valida'
+                        ]);
+                        return;
+                    }
+
+                    $pdo = \App\Core\Database::getInstance();
+                    $stmt = $pdo->prepare(
+                        "SELECT sd.posizione, d.id AS domanda_id, d.testo
+                         FROM sessione_domande sd
+                         JOIN domande d ON d.id = sd.domanda_id
+                         WHERE sd.sessione_id = :sessione_id
+                         ORDER BY sd.posizione ASC"
+                    );
+
+                    $stmt->execute(['sessione_id' => $targetSessioneId]);
+
+                    $this->json([
+                        'success' => true,
+                        'action' => $action,
+                        'sessione_id' => $targetSessioneId,
+                        'domande' => $stmt->fetchAll() ?: []
+                    ]);
+                    return;
 
                 case 'settings-get':
                     $this->json([

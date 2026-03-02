@@ -44,7 +44,7 @@ function setupSessionQr() {
     const qrImg = document.getElementById('sessione-qr');
     if (!qrImg) return;
 
-    const joinUrl = `${window.location.origin}${BASE_PUBLIC_URL}index.php?url=player/${sessioneId}`;
+    const joinUrl = `${window.location.origin}${BASE_PUBLIC_URL}index.php?url=player`; 
     qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(joinUrl)}`;
 }
 
@@ -145,7 +145,7 @@ async function fetchClassificaRisultati() {
     if (!sessioneId) return;
 
     try {
-        const r = await fetch(`${API_BASE}/classifica/${sessioneId}`);
+        const r = await fetch(`${API_BASE}/classifica/${sessioneId || 0}`);
         const data = await r.json();
 
         if (!data.success) {
@@ -238,7 +238,7 @@ async function fetchDomandaIfActive() {
     }
 
     try {
-        const r = await fetch(`${API_BASE}/domanda/${sessioneId}`);
+        const r = await fetch(`${API_BASE}/domanda/${sessioneId || 0}`);
         const data = await r.json();
         if (currentState !== 'domanda') return;
 
@@ -281,7 +281,7 @@ async function fetchStato() {
     }
 
     try {
-        const r = await fetch(`${API_BASE}/stato/${sessioneId}`);
+        const r = await fetch(`${API_BASE}/stato/${sessioneId || 0}`);
         const data = await r.json();
         if (!data.success) {
             if (currentState === 'risultati') {
@@ -314,10 +314,6 @@ async function fetchStato() {
    BLOCCO LOGICO: BOOTSTRAP START
    =============================== */
 document.addEventListener('DOMContentLoaded', () => {
-    if (!sessioneId) {
-        sessioneId = extractSessioneIdFromUrl();
-    }
-
     setupSessionQr();
     hideDomandaView();
     fetchMediaAttiva();

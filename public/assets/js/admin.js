@@ -18,6 +18,7 @@
    =============================== */
 const ADMIN_BOOTSTRAP = window.ADMIN_BOOTSTRAP || {};
 let SESSIONE_ID = Number(ADMIN_BOOTSTRAP.sessioneId || 0);
+let NOME_SESSIONE = String(ADMIN_BOOTSTRAP.nomeSessione || '').trim();
 
 const ADMIN_TOKEN = String(ADMIN_BOOTSTRAP.adminToken || 'SUPERSEGRETO123');
 const API_BASE = String(ADMIN_BOOTSTRAP.apiBase || 'index.php?url=api');
@@ -26,11 +27,18 @@ const API_BASE = String(ADMIN_BOOTSTRAP.apiBase || 'index.php?url=api');
    BLOCCO LOGICO: BIND DOM STATICO
    =============================== */
 const sessioneIdSpan   = document.getElementById('sessione-id');
+const sessioneNomeSpan = document.getElementById('sessione-nome-display');
 const domandaNumero    = document.getElementById('domanda-numero');
 const partecipantiSpan = document.getElementById('partecipanti-numero');
 const timerIndicator   = document.getElementById('timer-indicator');
 
+const inputSessioneNome = document.getElementById('sessione-nome');
 const btnNuova      = document.getElementById('btnNuova');
+const btnSetCorrente = document.getElementById('btnSetCorrente');
+const sessioneSelect = document.getElementById('sessione-select');
+const btnToggleDomandeSessione = document.getElementById('btnToggleDomandeSessione');
+const domandeSessioneWrapper = document.getElementById('domande-sessione-wrapper');
+const domandeSessioneList = document.getElementById('domande-sessione-list');
 const btnPuntata    = document.getElementById('btnPuntata');
 const btnDomanda    = document.getElementById('btnDomanda');
 const btnRisultati  = document.getElementById('btnRisultati');
@@ -153,6 +161,16 @@ function setButton(button, enabled) {
 function aggiornaUI(sessione) {
 
     sessioneIdSpan.textContent = SESSIONE_ID;
+    const nomeSessione = String(sessione?.nome_sessione || sessione?.nome || sessione?.titolo || '').trim();
+    if (nomeSessione !== '') {
+        NOME_SESSIONE = nomeSessione;
+    }
+
+    if (sessioneNomeSpan) {
+        sessioneNomeSpan.textContent = NOME_SESSIONE !== ''
+            ? NOME_SESSIONE
+            : `Sessione nr ${SESSIONE_ID} del ${new Date().toLocaleDateString('it-IT')}`;
+    }
     domandaNumero.textContent  = sessione.domanda_corrente;
 
     statoDiv.textContent = "Stato: " + sessione.stato;
@@ -280,6 +298,133 @@ async function gestisciJoin(requestId, action) {
 
 window.gestisciJoin = gestisciJoin;
 
+
+function nomeSessioneFromRecord(sessione) {
+    const raw = String(sessione?.nome_sessione || sessione?.nome || sessione?.titolo || '').trim();
+    if (raw !== '') return raw;
+
+    const id = Number(sessione?.id || 0);
+    const creata = Number(sessione?.creata_il || 0);
+    if (creata > 0) {
+        return `Sessione ${id || ''} ${new Date(creata * 1000).toLocaleString('it-IT')}`.trim();
+    }
+
+    return id > 0 ? `Sessione ${id}` : 'Sessione';
+}
+
+async function caricaSessioni() {
+    if (!sessioneSelect) return;
+
+    const res = await fetch(`${API_BASE}/admin/sessioni-lista/0`, {
+        method: 'POST',
+        headers: {
+            'X-ADMIN-TOKEN': ADMIN_TOKEN
+        }
+    });
+
+    const data = await res.json();
+    if (!data.success) return;
+
+    const lista = Array.isArray(data.sessioni) ? data.sessioni : [];
+    sessioneSelect.innerHTML = lista.map((s) => {
+        const id = Number(s.id || 0);
+        const nome = escapeHtml(nomeSessioneFromRecord(s));
+        return `<option value="${id}">${id} · ${nome}</option>`;
+    }).join('');
+
+    const correnteId = Number(data.sessione_corrente_id || SESSIONE_ID || 0);
+    if (correnteId > 0) {
+        sessioneSelect.value = String(correnteId);
+    }
+}
+
+async function impostaSessioneCorrente() {
+    if (!sessioneSelect) return;
+
+    const targetId = Number(sessioneSelect.value || 0);
+    if (targetId <= 0) {
+        addLog({ ok: false, title: 'set-corrente', message: 'Seleziona una sessione valida', data: {} });
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('sessione_id', String(targetId));
+
+    const res = await fetch(`${API_BASE}/admin/set-corrente/0`, {
+        method: 'POST',
+        headers: {
+            'X-ADMIN-TOKEN': ADMIN_TOKEN
+        },
+        body: formData
+    });
+
+    const data = await res.json();
+
+    addLog({
+        ok: !!data.success,
+        title: 'set-corrente',
+        message: data.success ? `Sessione corrente impostata: ${targetId}` : (data.error || 'Operazione fallita'),
+        data
+    });
+
+    if (data.success) {
+        SESSIONE_ID = targetId;
+        await aggiornaStato();
+        await aggiornaJoinRichieste();
+        await caricaSessioni();
+        if (domandeSessioneWrapper && domandeSessioneWrapper.style.display !== 'none') {
+            await caricaDomandeSessione(targetId);
+        }
+    }
+}
+
+
+
+async function caricaDomandeSessione(sessioneId) {
+    if (!domandeSessioneList) return;
+
+    const formData = new FormData();
+    formData.append('sessione_id', String(Number(sessioneId || 0)));
+
+    const res = await fetch(`${API_BASE}/admin/domande-sessione/0`, {
+        method: 'POST',
+        headers: {
+            'X-ADMIN-TOKEN': ADMIN_TOKEN
+        },
+        body: formData
+    });
+
+    const data = await res.json();
+    if (!data.success) {
+        domandeSessioneList.innerHTML = `<div>Errore caricamento domande: ${escapeHtml(data.error || 'errore sconosciuto')}</div>`;
+        return;
+    }
+
+    const domande = Array.isArray(data.domande) ? data.domande : [];
+    if (domande.length === 0) {
+        domandeSessioneList.innerHTML = 'Nessuna domanda caricata';
+        return;
+    }
+
+    domandeSessioneList.innerHTML = domande.map((d) => {
+        const posizione = Number(d.posizione || 0);
+        const id = Number(d.domanda_id || 0);
+        const testo = escapeHtml(String(d.testo || ''));
+        return `<div style="padding:4px 0; border-bottom:1px solid #222;">#${posizione} · [${id}] ${testo}</div>`;
+    }).join('');
+}
+
+function toggleDomandeSessione() {
+    if (!domandeSessioneWrapper) return;
+
+    const isHidden = domandeSessioneWrapper.style.display === 'none' || domandeSessioneWrapper.style.display === '';
+    domandeSessioneWrapper.style.display = isHidden ? 'block' : 'none';
+
+    if (isHidden) {
+        const sessioneId = Number(sessioneSelect?.value || SESSIONE_ID || 0);
+        caricaDomandeSessione(sessioneId);
+    }
+}
 function aggiornaTimer(sessione) {
 
     if (timerInterval) clearInterval(timerInterval);
@@ -335,11 +480,19 @@ async function callAdmin(action) {
 }
 
 async function nuovaSessione() {
+    const nomeSessione = String(inputSessioneNome?.value || '').trim();
+    const formData = new FormData();
+
+    if (nomeSessione !== '') {
+        formData.append('nome', nomeSessione);
+    }
+
     const res = await fetch(`${API_BASE}/admin/nuova-sessione/0`, {
         method: 'POST',
         headers: {
             'X-ADMIN-TOKEN': ADMIN_TOKEN
-        }
+        },
+        body: formData
     });
 
     const data = await res.json();
@@ -355,8 +508,22 @@ async function nuovaSessione() {
 
     if (data.success) {
         SESSIONE_ID = data.sessione_id;
+
+        const nomeRisposta = String(data.nome_sessione || '').trim();
+        if (nomeRisposta !== '') {
+            NOME_SESSIONE = nomeRisposta;
+        } else if (nomeSessione !== '') {
+            NOME_SESSIONE = nomeSessione;
+        } else {
+            NOME_SESSIONE = '';
+        }
+
+        if (inputSessioneNome) {
+            inputSessioneNome.value = '';
+        }
         aggiornaStato();
         aggiornaJoinRichieste();
+        caricaSessioni();
     }
 }
 
@@ -425,6 +592,19 @@ async function aggiornaStato() {
 
 /* ===== bind ===== */
 btnNuova.onclick     = nuovaSessione;
+if (btnSetCorrente) {
+    btnSetCorrente.onclick = impostaSessioneCorrente;
+}
+if (btnToggleDomandeSessione) {
+    btnToggleDomandeSessione.onclick = toggleDomandeSessione;
+}
+if (sessioneSelect) {
+    sessioneSelect.onchange = () => {
+        if (domandeSessioneWrapper && domandeSessioneWrapper.style.display !== 'none') {
+            caricaDomandeSessione(Number(sessioneSelect.value || 0));
+        }
+    };
+}
 btnPuntata.onclick   = () => callAdmin('avvia-puntata');
 btnDomanda.onclick   = () => callAdmin('avvia-domanda');
 btnRisultati.onclick = () => callAdmin('risultati');
@@ -444,3 +624,4 @@ setInterval(aggiornaStato, 1000);
 setInterval(aggiornaJoinRichieste, 2000);
 aggiornaStato();
 aggiornaJoinRichieste();
+caricaSessioni();

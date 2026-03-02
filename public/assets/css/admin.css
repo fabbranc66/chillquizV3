@@ -1,3 +1,8 @@
+/* =====================================
+   CHILLQUIZ V3 – ADMIN (Kahoot Style)
+   SOLO GRAFICA – NESSUNA LOGICA MODIFICATA
+===================================== */
+
 body {
     font-family: Arial, sans-serif;
     background: #111;
@@ -6,49 +11,132 @@ body {
     text-align: center;
 }
 
-h2 { margin-bottom: 10px; }
+h2 { 
+    margin-bottom: 10px;
+    font-weight: 900;
+    letter-spacing: .4px;
+}
+
+/* ================= INFO BAR ================= */
+
+.info-bar-kahoot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.sessione-hero {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    background: linear-gradient(130deg, #46178f, #1368ce);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.sessione-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .8px;
+    opacity: .85;
+}
+
+.sessione-nome {
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.sessione-meta {
+    font-size: 12px;
+    opacity: .9;
+    background: rgba(0, 0, 0, 0.22);
+    padding: 4px 10px;
+    border-radius: 999px;
+}
 
 .info-bar { margin-bottom: 20px; }
 
 .badge {
     display: inline-block;
     padding: 8px 16px;
-    background: #333;
-    border-radius: 20px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 999px;
     font-size: 14px;
     margin: 5px;
 }
 
-button {
-    padding: 12px 20px;
-    margin: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    color: white;
-    border-radius: 6px;
-    transition: 0.2s;
+/* ================= CARD LOOK ================= */
+
+.row {
+    margin-top: 25px;
+    background: linear-gradient(180deg, rgba(28,28,28,.92), rgba(18,18,18,.92));
+    border: 2px solid rgba(255,255,255,.10);
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 12px 28px rgba(0,0,0,.35);
 }
-
-.enabled { background: #2ecc71; }
-.disabled { background: #c0392b; }
-
-button:hover { opacity: 0.85; }
-
-#stato { font-size: 20px; margin-bottom: 10px; }
-#conclusa {
-    font-size: 28px;
-    color: #f1c40f;
-    margin-top: 20px;
-    display: none;
-}
-
-.row { margin-top: 25px; }
 
 .container {
     max-width: 900px;
     margin: auto;
 }
+
+/* ================= BUTTONS (Kahoot) ================= */
+
+button {
+    padding: 14px 22px;
+    margin: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    border-radius: 16px;
+    border: 2px solid rgba(255,255,255,.15);
+    font-weight: 900;
+    letter-spacing: .3px;
+    transition: 0.15s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,.35);
+}
+
+/* Hover / active feel */
+button:hover {
+    transform: translateY(-2px);
+    opacity: .95;
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* ===== STATO BUTTON ===== */
+
+button.enabled {
+    background: linear-gradient(135deg, #2ecc71, #1e8449) !important;
+}
+
+button.disabled {
+    background: linear-gradient(135deg, #e74c3c, #922b21) !important;
+    opacity: .85;
+}
+
+/* Pulsante speciale blu */
+#btnQuizConfigV2 {
+    background: linear-gradient(135deg, #7b2ff7, #1368ce);
+}
+
+#btnQuizConfigV2.disabled {
+    background: linear-gradient(135deg, #e74c3c, #922b21) !important;
+}
+
+#btnQuizConfigV2.enabled {
+    background: linear-gradient(135deg, #7b2ff7, #1368ce) !important;
+}
+
+/* ================= TIMER ================= */
 
 .timer-wrap {
     display: inline-flex;
@@ -75,7 +163,8 @@ button:hover { opacity: 0.85; }
     border: 1px solid #333;
 }
 
-/* ===== LOG LEGGIBILE ===== */
+/* ================= LOG ================= */
+
 .log-wrap{
     margin-top: 30px;
     text-align: left;
@@ -91,20 +180,21 @@ button:hover { opacity: 0.85; }
 
 .log-title{
     font-size: 16px;
+    font-weight: 800;
     opacity: .9;
 }
 
 .log-actions button{
     padding: 8px 12px;
     font-size: 13px;
-    border-radius: 6px;
-    background: #2c3e50;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #2c3e50, #1f2c38);
 }
 
 .log {
     background: #151515;
     border: 1px solid #222;
-    border-radius: 10px;
+    border-radius: 16px;
     padding: 12px;
     max-height: 320px;
     overflow: auto;
@@ -113,7 +203,7 @@ button:hover { opacity: 0.85; }
 .log-item{
     background: #1c1c1c;
     border: 1px solid #2a2a2a;
-    border-radius: 10px;
+    border-radius: 14px;
     padding: 12px;
     margin-bottom: 10px;
 }
@@ -130,7 +220,7 @@ button:hover { opacity: 0.85; }
     display:inline-flex;
     align-items:center;
     gap: 8px;
-    padding: 6px 10px;
+    padding: 6px 12px;
     border-radius: 999px;
     font-size: 12px;
     border: 1px solid #333;
@@ -151,13 +241,11 @@ button:hover { opacity: 0.85; }
 .log-time{
     font-size: 12px;
     opacity: .7;
-    white-space: nowrap;
 }
 
 .log-main{
     font-size: 14px;
     line-height: 1.35;
-    opacity: .95;
 }
 
 .log-sub{
@@ -166,26 +254,17 @@ button:hover { opacity: 0.85; }
     opacity: .85;
 }
 
-details{
-    margin-top: 10px;
-}
-
-summary{
-    cursor: pointer;
-    user-select: none;
-    font-size: 13px;
-    opacity: .85;
-}
-
 pre.json {
     background: #101010;
     border: 1px solid #222;
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: auto;
     font-size: 12px;
     margin-top: 8px;
 }
+
+/* ================= CLASSIFICA LIVE ================= */
 
 .live-wrap {
     margin-top: 24px;
@@ -197,7 +276,7 @@ pre.json {
     border-collapse: collapse;
     background: #151515;
     border: 1px solid #222;
-    border-radius: 10px;
+    border-radius: 16px;
     overflow: hidden;
 }
 
@@ -215,16 +294,10 @@ pre.json {
 
 .live-row-primo {
     background: rgba(46, 125, 50, 0.18);
-}
-
-.live-row-primo td {
-    border-bottom-color: rgba(76, 175, 80, 0.45);
     font-weight: 600;
 }
 
-.first-win-icon {
-    margin-right: 6px;
-}
+/* ================= JOIN ================= */
 
 .join-wrap {
     margin-top: 24px;
@@ -240,9 +313,9 @@ pre.json {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #2a2a2a;
-    border-radius: 8px;
+    border-radius: 14px;
     background: #161616;
 }
 
@@ -251,9 +324,15 @@ pre.json {
     gap: 8px;
 }
 
-.btn-join-ok { background: #2e7d32; }
-.btn-join-no { background: #b71c1c; }
+.btn-join-ok { 
+    background: linear-gradient(135deg, #2ecc71, #1e8449);
+}
 
+.btn-join-no { 
+    background: linear-gradient(135deg, #e74c3c, #922b21);
+}
+
+/* ================= DEBUG TAG ================= */
 
 .module-debug-tag {
     display: block;
@@ -271,15 +350,49 @@ pre.json {
 body.module-tags-off .module-debug-tag {
     display: none !important;
 }
+/* =========================================
+   FIX: bottoni senza .enabled/.disabled
+   SOLO GRAFICA (override aggressivo)
+========================================= */
 
-#btnQuizConfigV2 {
-    background: #2980b9;
+/* Default "kahoot" anche per bottoni senza stato */
+button:not(.enabled):not(.disabled) {
+    background: linear-gradient(135deg, #7b2ff7, #1368ce) !important;
 }
 
-#btnQuizConfigV2.disabled {
-    background: #c0392b;
+/* Se hai bottoni "mostra/nascondi" e "imposta corrente" con ID diversi,
+   qui sotto copriamo i casi più tipici (solo CSS, nessuna logica). */
+
+/* MOSTRA / NASCONDI */
+#btnMostraNascondi,
+#btnToggleMostraNascondi,
+#btnToggleVisibilita,
+#btnToggleJoinRequests,
+#btnToggleLog,
+#btnToggleClassifica {
+    background: linear-gradient(135deg, #34495e, #2c3e50) !important;
 }
 
-#btnQuizConfigV2.enabled {
-    background: #2980b9;
+/* IMPOSTA CORRENTE */
+#btnImpostaCorrente,
+#btnSetCorrente,
+#btnSetCurrent,
+#btnSetSessioneCorrente {
+    background: linear-gradient(135deg, #f39c12, #d35400) !important;
+}
+
+/* Se per caso hanno classi enabled/disabled, queste DEVONO vincere */
+button.enabled {
+    background: linear-gradient(135deg, #2ecc71, #1e8449) !important;
+}
+button.disabled {
+    background: linear-gradient(135deg, #e74c3c, #922b21) !important;
+}
+/* Domande selezionate allineate a sinistra */
+.domande-selezionate,
+#domandeSelezionate,
+#divDomandeSelezionate {
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
 }

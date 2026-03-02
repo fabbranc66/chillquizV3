@@ -32,16 +32,8 @@ let domandaFetchNonce = 0;
    BLOCCO LOGICO: INIT
    =============================== */
 document.addEventListener('DOMContentLoaded', () => {
-    if (!sessioneId) {
-        const urlParam = new URLSearchParams(window.location.search).get('url');
-        if (urlParam && urlParam.startsWith('player/')) {
-            sessioneId = Number(urlParam.split('/')[1] || 0);
-        }
-    }
-
-    if (!sessioneId || Number.isNaN(sessioneId)) {
-        alert('Sessione non valida');
-        return;
+    if (Number.isNaN(sessioneId)) {
+        sessioneId = 0;
     }
 
     const btnEntra = document.getElementById('btn-entra');
@@ -66,7 +58,7 @@ async function handleJoin() {
         const formData = new FormData();
         formData.append('nome', nome);
 
-        const response = await fetch(`${API_BASE}/join/${sessioneId}`, {
+        const response = await fetch(`${API_BASE}/join/${sessioneId || 0}`, {
             method: 'POST',
             body: formData
         });
@@ -118,7 +110,7 @@ function watchJoinRequest(requestId, nome) {
             const formData = new FormData();
             formData.append('request_id', requestId);
 
-            const response = await fetch(`${API_BASE}/joinStato/${sessioneId}`, {
+            const response = await fetch(`${API_BASE}/joinStato/${sessioneId || 0}`, {
                 method: 'POST',
                 body: formData
             });
@@ -164,7 +156,7 @@ async function fetchStato() {
     if (!sessioneId) return;
 
     try {
-        const response = await fetch(`${API_BASE}/stato/${sessioneId}`);
+        const response = await fetch(`${API_BASE}/stato/${sessioneId || 0}`);
         const data = await response.json();
 
         if (!data.success || !data.sessione) return;
@@ -233,7 +225,7 @@ async function fetchDomanda() {
     const requestNonce = ++domandaFetchNonce;
 
     try {
-        const response = await fetch(`${API_BASE}/domanda/${sessioneId}`);
+        const response = await fetch(`${API_BASE}/domanda/${sessioneId || 0}`);
         const data = await response.json();
 
         if (!data.success || !isDomandaAttiva() || requestNonce !== domandaFetchNonce) return;
@@ -307,7 +299,7 @@ async function inviaRisposta(domandaId, opzioneId) {
         formData.append('domanda_id', String(domandaId || 0));
         formData.append('opzione_id', String(opzioneId || 0));
 
-        const response = await fetch(`${API_BASE}/risposta/${sessioneId}`, {
+        const response = await fetch(`${API_BASE}/risposta/${sessioneId || 0}`, {
             method: 'POST',
             body: formData
         });
@@ -349,7 +341,7 @@ async function handlePuntata() {
         formData.append('partecipazione_id', String(partecipazioneId || 0));
         formData.append('puntata', String(parseInt(String(importo), 10)));
 
-        const response = await fetch(`${API_BASE}/puntata/${sessioneId}`, {
+        const response = await fetch(`${API_BASE}/puntata/${sessioneId || 0}`, {
             method: 'POST',
             body: formData
         });
@@ -453,7 +445,7 @@ function renderRisultatoPersonaleImmediato(risultato) {
 
 async function fetchClassifica() {
     try {
-        const response = await fetch(`${API_BASE}/classifica/${sessioneId}`);
+        const response = await fetch(`${API_BASE}/classifica/${sessioneId || 0}`);
         const data = await response.json();
 
         if (!data.success) return;

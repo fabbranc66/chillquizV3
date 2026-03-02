@@ -52,10 +52,38 @@ class SelezioneDomande
 
         $domande = $stmt->fetchAll();
 
+        $this->salvaDomandeSessione($sessioneId, $domande);
+    }
+
+    public function generaDaSessione(int $sessioneId, int $numero, string $poolTipo, ?int $argomentoId): void
+    {
+        $sql = "SELECT id FROM domande WHERE attiva = 1";
+        $params = [];
+
+        if ($poolTipo === 'fisso' && $argomentoId !== null) {
+            $sql .= " AND argomento_id = :argomento_id";
+            $params['argomento_id'] = $argomentoId;
+        }
+
+        $sql .= " ORDER BY RAND() LIMIT " . max(1, $numero);
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($params);
+
+        $domande = $stmt->fetchAll();
+
+        if (count($domande) < $numero) {
+            throw new \RuntimeException('Domande insufficienti per il pool richiesto.');
+        }
+
+        $this->salvaDomandeSessione($sessioneId, $domande);
+    }
+
+    private function salvaDomandeSessione(int $sessioneId, array $domande): void
+    {
         $posizione = 1;
 
         foreach ($domande as $domanda) {
-
             $insert = $this->pdo->prepare(
                 "INSERT INTO sessione_domande
                  (sessione_id, domanda_id, posizione)
