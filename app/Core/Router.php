@@ -11,7 +11,8 @@ class Router
         $url = trim($url, '/');
         $segments = $url !== '' ? explode('/', $url) : [];
 
-        $controllerName = $segments[0] ?? 'game';
+        // Default controller => player (prima era 'game')
+        $controllerName = $segments[0] ?? 'player';
 
         /* ======================
            GESTIONE API
@@ -72,14 +73,15 @@ class Router
            ROUTING STANDARD
         ====================== */
 
-// Caso speciale: player/{id} e screen/{id}
-if (($controllerName === 'player' || $controllerName === 'screen') && isset($segments[1]) && is_numeric($segments[1])) {
-    $methodName = 'index';
-    $params = [(int)$segments[1]];
-} else {
-    $methodName = $segments[1] ?? 'index';
-    $params     = array_slice($segments, 2);
-}
+        // Caso speciale: player/{id} e screen/{id}
+        if (($controllerName === 'player' || $controllerName === 'screen') && isset($segments[1]) && is_numeric($segments[1])) {
+            $methodName = 'index';
+            $params = [(int)$segments[1]];
+        } else {
+            $methodName = $segments[1] ?? 'index';
+            $params     = array_slice($segments, 2);
+        }
+
         $controllerClass = $this->resolveController($controllerName);
 
         if (!$controllerClass) {

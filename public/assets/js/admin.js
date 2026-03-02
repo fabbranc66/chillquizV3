@@ -147,6 +147,13 @@ function renderClassificaLive(lista) {
 
 /* ===== UI ===== */
 function setButton(button, enabled) {
+    // ✅ guard rail: se il bottone non esiste nella pagina corrente, non bloccare tutta la UI
+    if (!button) {
+        // utile per debug: vedi in console quale manca
+        // console.warn('[admin.js] setButton: button null');
+        return;
+    }
+
     if (enabled) {
         button.classList.remove('disabled');
         button.classList.add('enabled');
@@ -157,7 +164,6 @@ function setButton(button, enabled) {
         button.disabled = true;
     }
 }
-
 function aggiornaUI(sessione) {
 
     sessioneIdSpan.textContent = SESSIONE_ID;
