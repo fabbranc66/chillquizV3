@@ -40,7 +40,13 @@ window.PLAYER_BOOTSTRAP = {
 </script>
 
 <!-- FILE JS: public/assets/js/player.js -->
-<script src="/chillquizV3/public/assets/js/player.js"></script>
-
-</body>
-</html>
+<script defer src="/chillquizV3/public/assets/js/player/01_bootstrap.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/player/02_dom.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/player/03_utils.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/player/04_screens.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/player/05_join.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/player/06_polling.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/player/07_domanda.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/player/08_puntata.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/player/09_classifica.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/player/10_main.js?v=<?= time() ?>"></script></html>
