@@ -31,7 +31,14 @@ window.ADMIN_BOOTSTRAP = {
 };
 </script>
 
-<script src="/chillquizV3/public/assets/js/admin.js"></script>
+<script defer src="/chillquizV3/public/assets/js/admin/01_bootstrap.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/admin/02_dom.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/admin/03_utils.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/admin/04_log.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/admin/05_render.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/admin/06_ui.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/admin/07_actions.js?v=<?= time() ?>"></script>
+<script defer src="/chillquizV3/public/assets/js/admin/08_main.js?v=<?= time() ?>"></script>
 
 </body>
 </html>
