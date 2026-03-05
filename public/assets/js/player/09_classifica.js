@@ -27,6 +27,10 @@
     if (D.capitaleValue) D.capitaleValue.innerText = String(capitale);
   }
 
+  function rowLine(label, value, right = false) {
+    return `<div class="risultato-row${right ? ' row-right' : ''}"><span class="riga-testo">${label}: ${value}</span></div>`;
+  }
+
   function renderRisultatoPersonaleDaClassifica(lista) {
     const container = D.risultatoPersonale;
     if (!container) return;
@@ -40,8 +44,13 @@
     }
 
     const esito = miaRiga.esito ?? '-';
-    const ultimaPuntata = Number(miaRiga.ultima_puntata ?? 0);
-    const vincita = (miaRiga.vincita_domanda === null || miaRiga.vincita_domanda === undefined)
+    const puntata = Number(miaRiga.ultima_puntata ?? 0);
+    const difficolta = Number(miaRiga.difficolta_domanda ?? 0);
+    const fattoreVelocita = Number(miaRiga.fattore_velocita ?? 0);
+    const vincitaDifficolta = Number(miaRiga.vincita_difficolta ?? 0);
+    const vincitaVelocita = Number(miaRiga.vincita_velocita ?? 0);
+    const bonusPrimo = Number(miaRiga.bonus_primo ?? 0);
+    const vincitaTotale = (miaRiga.vincita_domanda === null || miaRiga.vincita_domanda === undefined)
       ? '-'
       : Number(miaRiga.vincita_domanda);
     const tempo = (miaRiga.tempo_risposta === null || miaRiga.tempo_risposta === undefined)
@@ -53,13 +62,18 @@
     if (esito === 'corretta') container.classList.add('esito-corretta');
     else if (esito === 'errata') container.classList.add('esito-errata');
 
-    container.innerHTML = `
-      <div class="risultato-row"><strong>Esito:</strong><span>${esito}</span></div>
-      <div class="risultato-row"><strong>Puntata:</strong><span class="valore-numerico">${POINTS_SYMBOL} ${ultimaPuntata}</span></div>
-      <div class="risultato-row"><strong>Vincita domanda:</strong><span class="valore-numerico">${vincita}</span></div>
-      <div class="risultato-row"><strong>Tempo risposta:</strong><span class="valore-numerico">${tempo}</span></div>
-      <div class="risultato-row"><strong>Punti attuali:</strong><span class="valore-numerico">${POINTS_SYMBOL} ${capitale}</span></div>
-    `;
+    container.innerHTML = [
+      rowLine('Esito', esito),
+      rowLine('Tempo risposta', `${tempo}`),
+      rowLine('Puntata', `${POINTS_SYMBOL} ${puntata}`),
+      rowLine('Coeff. difficolta', `x${difficolta}`),
+      rowLine('Vincita difficolta', `${vincitaDifficolta}`, true),
+      rowLine('Coeff. velocita', `x${fattoreVelocita}`),
+      rowLine('Vincita velocita', `${vincitaVelocita}`, true),
+      rowLine('Bonus primo', `${bonusPrimo}`, true),
+      rowLine('Vincita totale', `${vincitaTotale}`, true),
+      rowLine('Punti attuali', `${POINTS_SYMBOL} ${capitale}`),
+    ].join('');
   }
 
   function renderRisultatoPersonaleImmediato(risultato) {
@@ -67,6 +81,12 @@
     if (!container || !risultato || typeof risultato !== 'object') return;
 
     const esito = risultato.corretta ? 'corretta' : 'errata';
+    const puntata = Number(risultato.puntata ?? 0);
+    const difficolta = Number(risultato.difficolta_domanda ?? 0);
+    const fattoreVelocita = Number(risultato.fattore_velocita ?? 0);
+    const vincitaDifficolta = Number(risultato.vincita_difficolta ?? 0);
+    const vincitaVelocita = Number(risultato.vincita_velocita ?? 0);
+    const bonusPrimo = Number(risultato.bonus_primo ?? 0);
     const punti = Number(risultato.punti ?? 0);
     const tempo = Number(risultato.tempo_risposta ?? 0);
     const capitale = Number(risultato.capitale ?? 0);
@@ -74,12 +94,18 @@
     container.classList.remove('esito-corretta', 'esito-errata');
     container.classList.add(risultato.corretta ? 'esito-corretta' : 'esito-errata');
 
-    container.innerHTML = `
-      <div class="risultato-row"><strong>Esito:</strong><span>${esito}</span></div>
-      <div class="risultato-row"><strong>Punti:</strong><span class="valore-numerico">${punti}</span></div>
-      <div class="risultato-row"><strong>Tempo risposta:</strong><span class="valore-numerico">${tempo}</span></div>
-      <div class="risultato-row"><strong>Punti attuali:</strong><span class="valore-numerico">${POINTS_SYMBOL} ${capitale}</span></div>
-    `;
+    container.innerHTML = [
+      rowLine('Esito', esito),
+      rowLine('Tempo risposta', `${tempo}`),
+      rowLine('Puntata', `${POINTS_SYMBOL} ${puntata}`),
+      rowLine('Coeff. difficolta', `x${difficolta}`),
+      rowLine('Vincita difficolta', `${vincitaDifficolta}`, true),
+      rowLine('Coeff. velocita', `x${fattoreVelocita}`),
+      rowLine('Vincita velocita', `${vincitaVelocita}`, true),
+      rowLine('Bonus primo', `${bonusPrimo}`, true),
+      rowLine('Vincita totale', `${punti}`, true),
+      rowLine('Punti attuali', `${POINTS_SYMBOL} ${capitale}`),
+    ].join('');
   }
 
   async function fetchClassifica() {

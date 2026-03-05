@@ -155,7 +155,6 @@ class JoinRichiesta
 
         $partecipazioneId = (int) ($richiesta['partecipazione_id'] ?? 0);
 
-        // 1) Se già presente, deve appartenere alla sessione corrente
         if ($partecipazioneId > 0) {
             $checkPartecipazione = $this->pdo->prepare(
                 "SELECT id
@@ -175,7 +174,6 @@ class JoinRichiesta
             }
         }
 
-        // 2) Fallback robusto: recupera la partecipazione della STESSA sessione via nome
         if ($partecipazioneId <= 0) {
             $recuperaPartecipazione = $this->pdo->prepare(
                 "SELECT p.id
@@ -199,7 +197,6 @@ class JoinRichiesta
             }
         }
 
-        // 3) Se non troviamo una partecipazione valida, NON approviamo (evita approvazioni "orfane")
         if ($partecipazioneId <= 0) {
             return false;
         }
@@ -269,7 +266,17 @@ class JoinRichiesta
             return;
         }
 
-        $capitaleRientro = (int) ($ultimo['capitale_attuale'] ?? 0);
+        $coeffDefault = 0.40;
+        $coeffSetting = (float) ((new Sistema())->get('coefficiente_rientro_zero') ?? 0);
+        $coeff = $coeffSetting > 0 ? $coeffSetting : $coeffDefault;
+        $coeff = max(0.01, min(1.0, $coeff));
+
+        $base = (int) ($ultimo['capitale_attuale'] ?? 0);
+        $capitaleRientro = (int) floor($base * $coeff);
+
+        if ($capitaleRientro <= 0) {
+            return;
+        }
 
         $update = $this->pdo->prepare(
             "UPDATE partecipazioni

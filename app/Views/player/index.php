@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <title>ChillQuiz Player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/chillquizV3/public/assets/css/player.css">
+    <link rel="stylesheet" href="/chillquizV3/public/assets/css/player.css?v=<?= time() ?>">
 </head>
 <body class="<?= !empty($showModuleTags) ? 'module-tags-on' : 'module-tags-off' ?>">
 

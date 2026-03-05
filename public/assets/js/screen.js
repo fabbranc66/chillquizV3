@@ -16,6 +16,7 @@
    =============================== */
 const SCREEN_BOOTSTRAP = window.SCREEN_BOOTSTRAP || {};
 const BASE_PUBLIC_URL = String(SCREEN_BOOTSTRAP.basePublicUrl || window.location.pathname.replace(/index\.php$/, ''));
+const PUBLIC_HOST = String(SCREEN_BOOTSTRAP.publicHost || window.location.host);
 const API_BASE = `${BASE_PUBLIC_URL}index.php?url=api`;
 let sessioneId = Number(SCREEN_BOOTSTRAP.sessioneId || 0);
 let currentState = null;
@@ -45,7 +46,8 @@ function setupSessionQr() {
     const qrImg = document.getElementById('sessione-qr');
     if (!qrImg) return;
 
-    const joinUrl = `${window.location.origin}${BASE_PUBLIC_URL}index.php?url=player`;
+    const protocol = window.location.protocol || 'http:';
+    const joinUrl = `${protocol}//${PUBLIC_HOST}${BASE_PUBLIC_URL}index.php?url=player`;
     qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(joinUrl)}`;
 }
 
@@ -154,7 +156,6 @@ function renderStateImage(state) {
     img.alt = `Immagine stato: ${meta.message}`;
 }
 
-
 /* ===============================
    BLOCCO LOGICO: RISULTATI CLASSIFICA
    =============================== */
@@ -244,7 +245,7 @@ function showDomandaView() {
 function showDomandaLoadingView() {
     showDomandaView();
 
-    // Se la domanda è già renderizzata, evita qualsiasi intercalamento col loading
+    // Se la domanda e' gia' renderizzata, evita qualsiasi intercalamento col loading
     if (domandaRenderizzata) return;
 
     const titolo = document.getElementById('domanda-testo');
@@ -308,7 +309,6 @@ async function fetchDomandaIfActive() {
         console.error(e);
     }
 }
-
 
 /* ===============================
    BLOCCO LOGICO: API MEDIA/STATO

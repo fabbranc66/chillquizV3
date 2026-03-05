@@ -27,10 +27,9 @@ class AppSettings
             $config[$chiave] = (string) ($row['valore'] ?? '');
         }
 
-
         $defaultConfigurazioni = [
             'capitale_iniziale' => '1000',
-            'coefficiente_rientro_zero' => '0.25',
+            'coefficiente_rientro_zero' => '0.40',
         ];
 
         foreach ($defaultConfigurazioni as $key => $value) {
