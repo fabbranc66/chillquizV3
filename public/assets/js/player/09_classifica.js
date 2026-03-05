@@ -3,6 +3,7 @@
   const Player = window.Player;
   const S = Player.state;
   const D = Player.dom;
+  const POINTS_SYMBOL = '&#9733;';
 
   function getMiaRigaClassifica(lista) {
     if (!Array.isArray(lista) || lista.length === 0) return null;
@@ -54,10 +55,10 @@
 
     container.innerHTML = `
       <div class="risultato-row"><strong>Esito:</strong><span>${esito}</span></div>
-      <div class="risultato-row"><strong>Puntata:</strong><span class="valore-numerico">💰 ${ultimaPuntata}</span></div>
+      <div class="risultato-row"><strong>Puntata:</strong><span class="valore-numerico">${POINTS_SYMBOL} ${ultimaPuntata}</span></div>
       <div class="risultato-row"><strong>Vincita domanda:</strong><span class="valore-numerico">${vincita}</span></div>
       <div class="risultato-row"><strong>Tempo risposta:</strong><span class="valore-numerico">${tempo}</span></div>
-      <div class="risultato-row"><strong>Capitale attuale:</strong><span class="valore-numerico">💰 ${capitale}</span></div>
+      <div class="risultato-row"><strong>Punti attuali:</strong><span class="valore-numerico">${POINTS_SYMBOL} ${capitale}</span></div>
     `;
   }
 
@@ -77,7 +78,7 @@
       <div class="risultato-row"><strong>Esito:</strong><span>${esito}</span></div>
       <div class="risultato-row"><strong>Punti:</strong><span class="valore-numerico">${punti}</span></div>
       <div class="risultato-row"><strong>Tempo risposta:</strong><span class="valore-numerico">${tempo}</span></div>
-      <div class="risultato-row"><strong>Capitale attuale:</strong><span class="valore-numerico">💰 ${capitale}</span></div>
+      <div class="risultato-row"><strong>Punti attuali:</strong><span class="valore-numerico">${POINTS_SYMBOL} ${capitale}</span></div>
     `;
   }
 
@@ -114,7 +115,7 @@
         div.innerHTML = `
           <strong>${index + 1}.</strong>
           ${nome}
-          <span>💰 ${capitale}</span>
+          <span>${POINTS_SYMBOL} ${capitale}</span>
         `;
 
         container.appendChild(div);

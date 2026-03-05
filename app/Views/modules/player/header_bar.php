@@ -1,14 +1,22 @@
 <?php /*
  * FILE: app/Views/modules/player/header_bar.php
- * RUOLO: Header player (nome + capitale corrente).
+ * RUOLO: Header player (nome + timer + punti giocatore).
  * UTILIZZATO DA: app/Views/player/index.php
- * ELEMENTI USATI DA JS: #player-display-name #capitale-value
+ * ELEMENTI USATI DA JS: #player-display-name #capitale-value #player-header-timer-indicator #player-header-timer-label
  */ ?>
 <div class="module-debug-tag">player/header_bar.php</div>
 <!-- HEADER -->
 <div class="header">
     <div id="player-display-name">Player</div>
-    <div class="capitale">
-        💰 <span id="capitale-value">0</span>
+
+    <div class="header-timer-wrap" id="player-header-timer-wrap" aria-label="Timer domanda">
+        <span id="player-header-timer-indicator" class="player-timer-indicator">
+            <span class="player-timer-indicator-inner"></span>
+        </span>
+        <span id="player-header-timer-label" class="player-timer-label">0s</span>
+    </div>
+
+    <div class="capitale" title="Punti giocatore">
+        &#9733; <span id="capitale-value">0</span>
     </div>
 </div>

@@ -17,10 +17,11 @@ class Sessione
         $this->pdo = Database::getInstance();
     }
 
-    public function crea(int $configurazioneId, ?string $nome = null): int
+    public function crea(int $configurazioneId, ?string $nome = null, array $sessionConfig = []): int
     {
         $pin = $this->generaPin();
         $nomeSessione = trim((string) $nome);
+        $configSnapshot = $this->buildSessionConfigSnapshot($configurazioneId, $sessionConfig);
 
         $nomeColumn = $this->resolveSessionNameColumn();
 
@@ -30,6 +31,10 @@ class Sessione
 
         $params = [
             'configurazione_id' => $configurazioneId,
+            'numero_domande' => $configSnapshot['numero_domande'],
+            'pool_tipo' => $configSnapshot['pool_tipo'],
+            'argomento_id' => $configSnapshot['argomento_id'],
+            'selezione_tipo' => $configSnapshot['selezione_tipo'],
             'pin' => $pin,
             'creata_il' => time(),
         ];
@@ -37,18 +42,18 @@ class Sessione
         if ($nomeColumn !== null) {
             $stmt = $this->pdo->prepare(
                 "INSERT INTO sessioni
-                 (configurazione_id, pin, {$nomeColumn}, stato, domanda_corrente, creata_il)
+                 (configurazione_id, numero_domande, pool_tipo, argomento_id, selezione_tipo, pin, {$nomeColumn}, stato, domanda_corrente, creata_il)
                  VALUES
-                 (:configurazione_id, :pin, :nome_sessione, 'attesa', 1, :creata_il)"
+                 (:configurazione_id, :numero_domande, :pool_tipo, :argomento_id, :selezione_tipo, :pin, :nome_sessione, 'attesa', 1, :creata_il)"
             );
 
             $params['nome_sessione'] = $nomeSessione;
         } else {
             $stmt = $this->pdo->prepare(
                 "INSERT INTO sessioni
-                 (configurazione_id, pin, stato, domanda_corrente, creata_il)
+                 (configurazione_id, numero_domande, pool_tipo, argomento_id, selezione_tipo, pin, stato, domanda_corrente, creata_il)
                  VALUES
-                 (:configurazione_id, :pin, 'attesa', 1, :creata_il)"
+                 (:configurazione_id, :numero_domande, :pool_tipo, :argomento_id, :selezione_tipo, :pin, 'attesa', 1, :creata_il)"
             );
         }
 
@@ -60,6 +65,94 @@ class Sessione
         $selezione->genera($sessioneId, $configurazioneId);
 
         return $sessioneId;
+    }
+
+    private function buildSessionConfigSnapshot(int $configurazioneId, array $input): array
+    {
+        $base = $this->loadConfigSnapshot($configurazioneId);
+
+        $numeroDomande = isset($input['numero_domande']) ? (int) $input['numero_domande'] : $base['numero_domande'];
+        if ($numeroDomande <= 0) {
+            $numeroDomande = $base['numero_domande'];
+        }
+
+        $poolRaw = trim((string) ($input['pool_tipo'] ?? $base['pool_tipo']));
+        $poolTipo = in_array($poolRaw, ['mono', 'fisso'], true) ? 'mono' : 'tutti';
+
+        $argomentoRaw = $input['argomento_id'] ?? $base['argomento_id'];
+        $argomentoId = null;
+        if ($argomentoRaw !== '' && $argomentoRaw !== null) {
+            $argomentoInt = (int) $argomentoRaw;
+            if ($argomentoInt > 0) {
+                $argomentoId = $argomentoInt;
+            }
+        }
+
+        if ($poolTipo !== 'mono') {
+            $argomentoId = null;
+        }
+
+        $selezioneRaw = trim((string) ($input['selezione_tipo'] ?? $base['selezione_tipo']));
+        $selezioneTipo = $selezioneRaw === 'manuale' ? 'manuale' : 'random';
+
+        return [
+            'numero_domande' => $numeroDomande,
+            'pool_tipo' => $poolTipo,
+            'argomento_id' => $argomentoId,
+            'selezione_tipo' => $selezioneTipo,
+        ];
+    }
+
+    private function loadConfigSnapshot(int $configurazioneId): array
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT numero_domande, pool_tipo, argomento_id, selezione_tipo
+             FROM configurazioni_quiz
+             WHERE id = :id
+             LIMIT 1"
+        );
+
+        $stmt->execute(['id' => $configurazioneId]);
+        $legacy = $stmt->fetch();
+
+        if ($legacy) {
+            return [
+                'numero_domande' => (int) ($legacy['numero_domande'] ?? 10),
+                'pool_tipo' => ($legacy['pool_tipo'] ?? 'misto') === 'mono' ? 'mono' : 'tutti',
+                'argomento_id' => $legacy['argomento_id'] !== null ? (int) $legacy['argomento_id'] : null,
+                'selezione_tipo' => $legacy['selezione_tipo'] ?? 'random',
+            ];
+        }
+
+        $stmt = $this->pdo->prepare(
+            "SELECT numero_domande, modalita, argomento_id, selezione_tipo
+             FROM configurazioni_quiz_v2
+             WHERE id = :id
+             LIMIT 1"
+        );
+
+        $stmt->execute(['id' => $configurazioneId]);
+        $v2 = $stmt->fetch();
+
+        if ($v2) {
+            $modalita = (string) ($v2['modalita'] ?? 'mista');
+            $poolTipo = $modalita === 'mista' ? 'tutti' : 'mono';
+            $selezione = (string) ($v2['selezione_tipo'] ?? 'auto');
+
+            return [
+                'numero_domande' => (int) ($v2['numero_domande'] ?? 10),
+                'pool_tipo' => $poolTipo,
+                'argomento_id' => $v2['argomento_id'] !== null ? (int) $v2['argomento_id'] : null,
+                'selezione_tipo' => $selezione === 'manuale' ? 'manuale' : 'random',
+            ];
+        }
+
+        return [
+            'numero_domande' => 10,
+            'pool_tipo' => 'tutti',
+            'argomento_id' => null,
+            'selezione_tipo' => 'random',
+        ];
     }
 
     private function hasColumn(string $table, string $column): bool
@@ -91,18 +184,11 @@ class Sessione
         return null;
     }
 
-    /**
-     * Compat legacy: alcuni punti del codice chiamano ancora questo metodo.
-     */
     public function hasNomeSessioneColumn(): bool
     {
         return $this->hasColumn('sessioni', 'nome_sessione');
     }
 
-    /**
-     * Compat legacy: in passato creava la colonna runtime.
-     * Ora è un no-op per evitare alter table in produzione.
-     */
     public function ensureNomeSessioneColumn(): void
     {
         // intentionally no-op
@@ -119,7 +205,6 @@ class Sessione
 
             $stmt->execute(['pin' => $pin]);
             $esiste = $stmt->fetch();
-
         } while ($esiste);
 
         return $pin;
@@ -203,7 +288,6 @@ class Sessione
     public function cambiaStato(int $id, string $stato): bool
     {
         if ($stato === 'domanda') {
-
             $stmt = $this->pdo->prepare(
                 "UPDATE sessioni
                  SET stato = :stato,
@@ -214,7 +298,7 @@ class Sessione
             return $stmt->execute([
                 'stato' => $stato,
                 'inizio' => time(),
-                'id' => $id
+                'id' => $id,
             ]);
         }
 
@@ -226,17 +310,19 @@ class Sessione
 
         return $stmt->execute([
             'stato' => $stato,
-            'id' => $id
+            'id' => $id,
         ]);
     }
 
     public function avanzaDomanda(int $id): void
     {
         $stmt = $this->pdo->prepare(
-            "SELECT s.domanda_corrente, c.numero_domande
+            "SELECT s.domanda_corrente,
+                    COALESCE(MAX(sd.posizione), 0) AS numero_domande
              FROM sessioni s
-             JOIN configurazioni_quiz c ON c.id = s.configurazione_id
+             LEFT JOIN sessione_domande sd ON sd.sessione_id = s.id
              WHERE s.id = :id
+             GROUP BY s.id, s.domanda_corrente
              LIMIT 1"
         );
 
@@ -250,8 +336,11 @@ class Sessione
         $corrente = (int) $data['domanda_corrente'];
         $totale = (int) $data['numero_domande'];
 
-        if ($corrente >= $totale) {
+        if ($totale <= 0) {
+            return;
+        }
 
+        if ($corrente >= $totale) {
             $update = $this->pdo->prepare(
                 "UPDATE sessioni
                  SET stato = 'conclusa'
@@ -259,9 +348,7 @@ class Sessione
             );
 
             $update->execute(['id' => $id]);
-
         } else {
-
             $update = $this->pdo->prepare(
                 "UPDATE sessioni
                  SET domanda_corrente = domanda_corrente + 1,

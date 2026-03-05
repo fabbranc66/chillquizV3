@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Models\Partecipazione;
 use App\Models\Risposta;
 use App\Models\Sessione;
-use App\Models\Sistema;
 use App\Models\JoinRichiesta;
 use App\Models\Utente;
 use App\Models\ScreenMedia;
@@ -71,19 +70,9 @@ class ApiController
             $stmt = $pdo->prepare("SELECT * FROM sessioni WHERE id = ?");
             $stmt->execute([$sessioneId]);
 
-            $sessione = $stmt->fetch() ?: null;
-
-            if ($sessione) {
-                $timerStart = (int) ($sessione['inizio_domanda'] ?? 0);
-                $timerMax = (int) ((new Sistema())->get('durata_domanda') ?? 0);
-
-                $sessione['timer_start'] = $timerStart;
-                $sessione['timer_max'] = $timerMax;
-            }
-
             $this->json([
                 'success' => true,
-                'sessione' => $sessione
+                'sessione' => $stmt->fetch()
             ]);
 
         } catch (Throwable $e) {
@@ -463,33 +452,33 @@ public function join($sessioneId): void
             switch ($action) {
 
                 case 'nuova-sessione':
-                    $nomeSessione = trim((string) ($_POST['nome'] ?? $_POST['sessione_nome'] ?? ''));
+                     = trim((string) (['nome'] ?? ['sessione_nome'] ?? ''));
 
-                    $numeroDomande = (int) ($_POST['numero_domande'] ?? 0);
-                    $poolTipo = trim((string) ($_POST['pool_tipo'] ?? ''));
-                    $argomentoRaw = $_POST['argomento_id'] ?? null;
-                    $selezioneTipo = trim((string) ($_POST['selezione_tipo'] ?? ''));
+                     = (int) (['numero_domande'] ?? 0);
+                     = trim((string) (['pool_tipo'] ?? ''));
+                     = ['argomento_id'] ?? null;
+                     = trim((string) (['selezione_tipo'] ?? ''));
 
-                    $configInput = [
-                        'numero_domande' => $numeroDomande > 0 ? $numeroDomande : null,
-                        'pool_tipo' => $poolTipo,
-                        'argomento_id' => $argomentoRaw,
-                        'selezione_tipo' => $selezioneTipo,
+                     = [
+                        'numero_domande' =>  > 0 ?  : null,
+                        'pool_tipo' => ,
+                        'argomento_id' => ,
+                        'selezione_tipo' => ,
                     ];
 
-                    $sessioneModel = new Sessione();
-                    $nuovaId = $sessioneModel->crea(1, $nomeSessione, $configInput);
-                    $sessioneCreata = $sessioneModel->trova($nuovaId) ?: [];
+                     = new Sessione();
+                     = ->crea(1, , );
+                     = ->trova() ?: [];
 
-                    $this->json([
+                    ->json([
                         'success' => true,
-                        'action' => $action,
-                        'sessione_id' => $nuovaId,
-                        'nome_sessione' => $nomeSessione !== '' ? $nomeSessione : null,
-                        'numero_domande' => (int) ($sessioneCreata['numero_domande'] ?? 0),
-                        'pool_tipo' => (string) ($sessioneCreata['pool_tipo'] ?? ''),
-                        'argomento_id' => $sessioneCreata['argomento_id'] ?? null,
-                        'selezione_tipo' => (string) ($sessioneCreata['selezione_tipo'] ?? ''),
+                        'action' => ,
+                        'sessione_id' => ,
+                        'nome_sessione' =>  !== '' ?  : null,
+                        'numero_domande' => (int) (['numero_domande'] ?? 0),
+                        'pool_tipo' => (string) (['pool_tipo'] ?? ''),
+                        'argomento_id' => ['argomento_id'] ?? null,
+                        'selezione_tipo' => (string) (['selezione_tipo'] ?? ''),
                     ]);
                     return;
                 case 'avvia-puntata':

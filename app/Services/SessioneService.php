@@ -15,6 +15,7 @@ class SessioneService
     use Sessione\Traits\PoolDomandeTrait;
     use Sessione\Traits\PuntateLiveTrait;
     use Sessione\Traits\ClassificaTrait;
+    use Sessione\Traits\ResetTrait;
 
     protected \PDO $pdo;
     protected int $sessioneId;

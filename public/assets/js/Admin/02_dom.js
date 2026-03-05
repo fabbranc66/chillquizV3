@@ -9,6 +9,9 @@
     timerIndicator: document.getElementById('timer-indicator'),
 
     inputSessioneNome: document.getElementById('sessione-nome'),
+    inputSessioneNumeroDomande: document.getElementById('sessione-numero-domande'),
+    inputSessionePoolTipo: document.getElementById('sessione-pool-tipo'),
+    inputSessioneArgomentoId: document.getElementById('sessione-argomento-id'),
     btnNuova: document.getElementById('btnNuova'),
     btnSetCorrente: document.getElementById('btnSetCorrente'),
     sessioneSelect: document.getElementById('sessione-select'),

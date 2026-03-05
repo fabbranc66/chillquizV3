@@ -178,6 +178,47 @@ body {
 
 .hidden { display: none !important; }
 
+/* TIMER TOP-LEFT */
+.stage-timer {
+    position: absolute;
+    top: 22px;
+    left: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(0, 0, 0, 0.28);
+    z-index: 4;
+}
+
+.stage-timer-indicator {
+    --progress: 0deg;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: conic-gradient(#fbc531 var(--progress), rgba(255, 255, 255, 0.22) 0deg);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stage-timer-indicator-inner {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.68);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.stage-timer-label {
+    font-size: 21px;
+    font-weight: 900;
+    min-width: 44px;
+    text-align: right;
+}
+
 
 .module-debug-tag {
     display: block;

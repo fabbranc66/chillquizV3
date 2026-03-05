@@ -19,6 +19,8 @@
     // domanda
     domandaTesto: document.getElementById('domanda-testo'),
     opzioniDiv: document.getElementById('opzioni'),
+    timerIndicator: document.getElementById('player-header-timer-indicator') || document.getElementById('player-timer-indicator'),
+    timerLabel: document.getElementById('player-header-timer-label') || document.getElementById('player-timer-label'),
 
     // risultati/classifica
     risultatoPersonale: document.getElementById('risultato-personale'),

@@ -15,6 +15,13 @@
 <body class="<?= !empty($showModuleTags) ? 'module-tags-on' : 'module-tags-off' ?>">
 
 <div class="stage">
+    <div class="stage-timer" id="stage-timer" aria-label="Timer domanda">
+        <span class="stage-timer-indicator" id="stage-timer-indicator">
+            <span class="stage-timer-indicator-inner"></span>
+        </span>
+        <span class="stage-timer-label" id="stage-timer-label">0s</span>
+    </div>
+
     <?php require BASE_PATH . '/app/Views/modules/screen/stage_header.php'; ?>
 
     <?php require BASE_PATH . '/app/Views/modules/screen/session_qr.php'; ?>

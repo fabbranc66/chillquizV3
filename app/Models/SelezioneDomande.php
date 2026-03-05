@@ -16,31 +16,40 @@ class SelezioneDomande
 
     public function genera(int $sessioneId, int $configurazioneId): void
     {
-        $configModel = new ConfigurazioneQuiz();
-        $config = $configModel->trova($configurazioneId);
+        $sessionConfig = $this->loadSessionConfig($sessioneId);
 
-        if (!$config) {
-            throw new \RuntimeException("Configurazione non trovata");
+        if ($sessionConfig !== null) {
+            $numero = (int) $sessionConfig['numero_domande'];
+            $poolTipo = $sessionConfig['pool_tipo'];
+            $argomentoId = $sessionConfig['argomento_id'];
+            $selezioneTipo = $sessionConfig['selezione_tipo'];
+        } else {
+            $configModel = new ConfigurazioneQuiz();
+            $config = $configModel->trova($configurazioneId);
+
+            if (!$config) {
+                throw new \RuntimeException('Configurazione non trovata');
+            }
+
+            $numero = (int) $config['numero_domande'];
+            $poolTipo = ($config['pool_tipo'] ?? 'misto') === 'mono' ? 'mono' : 'tutti';
+            $argomentoId = $config['argomento_id'] !== null ? (int) $config['argomento_id'] : null;
+            $selezioneTipo = ($config['selezione_tipo'] ?? 'random') === 'manuale' ? 'manuale' : 'random';
         }
 
-        $numero = (int) $config['numero_domande'];
-        $poolTipo = $config['pool_tipo'];
-        $argomentoId = $config['argomento_id'];
-        $selezioneTipo = $config['selezione_tipo'];
-
-        $sql = "SELECT id FROM domande WHERE attiva = 1";
+        $sql = 'SELECT id FROM domande WHERE attiva = 1';
 
         if ($poolTipo === 'mono' && $argomentoId) {
-            $sql .= " AND argomento_id = :argomento_id";
+            $sql .= ' AND argomento_id = :argomento_id';
         }
 
         if ($selezioneTipo === 'random') {
-            $sql .= " ORDER BY RAND()";
+            $sql .= ' ORDER BY RAND()';
         } else {
-            $sql .= " ORDER BY id ASC";
+            $sql .= ' ORDER BY id ASC';
         }
 
-        $sql .= " LIMIT " . $numero;
+        $sql .= ' LIMIT ' . $numero;
 
         $stmt = $this->pdo->prepare($sql);
 
@@ -55,17 +64,43 @@ class SelezioneDomande
         $this->salvaDomandeSessione($sessioneId, $domande);
     }
 
+    private function loadSessionConfig(int $sessioneId): ?array
+    {
+        $stmt = $this->pdo->prepare(
+            'SELECT numero_domande, pool_tipo, argomento_id, selezione_tipo FROM sessioni WHERE id = :id LIMIT 1'
+        );
+
+        $stmt->execute(['id' => $sessioneId]);
+        $row = $stmt->fetch();
+
+        if (!$row) {
+            return null;
+        }
+
+        $numero = (int) ($row['numero_domande'] ?? 0);
+        if ($numero <= 0) {
+            return null;
+        }
+
+        return [
+            'numero_domande' => $numero,
+            'pool_tipo' => ($row['pool_tipo'] ?? 'tutti') === 'mono' ? 'mono' : 'tutti',
+            'argomento_id' => $row['argomento_id'] !== null ? (int) $row['argomento_id'] : null,
+            'selezione_tipo' => ($row['selezione_tipo'] ?? 'random') === 'manuale' ? 'manuale' : 'random',
+        ];
+    }
+
     public function generaDaSessione(int $sessioneId, int $numero, string $poolTipo, ?int $argomentoId): void
     {
-        $sql = "SELECT id FROM domande WHERE attiva = 1";
+        $sql = 'SELECT id FROM domande WHERE attiva = 1';
         $params = [];
 
         if ($poolTipo === 'fisso' && $argomentoId !== null) {
-            $sql .= " AND argomento_id = :argomento_id";
+            $sql .= ' AND argomento_id = :argomento_id';
             $params['argomento_id'] = $argomentoId;
         }
 
-        $sql .= " ORDER BY RAND() LIMIT " . max(1, $numero);
+        $sql .= ' ORDER BY RAND() LIMIT ' . max(1, $numero);
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
@@ -93,7 +128,7 @@ class SelezioneDomande
             $insert->execute([
                 'sessione_id' => $sessioneId,
                 'domanda_id' => $domanda['id'],
-                'posizione' => $posizione
+                'posizione' => $posizione,
             ]);
 
             $posizione++;
@@ -113,7 +148,7 @@ class SelezioneDomande
 
         $stmt->execute([
             'sessione_id' => $sessioneId,
-            'posizione' => $numero
+            'posizione' => $numero,
         ]);
 
         return $stmt->fetch() ?: null;

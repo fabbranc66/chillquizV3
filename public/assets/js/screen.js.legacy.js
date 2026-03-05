@@ -21,7 +21,6 @@ let sessioneId = Number(SCREEN_BOOTSTRAP.sessioneId || 0);
 let currentState = null;
 let pollStato = null;
 let pollMedia = null;
-let timerTick = null;
 let domandaRenderizzata = false;
 let mediaAttiva = null;
 const STATO_POLL_MS = 1000;
@@ -45,63 +44,8 @@ function setupSessionQr() {
     const qrImg = document.getElementById('sessione-qr');
     if (!qrImg) return;
 
-    const joinUrl = `${window.location.origin}${BASE_PUBLIC_URL}index.php?url=player`;
+    const joinUrl = `${window.location.origin}${BASE_PUBLIC_URL}index.php?url=player`; 
     qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(joinUrl)}`;
-}
-
-/* ===============================
-   BLOCCO LOGICO: TIMER
-   =============================== */
-function resetStageTimer() {
-    if (timerTick) {
-        clearInterval(timerTick);
-        timerTick = null;
-    }
-
-    const indicator = document.getElementById('stage-timer-indicator');
-    const label = document.getElementById('stage-timer-label');
-
-    if (indicator) indicator.style.setProperty('--progress', '0deg');
-    if (label) label.innerText = '0s';
-}
-
-function renderStageTimer(sessione) {
-    const indicator = document.getElementById('stage-timer-indicator');
-    const label = document.getElementById('stage-timer-label');
-
-    if (!indicator || !label) return;
-
-    const max = Number(sessione?.timer_max || 0);
-    const start = Number(sessione?.timer_start || 0);
-    const stato = String(sessione?.stato || '');
-
-    if (stato !== 'domanda' || max <= 0 || start <= 0) {
-        resetStageTimer();
-        return;
-    }
-
-    if (timerTick) {
-        clearInterval(timerTick);
-        timerTick = null;
-    }
-
-    const tick = () => {
-        const elapsed = Math.max(0, Math.floor(Date.now() / 1000) - start);
-        const remaining = Math.max(0, max - elapsed);
-        const pct = max > 0 ? (remaining / max) : 0;
-        const deg = Math.max(0, Math.min(360, pct * 360));
-
-        indicator.style.setProperty('--progress', `${deg}deg`);
-        label.innerText = `${remaining}s`;
-
-        if (remaining <= 0 && timerTick) {
-            clearInterval(timerTick);
-            timerTick = null;
-        }
-    };
-
-    tick();
-    timerTick = setInterval(tick, 250);
 }
 
 /* ===============================
@@ -244,7 +188,7 @@ function showDomandaView() {
 function showDomandaLoadingView() {
     showDomandaView();
 
-    // Se la domanda è già renderizzata, evita qualsiasi intercalamento col loading
+    // Se la domanda Ã¨ giÃ  renderizzata, evita qualsiasi intercalamento col loading
     if (domandaRenderizzata) return;
 
     const titolo = document.getElementById('domanda-testo');
@@ -333,7 +277,6 @@ async function fetchMediaAttiva() {
 async function fetchStato() {
     if (!sessioneId) {
         hideDomandaView();
-        resetStageTimer();
         return;
     }
 
@@ -346,12 +289,10 @@ async function fetchStato() {
             } else {
                 hideDomandaView();
             }
-            resetStageTimer();
             return;
         }
 
         currentState = data.sessione?.stato || null;
-        renderStageTimer(data.sessione || null);
 
         if (currentState === 'domanda') {
             hideRisultatiView();
@@ -366,7 +307,6 @@ async function fetchStato() {
     } catch (e) {
         console.error(e);
         hideDomandaView();
-        resetStageTimer();
     }
 }
 

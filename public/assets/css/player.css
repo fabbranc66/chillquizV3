@@ -29,12 +29,24 @@ body {
     background: rgba(0,0,0,0.3);
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-weight: bold;
     font-size: 18px;
+    gap: 10px;
 }
 
 .capitale {
     color: #00ff88;
+}
+
+.header-timer-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.28);
 }
 
 /* CONTENT */
@@ -211,3 +223,32 @@ input {
 body.module-tags-off .module-debug-tag {
     display: none !important;
 }
+
+/* TIMER GRAFICO */
+.player-timer-indicator {
+    --progress: 0deg;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: conic-gradient(#fbc531 var(--progress), rgba(255, 255, 255, 0.22) 0deg);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-timer-indicator-inner {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.player-timer-label {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: .2px;
+    min-width: 34px;
+    text-align: right;
+}
+

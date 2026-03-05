@@ -19,6 +19,7 @@
 
     pollingInterval: null,
     joinRequestPolling: null,
+    timerInterval: null,
 
     rispostaInviata: false,
     puntataInviata: false,

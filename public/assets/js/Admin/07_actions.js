@@ -208,9 +208,22 @@
 
     async nuovaSessione() {
       const nomeSessione = String(D.inputSessioneNome?.value || '').trim();
+      const numeroDomande = Number(D.inputSessioneNumeroDomande?.value || 0);
+      const poolRaw = String(D.inputSessionePoolTipo?.value || 'misto').trim();
+      const argomentoRaw = String(D.inputSessioneArgomentoId?.value || '').trim();
+
+      const poolTipo = (poolRaw === 'fisso' || poolRaw === 'mono') ? 'mono' : 'tutti';
+      const argomentoId = poolTipo === 'mono' && Number(argomentoRaw) > 0 ? String(Number(argomentoRaw)) : '';
+
       const formData = new FormData();
 
       if (nomeSessione !== '') formData.append('nome', nomeSessione);
+      if (Number.isFinite(numeroDomande) && numeroDomande > 0) {
+        formData.append('numero_domande', String(Math.floor(numeroDomande)));
+      }
+      formData.append('pool_tipo', poolTipo);
+      formData.append('argomento_id', argomentoId);
+      formData.append('selezione_tipo', 'random');
 
       const res = await fetch(`${S.API_BASE}/admin/nuova-sessione/0`, {
         method: 'POST',
@@ -244,7 +257,6 @@
         Admin.actions.caricaSessioni();
       }
     },
-
     apriMedia() {
       const url = new URL(window.location.href);
       url.searchParams.set('url', 'admin/media');
