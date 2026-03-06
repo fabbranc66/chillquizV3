@@ -5,9 +5,96 @@
   const D = Player.dom;
   const { isDomandaAttiva } = Player.utils;
 
+  const PUBLIC_BASE = String(S.API_BASE || '').replace(/\?url=api.*$/i, '');
+
+  function resolveMediaUrl(path) {
+    const raw = String(path || '').trim();
+    if (!raw) return '';
+    if (/^https?:\/\//i.test(raw) || raw.startsWith('data:')) return raw;
+
+    const normalizedPath = raw.startsWith('/') ? raw.slice(1) : raw;
+    if (!PUBLIC_BASE) return `/${normalizedPath}`;
+
+    const base = PUBLIC_BASE.endsWith('/') ? PUBLIC_BASE : `${PUBLIC_BASE}/`;
+    return `${base}${normalizedPath}`;
+  }
+
+  function getMediaNodes() {
+    return {
+      wrap: document.getElementById('domanda-media-player'),
+      image: document.getElementById('domanda-media-image-player'),
+      audio: document.getElementById('domanda-media-audio-player'),
+      caption: document.getElementById('domanda-media-caption-player'),
+    };
+  }
+
+  function resetDomandaMedia() {
+    const { wrap, image, audio, caption } = getMediaNodes();
+
+    if (image) {
+      image.removeAttribute('src');
+      image.classList.add('hidden');
+    }
+
+    if (audio) {
+      audio.pause();
+      audio.removeAttribute('src');
+      audio.load();
+      audio.classList.add('hidden');
+    }
+
+    if (caption) {
+      caption.innerText = '';
+      caption.classList.add('hidden');
+    }
+
+    if (wrap) {
+      wrap.classList.add('hidden');
+    }
+  }
+
+  function renderDomandaMedia(domanda) {
+    const { wrap, image, audio, caption } = getMediaNodes();
+    if (!wrap) return;
+
+    const imageUrl = resolveMediaUrl(domanda?.media_image_path);
+    const captionText = String(domanda?.media_caption || '').trim();
+
+    let hasAny = false;
+
+    if (image && imageUrl) {
+      image.src = imageUrl;
+      image.classList.remove('hidden');
+      hasAny = true;
+    } else if (image) {
+      image.removeAttribute('src');
+      image.classList.add('hidden');
+    }
+
+    if (audio) {
+      audio.pause();
+      audio.removeAttribute('src');
+      audio.load();
+      audio.classList.add('hidden');
+      audio.onplay = null;
+    }
+
+    if (caption && captionText) {
+      caption.innerText = captionText;
+      caption.classList.remove('hidden');
+      hasAny = true;
+    } else if (caption) {
+      caption.innerText = '';
+      caption.classList.add('hidden');
+    }
+
+    wrap.classList.toggle('hidden', !hasAny);
+  }
+
   function resetDomandaView() {
     if (D.domandaTesto) D.domandaTesto.innerText = '';
     if (D.opzioniDiv) D.opzioniDiv.innerHTML = '';
+    resetDomandaMedia();
   }
 
   async function fetchDomanda() {
@@ -40,6 +127,7 @@
     if (!D.domandaTesto || !D.opzioniDiv) return;
 
     D.domandaTesto.innerText = domanda.testo || '';
+    renderDomandaMedia(domanda);
     D.opzioniDiv.innerHTML = '';
 
     domanda.opzioni.forEach((opzione, index) => {
@@ -95,5 +183,5 @@
     }
   }
 
-  Player.domanda = { fetchDomanda, renderDomanda, resetDomandaView, inviaRisposta };
+  Player.domanda = { fetchDomanda, renderDomanda, resetDomandaView, inviaRisposta, resetDomandaMedia };
 })();

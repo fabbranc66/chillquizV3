@@ -146,6 +146,39 @@ input {
     text-wrap: balance;
 }
 
+.domanda-media-wrap {
+    margin: 0 0 14px;
+    display: grid;
+    gap: 8px;
+}
+
+.domanda-media-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: none;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    box-shadow: var(--shadow-soft);
+}
+
+.domanda-media-audio {
+    width: 100%;
+    min-height: 40px;
+    border-radius: 10px;
+}
+
+.domanda-media-caption {
+    font-size: 13px;
+    line-height: 1.35;
+    opacity: 0.95;
+    text-align: left;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 /* OPZIONI KAHOOT STYLE */
 .grid-opzioni {
     display: grid;
@@ -154,8 +187,9 @@ input {
 }
 
 .grid-opzioni button {
-    min-height: 96px;
-    padding: 14px 10px;
+    aspect-ratio: 16 / 9;
+    min-height: 84px;
+    padding: 10px 10px;
     font-size: 17px;
     font-weight: 800;
     border: none;
@@ -377,12 +411,22 @@ body.module-tags-off .module-debug-tag {
         font-size: 17px;
     }
 
+    .domanda-media-image {
+        aspect-ratio: 16 / 9;
+        max-height: none;
+    }
+
+    .domanda-media-caption {
+        font-size: 12px;
+    }
+
     .grid-opzioni {
         gap: 10px;
     }
 
     .grid-opzioni button {
-        min-height: 84px;
+        aspect-ratio: 16 / 9;
+        min-height: 74px;
         font-size: 15px;
         padding: 10px 8px;
     }
@@ -414,8 +458,14 @@ body.module-tags-off .module-debug-tag {
         margin-bottom: 10px;
     }
 
+    .domanda-media-image {
+        aspect-ratio: 16 / 9;
+        max-height: none;
+    }
+
     .grid-opzioni button {
-        min-height: 72px;
+        aspect-ratio: 16 / 9;
+        min-height: 60px;
         font-size: 14px;
     }
 }

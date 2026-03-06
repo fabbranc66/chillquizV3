@@ -37,17 +37,22 @@ async function loadMedia() {
 
     const items = data.media || [];
     if (items.length === 0) {
-        mediaListEl.innerHTML = '<div class="empty">Nessuna immagine caricata.</div>';
+        mediaListEl.innerHTML = '<div class="empty">Nessun media caricato.</div>';
         return;
     }
 
     mediaListEl.innerHTML = items.map((m) => {
         const path = mediaUrl(m.file_path);
+        const tipo = String(m.tipo_file || 'image').toLowerCase();
+        const preview = tipo === 'audio'
+            ? `<audio class="media-audio" controls preload="none" src="${path}"></audio>`
+            : `<img src="${path}" alt="${escapeHtml(m.titolo)}">`;
         return `
             <div class="media-item">
-                <img src="${path}" alt="${escapeHtml(m.titolo)}">
+                ${preview}
                 <div>
                     <strong>${escapeHtml(m.titolo)}</strong>
+                    <span class="badge">${tipo}</span>
                     ${Number(m.attiva) === 1 ? '<span class="badge active">ATTIVA</span>' : ''}
                     <div><small>${escapeHtml(m.file_path)}</small></div>
                 </div>
@@ -77,7 +82,7 @@ async function toggleMedia(id, attiva) {
         return;
     }
 
-    showLog(attiva === 1 ? 'Immagine attivata correttamente' : 'Immagine disattivata correttamente');
+    showLog(attiva === 1 ? 'Media attivato correttamente' : 'Media disattivato correttamente');
     await loadMedia();
 }
 
@@ -97,7 +102,7 @@ async function eliminaMedia(id) {
         return;
     }
 
-    showLog('Immagine eliminata');
+    showLog('Media eliminato');
     await loadMedia();
 }
 
@@ -113,7 +118,7 @@ async function disattivaMedia() {
         return;
     }
 
-    showLog('Nessuna immagine attiva');
+    showLog('Nessun media attivo');
     await loadMedia();
 }
 
@@ -141,7 +146,7 @@ async function uploadMedia(event) {
         return;
     }
 
-    showLog('Immagine caricata con successo');
+    showLog('Media caricato con successo');
     form.reset();
     await loadMedia();
 }

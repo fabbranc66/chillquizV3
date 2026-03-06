@@ -71,7 +71,7 @@ if ($isLocalHost) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChillQuiz Screen</title>
-    <link rel="stylesheet" href="/chillquizV3/public/assets/css/screen.css">
+    <link rel="stylesheet" href="/chillquizV3/public/assets/css/screen.css?v=<?= time() ?>">
 </head>
 <body class="<?= !empty($showModuleTags) ? 'module-tags-on' : 'module-tags-off' ?>">
 
@@ -96,7 +96,6 @@ if ($isLocalHost) {
     <?php require BASE_PATH . '/app/Views/modules/screen/stage_footer.php'; ?>
 </div>
 
-<!-- BLOCCO LOGICO: BOOTSTRAP JS SCREEN -->
 <script>
 window.SCREEN_BOOTSTRAP = {
     sessioneId: <?= (int)($sessioneId ?? 0) ?>,
@@ -105,8 +104,7 @@ window.SCREEN_BOOTSTRAP = {
 };
 </script>
 
-<!-- FILE JS: public/assets/js/screen.js -->
-<script src="/chillquizV3/public/assets/js/screen.js"></script>
+<script src="/chillquizV3/public/assets/js/screen.js?v=<?= time() ?>"></script>
 
 </body>
 </html>

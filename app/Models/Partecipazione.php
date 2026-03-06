@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Core\Database;
+use App\Services\Question\QuestionModeResolver;
+use App\Services\Question\Score\ScoreEngine;
 use PDO;
 
 class Partecipazione
@@ -100,14 +102,15 @@ class Partecipazione
         $corretta = (int) $opzione['corretta'];
 
         $stmt = $this->pdo->prepare(
-            "SELECT difficolta FROM domande
+            "SELECT * FROM domande
              WHERE id = :id LIMIT 1"
         );
 
         $stmt->execute(['id' => $domandaId]);
         $domanda = $stmt->fetch();
 
-        $difficolta = $domanda ? (float) $domanda['difficolta'] : 1.0;
+        $difficolta = $domanda ? (float) ($domanda['difficolta'] ?? 1.0) : 1.0;
+        $modeMeta = (new QuestionModeResolver())->resolveFromRow(is_array($domanda) ? $domanda : []);
 
         $sistema = new Sistema();
 
@@ -165,16 +168,21 @@ class Partecipazione
             }
         }
 
-        $vincitaDifficolta = 0;
-        $vincitaVelocita = 0;
+        $scoreEngine = new ScoreEngine();
+        $score = $scoreEngine->calculate($modeMeta['tipo_domanda'], [
+            'puntata' => $puntata,
+            'corretta' => (bool) $corretta,
+            'difficolta' => $difficolta,
+            'fattore_velocita' => $fattoreVelocita,
+            'bonus_primo' => $bonusPrimo,
+            'tempo_risposta' => $tempoRisposta,
+            'question_meta' => $modeMeta,
+        ]);
 
-        if ($corretta) {
-            $vincitaDifficolta = (int) round($puntata * $difficolta);
-            $vincitaVelocita = (int) round($puntata * $fattoreVelocita);
-            $punti = $vincitaDifficolta + $vincitaVelocita + $bonusPrimo;
-        } else {
-            $punti = -$puntata;
-        }
+        $punti = $score->punti;
+        $vincitaDifficolta = $score->vincitaDifficolta;
+        $vincitaVelocita = $score->vincitaVelocita;
+        $bonusPrimoCalcolato = $score->bonusPrimo;
 
         $update = $this->pdo->prepare(
             "UPDATE partecipazioni
@@ -215,13 +223,16 @@ class Partecipazione
             'punti' => $punti,
             'vincita_difficolta' => $vincitaDifficolta,
             'vincita_velocita' => $vincitaVelocita,
-            'bonus_primo' => $bonusPrimo,
+            'bonus_primo' => $bonusPrimoCalcolato,
             'fattore_velocita' => $fattoreVelocita,
             'tempo_risposta' => $tempoRisposta,
             'difficolta_domanda' => $difficolta,
             'primo_a_rispondere' => $isPrimoARispondere,
             'vincita_domanda' => $punti,
             'capitale' => $capitaleFinale,
+            'tipo_domanda' => $modeMeta['tipo_domanda'],
+            'modalita_party' => $modeMeta['modalita_party'],
+            'fase_domanda' => $modeMeta['fase_domanda'],
         ];
     }
 

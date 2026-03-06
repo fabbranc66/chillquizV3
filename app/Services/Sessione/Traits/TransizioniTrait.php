@@ -19,6 +19,9 @@ trait TransizioniTrait
             );
         }
 
+        // Se la sessione è stata resettata (o è vuota), rigenera il pool domande.
+        $this->generaDomandeSessione();
+
         $this->svuotaPuntateLive();
         $this->aggiornaStato('puntata');
     }

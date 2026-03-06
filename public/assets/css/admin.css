@@ -7,14 +7,15 @@ body {
     font-family: Arial, sans-serif;
     background: #111;
     color: #eee;
-    padding: 40px;
+    padding: 20px;
     text-align: center;
 }
 
 h2 { 
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     font-weight: 900;
     letter-spacing: .4px;
+    font-size: clamp(22px, 2.2vw, 30px);
 }
 
 /* ================= INFO BAR ================= */
@@ -24,82 +25,84 @@ h2 {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 8px;
 }
 
 .sessione-hero {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 16px;
-    border-radius: 16px;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 12px;
     border: 2px solid rgba(255, 255, 255, 0.18);
     background: linear-gradient(130deg, #46178f, #1368ce);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 .sessione-label {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 800;
     letter-spacing: .8px;
     opacity: .85;
 }
 
 .sessione-nome {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 900;
 }
 
 .sessione-meta {
-    font-size: 12px;
+    font-size: 11px;
     opacity: .9;
     background: rgba(0, 0, 0, 0.22);
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: 999px;
 }
 
-.info-bar { margin-bottom: 20px; }
+.info-bar { margin-bottom: 12px; }
 
 .badge {
     display: inline-block;
-    padding: 8px 16px;
+    padding: 6px 12px;
     background: rgba(255,255,255,.06);
     border: 1px solid rgba(255,255,255,.12);
     border-radius: 999px;
-    font-size: 14px;
-    margin: 5px;
+    font-size: 13px;
+    margin: 3px;
 }
 
 /* ================= CARD LOOK ================= */
 
 .row {
-    margin-top: 25px;
+    margin-top: 10px;
     background: linear-gradient(180deg, rgba(28,28,28,.92), rgba(18,18,18,.92));
     border: 2px solid rgba(255,255,255,.10);
-    border-radius: 18px;
-    padding: 18px;
-    box-shadow: 0 12px 28px rgba(0,0,0,.35);
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 8px 18px rgba(0,0,0,.32);
 }
 
 .container {
-    max-width: 900px;
+    max-width: 980px;
     margin: auto;
+    display: grid;
+    gap: 10px;
 }
 
 /* ================= BUTTONS (Kahoot) ================= */
 
 button {
-    padding: 14px 22px;
-    margin: 8px;
-    font-size: 16px;
+    padding: 10px 14px;
+    margin: 4px;
+    font-size: 14px;
     cursor: pointer;
     color: white;
-    border-radius: 16px;
+    border-radius: 12px;
     border: 2px solid rgba(255,255,255,.15);
     font-weight: 900;
     letter-spacing: .3px;
     transition: 0.15s ease;
-    box-shadow: 0 10px 20px rgba(0,0,0,.35);
+    box-shadow: 0 6px 14px rgba(0,0,0,.3);
 }
 
 /* Hover / active feel */
@@ -166,7 +169,7 @@ button.disabled {
 /* ================= LOG ================= */
 
 .log-wrap{
-    margin-top: 30px;
+    margin-top: 12px;
     text-align: left;
 }
 
@@ -174,19 +177,19 @@ button.disabled {
     display:flex;
     align-items:center;
     justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 10px;
+    gap: 8px;
+    margin-bottom: 8px;
 }
 
 .log-title{
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 800;
     opacity: .9;
 }
 
 .log-actions button{
-    padding: 8px 12px;
-    font-size: 13px;
+    padding: 7px 10px;
+    font-size: 12px;
     border-radius: 10px;
     background: linear-gradient(135deg, #2c3e50, #1f2c38);
 }
@@ -194,18 +197,18 @@ button.disabled {
 .log {
     background: #151515;
     border: 1px solid #222;
-    border-radius: 16px;
-    padding: 12px;
-    max-height: 320px;
+    border-radius: 12px;
+    padding: 10px;
+    max-height: 280px;
     overflow: auto;
 }
 
 .log-item{
     background: #1c1c1c;
     border: 1px solid #2a2a2a;
-    border-radius: 14px;
-    padding: 12px;
-    margin-bottom: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 8px;
 }
 
 .log-top{
@@ -244,21 +247,21 @@ button.disabled {
 }
 
 .log-main{
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.35;
 }
 
 .log-sub{
-    margin-top: 6px;
-    font-size: 13px;
+    margin-top: 4px;
+    font-size: 12px;
     opacity: .85;
 }
 
 pre.json {
     background: #101010;
     border: 1px solid #222;
-    padding: 10px;
-    border-radius: 12px;
+    padding: 8px;
+    border-radius: 10px;
     overflow: auto;
     font-size: 12px;
     margin-top: 8px;
@@ -267,7 +270,7 @@ pre.json {
 /* ================= CLASSIFICA LIVE ================= */
 
 .live-wrap {
-    margin-top: 24px;
+    margin-top: 12px;
     text-align: left;
 }
 
@@ -276,15 +279,15 @@ pre.json {
     border-collapse: collapse;
     background: #151515;
     border: 1px solid #222;
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
 }
 
 .live-table th,
 .live-table td {
-    padding: 10px;
+    padding: 8px;
     border-bottom: 1px solid #222;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .live-table th {
@@ -300,28 +303,28 @@ pre.json {
 /* ================= JOIN ================= */
 
 .join-wrap {
-    margin-top: 24px;
+    margin-top: 12px;
     text-align: left;
 }
 
 .join-list {
     display: grid;
-    gap: 10px;
+    gap: 8px;
 }
 
 .join-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #2a2a2a;
-    border-radius: 14px;
+    border-radius: 10px;
     background: #161616;
 }
 
 .join-actions {
     display: flex;
-    gap: 8px;
+    gap: 6px;
 }
 
 .btn-join-ok { 
@@ -337,13 +340,13 @@ pre.json {
 .module-debug-tag {
     display: block;
     width: max-content;
-    margin: 0 auto 8px;
+    margin: 0 auto 4px;
     font-size: 11px;
     letter-spacing: .3px;
     color: #111;
     background: #f1c40f;
     border-radius: 999px;
-    padding: 4px 8px;
+    padding: 2px 7px;
     opacity: .9;
 }
 
@@ -395,4 +398,19 @@ button.disabled {
     text-align: left !important;
     margin-left: 0 !important;
     margin-right: auto !important;
+}
+
+input,
+select,
+textarea {
+    padding: 8px 10px !important;
+    font-size: 14px !important;
+    border-radius: 10px !important;
+}
+
+#stato,
+#conclusa {
+    margin-top: 4px;
+    margin-bottom: 2px;
+    font-size: 13px;
 }

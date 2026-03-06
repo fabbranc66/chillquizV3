@@ -13,8 +13,8 @@
 
     <div class="card">
         <form id="upload-form" class="upload-form">
-            <input id="titolo" type="text" name="titolo" placeholder="Titolo immagine (opzionale)">
-            <input id="immagine" type="file" name="immagine" accept="image/*" required>
+            <input id="titolo" type="text" name="titolo" placeholder="Titolo media (opzionale)">
+            <input id="immagine" type="file" name="immagine" accept="image/*,audio/*" required>
             <button type="submit">Carica</button>
         </form>
         <div class="toolbar">
@@ -25,7 +25,7 @@
     </div>
 
     <div id="media-list" class="media-grid card">
-        <div class="empty">Nessuna immagine caricata.</div>
+        <div class="empty">Nessun media caricato.</div>
     </div>
 </div>
 

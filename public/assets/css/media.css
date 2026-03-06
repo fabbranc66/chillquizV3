@@ -10,6 +10,7 @@ button.warn { background: #b71c1c; }
 .media-grid { display: grid; gap: 12px; }
 .media-item { display: grid; grid-template-columns: 140px 1fr auto; gap: 14px; align-items: center; }
 .media-item img { width: 140px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #2a2a2a; }
+.media-audio { width: 140px; height: 38px; }
 .badge { display: inline-block; padding: 4px 8px; border-radius: 999px; font-size: 12px; margin-left: 6px; }
 .badge.active { background: #1b5e20; }
 .empty { opacity: .8; }

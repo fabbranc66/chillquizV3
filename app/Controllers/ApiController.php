@@ -15,6 +15,51 @@ use Throwable;
 
 class ApiController
 {
+    private function audioPreviewCommandFile(int $sessioneId): string
+    {
+        $dir = STORAGE_PATH . '/runtime/audio_preview';
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
+        }
+
+        return $dir . '/session_' . $sessioneId . '.json';
+    }
+
+    private function readAudioPreviewCommand(int $sessioneId): ?array
+    {
+        if ($sessioneId <= 0) {
+            return null;
+        }
+
+        $file = $this->audioPreviewCommandFile($sessioneId);
+        if (!is_file($file)) {
+            return null;
+        }
+
+        $raw = @file_get_contents($file);
+        if (!is_string($raw) || trim($raw) === '') {
+            return null;
+        }
+
+        $decoded = json_decode($raw, true);
+        return is_array($decoded) ? $decoded : null;
+    }
+
+    private function writeAudioPreviewCommand(int $sessioneId, array $payload): bool
+    {
+        if ($sessioneId <= 0) {
+            return false;
+        }
+
+        $file = $this->audioPreviewCommandFile($sessioneId);
+        $json = json_encode($payload, JSON_UNESCAPED_UNICODE);
+        if (!is_string($json) || $json === '') {
+            return false;
+        }
+
+        return @file_put_contents($file, $json, LOCK_EX) !== false;
+    }
+
     private function json(array $data): void
     {
         header('Content-Type: application/json; charset=utf-8');
@@ -135,6 +180,29 @@ class ApiController
             $this->json([
                 'success' => false,
                 'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function audioPreviewStato($sessioneId): void
+    {
+        $sessioneId = (int) $sessioneId;
+
+        try {
+            header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+
+            $preview = $this->readAudioPreviewCommand($sessioneId);
+            $this->json([
+                'success' => true,
+                'sessione_id' => $sessioneId,
+                'preview' => $preview,
+            ]);
+        } catch (Throwable $e) {
+            $this->json([
+                'success' => false,
+                'error' => $e->getMessage(),
             ]);
         }
     }
@@ -419,7 +487,7 @@ public function join($sessioneId): void
     public function mediaAttiva(): void
     {
         try {
-            $media = (new ScreenMedia())->mediaAttivaRandom();
+            $media = (new ScreenMedia())->mediaAttivaRandom('screen');
 
             $this->json([
                 'success' => true,
@@ -512,6 +580,63 @@ public function join($sessioneId): void
                     (new SessioneService($sessioneId))->resetTotale();
                     break;
 
+                case 'audio-preview':
+                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                    if ($targetSessioneId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Sessione non valida'
+                        ]);
+                        return;
+                    }
+
+                    $service = new SessioneService($targetSessioneId);
+                    $domanda = $service->domandaCorrente();
+
+                    if (!$domanda || !is_array($domanda)) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Domanda corrente non disponibile'
+                        ]);
+                        return;
+                    }
+
+                    $audioPath = trim((string) ($domanda['media_audio_path'] ?? ''));
+                    if ($audioPath === '') {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'La domanda corrente non ha audio'
+                        ]);
+                        return;
+                    }
+
+                    $previewSec = (int) ($domanda['media_audio_preview_sec'] ?? 0);
+                    $payload = [
+                        'token' => $targetSessioneId . '-' . time() . '-' . random_int(1000, 9999),
+                        'sessione_id' => $targetSessioneId,
+                        'domanda_id' => (int) ($domanda['id'] ?? 0),
+                        'audio_path' => $audioPath,
+                        'preview_sec' => $previewSec > 0 ? $previewSec : 0,
+                        'created_at' => time(),
+                    ];
+
+                    $ok = $this->writeAudioPreviewCommand($targetSessioneId, $payload);
+                    if (!$ok) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Impossibile inviare comando anteprima audio'
+                        ]);
+                        return;
+                    }
+
+                    $this->json([
+                        'success' => true,
+                        'action' => $action,
+                        'sessione_id' => $targetSessioneId,
+                        'preview' => $payload,
+                    ]);
+                    return;
+
                 case 'join-richieste':
                     $joinRichiesta = new JoinRichiesta();
                     $this->json([
@@ -564,7 +689,16 @@ public function join($sessioneId): void
 
                     $pdo = \App\Core\Database::getInstance();
                     $stmt = $pdo->prepare(
-                        "SELECT sd.posizione, d.id AS domanda_id, d.testo
+                        "SELECT
+                            sd.posizione,
+                            d.id AS domanda_id,
+                            d.testo,
+                            d.tipo_domanda,
+                            d.modalita_party,
+                            d.fase_domanda,
+                            d.media_image_path,
+                            d.media_audio_path,
+                            d.media_caption
                          FROM sessione_domande sd
                          JOIN domande d ON d.id = sd.domanda_id
                          WHERE sd.sessione_id = :sessione_id
@@ -578,6 +712,223 @@ public function join($sessioneId): void
                         'action' => $action,
                         'sessione_id' => $targetSessioneId,
                         'domande' => $stmt->fetchAll() ?: []
+                    ]);
+                    return;
+
+                case 'domanda-dettaglio':
+                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                    $domandaId = (int) ($_POST['domanda_id'] ?? 0);
+
+                    if ($targetSessioneId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Sessione non valida'
+                        ]);
+                        return;
+                    }
+
+                    if ($domandaId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Domanda non valida'
+                        ]);
+                        return;
+                    }
+
+                    $pdo = \App\Core\Database::getInstance();
+
+                    $check = $pdo->prepare(
+                        "SELECT d.id
+                         FROM domande d
+                         JOIN sessione_domande sd ON sd.domanda_id = d.id
+                         WHERE sd.sessione_id = :sessione_id
+                           AND d.id = :domanda_id
+                         LIMIT 1"
+                    );
+                    $check->execute([
+                        'sessione_id' => $targetSessioneId,
+                        'domanda_id' => $domandaId,
+                    ]);
+
+                    if (!$check->fetch()) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Domanda non appartenente alla sessione'
+                        ]);
+                        return;
+                    }
+
+                    $stmt = $pdo->prepare(
+                        "SELECT id, testo, tipo_domanda, modalita_party, fase_domanda, media_image_path, media_audio_path, media_audio_preview_sec, media_caption, config_json
+                         FROM domande
+                         WHERE id = :id
+                         LIMIT 1"
+                    );
+                    $stmt->execute(['id' => $domandaId]);
+                    $domanda = $stmt->fetch() ?: null;
+
+                    if (!$domanda) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Domanda non trovata'
+                        ]);
+                        return;
+                    }
+
+                    $this->json([
+                        'success' => true,
+                        'action' => $action,
+                        'sessione_id' => $targetSessioneId,
+                        'domanda_id' => $domandaId,
+                        'domanda' => $domanda,
+                    ]);
+                    return;
+
+                case 'domanda-update':
+                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                    if ($targetSessioneId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Sessione non valida'
+                        ]);
+                        return;
+                    }
+
+                    $pdo = \App\Core\Database::getInstance();
+
+                    $domandaId = (int) ($_POST['domanda_id'] ?? 0);
+                    if ($domandaId <= 0) {
+                        $stmt = $pdo->prepare(
+                            "SELECT sd.domanda_id
+                             FROM sessioni s
+                             JOIN sessione_domande sd
+                               ON sd.sessione_id = s.id
+                              AND sd.posizione = s.domanda_corrente
+                             WHERE s.id = :sessione_id
+                             LIMIT 1"
+                        );
+                        $stmt->execute(['sessione_id' => $targetSessioneId]);
+                        $rowDomanda = $stmt->fetch();
+                        $domandaId = (int) ($rowDomanda['domanda_id'] ?? 0);
+                    }
+
+                    if ($domandaId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Domanda corrente non trovata'
+                        ]);
+                        return;
+                    }
+
+                    $check = $pdo->prepare(
+                        "SELECT d.id
+                         FROM domande d
+                         JOIN sessione_domande sd ON sd.domanda_id = d.id
+                         WHERE sd.sessione_id = :sessione_id
+                           AND d.id = :domanda_id
+                         LIMIT 1"
+                    );
+                    $check->execute([
+                        'sessione_id' => $targetSessioneId,
+                        'domanda_id' => $domandaId,
+                    ]);
+
+                    if (!$check->fetch()) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Domanda non appartenente alla sessione'
+                        ]);
+                        return;
+                    }
+
+                    $tipoRaw = strtoupper(trim((string) ($_POST['tipo_domanda'] ?? 'CLASSIC')));
+                    $allowedTipi = [
+                        'CLASSIC',
+                        'MEDIA',
+                        'SARABANDA',
+                        'IMPOSTORE',
+                        'MEME',
+                        'MAJORITY',
+                        'RANDOM_BONUS',
+                        'BOMB',
+                        'CHAOS',
+                        'AUDIO_PARTY',
+                        'IMAGE_PARTY',
+                    ];
+                    $tipoDomanda = in_array($tipoRaw, $allowedTipi, true) ? $tipoRaw : 'CLASSIC';
+
+                    $modalitaPartyRaw = trim((string) ($_POST['modalita_party'] ?? ''));
+                    $modalitaParty = $modalitaPartyRaw !== '' ? $modalitaPartyRaw : null;
+
+                    $faseRaw = strtolower(trim((string) ($_POST['fase_domanda'] ?? 'domanda')));
+                    $faseDomanda = $faseRaw === 'intro' ? 'intro' : 'domanda';
+
+                    $mediaImagePathRaw = trim((string) ($_POST['media_image_path'] ?? ''));
+                    $mediaImagePath = $mediaImagePathRaw !== '' ? $mediaImagePathRaw : null;
+
+                    $mediaAudioPathRaw = trim((string) ($_POST['media_audio_path'] ?? ''));
+                    $mediaAudioPath = $mediaAudioPathRaw !== '' ? $mediaAudioPathRaw : null;
+
+                    $previewRaw = (int) ($_POST['media_audio_preview_sec'] ?? 0);
+                    $mediaAudioPreviewSec = $previewRaw > 0 ? $previewRaw : null;
+
+                    $mediaCaptionRaw = trim((string) ($_POST['media_caption'] ?? ''));
+                    $mediaCaption = $mediaCaptionRaw !== '' ? $mediaCaptionRaw : null;
+
+                    $configJsonRaw = trim((string) ($_POST['config_json'] ?? ''));
+                    $configJson = null;
+                    if ($configJsonRaw !== '') {
+                        $decoded = json_decode($configJsonRaw, true);
+                        if (!is_array($decoded)) {
+                            $this->json([
+                                'success' => false,
+                                'error' => 'config_json non valido'
+                            ]);
+                            return;
+                        }
+                        $configJson = json_encode($decoded, JSON_UNESCAPED_UNICODE);
+                    }
+
+                    $update = $pdo->prepare(
+                        "UPDATE domande
+                         SET tipo_domanda = :tipo_domanda,
+                             modalita_party = :modalita_party,
+                             fase_domanda = :fase_domanda,
+                             media_image_path = :media_image_path,
+                             media_audio_path = :media_audio_path,
+                             media_audio_preview_sec = :media_audio_preview_sec,
+                             media_caption = :media_caption,
+                             config_json = :config_json
+                         WHERE id = :domanda_id"
+                    );
+
+                    $update->execute([
+                        'tipo_domanda' => $tipoDomanda,
+                        'modalita_party' => $modalitaParty,
+                        'fase_domanda' => $faseDomanda,
+                        'media_image_path' => $mediaImagePath,
+                        'media_audio_path' => $mediaAudioPath,
+                        'media_audio_preview_sec' => $mediaAudioPreviewSec,
+                        'media_caption' => $mediaCaption,
+                        'config_json' => $configJson,
+                        'domanda_id' => $domandaId,
+                    ]);
+
+                    $stmt = $pdo->prepare(
+                        "SELECT id, testo, tipo_domanda, modalita_party, fase_domanda, media_image_path, media_audio_path, media_audio_preview_sec, media_caption, config_json
+                         FROM domande
+                         WHERE id = :id
+                         LIMIT 1"
+                    );
+                    $stmt->execute(['id' => $domandaId]);
+                    $domandaAggiornata = $stmt->fetch() ?: null;
+
+                    $this->json([
+                        'success' => true,
+                        'action' => $action,
+                        'sessione_id' => $targetSessioneId,
+                        'domanda_id' => $domandaId,
+                        'domanda' => $domandaAggiornata,
                     ]);
                     return;
 
@@ -609,7 +960,7 @@ public function join($sessioneId): void
                 case 'media-list':
                     $this->json([
                         'success' => true,
-                        'media' => (new ScreenMedia())->lista()
+                        'media' => (new ScreenMedia())->lista('screen')
                     ]);
                     return;
 
@@ -617,7 +968,7 @@ public function join($sessioneId): void
                     if (!isset($_FILES['immagine']) || !is_array($_FILES['immagine'])) {
                         $this->json([
                             'success' => false,
-                            'error' => 'File immagine mancante'
+                            'error' => 'File media mancante'
                         ]);
                         return;
                     }
@@ -632,29 +983,34 @@ public function join($sessioneId): void
                         return;
                     }
 
-                    $maxSizeBytes = 8 * 1024 * 1024;
+                    $maxSizeBytes = 12 * 1024 * 1024;
                     $size = (int) ($file['size'] ?? 0);
                     if ($size <= 0 || $size > $maxSizeBytes) {
                         $this->json([
                             'success' => false,
-                            'error' => 'Dimensione file non valida (max 8MB)'
+                            'error' => 'Dimensione file non valida (max 12MB)'
                         ]);
                         return;
                     }
 
                     $tmpName = $file['tmp_name'] ?? '';
                     $detectedMime = @mime_content_type($tmpName) ?: '';
-                    if (strpos($detectedMime, 'image/') !== 0) {
+                    $isImage = strpos((string) $detectedMime, 'image/') === 0;
+                    $isAudio = strpos((string) $detectedMime, 'audio/') === 0;
+
+                    if (!$isImage && !$isAudio) {
                         $this->json([
                             'success' => false,
-                            'error' => "Formato non supportato: carica un'immagine"
+                            'error' => 'Formato non supportato: carica immagine o audio'
                         ]);
                         return;
                     }
 
                     $originalName = (string) ($file['name'] ?? '');
                     $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
-                    $allowedExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                    $allowedImageExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                    $allowedAudioExt = ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'webm'];
+                    $allowedExt = $isImage ? $allowedImageExt : $allowedAudioExt;
                     if (!in_array($ext, $allowedExt, true)) {
                         $this->json([
                             'success' => false,
@@ -663,7 +1019,8 @@ public function join($sessioneId): void
                         return;
                     }
 
-                    $uploadDir = BASE_PATH . '/public/upload/image';
+                    $subDir = $isImage ? 'image' : 'audio';
+                    $uploadDir = BASE_PATH . '/public/upload/' . $subDir;
                     if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true) && !is_dir($uploadDir)) {
                         $this->json([
                             'success' => false,
@@ -691,16 +1048,18 @@ public function join($sessioneId): void
 
                     $titolo = trim((string) ($_POST['titolo'] ?? ''));
                     if ($titolo === '') {
-                        $titolo = pathinfo($originalName, PATHINFO_FILENAME) ?: 'Immagine';
+                        $titolo = pathinfo($originalName, PATHINFO_FILENAME) ?: ($isImage ? 'Immagine' : 'Audio');
                     }
 
-                    $filePath = '/upload/image/' . $fileName;
-                    $id = (new ScreenMedia())->crea($titolo, $filePath);
+                    $filePath = '/upload/' . $subDir . '/' . $fileName;
+                    $tipoFile = $isImage ? 'image' : 'audio';
+                    $id = (new ScreenMedia())->crea($titolo, $filePath, 'screen', $tipoFile);
 
                     $this->json([
                         'success' => true,
                         'media_id' => $id,
-                        'file_path' => $filePath
+                        'file_path' => $filePath,
+                        'tipo_file' => $tipoFile
                     ]);
                     return;
 
@@ -715,7 +1074,7 @@ public function join($sessioneId): void
                         return;
                     }
 
-                    $ok = (new ScreenMedia())->impostaAttiva($mediaId, $attiva);
+                    $ok = (new ScreenMedia())->impostaAttiva($mediaId, $attiva, 'screen');
                     $this->json([
                         'success' => $ok,
                         'media_id' => $mediaId,
@@ -725,7 +1084,7 @@ public function join($sessioneId): void
                     return;
 
                 case 'media-disattiva':
-                    $ok = (new ScreenMedia())->disattivaTutte();
+                    $ok = (new ScreenMedia())->disattivaTutte('screen');
                     $this->json([
                         'success' => $ok
                     ]);
@@ -742,7 +1101,7 @@ public function join($sessioneId): void
                     }
 
                     $mediaModel = new ScreenMedia();
-                    $media = $mediaModel->trova($mediaId);
+                    $media = $mediaModel->trova($mediaId, 'screen');
 
                     if (!$media) {
                         $this->json([
@@ -752,7 +1111,151 @@ public function join($sessioneId): void
                         return;
                     }
 
-                    $ok = $mediaModel->elimina($mediaId);
+                    $ok = $mediaModel->elimina($mediaId, 'screen');
+
+                    if ($ok) {
+                        $file = BASE_PATH . '/public' . ($media['file_path'] ?? '');
+                        if (is_file($file)) {
+                            @unlink($file);
+                        }
+                    }
+
+                    $this->json([
+                        'success' => $ok
+                    ]);
+                    return;
+
+                case 'domanda-media-list':
+                    $this->json([
+                        'success' => true,
+                        'media' => (new ScreenMedia())->lista('domanda')
+                    ]);
+                    return;
+
+                case 'domanda-media-upload':
+                    if (!isset($_FILES['media_file']) || !is_array($_FILES['media_file'])) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'File media mancante'
+                        ]);
+                        return;
+                    }
+
+                    $file = $_FILES['media_file'];
+
+                    if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Upload non valido'
+                        ]);
+                        return;
+                    }
+
+                    $maxSizeBytes = 16 * 1024 * 1024;
+                    $size = (int) ($file['size'] ?? 0);
+                    if ($size <= 0 || $size > $maxSizeBytes) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Dimensione file non valida (max 16MB)'
+                        ]);
+                        return;
+                    }
+
+                    $tmpName = (string) ($file['tmp_name'] ?? '');
+                    $detectedMime = (string) (@mime_content_type($tmpName) ?: '');
+                    $isImage = strpos($detectedMime, 'image/') === 0;
+                    $isAudio = strpos($detectedMime, 'audio/') === 0;
+
+                    if (!$isImage && !$isAudio) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Formato non supportato: carica immagine o audio'
+                        ]);
+                        return;
+                    }
+
+                    $originalName = (string) ($file['name'] ?? '');
+                    $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+
+                    $allowedImageExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                    $allowedAudioExt = ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'webm'];
+                    $allowedExt = $isImage ? $allowedImageExt : $allowedAudioExt;
+
+                    if (!in_array($ext, $allowedExt, true)) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Estensione non consentita per questo tipo file'
+                        ]);
+                        return;
+                    }
+
+                    $subDir = $isImage ? 'image' : 'audio';
+                    $uploadDir = BASE_PATH . '/public/upload/domanda/' . $subDir;
+                    if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true) && !is_dir($uploadDir)) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Impossibile creare cartella upload'
+                        ]);
+                        return;
+                    }
+
+                    $safeBase = preg_replace('/[^a-zA-Z0-9_-]+/', '-', pathinfo($originalName, PATHINFO_FILENAME));
+                    $safeBase = trim((string) $safeBase, '-');
+                    if ($safeBase === '') {
+                        $safeBase = 'media-domanda';
+                    }
+
+                    $fileName = $safeBase . '-' . time() . '-' . random_int(1000, 9999) . '.' . $ext;
+                    $destPath = $uploadDir . '/' . $fileName;
+
+                    if (!move_uploaded_file($tmpName, $destPath)) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Errore salvataggio file'
+                        ]);
+                        return;
+                    }
+
+                    $titolo = trim((string) ($_POST['titolo'] ?? ''));
+                    if ($titolo === '') {
+                        $titolo = pathinfo($originalName, PATHINFO_FILENAME) ?: ($isImage ? 'Immagine domanda' : 'Audio domanda');
+                    }
+
+                    $filePath = '/upload/domanda/' . $subDir . '/' . $fileName;
+                    $tipoFile = $isImage ? 'image' : 'audio';
+                    $id = (new ScreenMedia())->crea($titolo, $filePath, 'domanda', $tipoFile);
+
+                    $this->json([
+                        'success' => true,
+                        'media_id' => $id,
+                        'contesto' => 'domanda',
+                        'tipo_file' => $tipoFile,
+                        'file_path' => $filePath
+                    ]);
+                    return;
+
+                case 'domanda-media-elimina':
+                    $mediaId = (int) ($_POST['media_id'] ?? 0);
+                    if ($mediaId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Media non valido'
+                        ]);
+                        return;
+                    }
+
+                    $mediaModel = new ScreenMedia();
+                    $media = $mediaModel->trova($mediaId, 'domanda');
+
+                    if (!$media) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Media non trovato'
+                        ]);
+                        return;
+                    }
+
+                    $ok = $mediaModel->elimina($mediaId, 'domanda');
 
                     if ($ok) {
                         $file = BASE_PATH . '/public' . ($media['file_path'] ?? '');

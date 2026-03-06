@@ -2,17 +2,14 @@
 
 namespace App\Services\Sessione\Traits;
 
+use App\Services\Question\QuestionModeResolver;
 use RuntimeException;
 
 trait PoolDomandeTrait
 {
     public function generaDomandeSessione(): void
     {
-        $stmt = $this->pdo->prepare("
-            SELECT COUNT(*) as totale
-            FROM sessione_domande
-            WHERE sessione_id = ?
-        ");
+        $stmt = $this->pdo->prepare("\n            SELECT COUNT(*) as totale\n            FROM sessione_domande\n            WHERE sessione_id = ?\n        ");
         $stmt->execute([$this->sessioneId]);
         $check = $stmt->fetch();
 
@@ -74,11 +71,7 @@ trait PoolDomandeTrait
         $posizione = 1;
 
         foreach ($domande as $d) {
-            $stmt = $this->pdo->prepare("
-                INSERT INTO sessione_domande
-                (sessione_id, domanda_id, posizione)
-                VALUES (?, ?, ?)
-            ");
+            $stmt = $this->pdo->prepare("\n                INSERT INTO sessione_domande\n                (sessione_id, domanda_id, posizione)\n                VALUES (?, ?, ?)\n            ");
 
             $stmt->execute([
                 $this->sessioneId,
@@ -92,14 +85,7 @@ trait PoolDomandeTrait
 
     public function domandaCorrente(): ?array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT d.id, d.testo, d.difficolta
-            FROM sessione_domande sd
-            JOIN domande d ON d.id = sd.domanda_id
-            WHERE sd.sessione_id = ?
-            AND sd.posizione = ?
-            LIMIT 1
-        ");
+        $stmt = $this->pdo->prepare("\n            SELECT d.*\n            FROM sessione_domande sd\n            JOIN domande d ON d.id = sd.domanda_id\n            WHERE sd.sessione_id = ?\n            AND sd.posizione = ?\n            LIMIT 1\n        ");
 
         $stmt->execute([
             $this->sessioneId,
@@ -112,29 +98,28 @@ trait PoolDomandeTrait
             return null;
         }
 
-        $stmt = $this->pdo->prepare("
-            SELECT id, testo
-            FROM opzioni
-            WHERE domanda_id = ?
-            ORDER BY id ASC
-        ");
+        $stmt = $this->pdo->prepare("\n            SELECT id, testo\n            FROM opzioni\n            WHERE domanda_id = ?\n            ORDER BY id ASC\n        ");
 
         $stmt->execute([$domanda['id']]);
         $domanda['opzioni'] = $stmt->fetchAll();
+
+        $modeMeta = (new QuestionModeResolver())->resolveFromRow($domanda);
+
+        $domanda['tipo_domanda'] = $modeMeta['tipo_domanda'];
+        $domanda['modalita_party'] = $modeMeta['modalita_party'];
+        $domanda['fase_domanda'] = $modeMeta['fase_domanda'];
+        $domanda['media_image_path'] = $modeMeta['media_image_path'];
+        $domanda['media_audio_path'] = $modeMeta['media_audio_path'];
+        $domanda['media_audio_preview_sec'] = $modeMeta['media_audio_preview_sec'];
+        $domanda['media_caption'] = $modeMeta['media_caption'];
+        $domanda['config_domanda'] = $modeMeta['config'];
 
         return $domanda;
     }
 
     private function loadManualV2Questions(int $configurazioneId): array
     {
-        $stmt = $this->pdo->prepare("
-            SELECT d.id
-            FROM configurazioni_quiz_v2_domande qd
-            JOIN domande d ON d.id = qd.domanda_id
-            WHERE qd.configurazione_id = :configurazione_id
-              AND d.attiva = 1
-            ORDER BY qd.posizione ASC
-        ");
+        $stmt = $this->pdo->prepare("\n            SELECT d.id\n            FROM configurazioni_quiz_v2_domande qd\n            JOIN domande d ON d.id = qd.domanda_id\n            WHERE qd.configurazione_id = :configurazione_id\n              AND d.attiva = 1\n            ORDER BY qd.posizione ASC\n        ");
 
         $stmt->execute(['configurazione_id' => $configurazioneId]);
         return $stmt->fetchAll();
@@ -142,13 +127,7 @@ trait PoolDomandeTrait
 
     private function domandaCorrenteId(): int
     {
-        $stmt = $this->pdo->prepare("
-            SELECT sd.domanda_id
-            FROM sessione_domande sd
-            WHERE sd.sessione_id = ?
-              AND sd.posizione = ?
-            LIMIT 1
-        ");
+        $stmt = $this->pdo->prepare("\n            SELECT sd.domanda_id\n            FROM sessione_domande sd\n            WHERE sd.sessione_id = ?\n              AND sd.posizione = ?\n            LIMIT 1\n        ");
 
         $stmt->execute([
             $this->sessioneId,
