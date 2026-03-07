@@ -11,6 +11,15 @@ class Partecipazione
 {
     private PDO $pdo;
 
+    private function formatTempoRispostaDisplay(?float $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        return number_format($value, 2, ',', '');
+    }
+
     public function __construct()
     {
         $this->pdo = Database::getInstance();
@@ -76,7 +85,8 @@ class Partecipazione
     public function registraRisposta(
         int $partecipazioneId,
         int $domandaId,
-        int $opzioneId
+        int $opzioneId,
+        ?float $tempoClient = null
     ): ?array {
         $partecipazione = $this->trova($partecipazioneId);
         if (!$partecipazione) {
@@ -137,7 +147,19 @@ class Partecipazione
         $sessioneId = (int) $sessionData['sessione_id'];
         $inizioDomanda = (float) $sessionData['inizio_domanda'];
 
-        $tempoRisposta = max(0, round(microtime(true) - $inizioDomanda, 3));
+        $tempoServer = max(0, round(microtime(true) - $inizioDomanda, 3));
+        $tempoRisposta = $tempoServer;
+
+        if ($tempoClient !== null && is_finite($tempoClient)) {
+            $tempoClient = round(max(0, $tempoClient), 3);
+            $deltaTempo = abs($tempoClient - $tempoServer);
+            $limiteAccettabile = max(1.5, ($durata * 0.2));
+
+            if ($tempoClient <= ($durata + 1) && $deltaTempo <= $limiteAccettabile) {
+                $tempoRisposta = $tempoClient;
+            }
+        }
+
         $tempoRimanente = max(0, $durata - $tempoRisposta);
 
         $percentuale = $durata > 0 ? ($tempoRimanente / $durata) : 0;
@@ -226,6 +248,7 @@ class Partecipazione
             'bonus_primo' => $bonusPrimoCalcolato,
             'fattore_velocita' => $fattoreVelocita,
             'tempo_risposta' => $tempoRisposta,
+            'tempo_risposta_display' => $this->formatTempoRispostaDisplay($tempoRisposta),
             'difficolta_domanda' => $difficolta,
             'primo_a_rispondere' => $isPrimoARispondere,
             'vincita_domanda' => $punti,

@@ -778,6 +778,7 @@ public function join($sessioneId): void
         $partecipazioneId = (int) ($_POST['partecipazione_id'] ?? 0);
         $domandaId = (int) ($_POST['domanda_id'] ?? 0);
         $opzioneId = (int) ($_POST['opzione_id'] ?? 0);
+        $tempoClient = isset($_POST['tempo_client']) ? (float) $_POST['tempo_client'] : null;
 
         if ($partecipazioneId <= 0 || $domandaId <= 0 || $opzioneId <= 0) {
             $this->json([
@@ -804,7 +805,8 @@ public function join($sessioneId): void
             $risultato = $partecipazione->registraRisposta(
                 $partecipazioneId,
                 $domandaId,
-                $opzioneId
+                $opzioneId,
+                $tempoClient
             );
 
             if (!$risultato) {

@@ -29,5 +29,8 @@
     badgeQuestionId: 0,
     badgeTipoDomanda: '',
     domandaTimerStart: 0,
+    questionShownAtPerf: 0,
+    questionShownDomandaId: 0,
+    questionShownTimerStart: 0,
   };
 })();

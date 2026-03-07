@@ -6,6 +6,15 @@ use App\Models\Sistema;
 
 trait ClassificaTrait
 {
+    private function formatTempoRispostaDisplay(?float $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        return number_format($value, 2, ',', '');
+    }
+
     public function classifica(): array
     {
         $this->ensurePuntateLiveTable();
@@ -132,6 +141,7 @@ trait ClassificaTrait
             $row['vincita_difficolta'] = $vincitaDifficolta;
             $row['vincita_velocita'] = $vincitaVelocita;
             $row['bonus_primo'] = $bonusPrimo;
+            $row['tempo_risposta_display'] = $this->formatTempoRispostaDisplay($tempoRisposta);
 
             unset($row['esito_corretta']);
             unset($row['primo_partecipazione_id']);

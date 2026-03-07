@@ -8,7 +8,7 @@
     if (value === null || value === undefined || value === '' || value === '-') return '-';
     const numeric = Number(value);
     if (!Number.isFinite(numeric)) return '-';
-    return numeric.toFixed(2);
+    return numeric.toFixed(2).replace('.', ',');
   }
 
   Admin.render = {
@@ -31,7 +31,7 @@
         const capitale = Number(p.capitale_attuale ?? 0);
         const puntata = Number(p.ultima_puntata ?? 0);
         const esito = p.esito ?? '-';
-        const tempo = formatTempoRisposta(p.tempo_risposta);
+        const tempo = p.tempo_risposta_display || formatTempoRisposta(p.tempo_risposta);
         const vincita = (p.vincita_domanda === null || p.vincita_domanda === undefined) ? '-' : Number(p.vincita_domanda);
 
         const isPrimoVincente = primoVeloceCorretto && Number(primoVeloceCorretto.partecipazione_id) === Number(p.partecipazione_id);
@@ -39,7 +39,7 @@
 
         const nomeSafe = escapeHtml(p.nome ?? '-');
         const nomeConIcona = isPrimoVincente
-          ? `<span class="first-win-icon" title="Primo a rispondere correttamente">ðŸ¥‡âš¡</span>${nomeSafe}`
+          ? `<span class="first-win-icon" title="Primo a rispondere correttamente">&#129351;&#9889;</span>${nomeSafe}`
           : nomeSafe;
 
         return `
@@ -67,10 +67,10 @@
 
       Admin.ui?.ensureJoinPanelOpen?.();
 
-      joinRichiesteEl.innerHTML = lista.map((r) => `
+        joinRichiesteEl.innerHTML = lista.map((r) => `
         <div class="join-item">
           <div>
-            <strong>${r.nome}</strong> Â· richiesta #${r.id}
+            <strong>${r.nome}</strong> &middot; richiesta #${r.id}
           </div>
           <div class="join-actions">
             <button class="btn-join-ok" onclick="gestisciJoin(${r.id}, 'approva-join')">Approva</button>

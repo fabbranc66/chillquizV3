@@ -115,6 +115,7 @@ trait PoolDomandeTrait
 
         $stmt->execute([$domanda['id']]);
         $domanda['opzioni'] = $stmt->fetchAll();
+        $domanda['opzioni'] = $this->shuffleQuestionOptions($domanda['opzioni'], (int) $domanda['id']);
 
         $modeMeta = (new QuestionModeResolver())->resolveFromRow($domanda);
 
@@ -140,6 +141,18 @@ trait PoolDomandeTrait
         }
 
         return $domanda;
+    }
+
+    private function shuffleQuestionOptions(array $options, int $domandaId): array
+    {
+        usort($options, function (array $left, array $right) use ($domandaId): int {
+            $leftKey = hash('sha256', $this->sessioneId . '|' . $domandaId . '|' . ($left['id'] ?? 0));
+            $rightKey = hash('sha256', $this->sessioneId . '|' . $domandaId . '|' . ($right['id'] ?? 0));
+
+            return $leftKey <=> $rightKey;
+        });
+
+        return $options;
     }
 
     private function loadManualV2Questions(int $configurazioneId): array

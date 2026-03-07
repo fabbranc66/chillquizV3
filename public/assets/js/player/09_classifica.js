@@ -1,4 +1,4 @@
-﻿// 09_classifica.js
+// 09_classifica.js
 (() => {
   const Player = window.Player;
   const S = Player.state;
@@ -31,12 +31,24 @@
     if (value === null || value === undefined || value === '' || value === '-') return '-';
     const numeric = Number(value);
     if (!Number.isFinite(numeric)) return '-';
-    return numeric.toFixed(2);
+    return numeric.toFixed(2).replace('.', ',');
   }
 
   function rowLine(label, value, right = false) {
     return `<div class="risultato-row${right ? ' row-right' : ''}"><span class="riga-testo">${label}: ${value}</span></div>`;
   }
+
+  function forceDisplayString(value) {
+    if (value === null || value === undefined || value === '' || value === '-') return '-';
+    return String(value);
+  }
+
+  function formatCoeff(value) {
+    const numeric = Number(value);
+    if (!Number.isFinite(numeric)) return '0.00';
+    return numeric.toFixed(2).replace('.', ',');
+  }
+
 
   function renderRisultatoPersonaleDaClassifica(lista) {
     const container = D.risultatoPersonale;
@@ -60,7 +72,7 @@
     const vincitaTotale = (miaRiga.vincita_domanda === null || miaRiga.vincita_domanda === undefined)
       ? '-'
       : Number(miaRiga.vincita_domanda);
-    const tempo = formatTempoRisposta(miaRiga.tempo_risposta);
+    const tempo = forceDisplayString(miaRiga.tempo_risposta_display || formatTempoRisposta(miaRiga.tempo_risposta));
     const capitale = Number(miaRiga.capitale_attuale ?? 0);
 
     container.classList.remove('esito-corretta', 'esito-errata');
@@ -71,9 +83,9 @@
       rowLine('Esito', esito),
       rowLine('Tempo risposta', tempo),
       rowLine('Puntata', `${POINTS_SYMBOL} ${puntata}`),
-      rowLine('Coeff. difficolta', `x${difficolta}`),
+      rowLine('Coeff. difficolta', `x${formatCoeff(difficolta)}`),
       rowLine('Vincita difficolta', `${vincitaDifficolta}`, true),
-      rowLine('Coeff. velocita', `x${fattoreVelocita}`),
+      rowLine('Coeff. velocita', `x${formatCoeff(fattoreVelocita)}`),
       rowLine('Vincita velocita', `${vincitaVelocita}`, true),
       rowLine('Bonus primo', `${bonusPrimo}`, true),
       rowLine('Vincita totale', `${vincitaTotale}`, true),
@@ -93,7 +105,7 @@
     const vincitaVelocita = Number(risultato.vincita_velocita ?? 0);
     const bonusPrimo = Number(risultato.bonus_primo ?? 0);
     const punti = Number(risultato.punti ?? 0);
-    const tempo = formatTempoRisposta(risultato.tempo_risposta ?? 0);
+    const tempo = forceDisplayString(risultato.tempo_risposta_display || formatTempoRisposta(risultato.tempo_risposta ?? 0));
     const capitale = Number(risultato.capitale ?? 0);
 
     container.classList.remove('esito-corretta', 'esito-errata');
@@ -103,9 +115,9 @@
       rowLine('Esito', esito),
       rowLine('Tempo risposta', tempo),
       rowLine('Puntata', `${POINTS_SYMBOL} ${puntata}`),
-      rowLine('Coeff. difficolta', `x${difficolta}`),
+      rowLine('Coeff. difficolta', `x${formatCoeff(difficolta)}`),
       rowLine('Vincita difficolta', `${vincitaDifficolta}`, true),
-      rowLine('Coeff. velocita', `x${fattoreVelocita}`),
+      rowLine('Coeff. velocita', `x${formatCoeff(fattoreVelocita)}`),
       rowLine('Vincita velocita', `${vincitaVelocita}`, true),
       rowLine('Bonus primo', `${bonusPrimo}`, true),
       rowLine('Vincita totale', `${punti}`, true),
@@ -164,3 +176,4 @@
     getMiaRigaClassifica,
   };
 })();
+

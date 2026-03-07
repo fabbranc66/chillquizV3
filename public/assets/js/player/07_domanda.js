@@ -230,7 +230,24 @@
     D.opzioniDiv.innerHTML = '';
 
     if (isSarabandaIntro) {
+      S.questionShownAtPerf = 0;
+      S.questionShownDomandaId = domandaId;
+      S.questionShownTimerStart = Number(S.domandaTimerStart || 0);
       return;
+    }
+
+    const timerStart = Number(S.domandaTimerStart || 0);
+    if (
+      S.questionShownDomandaId !== domandaId
+      || S.questionShownTimerStart !== timerStart
+      || !Number.isFinite(S.questionShownAtPerf)
+      || S.questionShownAtPerf <= 0
+    ) {
+      S.questionShownAtPerf = (typeof performance !== 'undefined' && typeof performance.now === 'function')
+        ? performance.now()
+        : Date.now();
+      S.questionShownDomandaId = domandaId;
+      S.questionShownTimerStart = timerStart;
     }
 
     domanda.opzioni.forEach((opzione, index) => {
@@ -275,6 +292,15 @@
       formData.append('partecipazione_id', String(S.partecipazioneId || 0));
       formData.append('domanda_id', String(domandaId || 0));
       formData.append('opzione_id', String(opzioneId || 0));
+
+      const perfNow = (typeof performance !== 'undefined' && typeof performance.now === 'function')
+        ? performance.now()
+        : Date.now();
+      const shownAt = Number(S.questionShownAtPerf || 0);
+      if (shownAt > 0 && perfNow >= shownAt) {
+        const elapsedClient = Math.max(0, ((perfNow - shownAt) / 1000));
+        formData.append('tempo_client', elapsedClient.toFixed(3));
+      }
 
       const response = await fetch(`${S.API_BASE}/risposta/${S.sessioneId || 0}`, {
         method: 'POST',
