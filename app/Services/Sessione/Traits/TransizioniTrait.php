@@ -7,6 +7,22 @@ use RuntimeException;
 
 trait TransizioniTrait
 {
+    private function resetRevealCorretta(): void
+    {
+        $stmt = $this->pdo->prepare('UPDATE sessioni SET mostra_corretta_fino = NULL WHERE id = ?');
+        $stmt->execute([$this->sessioneId]);
+        $this->sessione['mostra_corretta_fino'] = null;
+    }
+
+    private function avviaRevealCorretta(int $durataSecondi = 5): void
+    {
+        $until = round(microtime(true) + max(1, $durataSecondi), 3);
+
+        $stmt = $this->pdo->prepare('UPDATE sessioni SET mostra_corretta_fino = ? WHERE id = ?');
+        $stmt->execute([$until, $this->sessioneId]);
+        $this->sessione['mostra_corretta_fino'] = $until;
+    }
+
     public function avviaPuntata(): void
     {
         $this->assertNonConclusa();
@@ -19,10 +35,9 @@ trait TransizioniTrait
             );
         }
 
-        // Se la sessione è stata resettata (o è vuota), rigenera il pool domande.
         $this->generaDomandeSessione();
-
         $this->svuotaPuntateLive();
+        $this->resetRevealCorretta();
         $this->aggiornaStato('puntata');
     }
 
@@ -42,22 +57,18 @@ trait TransizioniTrait
         $hasAudio = trim((string) ($domandaCorrente['media_audio_path'] ?? '')) !== '';
 
         if ($tipoDomanda === 'SARABANDA' && $hasAudio) {
-            // In SARABANDA la domanda parte in "intro": timer non avviato finché
-            // l'admin non lancia l'anteprima audio (che imposta inizio_domanda).
             $timestamp = null;
         }
 
-        $stmt = $this->pdo->prepare("
-            UPDATE sessioni
-            SET stato = 'domanda',
-                inizio_domanda = ?
-            WHERE id = ?
-        ");
+        $stmt = $this->pdo->prepare(
+            "UPDATE sessioni SET stato = 'domanda', inizio_domanda = ?, mostra_corretta_fino = NULL WHERE id = ?"
+        );
 
         $stmt->execute([$timestamp, $this->sessioneId]);
 
         $this->sessione['stato'] = 'domanda';
         $this->sessione['inizio_domanda'] = $timestamp;
+        $this->sessione['mostra_corretta_fino'] = null;
 
         $this->svuotaPuntateLive();
     }
@@ -74,7 +85,7 @@ trait TransizioniTrait
 
         $partecipazioneModel = new Partecipazione();
         $partecipazioneModel->ripristinaCapitaleEliminatiFineFase($this->sessioneId);
-
+        $this->resetRevealCorretta();
         $this->aggiornaStato('risultati');
     }
 
@@ -91,29 +102,26 @@ trait TransizioniTrait
         $config = $this->loadUnifiedQuizConfig((int) $this->sessione['configurazione_id']);
 
         if (!$config) {
-            throw new RuntimeException("Configurazione quiz non trovata.");
+            throw new RuntimeException('Configurazione quiz non trovata.');
         }
 
         $numeroDomande = (int) $config['numero_domande'];
         $domandaCorrente = (int) $this->sessione['domanda_corrente'];
 
         if ($domandaCorrente < $numeroDomande) {
-
-            $stmt = $this->pdo->prepare("
-                UPDATE sessioni
-                SET domanda_corrente = domanda_corrente + 1,
-                    stato = 'puntata'
-                WHERE id = ?
-            ");
+            $stmt = $this->pdo->prepare(
+                "UPDATE sessioni SET domanda_corrente = domanda_corrente + 1, stato = 'puntata', inizio_domanda = NULL, mostra_corretta_fino = NULL WHERE id = ?"
+            );
 
             $stmt->execute([$this->sessioneId]);
 
             $this->sessione['domanda_corrente']++;
             $this->sessione['stato'] = 'puntata';
-
+            $this->sessione['inizio_domanda'] = null;
+            $this->sessione['mostra_corretta_fino'] = null;
         } else {
+            $this->resetRevealCorretta();
             $this->aggiornaStato('conclusa');
         }
     }
 }
-

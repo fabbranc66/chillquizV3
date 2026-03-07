@@ -103,7 +103,7 @@
         </div>
 
         <label for="domanda-editor-media-preview" class="qa-label">Preview audio (secondi)</label>
-        <input id="domanda-editor-media-preview" type="number" min="0" value="20" class="qa-input qa-full" placeholder="0 = nessun limite">
+        <input id="domanda-editor-media-preview" type="number" min="0" value="5" class="qa-input qa-full" placeholder="0 = nessun limite">
 
         <label for="domanda-editor-media-caption" class="qa-label">Caption media</label>
         <input id="domanda-editor-media-caption" type="text" class="qa-input qa-full" placeholder="Testo indizio/caption">

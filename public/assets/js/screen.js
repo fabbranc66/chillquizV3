@@ -1,4 +1,4 @@
-﻿/**
+/**
  * FILE: public/assets/js/screen.js
  * SCOPO: Gestione UI Schermo (stato sessione, domanda, classifica risultati, media placeholder, QR join).
  * UTILIZZATO DA: app/Views/screen/index.php tramite <script src="/chillquizV3/public/assets/js/screen.js"></script>.
@@ -678,6 +678,8 @@ function renderDomanda(domanda) {
   const tipoDomanda = normalizeQuestionType(domanda);
   const nowSec = Math.floor(Date.now() / 1000);
   const isSarabandaIntro = tipoDomanda === 'SARABANDA' && (currentTimerStart <= 0 || nowSec < currentTimerStart);
+  const showCorrect = !!domanda.show_correct;
+  const correctOptionId = String(domanda.correct_option_id || '');
 
   const titolo = document.getElementById('domanda-testo');
   const opzioni = document.getElementById('opzioni');
@@ -701,6 +703,15 @@ function renderDomanda(domanda) {
     const el = document.createElement('div');
     el.className = 'opzione';
     el.innerText = o.testo || '';
+
+    if (showCorrect) {
+      if (String(o.id || '') === correctOptionId) {
+        el.classList.add('is-correct-reveal');
+      } else {
+        el.classList.add('is-reveal-dim');
+      }
+    }
+
     opzioni.appendChild(el);
   });
 
@@ -879,3 +890,4 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchMediaAttiva();
   }, MEDIA_POLL_MS);
 });
+

@@ -215,6 +215,8 @@
     const tipoDomanda = normalizeBadgeQuestionType(domanda);
     const nowSec = Math.floor(Date.now() / 1000);
     const isSarabandaIntro = tipoDomanda === 'SARABANDA' && (Number(S.domandaTimerStart || 0) <= 0 || nowSec < Number(S.domandaTimerStart || 0));
+    const showCorrect = !!domanda.show_correct;
+    const correctOptionId = String(domanda.correct_option_id || '');
 
     D.domandaTesto.innerText = isSarabandaIntro ? '' : (domanda.testo || '');
     S.badgeQuestionId = domandaId;
@@ -239,7 +241,17 @@
       const paletteIndex = (index % 4) + 1;
       btn.classList.add(`opzione-kahoot-${paletteIndex}`);
 
-      btn.onclick = () => inviaRisposta(domanda.id, opzione.id);
+      if (showCorrect) {
+        btn.disabled = true;
+        if (btn.dataset.id === correctOptionId) {
+          btn.classList.add('is-correct-reveal');
+        } else {
+          btn.classList.add('is-reveal-dim');
+        }
+      } else {
+        btn.onclick = () => inviaRisposta(domanda.id, opzione.id);
+      }
+
       D.opzioniDiv.appendChild(btn);
     });
   }
@@ -294,3 +306,4 @@
     clearQuestionTypeBadge,
   };
 })();
+

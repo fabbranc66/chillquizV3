@@ -191,6 +191,18 @@ body {
 .grid-opzioni .opzione:nth-child(3) { background: #fbc531; color: #111; }
 .grid-opzioni .opzione:nth-child(4) { background: #4cd137; }
 
+.grid-opzioni .opzione.is-correct-reveal {
+    background: #44d62c !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.22), 0 18px 32px rgba(68, 214, 44, 0.34);
+    transform: scale(1.02);
+}
+
+.grid-opzioni .opzione.is-reveal-dim {
+    opacity: 0.38;
+    filter: grayscale(0.1);
+}
+
 .stage-placeholder {
     color: #b7c1d1;
     text-align: center;
@@ -413,3 +425,4 @@ body.module-tags-off .module-debug-tag {
         font-size: clamp(18px, 1.6vw, 26px);
     }
 }
+

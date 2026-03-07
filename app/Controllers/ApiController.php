@@ -340,9 +340,13 @@ class ApiController
             if ($sessione) {
                 $timerStart = (float) ($sessione['inizio_domanda'] ?? 0);
                 $timerMax = (int) ((new Sistema())->get('durata_domanda') ?? 0);
+                $revealUntil = (float) ($sessione['mostra_corretta_fino'] ?? 0);
+                $now = round(microtime(true), 3);
 
                 $sessione['timer_start'] = $timerStart;
                 $sessione['timer_max'] = $timerMax;
+                $sessione['show_correct'] = $revealUntil > $now;
+                $sessione['reveal_until'] = $revealUntil > 0 ? $revealUntil : null;
             }
 
             $this->json([
@@ -522,7 +526,7 @@ class ApiController
                 return;
             }
 
-            $startAt = round(microtime(true) + max(0, $previewSec) + 3, 3);
+            $startAt = round(microtime(true) + max(0, $previewSec), 3);
             $up = $pdo->prepare(
                 "UPDATE sessioni
                  SET inizio_domanda = :start_at
@@ -1799,3 +1803,4 @@ public function join($sessioneId): void
         }
     }
 }
+

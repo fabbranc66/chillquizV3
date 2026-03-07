@@ -308,6 +308,17 @@ input {
 .grid-opzioni button.opzione-kahoot-2 { background: #0097e6; color: #fff; }
 .grid-opzioni button.opzione-kahoot-3 { background: #fbc531; color: #111; }
 .grid-opzioni button.opzione-kahoot-4 { background: #4cd137; color: #fff; }
+.grid-opzioni button.is-correct-reveal {
+    background: #44d62c !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.25), 0 18px 34px rgba(68, 214, 44, 0.35);
+    transform: scale(1.02);
+}
+
+.grid-opzioni button.is-reveal-dim {
+    opacity: 0.38;
+    filter: grayscale(0.1);
+}
 
 /* RISULTATI / CLASSIFICA */
 #screen-risultati h2 {
@@ -553,3 +564,4 @@ body.module-tags-off .module-debug-tag {
         font-size: 14px;
     }
 }
+

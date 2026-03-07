@@ -20,7 +20,7 @@ trait PoolDomandeTrait
         $config = $this->loadUnifiedQuizConfig((int) $this->sessione['configurazione_id']);
 
         if (!$config) {
-            throw new RuntimeException("Configurazione quiz non trovata.");
+            throw new RuntimeException('Configurazione quiz non trovata.');
         }
 
         $numeroDomande = (int) $config['numero_domande'];
@@ -29,7 +29,7 @@ trait PoolDomandeTrait
             $domande = $this->loadManualV2Questions((int) $this->sessione['configurazione_id']);
 
             if (count($domande) < $numeroDomande) {
-                throw new RuntimeException("Domande manuali insufficienti per generare la sessione.");
+                throw new RuntimeException('Domande manuali insufficienti per generare la sessione.');
             }
 
             $domande = array_slice($domande, 0, $numeroDomande);
@@ -41,11 +41,11 @@ trait PoolDomandeTrait
         $argomentoId = $config['argomento_id'] ?? null;
         $selezione = $config['selezione_tipo'] ?? 'random';
 
-        $query = "SELECT id FROM domande WHERE attiva = 1";
+        $query = 'SELECT id FROM domande WHERE attiva = 1';
         $params = [];
 
         if ($poolTipo === 'mono' && $argomentoId) {
-            $query .= " AND argomento_id = ?";
+            $query .= ' AND argomento_id = ?';
             $params[] = $argomentoId;
         }
 
@@ -55,17 +55,17 @@ trait PoolDomandeTrait
         }
 
         $query .= ($selezione === 'random')
-            ? " ORDER BY RAND()"
-            : " ORDER BY id ASC";
+            ? ' ORDER BY RAND()'
+            : ' ORDER BY id ASC';
 
-        $query .= " LIMIT " . $numeroDomande;
+        $query .= ' LIMIT ' . $numeroDomande;
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute($params);
         $domande = $stmt->fetchAll();
 
         if (count($domande) < $numeroDomande) {
-            throw new RuntimeException("Domande insufficienti per generare la sessione.");
+            throw new RuntimeException('Domande insufficienti per generare la sessione.');
         }
 
         $this->persistSessionQuestions($domande);
@@ -103,7 +103,15 @@ trait PoolDomandeTrait
             return null;
         }
 
-        $stmt = $this->pdo->prepare("\n            SELECT id, testo\n            FROM opzioni\n            WHERE domanda_id = ?\n            ORDER BY id ASC\n        ");
+        $now = round(microtime(true), 3);
+        $revealUntil = (float) ($this->sessione['mostra_corretta_fino'] ?? 0);
+        $showCorrect = $revealUntil > $now;
+
+        if ($showCorrect) {
+            $stmt = $this->pdo->prepare("\n                SELECT id, testo, corretta\n                FROM opzioni\n                WHERE domanda_id = ?\n                ORDER BY id ASC\n            ");
+        } else {
+            $stmt = $this->pdo->prepare("\n                SELECT id, testo\n                FROM opzioni\n                WHERE domanda_id = ?\n                ORDER BY id ASC\n            ");
+        }
 
         $stmt->execute([$domanda['id']]);
         $domanda['opzioni'] = $stmt->fetchAll();
@@ -118,6 +126,18 @@ trait PoolDomandeTrait
         $domanda['media_audio_preview_sec'] = $modeMeta['media_audio_preview_sec'];
         $domanda['media_caption'] = $modeMeta['media_caption'];
         $domanda['config_domanda'] = $modeMeta['config'];
+        $domanda['show_correct'] = $showCorrect;
+        $domanda['reveal_until'] = $showCorrect ? $revealUntil : null;
+        $domanda['correct_option_id'] = null;
+
+        if ($showCorrect) {
+            foreach ($domanda['opzioni'] as $opzione) {
+                if ((int) ($opzione['corretta'] ?? 0) === 1) {
+                    $domanda['correct_option_id'] = (int) $opzione['id'];
+                    break;
+                }
+            }
+        }
 
         return $domanda;
     }

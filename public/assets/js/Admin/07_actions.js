@@ -48,7 +48,7 @@
     if (!D.domandaEditorMediaPreview) return;
     const raw = String(D.domandaEditorMediaPreview.value || '').trim();
     if (raw === '') {
-      D.domandaEditorMediaPreview.value = '20';
+      D.domandaEditorMediaPreview.value = '5';
     }
   }
 
