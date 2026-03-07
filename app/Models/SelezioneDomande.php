@@ -38,9 +38,16 @@ class SelezioneDomande
         }
 
         $sql = 'SELECT id FROM domande WHERE attiva = 1';
+        $params = [];
 
         if ($poolTipo === 'mono' && $argomentoId) {
             $sql .= ' AND argomento_id = :argomento_id';
+            $params['argomento_id'] = $argomentoId;
+        }
+
+        if ($poolTipo === 'sarabanda') {
+            $sql .= ' AND UPPER(COALESCE(tipo_domanda, \'CLASSIC\')) = :tipo_domanda';
+            $params['tipo_domanda'] = 'SARABANDA';
         }
 
         if ($selezioneTipo === 'random') {
@@ -52,12 +59,7 @@ class SelezioneDomande
         $sql .= ' LIMIT ' . $numero;
 
         $stmt = $this->pdo->prepare($sql);
-
-        if ($poolTipo === 'mono' && $argomentoId) {
-            $stmt->execute(['argomento_id' => $argomentoId]);
-        } else {
-            $stmt->execute();
-        }
+        $stmt->execute($params);
 
         $domande = $stmt->fetchAll();
 
@@ -82,9 +84,14 @@ class SelezioneDomande
             return null;
         }
 
+        $poolRaw = (string) ($row['pool_tipo'] ?? 'tutti');
+        $poolTipo = $poolRaw === 'sarabanda'
+            ? 'sarabanda'
+            : (($poolRaw === 'mono') ? 'mono' : 'tutti');
+
         return [
             'numero_domande' => $numero,
-            'pool_tipo' => ($row['pool_tipo'] ?? 'tutti') === 'mono' ? 'mono' : 'tutti',
+            'pool_tipo' => $poolTipo,
             'argomento_id' => $row['argomento_id'] !== null ? (int) $row['argomento_id'] : null,
             'selezione_tipo' => ($row['selezione_tipo'] ?? 'random') === 'manuale' ? 'manuale' : 'random',
         ];
@@ -98,6 +105,11 @@ class SelezioneDomande
         if ($poolTipo === 'fisso' && $argomentoId !== null) {
             $sql .= ' AND argomento_id = :argomento_id';
             $params['argomento_id'] = $argomentoId;
+        }
+
+        if ($poolTipo === 'sarabanda') {
+            $sql .= ' AND UPPER(COALESCE(tipo_domanda, \'CLASSIC\')) = :tipo_domanda';
+            $params['tipo_domanda'] = 'SARABANDA';
         }
 
         $sql .= ' ORDER BY RAND() LIMIT ' . max(1, $numero);

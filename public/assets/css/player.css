@@ -233,10 +233,14 @@ input {
 }
 
 .domanda-media-image {
-    width: 100%;
+    width: 75%;
+    height: 75%;
     aspect-ratio: 16 / 9;
     max-height: none;
     object-fit: cover;
+    object-position: 50% 0;
+    display: block;
+    margin: 0 auto;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.24);
     box-shadow: var(--shadow-soft);

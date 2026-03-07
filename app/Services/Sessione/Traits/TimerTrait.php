@@ -20,13 +20,13 @@ trait TimerTrait
         $config = $stmt->fetch();
         $durata = (int) $config['valore'];
 
-        $inizio = (int) $this->sessione['inizio_domanda'];
+        $inizio = (float) $this->sessione['inizio_domanda'];
 
         if (!$inizio) {
             return;
         }
 
-        if (time() >= ($inizio + $durata)) {
+        if (microtime(true) >= ($inizio + $durata)) {
             $this->chiudiDomanda();
         }
     }

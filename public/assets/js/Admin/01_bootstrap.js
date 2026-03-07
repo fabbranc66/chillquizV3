@@ -15,5 +15,9 @@
     ultimoNumeroPartecipanti: 0,
     domandaCorrente: null,
     audioPreviewDomandaId: 0,
+    audioPreviewResetTimer: null,
+    statoRequestInFlight: false,
+    joinRequestInFlight: false,
+    domandaMetaRequestInFlight: false,
   };
 })();

@@ -86,12 +86,24 @@
 
         <label for="domanda-editor-media-image" class="qa-label">Path immagine</label>
         <input id="domanda-editor-media-image" type="text" class="qa-input qa-full" placeholder="/upload/image/xxx.jpg">
+        <div class="qa-preview-block">
+            <div class="qa-preview-title">Anteprima immagine</div>
+            <div class="qa-image-preview-wrap">
+                <img id="domanda-editor-image-preview" class="qa-image-preview" alt="Anteprima immagine domanda" style="display:none;">
+                <div id="domanda-editor-image-preview-empty" class="qa-preview-empty">Nessuna immagine selezionata</div>
+            </div>
+        </div>
 
         <label for="domanda-editor-media-audio" class="qa-label">Path audio</label>
         <input id="domanda-editor-media-audio" type="text" class="qa-input qa-full" placeholder="/upload/audio/xxx.mp3">
+        <div class="qa-preview-block">
+            <div class="qa-preview-title">Anteprima audio</div>
+            <audio id="domanda-editor-audio-preview" class="qa-audio-preview" controls style="display:none;"></audio>
+            <div id="domanda-editor-audio-preview-empty" class="qa-preview-empty">Nessun audio selezionato</div>
+        </div>
 
         <label for="domanda-editor-media-preview" class="qa-label">Preview audio (secondi)</label>
-        <input id="domanda-editor-media-preview" type="number" min="0" class="qa-input qa-full" placeholder="0 = nessun limite">
+        <input id="domanda-editor-media-preview" type="number" min="0" value="20" class="qa-input qa-full" placeholder="0 = nessun limite">
 
         <label for="domanda-editor-media-caption" class="qa-label">Caption media</label>
         <input id="domanda-editor-media-caption" type="text" class="qa-input qa-full" placeholder="Testo indizio/caption">

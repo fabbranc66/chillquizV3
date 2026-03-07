@@ -9,10 +9,15 @@ trait ConfigQuizTrait
         $numero = isset($this->sessione['numero_domande']) ? (int) $this->sessione['numero_domande'] : 0;
 
         if ($numero > 0) {
+            $poolRaw = (string) ($this->sessione['pool_tipo'] ?? 'tutti');
+            $poolTipo = $poolRaw === 'sarabanda'
+                ? 'sarabanda'
+                : (($poolRaw === 'mono') ? 'mono' : 'tutti');
+
             return [
                 'source' => 'sessione',
                 'numero_domande' => $numero,
-                'pool_tipo' => ($this->sessione['pool_tipo'] ?? 'tutti') === 'mono' ? 'mono' : 'tutti',
+                'pool_tipo' => $poolTipo,
                 'argomento_id' => $this->sessione['argomento_id'] !== null ? (int) $this->sessione['argomento_id'] : null,
                 'selezione_tipo' => ($this->sessione['selezione_tipo'] ?? 'random') === 'manuale' ? 'manuale' : 'random',
                 'modalita' => null,

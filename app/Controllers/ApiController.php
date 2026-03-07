@@ -60,6 +60,18 @@ class ApiController
         return @file_put_contents($file, $json, LOCK_EX) !== false;
     }
 
+    private function clearAudioPreviewCommand(int $sessioneId): void
+    {
+        if ($sessioneId <= 0) {
+            return;
+        }
+
+        $file = $this->audioPreviewCommandFile($sessioneId);
+        if (is_file($file)) {
+            @unlink($file);
+        }
+    }
+
     private function json(array $data): void
     {
         header('Content-Type: application/json; charset=utf-8');
@@ -326,7 +338,7 @@ class ApiController
             $sessione = $stmt->fetch() ?: null;
 
             if ($sessione) {
-                $timerStart = (int) ($sessione['inizio_domanda'] ?? 0);
+                $timerStart = (float) ($sessione['inizio_domanda'] ?? 0);
                 $timerMax = (int) ((new Sistema())->get('durata_domanda') ?? 0);
 
                 $sessione['timer_start'] = $timerStart;
@@ -405,6 +417,131 @@ class ApiController
                 'success' => true,
                 'sessione_id' => $sessioneId,
                 'preview' => $preview,
+            ]);
+        } catch (Throwable $e) {
+            $this->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function audioPreviewStarted($sessioneId): void
+    {
+        $sessioneId = (int) $sessioneId;
+
+        try {
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                $this->json([
+                    'success' => false,
+                    'error' => 'Metodo non consentito'
+                ]);
+                return;
+            }
+
+            $incomingToken = trim((string) ($_POST['token'] ?? ''));
+            $preview = $this->readAudioPreviewCommand($sessioneId);
+            $storedToken = trim((string) ($preview['token'] ?? ''));
+
+            if ($incomingToken !== '') {
+                if (!$preview || $storedToken === '' || !hash_equals($storedToken, $incomingToken)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Token preview non valido'
+                    ]);
+                    return;
+                }
+
+                if (isset($preview['acknowledged_at'], $preview['start_at'])) {
+                    $this->json([
+                        'success' => true,
+                        'sessione_id' => $sessioneId,
+                        'preview' => $preview,
+                        'start_at' => (int) $preview['start_at'],
+                    ]);
+                    return;
+                }
+            }
+
+            $service = new SessioneService($sessioneId);
+            $domanda = $service->domandaCorrente();
+            $tipoDomanda = strtoupper(trim((string) ($domanda['tipo_domanda'] ?? 'CLASSIC')));
+            if (!$domanda || !is_array($domanda)) {
+                $this->json([
+                    'success' => false,
+                    'error' => 'Domanda corrente non disponibile'
+                ]);
+                return;
+            }
+
+            $audioPath = trim((string) ($domanda['media_audio_path'] ?? ''));
+            if ($audioPath === '') {
+                $this->json([
+                    'success' => false,
+                    'error' => 'La domanda corrente non ha audio'
+                ]);
+                return;
+            }
+
+            if (!$preview) {
+                $preview = [
+                    'token' => $incomingToken,
+                    'sessione_id' => $sessioneId,
+                    'domanda_id' => (int) ($domanda['id'] ?? 0),
+                    'audio_path' => $audioPath,
+                    'preview_sec' => (int) ($domanda['media_audio_preview_sec'] ?? 0),
+                    'created_at' => round(microtime(true), 3),
+                ];
+            }
+
+            $previewSec = (int) ($preview['preview_sec'] ?? (int) ($domanda['media_audio_preview_sec'] ?? 0));
+
+            if ($tipoDomanda !== 'SARABANDA') {
+                $preview['acknowledged_at'] = round(microtime(true), 3);
+                $this->clearAudioPreviewCommand($sessioneId);
+                $this->json([
+                    'success' => true,
+                    'sessione_id' => $sessioneId,
+                    'preview' => $preview,
+                    'start_at' => null,
+                ]);
+                return;
+            }
+
+            $pdo = \App\Core\Database::getInstance();
+            $stmt = $pdo->prepare("SELECT stato FROM sessioni WHERE id = :id LIMIT 1");
+            $stmt->execute(['id' => $sessioneId]);
+            $sessioneRow = $stmt->fetch() ?: null;
+            $statoCorrente = (string) ($sessioneRow['stato'] ?? '');
+
+            if ($statoCorrente !== 'domanda') {
+                $this->json([
+                    'success' => false,
+                    'error' => 'La sessione non e in stato domanda'
+                ]);
+                return;
+            }
+
+            $startAt = round(microtime(true) + max(0, $previewSec) + 3, 3);
+            $up = $pdo->prepare(
+                "UPDATE sessioni
+                 SET inizio_domanda = :start_at
+                 WHERE id = :id"
+            );
+            $up->execute([
+                'start_at' => $startAt,
+                'id' => $sessioneId,
+            ]);
+
+            $preview['acknowledged_at'] = round(microtime(true), 3);
+            $preview['start_at'] = $startAt;
+            $this->clearAudioPreviewCommand($sessioneId);
+
+            $this->json([
+                'success' => true,
+                'sessione_id' => $sessioneId,
+                'preview' => $preview,
+                'start_at' => $startAt,
             ]);
         } catch (Throwable $e) {
             $this->json([
@@ -768,22 +905,27 @@ public function join($sessioneId): void
                     ]);
                     return;
                 case 'avvia-puntata':
+                    $this->clearAudioPreviewCommand($sessioneId);
                     (new SessioneService($sessioneId))->avviaPuntata();
                     break;
 
                 case 'avvia-domanda':
+                    $this->clearAudioPreviewCommand($sessioneId);
                     (new SessioneService($sessioneId))->avviaDomanda();
                     break;
 
                 case 'risultati':
+                    $this->clearAudioPreviewCommand($sessioneId);
                     (new SessioneService($sessioneId))->chiudiDomanda();
                     break;
 
                 case 'prossima':
+                    $this->clearAudioPreviewCommand($sessioneId);
                     (new SessioneService($sessioneId))->prossimaFase();
                     break;
 
                 case 'riavvia':
+                    $this->clearAudioPreviewCommand($sessioneId);
                     (new SessioneService($sessioneId))->resetTotale();
                     break;
 
@@ -844,30 +986,6 @@ public function join($sessioneId): void
                             'error' => 'Impossibile inviare comando anteprima audio'
                         ]);
                         return;
-                    }
-
-                    if ($tipoDomanda === 'SARABANDA') {
-                        $pdo = \App\Core\Database::getInstance();
-                        $stmt = $pdo->prepare("SELECT stato FROM sessioni WHERE id = :id LIMIT 1");
-                        $stmt->execute(['id' => $targetSessioneId]);
-                        $sessioneRow = $stmt->fetch() ?: null;
-                        $statoCorrente = (string) ($sessioneRow['stato'] ?? '');
-
-                        // Timer parte al termine preview + 3 secondi.
-                        if ($statoCorrente === 'domanda') {
-                            $startAt = time() + max(0, $previewSec) + 3;
-                            $up = $pdo->prepare(
-                                "UPDATE sessioni
-                                 SET inizio_domanda = :start_at
-                                 WHERE id = :id"
-                            );
-                            $up->execute([
-                                'start_at' => $startAt,
-                                'id' => $targetSessioneId,
-                            ]);
-
-                            $payload['start_at'] = $startAt;
-                        }
                     }
 
                     $this->json([

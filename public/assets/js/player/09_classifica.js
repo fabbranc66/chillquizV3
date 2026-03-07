@@ -1,4 +1,4 @@
-// 09_classifica.js
+﻿// 09_classifica.js
 (() => {
   const Player = window.Player;
   const S = Player.state;
@@ -27,6 +27,13 @@
     if (D.capitaleValue) D.capitaleValue.innerText = String(capitale);
   }
 
+  function formatTempoRisposta(value) {
+    if (value === null || value === undefined || value === '' || value === '-') return '-';
+    const numeric = Number(value);
+    if (!Number.isFinite(numeric)) return '-';
+    return numeric.toFixed(2);
+  }
+
   function rowLine(label, value, right = false) {
     return `<div class="risultato-row${right ? ' row-right' : ''}"><span class="riga-testo">${label}: ${value}</span></div>`;
   }
@@ -53,9 +60,7 @@
     const vincitaTotale = (miaRiga.vincita_domanda === null || miaRiga.vincita_domanda === undefined)
       ? '-'
       : Number(miaRiga.vincita_domanda);
-    const tempo = (miaRiga.tempo_risposta === null || miaRiga.tempo_risposta === undefined)
-      ? '-'
-      : Number(miaRiga.tempo_risposta);
+    const tempo = formatTempoRisposta(miaRiga.tempo_risposta);
     const capitale = Number(miaRiga.capitale_attuale ?? 0);
 
     container.classList.remove('esito-corretta', 'esito-errata');
@@ -64,7 +69,7 @@
 
     container.innerHTML = [
       rowLine('Esito', esito),
-      rowLine('Tempo risposta', `${tempo}`),
+      rowLine('Tempo risposta', tempo),
       rowLine('Puntata', `${POINTS_SYMBOL} ${puntata}`),
       rowLine('Coeff. difficolta', `x${difficolta}`),
       rowLine('Vincita difficolta', `${vincitaDifficolta}`, true),
@@ -88,7 +93,7 @@
     const vincitaVelocita = Number(risultato.vincita_velocita ?? 0);
     const bonusPrimo = Number(risultato.bonus_primo ?? 0);
     const punti = Number(risultato.punti ?? 0);
-    const tempo = Number(risultato.tempo_risposta ?? 0);
+    const tempo = formatTempoRisposta(risultato.tempo_risposta ?? 0);
     const capitale = Number(risultato.capitale ?? 0);
 
     container.classList.remove('esito-corretta', 'esito-errata');
@@ -96,7 +101,7 @@
 
     container.innerHTML = [
       rowLine('Esito', esito),
-      rowLine('Tempo risposta', `${tempo}`),
+      rowLine('Tempo risposta', tempo),
       rowLine('Puntata', `${POINTS_SYMBOL} ${puntata}`),
       rowLine('Coeff. difficolta', `x${difficolta}`),
       rowLine('Vincita difficolta', `${vincitaDifficolta}`, true),

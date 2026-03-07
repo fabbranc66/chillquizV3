@@ -1,4 +1,4 @@
-/**
+﻿/**
  * FILE: public/assets/js/screen.js
  * SCOPO: Gestione UI Schermo (stato sessione, domanda, classifica risultati, media placeholder, QR join).
  * UTILIZZATO DA: app/Views/screen/index.php tramite <script src="/chillquizV3/public/assets/js/screen.js"></script>.
@@ -8,20 +8,25 @@ const SCREEN_BOOTSTRAP = window.SCREEN_BOOTSTRAP || {};
 const BASE_PUBLIC_URL = String(SCREEN_BOOTSTRAP.basePublicUrl || window.location.pathname.replace(/index\.php$/, ''));
 const PUBLIC_HOST = String(SCREEN_BOOTSTRAP.publicHost || window.location.host);
 const API_BASE = `${BASE_PUBLIC_URL}index.php?url=api`;
+const AUDIO_PREVIEW_STORAGE_PREFIX = 'chillquiz_audio_preview_';
 let sessioneId = Number(SCREEN_BOOTSTRAP.sessioneId || 0);
 let currentState = null;
 let pollStato = null;
 let pollMedia = null;
 let timerTick = null;
 let domandaRenderizzata = false;
+let currentDomandaData = null;
 let mediaAttiva = null;
 let lastAudioPreviewToken = '';
 let pendingAudioPreview = null;
 let previewAudio = null;
-const STATO_POLL_MS = 1000;
-const MEDIA_POLL_MS = 10000;
+const STATO_POLL_MS = 2500;
+const MEDIA_POLL_MS = 30000;
 let currentTimerStart = 0;
 let audioUnlockedByUser = false;
+let statoRequestInFlight = false;
+let mediaRequestInFlight = false;
+let audioPreviewRequestInFlight = false;
 const QUESTION_TYPE_ICON_MAP = {
   CLASSIC: 'assets/img/question-types/classic.png',
   MEDIA: 'assets/img/question-types/classic.png',
@@ -43,6 +48,14 @@ function extractSessioneIdFromUrl() {
     if (!Number.isNaN(id) && id > 0) return id;
   }
   return 0;
+}
+
+function isDomandaState() {
+  return String(currentState || '') === 'domanda';
+}
+
+function canUseAudioPreview() {
+  return isDomandaState() && sessioneId > 0;
 }
 
 function setupSessionQr() {
@@ -90,13 +103,14 @@ function renderStageTimer(sessione) {
   }
 
   const tick = () => {
-    const elapsed = Math.max(0, Math.floor(Date.now() / 1000) - start);
+    const elapsed = Math.max(0, (Date.now() / 1000) - start);
     const remaining = Math.max(0, max - elapsed);
+    const visibleRemaining = Math.max(0, Math.ceil(remaining));
     const pct = max > 0 ? (remaining / max) : 0;
     const deg = Math.max(0, Math.min(360, pct * 360));
 
     indicator.style.setProperty('--progress', `${deg}deg`);
-    label.innerText = `${remaining}s`;
+    label.innerText = `${visibleRemaining}s`;
 
     if (remaining <= 0 && timerTick) {
       clearInterval(timerTick);
@@ -229,12 +243,137 @@ function stopPreviewAudio() {
   try { audio.pause(); } catch (e) { console.warn(e); }
 }
 
+function clearPendingAudioPreview() {
+  pendingAudioPreview = null;
+  lastAudioPreviewToken = '';
+  if (sessioneId > 0) {
+    try {
+      window.localStorage.removeItem(`${AUDIO_PREVIEW_STORAGE_PREFIX}${sessioneId}`);
+    } catch (e) {
+      console.warn(e);
+    }
+  }
+}
+
+function clearAudioPreviewRuntime() {
+  stopPreviewAudio();
+  clearPendingAudioPreview();
+}
+
+function enforceAudioStateGuard() {
+  if (canUseAudioPreview()) return;
+  clearAudioPreviewRuntime();
+}
+
+function readStoredAudioPreview() {
+  if (!canUseAudioPreview()) return null;
+
+  try {
+    const raw = window.localStorage.getItem(`${AUDIO_PREVIEW_STORAGE_PREFIX}${sessioneId}`);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === 'object' ? parsed : null;
+  } catch (e) {
+    console.warn(e);
+    return null;
+  }
+}
+
+function buildPreviewFromCurrentDomanda() {
+  if (!canUseAudioPreview()) return null;
+
+  const domanda = currentDomandaData || null;
+  const audioPath = String(domanda?.media_audio_path || '').trim();
+  if (!domanda || audioPath === '') return null;
+
+  return {
+    token: '',
+    sessione_id: sessioneId,
+    domanda_id: Number(domanda.id || 0),
+    audio_path: audioPath,
+    preview_sec: Math.max(0, Number(domanda.media_audio_preview_sec || 0)),
+    created_at: Math.floor(Date.now() / 1000),
+  };
+}
+
+async function fetchLatestAudioPreviewCommand() {
+  if (!canUseAudioPreview()) return null;
+
+  try {
+    const r = await fetch(`${API_BASE}/audioPreviewStato/${sessioneId || 0}&_=${Date.now()}`, {
+      cache: 'no-store',
+    });
+    const data = await r.json();
+    if (!data.success || !data.preview) return null;
+    return data.preview;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
+
+async function notifyAudioPreviewStarted(preview) {
+  if (!preview || !canUseAudioPreview()) return false;
+
+  try {
+    const formData = new FormData();
+    if (preview.token) {
+      formData.append('token', String(preview.token));
+    }
+    if (preview.domanda_id) {
+      formData.append('domanda_id', String(preview.domanda_id));
+    }
+
+    const r = await fetch(`${API_BASE}/audioPreviewStarted/${sessioneId || 0}`, {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await r.json();
+    return !!data.success;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+}
+
 function getQuestionTypeBadgeNodes() {
   return {
     wrap: document.getElementById('question-type-badge-screen'),
     image: document.getElementById('question-type-badge-image-screen'),
     label: document.getElementById('question-type-badge-label-screen'),
   };
+}
+
+function hasInteractiveBadgeAudio() {
+  if (!canUseAudioPreview()) return false;
+  const currentAudio = String(currentDomandaData?.media_audio_path || '').trim() !== '';
+  const pendingAudio = String(pendingAudioPreview?.audio_path || '').trim() !== '';
+  const storedAudio = String(readStoredAudioPreview()?.audio_path || '').trim() !== '';
+  return currentAudio || pendingAudio || storedAudio;
+}
+
+async function handleQuestionTypeBadgeClick() {
+  if (!canUseAudioPreview()) return;
+  if (!hasInteractiveBadgeAudio()) return;
+
+  let preview = pendingAudioPreview;
+  if (!preview) {
+    preview = readStoredAudioPreview();
+  }
+  if (!preview) {
+    preview = await fetchLatestAudioPreviewCommand();
+  }
+  if (!preview) {
+    preview = buildPreviewFromCurrentDomanda();
+  }
+  if (!preview) return;
+
+  pendingAudioPreview = preview;
+  let played = await playScreenAudioPreview(preview);
+  if (played) return;
+
+  await unlockAudioByGesture();
+  await playScreenAudioPreview(preview);
 }
 
 function clearQuestionTypeBadge() {
@@ -249,11 +388,15 @@ function clearQuestionTypeBadge() {
   }
   if (wrap) {
     wrap.classList.add('hidden');
+    wrap.classList.remove('is-interactive');
+    wrap.classList.add('is-static');
   }
 }
 
 function normalizeQuestionType(domanda) {
   const tipo = String(domanda?.tipo_domanda || 'CLASSIC').trim().toUpperCase();
+  const hasAudio = String(domanda?.media_audio_path || '').trim() !== '';
+  if (tipo === 'SARABANDA' && !hasAudio) return 'CLASSIC';
   if (tipo) return tipo;
   return 'CLASSIC';
 }
@@ -286,12 +429,14 @@ function renderQuestionTypeBadge(domanda) {
   label.innerText = '';
   label.classList.add('hidden');
 
+  wrap.classList.toggle('is-interactive', hasInteractiveBadgeAudio());
+  wrap.classList.toggle('is-static', !hasInteractiveBadgeAudio());
   wrap.classList.remove('hidden');
 }
 
 function clearDomandaMedia() {
   const { wrap, image, audio, caption } = getDomandaMediaNodes();
-  stopPreviewAudio();
+  clearAudioPreviewRuntime();
 
   if (image) {
     image.removeAttribute('src');
@@ -367,6 +512,10 @@ function renderDomandaMedia(domanda, imageOnly = false) {
 }
 
 async function playScreenAudioPreview(preview) {
+  if (!canUseAudioPreview()) {
+    clearAudioPreviewRuntime();
+    return false;
+  }
   if (!preview || !preview.audio_path) return false;
 
   const src = resolveMediaUrl(preview.audio_path);
@@ -388,20 +537,22 @@ async function playScreenAudioPreview(preview) {
     const stopAt = Math.max(1, Math.floor(previewSec));
     audio.__previewTimer = window.setTimeout(() => {
       try { audio.pause(); } catch (e) { console.warn(e); }
+      clearPendingAudioPreview();
     }, stopAt * 1000);
   }
 
   try {
     await audio.play();
-    pendingAudioPreview = null;
+    await notifyAudioPreviewStarted(preview);
+    clearPendingAudioPreview();
     return true;
   } catch (e) {
-    // Fallback autoplay: prova play mutato e poi riattiva audio.
     try {
       audio.muted = true;
       await audio.play();
       audio.muted = false;
-      pendingAudioPreview = null;
+      await notifyAudioPreviewStarted(preview);
+      clearPendingAudioPreview();
       return true;
     } catch (e2) {
       console.warn('Audio preview play failed', e2);
@@ -412,12 +563,12 @@ async function playScreenAudioPreview(preview) {
 }
 
 async function unlockAudioByGesture() {
+  if (!canUseAudioPreview()) return false;
   if (audioUnlockedByUser) return true;
 
   const audio = getPreviewAudio();
 
   try {
-    // Silent tiny wav used only to prime autoplay permission.
     audio.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
     audio.muted = true;
     audio.volume = 0;
@@ -436,7 +587,12 @@ async function unlockAudioByGesture() {
 }
 
 async function fetchAudioPreviewStatus() {
-  if (!sessioneId) return;
+  if (!canUseAudioPreview()) {
+    enforceAudioStateGuard();
+    return;
+  }
+  if (audioPreviewRequestInFlight) return;
+  audioPreviewRequestInFlight = true;
 
   try {
     const r = await fetch(`${API_BASE}/audioPreviewStato/${sessioneId || 0}&_=${Date.now()}`, {
@@ -449,14 +605,22 @@ async function fetchAudioPreviewStatus() {
     if (!token || token === lastAudioPreviewToken) return;
 
     lastAudioPreviewToken = token;
-    playScreenAudioPreview(data.preview);
+    pendingAudioPreview = data.preview;
+    try {
+      window.localStorage.setItem(`${AUDIO_PREVIEW_STORAGE_PREFIX}${sessioneId}`, JSON.stringify(data.preview));
+    } catch (e) {
+      console.warn(e);
+    }
   } catch (e) {
     console.error(e);
+  } finally {
+    audioPreviewRequestInFlight = false;
   }
 }
 
 function hideDomandaView() {
-  stopPreviewAudio();
+  clearAudioPreviewRuntime();
+  currentDomandaData = null;
   hideRisultatiView();
   document.getElementById('screen-domanda').classList.add('hidden');
   document.getElementById('screen-placeholder').classList.remove('hidden');
@@ -509,7 +673,9 @@ function renderDomanda(domanda) {
     return;
   }
 
-  const tipoDomanda = String(domanda?.tipo_domanda || 'CLASSIC').trim().toUpperCase();
+  currentDomandaData = domanda;
+
+  const tipoDomanda = normalizeQuestionType(domanda);
   const nowSec = Math.floor(Date.now() / 1000);
   const isSarabandaIntro = tipoDomanda === 'SARABANDA' && (currentTimerStart <= 0 || nowSec < currentTimerStart);
 
@@ -517,11 +683,10 @@ function renderDomanda(domanda) {
   const opzioni = document.getElementById('opzioni');
 
   titolo.innerText = isSarabandaIntro ? '' : (domanda.testo || '');
+  renderQuestionTypeBadge(domanda);
   if (isSarabandaIntro) {
-    clearQuestionTypeBadge();
     renderDomandaMedia(domanda, true);
   } else {
-    renderQuestionTypeBadge(domanda);
     renderDomandaMedia(domanda, false);
   }
   opzioni.innerHTML = '';
@@ -544,7 +709,7 @@ function renderDomanda(domanda) {
 }
 
 async function fetchDomandaIfActive() {
-  if (currentState !== 'domanda') {
+  if (!isDomandaState()) {
     hideDomandaView();
     return;
   }
@@ -552,7 +717,7 @@ async function fetchDomandaIfActive() {
   try {
     const r = await fetch(`${API_BASE}/domanda/${sessioneId || 0}`);
     const data = await r.json();
-    if (currentState !== 'domanda') return;
+    if (!isDomandaState()) return;
 
     if (!data.success) {
       if (!domandaRenderizzata) showDomandaLoadingView();
@@ -566,6 +731,8 @@ async function fetchDomandaIfActive() {
 }
 
 async function fetchMediaAttiva() {
+  if (mediaRequestInFlight) return;
+  mediaRequestInFlight = true;
   try {
     const r = await fetch(`${API_BASE}/mediaAttiva`);
     const data = await r.json();
@@ -574,11 +741,13 @@ async function fetchMediaAttiva() {
 
     mediaAttiva = data.media || null;
 
-    if (currentState !== 'domanda' && currentState !== 'risultati') {
+    if (!isDomandaState() && currentState !== 'risultati') {
       renderStateImage(currentState);
     }
   } catch (e) {
     console.error(e);
+  } finally {
+    mediaRequestInFlight = false;
   }
 }
 
@@ -588,6 +757,10 @@ async function fetchStato() {
     resetStageTimer();
     return;
   }
+  if (statoRequestInFlight) {
+    return;
+  }
+  statoRequestInFlight = true;
 
   try {
     const r = await fetch(`${API_BASE}/stato/${sessioneId || 0}`);
@@ -599,6 +772,7 @@ async function fetchStato() {
         hideDomandaView();
       }
       resetStageTimer();
+      enforceAudioStateGuard();
       return;
     }
 
@@ -606,20 +780,25 @@ async function fetchStato() {
     currentTimerStart = Number(data.sessione?.timer_start || 0);
     renderStageTimer(data.sessione || null);
 
-    if (currentState === 'domanda') {
+    if (isDomandaState()) {
       hideRisultatiView();
       showDomandaLoadingView();
       fetchDomandaIfActive();
     } else if (currentState === 'risultati' || currentState === 'conclusa') {
       showRisultatiView();
       fetchClassificaRisultati();
+      enforceAudioStateGuard();
     } else {
       hideDomandaView();
+      enforceAudioStateGuard();
     }
   } catch (e) {
     console.error(e);
     hideDomandaView();
     resetStageTimer();
+    enforceAudioStateGuard();
+  } finally {
+    statoRequestInFlight = false;
   }
 }
 
@@ -636,13 +815,58 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchAudioPreviewStatus();
 
   const tryUnlockPendingAudio = async () => {
+    if (!canUseAudioPreview()) return;
+
+    let preview = pendingAudioPreview;
+    if (!preview) {
+      preview = readStoredAudioPreview();
+    }
+    if (!preview) {
+      preview = await fetchLatestAudioPreviewCommand();
+    }
+    if (!preview) {
+      preview = buildPreviewFromCurrentDomanda();
+    }
+    if (!preview) return;
+
+    pendingAudioPreview = preview;
+    let played = await playScreenAudioPreview(preview);
+    if (played) return;
+
     await unlockAudioByGesture();
-    if (!pendingAudioPreview) return;
-    playScreenAudioPreview(pendingAudioPreview);
+    await playScreenAudioPreview(preview);
   };
+
+  const { wrap: badgeWrap, image: badgeImage } = getQuestionTypeBadgeNodes();
+  if (badgeWrap) {
+    badgeWrap.addEventListener('click', handleQuestionTypeBadgeClick);
+  }
+  if (badgeImage) {
+    badgeImage.addEventListener('click', handleQuestionTypeBadgeClick);
+  }
 
   document.addEventListener('pointerdown', tryUnlockPendingAudio);
   document.addEventListener('keydown', tryUnlockPendingAudio);
+  window.addEventListener('storage', (event) => {
+    if (event.key !== `${AUDIO_PREVIEW_STORAGE_PREFIX}${sessioneId}`) return;
+    if (!canUseAudioPreview()) {
+      enforceAudioStateGuard();
+      return;
+    }
+    if (!event.newValue) {
+      clearPendingAudioPreview();
+      return;
+    }
+    try {
+      const parsed = JSON.parse(event.newValue);
+      if (parsed && typeof parsed === 'object') {
+        pendingAudioPreview = parsed;
+        lastAudioPreviewToken = String(parsed.token || lastAudioPreviewToken || '');
+      }
+    } catch (e) {
+      console.warn(e);
+    }
+  });
 
   if (pollStato) clearInterval(pollStato);
   pollStato = setInterval(() => {

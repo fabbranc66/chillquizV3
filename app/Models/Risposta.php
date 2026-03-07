@@ -18,7 +18,7 @@ class Risposta
         int $partecipazioneId,
         int $opzioneId,
         int $puntata,
-        int $tempoRisposta
+        float $tempoRisposta
     ): array {
 
         // Recupera capitale attuale

@@ -77,7 +77,11 @@ class Sessione
         }
 
         $poolRaw = trim((string) ($input['pool_tipo'] ?? $base['pool_tipo']));
-        $poolTipo = in_array($poolRaw, ['mono', 'fisso'], true) ? 'mono' : 'tutti';
+        if ($poolRaw === 'sarabanda') {
+            $poolTipo = 'sarabanda';
+        } else {
+            $poolTipo = in_array($poolRaw, ['mono', 'fisso'], true) ? 'mono' : 'tutti';
+        }
 
         $argomentoRaw = $input['argomento_id'] ?? $base['argomento_id'];
         $argomentoId = null;
@@ -116,9 +120,17 @@ class Sessione
         $legacy = $stmt->fetch();
 
         if ($legacy) {
+            $legacyPool = (string) ($legacy['pool_tipo'] ?? 'misto');
+            $poolTipo = 'tutti';
+            if ($legacyPool === 'sarabanda') {
+                $poolTipo = 'sarabanda';
+            } elseif ($legacyPool === 'mono') {
+                $poolTipo = 'mono';
+            }
+
             return [
                 'numero_domande' => (int) ($legacy['numero_domande'] ?? 10),
-                'pool_tipo' => ($legacy['pool_tipo'] ?? 'misto') === 'mono' ? 'mono' : 'tutti',
+                'pool_tipo' => $poolTipo,
                 'argomento_id' => $legacy['argomento_id'] !== null ? (int) $legacy['argomento_id'] : null,
                 'selezione_tipo' => $legacy['selezione_tipo'] ?? 'random',
             ];
@@ -277,7 +289,11 @@ class Sessione
         }
 
         $poolRaw = trim((string) ($input['pool_tipo'] ?? 'tutti'));
-        $poolTipo = in_array($poolRaw, ['mono', 'fisso'], true) ? 'mono' : 'tutti';
+        if ($poolRaw === 'sarabanda') {
+            $poolTipo = 'sarabanda';
+        } else {
+            $poolTipo = in_array($poolRaw, ['mono', 'fisso'], true) ? 'mono' : 'tutti';
+        }
 
         $argomentoId = null;
         if ($poolTipo === 'mono') {
@@ -367,7 +383,7 @@ class Sessione
 
             return $stmt->execute([
                 'stato' => $stato,
-                'inizio' => time(),
+                'inizio' => round(microtime(true), 3),
                 'id' => $id,
             ]);
         }

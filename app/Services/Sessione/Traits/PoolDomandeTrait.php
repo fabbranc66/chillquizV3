@@ -49,6 +49,11 @@ trait PoolDomandeTrait
             $params[] = $argomentoId;
         }
 
+        if ($poolTipo === 'sarabanda') {
+            $query .= " AND UPPER(COALESCE(tipo_domanda, 'CLASSIC')) = ?";
+            $params[] = 'SARABANDA';
+        }
+
         $query .= ($selezione === 'random')
             ? " ORDER BY RAND()"
             : " ORDER BY id ASC";

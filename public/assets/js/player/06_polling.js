@@ -10,7 +10,7 @@
       clearInterval(S.pollingInterval);
       S.pollingInterval = null;
     }
-    S.pollingInterval = setInterval(fetchStato, 1000);
+    S.pollingInterval = setInterval(fetchStato, 2500);
   }
 
   function resetTimerUI() {
@@ -42,8 +42,9 @@
     }
 
     const tick = () => {
-      const elapsed = Math.max(0, Math.floor(Date.now() / 1000) - start);
+      const elapsed = Math.max(0, (Date.now() / 1000) - start);
       const remaining = Math.max(0, max - elapsed);
+      const visibleRemaining = Math.max(0, Math.ceil(remaining));
       const pct = max > 0 ? (remaining / max) : 0;
       const deg = Math.max(0, Math.min(360, pct * 360));
 
@@ -51,7 +52,7 @@
         D.timerIndicator.style.setProperty('--progress', `${deg}deg`);
       }
       if (D.timerLabel) {
-        D.timerLabel.textContent = `${remaining}s`;
+        D.timerLabel.textContent = `${visibleRemaining}s`;
       }
 
       if (remaining <= 0 && S.timerInterval) {
@@ -65,7 +66,8 @@
   }
 
   async function fetchStato() {
-    if (!S.sessioneId) return;
+    if (!S.sessioneId || S.statoRequestInFlight) return;
+    S.statoRequestInFlight = true;
 
     try {
       const response = await fetch(`${S.API_BASE}/stato/${S.sessioneId || 0}`);
@@ -90,6 +92,8 @@
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      S.statoRequestInFlight = false;
     }
   }
 

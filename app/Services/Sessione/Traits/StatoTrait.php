@@ -38,12 +38,12 @@ trait StatoTrait
             return false;
         }
 
-        $inizio = (int) ($this->sessione['inizio_domanda'] ?? 0);
+        $inizio = (float) ($this->sessione['inizio_domanda'] ?? 0);
         if ($inizio <= 0) {
             return false;
         }
 
-        if (time() < $inizio) {
+        if (microtime(true) < $inizio) {
             return false;
         }
 

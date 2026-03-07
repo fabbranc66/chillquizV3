@@ -76,7 +76,7 @@ trait ClassificaTrait
             $row['esito'] = ($row['esito_corretta'] === null)
                 ? null
                 : ((int) $row['esito_corretta'] === 1 ? 'corretta' : 'errata');
-            $row['tempo_risposta'] = $row['tempo_risposta'] === null ? null : (int) $row['tempo_risposta'];
+            $row['tempo_risposta'] = $row['tempo_risposta'] === null ? null : round((float) $row['tempo_risposta'], 3);
             $row['difficolta_domanda'] = $row['difficolta_domanda'] === null ? null : (float) $row['difficolta_domanda'];
             $row['durata_domanda'] = $durataDomanda;
             $row['primo_a_rispondere'] = isset($row['primo_partecipazione_id'])
@@ -85,7 +85,7 @@ trait ClassificaTrait
 
             $puntata = (int) $row['ultima_puntata'];
             $difficolta = (float) ($row['difficolta_domanda'] ?? 1.0);
-            $tempoRisposta = $row['tempo_risposta'] === null ? null : (int) $row['tempo_risposta'];
+            $tempoRisposta = $row['tempo_risposta'] === null ? null : (float) $row['tempo_risposta'];
             $vincitaDomandaRaw = $row['vincita_domanda_raw'] === null ? null : (int) $row['vincita_domanda_raw'];
 
             $fattoreVelocita = 0.0;

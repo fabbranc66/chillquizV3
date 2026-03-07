@@ -8,6 +8,7 @@
   const { renderClassificaLive, renderJoinRichieste } = Admin.render;
 
   const TYPES_WITH_MEDIA = new Set(['MEDIA', 'SARABANDA', 'AUDIO_PARTY', 'IMAGE_PARTY']);
+  const AUDIO_PREVIEW_STORAGE_PREFIX = 'chillquiz_audio_preview_';
   let mediaCatalog = [];
   let sessioniCache = new Map();
   let sessionLabelToId = new Map();
@@ -32,6 +33,54 @@
     const raw = String(path || '').trim();
     if (raw === '') return '';
     return raw.startsWith('/') ? raw : `/${raw}`;
+  }
+
+  function resolveMediaUrl(path) {
+    const normalized = normalizePath(path);
+    if (!normalized) return '';
+    if (/^https?:\/\//i.test(normalized) || normalized.startsWith('data:')) return normalized;
+    const publicBasePath = String(window.location.pathname || '').replace(/index\.php.*$/i, '');
+    const normalizedBase = publicBasePath.endsWith('/') ? publicBasePath : `${publicBasePath}/`;
+    return `${window.location.origin}${normalizedBase}${normalized.replace(/^\/+/, '')}`;
+  }
+
+  function ensureDefaultMediaPreviewValue() {
+    if (!D.domandaEditorMediaPreview) return;
+    const raw = String(D.domandaEditorMediaPreview.value || '').trim();
+    if (raw === '') {
+      D.domandaEditorMediaPreview.value = '20';
+    }
+  }
+
+  function syncDomandaMediaPreview() {
+    const imagePath = normalizePath(D.domandaEditorMediaImage?.value || '');
+    const audioPath = normalizePath(D.domandaEditorMediaAudio?.value || '');
+
+    if (D.domandaEditorImagePreview && D.domandaEditorImagePreviewEmpty) {
+      if (imagePath) {
+        D.domandaEditorImagePreview.src = resolveMediaUrl(imagePath);
+        D.domandaEditorImagePreview.style.display = 'block';
+        D.domandaEditorImagePreviewEmpty.style.display = 'none';
+      } else {
+        D.domandaEditorImagePreview.removeAttribute('src');
+        D.domandaEditorImagePreview.style.display = 'none';
+        D.domandaEditorImagePreviewEmpty.style.display = 'block';
+      }
+    }
+
+    if (D.domandaEditorAudioPreview && D.domandaEditorAudioPreviewEmpty) {
+      if (audioPath) {
+        D.domandaEditorAudioPreview.src = resolveMediaUrl(audioPath);
+        D.domandaEditorAudioPreview.style.display = 'block';
+        D.domandaEditorAudioPreviewEmpty.style.display = 'none';
+      } else {
+        try { D.domandaEditorAudioPreview.pause(); } catch (e) { console.warn(e); }
+        D.domandaEditorAudioPreview.removeAttribute('src');
+        D.domandaEditorAudioPreview.load();
+        D.domandaEditorAudioPreview.style.display = 'none';
+        D.domandaEditorAudioPreviewEmpty.style.display = 'block';
+      }
+    }
   }
 
   function renderDomandaCorrenteMeta(domanda) {
@@ -75,8 +124,24 @@
     D.btnAudioPreview.classList.toggle('enabled', enabled);
 
     if (!hasAudio) {
+      window.clearTimeout(S.audioPreviewResetTimer);
+      S.audioPreviewResetTimer = null;
       S.audioPreviewDomandaId = 0;
     }
+  }
+
+  function scheduleAudioPreviewButtonReset(domandaId, previewSec) {
+    window.clearTimeout(S.audioPreviewResetTimer);
+    S.audioPreviewResetTimer = null;
+
+    const delayMs = Math.max(1, Number(previewSec || 0)) * 1000;
+    S.audioPreviewResetTimer = window.setTimeout(() => {
+      if (Number(S.audioPreviewDomandaId || 0) === Number(domandaId || 0)) {
+        S.audioPreviewDomandaId = 0;
+        syncAudioPreviewButton();
+      }
+      S.audioPreviewResetTimer = null;
+    }, delayMs);
   }
 
   function editorSetValue(el, value) {
@@ -192,7 +257,11 @@
     }
 
     if (D.inputSessionePoolTipo) {
-      D.inputSessionePoolTipo.value = (poolTipo === 'mono' || poolTipo === 'fisso') ? 'fisso' : 'misto';
+      if (poolTipo === 'sarabanda') {
+        D.inputSessionePoolTipo.value = 'sarabanda';
+      } else {
+        D.inputSessionePoolTipo.value = (poolTipo === 'mono' || poolTipo === 'fisso') ? 'fisso' : 'misto';
+      }
     }
 
     if (D.inputSessioneArgomentoId) {
@@ -214,7 +283,9 @@
     editorSetValue(D.domandaEditorMediaImage, normalizePath(domanda.media_image_path || ''));
     editorSetValue(D.domandaEditorMediaAudio, normalizePath(domanda.media_audio_path || ''));
     editorSetValue(D.domandaEditorMediaPreview, domanda.media_audio_preview_sec ?? '');
+    ensureDefaultMediaPreviewValue();
     editorSetValue(D.domandaEditorMediaCaption, domanda.media_caption || '');
+    syncDomandaMediaPreview();
 
     const cfg = domanda.config_domanda;
     if (cfg && typeof cfg === 'object' && Object.keys(cfg).length > 0) {
@@ -248,6 +319,7 @@
   Admin.actions = {
     syncDomandaEditorVisibility() {
       const tipo = normalizeTipo(D.domandaEditorTipo?.value || 'CLASSIC');
+      ensureDefaultMediaPreviewValue();
 
       if (D.domandaEditorRowFase) {
         D.domandaEditorRowFase.style.display = (tipo === 'SARABANDA') ? 'block' : 'none';
@@ -281,6 +353,7 @@
 
         fillMediaSelect(D.domandaEditorMediaImageSelect, mediaCatalog, D.domandaEditorMediaImage?.value || '', 'image');
         fillMediaSelect(D.domandaEditorMediaAudioSelect, mediaCatalog, D.domandaEditorMediaAudio?.value || '', 'audio');
+        syncDomandaMediaPreview();
 
         const countImage = mediaCatalog.filter((m) => String(m.tipo_file || '').toLowerCase() === 'image').length;
         const countAudio = mediaCatalog.filter((m) => String(m.tipo_file || '').toLowerCase() === 'audio').length;
@@ -338,12 +411,15 @@
 
       const filePath = normalizePath(data.file_path || '');
       const tipoFile = String(data.tipo_file || '').toLowerCase();
+      ensureDefaultMediaPreviewValue();
 
       if (tipoFile === 'audio') {
         editorSetValue(D.domandaEditorMediaAudio, filePath);
       } else {
         editorSetValue(D.domandaEditorMediaImage, filePath);
       }
+
+      syncDomandaMediaPreview();
 
       if (titleInput) titleInput.value = '';
       if (fileInput) fileInput.value = '';
@@ -383,18 +459,25 @@
     },
 
     async aggiornaJoinRichieste() {
-      const res = await fetch(`${S.API_BASE}/admin/join-richieste/${S.SESSIONE_ID}`, {
-        method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
-      });
+      if (S.joinRequestInFlight || !S.SESSIONE_ID) return;
+      S.joinRequestInFlight = true;
+      try {
+        const res = await fetch(`${S.API_BASE}/admin/join-richieste/${S.SESSIONE_ID}`, {
+          method: 'POST',
+          headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
+        });
+        const data = await res.json();
+        if (!data.success) return;
 
-      const data = await res.json();
-      if (!data.success) return;
-
-      renderJoinRichieste(data.richieste ?? []);
+        renderJoinRichieste(data.richieste ?? []);
+      } finally {
+        S.joinRequestInFlight = false;
+      }
     },
 
     async aggiornaDomandaCorrenteMeta() {
+      if (S.domandaMetaRequestInFlight || !S.SESSIONE_ID) return;
+      S.domandaMetaRequestInFlight = true;
       try {
         const res = await fetch(`${S.API_BASE}/domanda/${S.SESSIONE_ID}`);
         const data = await res.json();
@@ -413,6 +496,8 @@
         S.domandaCorrente = null;
         renderDomandaCorrenteMeta(null);
         syncAudioPreviewButton();
+      } finally {
+        S.domandaMetaRequestInFlight = false;
       }
     },
 
@@ -441,7 +526,13 @@
       });
 
       if (data.success) {
+        try {
+          window.localStorage.setItem(`${AUDIO_PREVIEW_STORAGE_PREFIX}${S.SESSIONE_ID}`, JSON.stringify(data.preview || {}));
+        } catch (e) {
+          console.warn(e);
+        }
         S.audioPreviewDomandaId = Number(domanda?.id || 0);
+        scheduleAudioPreviewButtonReset(domanda?.id || 0, data?.preview?.preview_sec || domanda?.media_audio_preview_sec || 0);
         syncAudioPreviewButton();
       }
     },
@@ -704,7 +795,8 @@
 
     syncArgomentoFieldState() {
       if (!D.inputSessioneArgomentoId || !D.inputSessionePoolTipo) return;
-      const isFisso = String(D.inputSessionePoolTipo.value || 'misto') === 'fisso';
+      const poolTipo = String(D.inputSessionePoolTipo.value || 'misto');
+      const isFisso = poolTipo === 'fisso';
       D.inputSessioneArgomentoId.disabled = !isFisso;
       if (!isFisso) {
         D.inputSessioneArgomentoId.value = '';
@@ -758,7 +850,9 @@
       const poolRaw = String(D.inputSessionePoolTipo?.value || 'misto').trim();
       const argomentoRaw = String(D.inputSessioneArgomentoId?.value || '').trim();
 
-      const poolTipo = (poolRaw === 'fisso' || poolRaw === 'mono') ? 'mono' : 'tutti';
+      const poolTipo = poolRaw === 'sarabanda'
+        ? 'sarabanda'
+        : ((poolRaw === 'fisso' || poolRaw === 'mono') ? 'mono' : 'tutti');
       const argomentoId = poolTipo === 'mono' && Number(argomentoRaw) > 0 ? String(Number(argomentoRaw)) : '';
 
       const formData = new FormData();
@@ -946,7 +1040,9 @@
       const poolRaw = String(D.inputSessionePoolTipo?.value || 'misto').trim();
       const argomentoRaw = String(D.inputSessioneArgomentoId?.value || '').trim();
 
-      const poolTipo = (poolRaw === 'fisso' || poolRaw === 'mono') ? 'mono' : 'tutti';
+      const poolTipo = poolRaw === 'sarabanda'
+        ? 'sarabanda'
+        : ((poolRaw === 'fisso' || poolRaw === 'mono') ? 'mono' : 'tutti');
       const argomentoId = poolTipo === 'mono' && Number(argomentoRaw) > 0 ? String(Number(argomentoRaw)) : '';
 
       const formData = new FormData();
@@ -1015,17 +1111,25 @@
     },
 
     async aggiornaStato() {
-      const res = await fetch(`${S.API_BASE}/stato/${S.SESSIONE_ID}`);
-      const data = await res.json();
-      if (data.success) {
-        Admin.ui.aggiornaUI(data.sessione);
-        Admin.actions.aggiornaDomandaCorrenteMeta();
+      if (S.statoRequestInFlight || !S.SESSIONE_ID) return;
+      S.statoRequestInFlight = true;
+      try {
+        const res = await fetch(`${S.API_BASE}/stato/${S.SESSIONE_ID}`);
+        const data = await res.json();
+        if (data.success) {
+          Admin.ui.aggiornaUI(data.sessione);
+        }
+      } finally {
+        S.statoRequestInFlight = false;
       }
     },
+    syncDomandaMediaPreview,
   };
 
   window.gestisciJoin = (requestId, action) => Admin.actions.gestisciJoin(requestId, action);
 })();
+
+
 
 
 

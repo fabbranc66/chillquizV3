@@ -76,15 +76,17 @@ if ($isLocalHost) {
 <body class="<?= !empty($showModuleTags) ? 'module-tags-on' : 'module-tags-off' ?>">
 
 <div class="stage">
-    <div class="stage-timer" id="stage-timer" aria-label="Timer domanda">
-        <span class="stage-timer-indicator" id="stage-timer-indicator">
-            <span class="stage-timer-indicator-inner"></span>
-        </span>
-        <span class="stage-timer-label" id="stage-timer-label">0s</span>
-    </div>
-    <div id="question-type-badge-screen" class="question-type-badge hidden" aria-live="polite">
-        <img id="question-type-badge-image-screen" class="question-type-badge-image hidden" alt="Tipologia domanda">
-        <span id="question-type-badge-label-screen" class="question-type-badge-label hidden"></span>
+    <div class="stage-hud-left">
+        <div class="stage-timer" id="stage-timer" aria-label="Timer domanda">
+            <span class="stage-timer-indicator" id="stage-timer-indicator">
+                <span class="stage-timer-indicator-inner"></span>
+            </span>
+            <span class="stage-timer-label" id="stage-timer-label">0s</span>
+        </div>
+        <div id="question-type-badge-screen" class="question-type-badge hidden" aria-live="polite">
+            <img id="question-type-badge-image-screen" class="question-type-badge-image hidden" alt="Tipologia domanda">
+            <span id="question-type-badge-label-screen" class="question-type-badge-label hidden"></span>
+        </div>
     </div>
 
     <?php require BASE_PATH . '/app/Views/modules/screen/stage_header.php'; ?>

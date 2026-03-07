@@ -135,9 +135,9 @@ class Partecipazione
         }
 
         $sessioneId = (int) $sessionData['sessione_id'];
-        $inizioDomanda = (int) $sessionData['inizio_domanda'];
+        $inizioDomanda = (float) $sessionData['inizio_domanda'];
 
-        $tempoRisposta = time() - $inizioDomanda;
+        $tempoRisposta = max(0, round(microtime(true) - $inizioDomanda, 3));
         $tempoRimanente = max(0, $durata - $tempoRisposta);
 
         $percentuale = $durata > 0 ? ($tempoRimanente / $durata) : 0;

@@ -30,7 +30,7 @@
       }
 
       function tick() {
-        const elapsed = Math.max(0, Math.floor(Date.now() / 1000) - start);
+        const elapsed = Math.max(0, (Date.now() / 1000) - start);
         const remaining = Math.max(0, max - elapsed);
 
         const pct = max > 0 ? (remaining / max) : 0;

@@ -95,6 +95,7 @@
       if (D.domandaEditorMediaImageSelect.value) {
         D.domandaEditorMediaImage.value = D.domandaEditorMediaImageSelect.value;
       }
+      Admin.actions.syncDomandaMediaPreview();
     };
   }
 
@@ -103,7 +104,18 @@
       if (D.domandaEditorMediaAudioSelect.value) {
         D.domandaEditorMediaAudio.value = D.domandaEditorMediaAudioSelect.value;
       }
+      Admin.actions.syncDomandaMediaPreview();
     };
+  }
+
+  if (D.domandaEditorMediaImage) {
+    D.domandaEditorMediaImage.oninput = () => Admin.actions.syncDomandaMediaPreview();
+    D.domandaEditorMediaImage.onchange = () => Admin.actions.syncDomandaMediaPreview();
+  }
+
+  if (D.domandaEditorMediaAudio) {
+    D.domandaEditorMediaAudio.oninput = () => Admin.actions.syncDomandaMediaPreview();
+    D.domandaEditorMediaAudio.onchange = () => Admin.actions.syncDomandaMediaPreview();
   }
 
   if (D.btnRicaricaMediaCatalog) {
@@ -157,8 +169,9 @@
     applyPanelState(D.panelJoin, D.btnToggleJoinPanel, false);
   };
 
-  setInterval(() => Admin.actions.aggiornaStato(), 1000);
-  setInterval(() => Admin.actions.aggiornaJoinRichieste(), 2000);
+  setInterval(() => Admin.actions.aggiornaStato(), 2500);
+  setInterval(() => Admin.actions.aggiornaJoinRichieste(), 4000);
+  setInterval(() => Admin.actions.aggiornaDomandaCorrenteMeta(), 5000);
 
   Admin.actions.aggiornaStato();
   Admin.actions.aggiornaJoinRichieste();

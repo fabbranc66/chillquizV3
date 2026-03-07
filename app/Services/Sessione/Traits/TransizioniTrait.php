@@ -36,11 +36,12 @@ trait TransizioniTrait
             );
         }
 
-        $timestamp = time();
+        $timestamp = round(microtime(true), 3);
         $domandaCorrente = $this->domandaCorrente();
         $tipoDomanda = strtoupper(trim((string) ($domandaCorrente['tipo_domanda'] ?? 'CLASSIC')));
+        $hasAudio = trim((string) ($domandaCorrente['media_audio_path'] ?? '')) !== '';
 
-        if ($tipoDomanda === 'SARABANDA') {
+        if ($tipoDomanda === 'SARABANDA' && $hasAudio) {
             // In SARABANDA la domanda parte in "intro": timer non avviato finché
             // l'admin non lancia l'anteprima audio (che imposta inizio_domanda).
             $timestamp = null;
@@ -115,3 +116,4 @@ trait TransizioniTrait
         }
     }
 }
+

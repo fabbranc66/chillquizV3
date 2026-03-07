@@ -6,5 +6,4 @@
 <div class="module-debug-tag">screen/stage_header.php</div>
 <header class="stage-header">
     <h1>ChillQuiz</h1>
-    <p>Schermo regia</p>
 </header>

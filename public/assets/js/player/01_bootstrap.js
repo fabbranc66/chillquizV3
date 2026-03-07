@@ -20,6 +20,7 @@
     pollingInterval: null,
     joinRequestPolling: null,
     timerInterval: null,
+    statoRequestInFlight: false,
 
     rispostaInviata: false,
     puntataInviata: false,

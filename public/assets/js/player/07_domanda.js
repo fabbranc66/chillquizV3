@@ -73,6 +73,13 @@
     D.questionTypeBadgePlayer.classList.remove('hidden');
   }
 
+  function normalizeBadgeQuestionType(domanda) {
+    const tipo = String(domanda?.tipo_domanda || 'CLASSIC').trim().toUpperCase();
+    const hasAudio = String(domanda?.media_audio_path || '').trim() !== '';
+    if (tipo === 'SARABANDA' && !hasAudio) return 'CLASSIC';
+    return tipo || 'CLASSIC';
+  }
+
   function resetDomandaMedia() {
     const { wrap, image, audio, caption } = getMediaNodes();
 
@@ -180,7 +187,7 @@
       }
 
       const domandaId = Number(data.domanda.id || 0);
-      const tipoDomanda = String(data.domanda.tipo_domanda || 'CLASSIC').trim().toUpperCase();
+      const tipoDomanda = normalizeBadgeQuestionType(data.domanda);
 
       if (S.badgeQuestionId === domandaId && S.badgeTipoDomanda === tipoDomanda) {
         return;
@@ -205,18 +212,17 @@
     if (!D.domandaTesto || !D.opzioniDiv) return;
 
     const domandaId = Number(domanda.id || 0);
-    const tipoDomanda = String(domanda.tipo_domanda || 'CLASSIC').trim().toUpperCase();
+    const tipoDomanda = normalizeBadgeQuestionType(domanda);
     const nowSec = Math.floor(Date.now() / 1000);
     const isSarabandaIntro = tipoDomanda === 'SARABANDA' && (Number(S.domandaTimerStart || 0) <= 0 || nowSec < Number(S.domandaTimerStart || 0));
 
     D.domandaTesto.innerText = isSarabandaIntro ? '' : (domanda.testo || '');
     S.badgeQuestionId = domandaId;
     S.badgeTipoDomanda = tipoDomanda;
+    renderQuestionTypeBadge(tipoDomanda);
     if (isSarabandaIntro) {
-      clearQuestionTypeBadge();
       renderDomandaMedia(domanda, true);
     } else {
-      renderQuestionTypeBadge(tipoDomanda);
       renderDomandaMedia(domanda, false);
     }
     D.opzioniDiv.innerHTML = '';
