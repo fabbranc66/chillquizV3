@@ -32,5 +32,6 @@ trait ResetTrait
         $this->sessione['inizio_domanda'] = null;
 
         $this->svuotaPuntateLive();
+        $this->generaDomandeSessione();
     }
 }

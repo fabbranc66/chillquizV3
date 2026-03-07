@@ -1,6 +1,7 @@
 * { box-sizing: border-box; }
 
 body {
+    --hud-left: 22px;
     margin: 0;
     min-height: 100vh;
     background: radial-gradient(circle at top, #1f2a44 0%, #0f1115 60%);
@@ -49,13 +50,58 @@ body {
     margin-inline: auto;
 }
 
+.question-type-badge {
+    position: absolute;
+    top: 22px;
+    left: calc(var(--hud-left) + 146px);
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+.question-type-badge-image {
+    width: 306px;
+    height: 306px;
+    object-fit: contain;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
+}
+
+.question-type-badge-label {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: .4px;
+}
+
 .domanda-media-wrap {
     width: min(900px, 92vw);
-    margin: 0 auto 22px;
+    margin: 0 auto 10px;
     display: grid;
     gap: 12px;
     justify-self: center;
     position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    border: 1px dashed rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+}
+
+.domanda-media-wrap.media-slot-empty {
+    border-style: dashed;
+}
+
+.domanda-media-wrap.has-media {
+    background: transparent;
+    border: 0;
+    overflow: visible;
 }
 
 .domanda-media-image {
@@ -91,7 +137,7 @@ body {
 
 #domanda-testo {
     font-size: clamp(22px, 2.8vw, 36px);
-    margin: 0 0 20px;
+    margin: 0 0 10px;
     line-height: 1.25;
     width: min(900px, 92vw);
     margin-inline: auto;
@@ -229,7 +275,7 @@ body {
 .stage-timer {
     position: absolute;
     top: 22px;
-    left: 22px;
+    left: var(--hud-left);
     display: inline-flex;
     align-items: center;
     gap: 12px;
@@ -303,15 +349,20 @@ body.module-tags-off .module-debug-tag {
 
     .domanda-media-wrap {
         width: min(860px, 82vw, calc(34vh * 16 / 9));
-        margin: 0 auto 12px;
+        margin: 0 auto 8px;
     }
 
     #domanda-testo {
-        margin: 0 0 12px;
+        margin: 0 0 8px;
         font-size: clamp(20px, 2.2vw, 32px);
         line-height: 1.2;
         width: min(860px, 82vw);
         margin-inline: auto;
+    }
+
+    .question-type-badge {
+        top: 22px;
+        left: calc(var(--hud-left) + 146px);
     }
 
     .grid-opzioni {

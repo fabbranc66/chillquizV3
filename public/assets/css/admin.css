@@ -1,13 +1,13 @@
-/* =====================================
-   CHILLQUIZ V3 – ADMIN (Kahoot Style)
-   SOLO GRAFICA – NESSUNA LOGICA MODIFICATA
+﻿/* =====================================
+   CHILLQUIZ V3 â€“ ADMIN (Kahoot Style)
+   SOLO GRAFICA â€“ NESSUNA LOGICA MODIFICATA
 ===================================== */
 
 body {
     font-family: Arial, sans-serif;
     background: #111;
     color: #eee;
-    padding: 20px;
+    padding: 14px;
     text-align: center;
 }
 
@@ -74,35 +74,59 @@ h2 {
 /* ================= CARD LOOK ================= */
 
 .row {
-    margin-top: 10px;
+    margin-top: 8px;
     background: linear-gradient(180deg, rgba(28,28,28,.92), rgba(18,18,18,.92));
     border: 2px solid rgba(255,255,255,.10);
-    border-radius: 14px;
-    padding: 12px;
-    box-shadow: 0 8px 18px rgba(0,0,0,.32);
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 6px 14px rgba(0,0,0,.3);
 }
 
 .container {
     max-width: 980px;
     margin: auto;
     display: grid;
-    gap: 10px;
+    gap: 8px;
+}
+
+.panel-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 2px;
+    position: sticky;
+    top: 8px;
+    z-index: 40;
+    padding: 6px;
+    border-radius: 10px;
+    background: rgba(10, 10, 10, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(4px);
+}
+
+.kahoot-panel {
+    background: linear-gradient(180deg, rgba(28,28,28,.94), rgba(18,18,18,.94));
+    border: 2px solid rgba(255,255,255,.10);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 6px 14px rgba(0,0,0,.3);
 }
 
 /* ================= BUTTONS (Kahoot) ================= */
 
 button {
-    padding: 10px 14px;
-    margin: 4px;
-    font-size: 14px;
+    padding: 8px 12px;
+    margin: 3px;
+    font-size: 13px;
     cursor: pointer;
     color: white;
-    border-radius: 12px;
+    border-radius: 10px;
     border: 2px solid rgba(255,255,255,.15);
     font-weight: 900;
     letter-spacing: .3px;
     transition: 0.15s ease;
-    box-shadow: 0 6px 14px rgba(0,0,0,.3);
+    box-shadow: 0 4px 10px rgba(0,0,0,.28);
 }
 
 /* Hover / active feel */
@@ -169,7 +193,7 @@ button.disabled {
 /* ================= LOG ================= */
 
 .log-wrap{
-    margin-top: 12px;
+    margin-top: 8px;
     text-align: left;
 }
 
@@ -178,37 +202,37 @@ button.disabled {
     align-items:center;
     justify-content: space-between;
     gap: 8px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .log-title{
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 800;
     opacity: .9;
 }
 
 .log-actions button{
-    padding: 7px 10px;
-    font-size: 12px;
-    border-radius: 10px;
+    padding: 6px 9px;
+    font-size: 11px;
+    border-radius: 9px;
     background: linear-gradient(135deg, #2c3e50, #1f2c38);
 }
 
 .log {
     background: #151515;
     border: 1px solid #222;
-    border-radius: 12px;
-    padding: 10px;
-    max-height: 280px;
+    border-radius: 10px;
+    padding: 8px;
+    max-height: 240px;
     overflow: auto;
 }
 
 .log-item{
     background: #1c1c1c;
     border: 1px solid #2a2a2a;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 8px;
+    border-radius: 9px;
+    padding: 8px;
+    margin-bottom: 6px;
 }
 
 .log-top{
@@ -270,7 +294,7 @@ pre.json {
 /* ================= CLASSIFICA LIVE ================= */
 
 .live-wrap {
-    margin-top: 12px;
+    margin-top: 4px;
     text-align: left;
 }
 
@@ -285,9 +309,9 @@ pre.json {
 
 .live-table th,
 .live-table td {
-    padding: 8px;
+    padding: 6px;
     border-bottom: 1px solid #222;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .live-table th {
@@ -303,28 +327,28 @@ pre.json {
 /* ================= JOIN ================= */
 
 .join-wrap {
-    margin-top: 12px;
+    margin-top: 4px;
     text-align: left;
 }
 
 .join-list {
     display: grid;
-    gap: 8px;
+    gap: 6px;
 }
 
 .join-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 7px;
     border: 1px solid #2a2a2a;
-    border-radius: 10px;
+    border-radius: 9px;
     background: #161616;
 }
 
 .join-actions {
     display: flex;
-    gap: 6px;
+    gap: 4px;
 }
 
 .btn-join-ok { 
@@ -364,17 +388,7 @@ button:not(.enabled):not(.disabled) {
 }
 
 /* Se hai bottoni "mostra/nascondi" e "imposta corrente" con ID diversi,
-   qui sotto copriamo i casi più tipici (solo CSS, nessuna logica). */
-
-/* MOSTRA / NASCONDI */
-#btnMostraNascondi,
-#btnToggleMostraNascondi,
-#btnToggleVisibilita,
-#btnToggleJoinRequests,
-#btnToggleLog,
-#btnToggleClassifica {
-    background: linear-gradient(135deg, #34495e, #2c3e50) !important;
-}
+   qui sotto copriamo i casi piÃ¹ tipici (solo CSS, nessuna logica). */
 
 /* IMPOSTA CORRENTE */
 #btnImpostaCorrente,
@@ -403,9 +417,9 @@ button.disabled {
 input,
 select,
 textarea {
-    padding: 8px 10px !important;
-    font-size: 14px !important;
-    border-radius: 10px !important;
+    padding: 7px 9px !important;
+    font-size: 13px !important;
+    border-radius: 9px !important;
 }
 
 #stato,
@@ -414,3 +428,114 @@ textarea {
     margin-bottom: 2px;
     font-size: 13px;
 }
+/* Question Action - Kahoot style */
+.qa-card {
+    margin: 8px 0 12px;
+    padding: 10px;
+    border: 2px solid rgba(255,255,255,.12);
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(28,28,28,.94), rgba(16,16,16,.94));
+    text-align: left;
+    box-shadow: 0 8px 18px rgba(0,0,0,.35);
+}
+
+.qa-title {
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: .3px;
+    margin-bottom: 8px;
+}
+
+.qa-subtitle {
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.qa-selected-info {
+    margin: 0 0 10px;
+    padding: 8px 10px;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    background: #151515;
+    font-size: 13px;
+    opacity: .95;
+}
+
+.qa-section {
+    margin-top: 8px;
+    padding: 10px;
+}
+
+.qa-label {
+    display: block;
+    margin: 6px 0;
+    font-size: 12px;
+    font-weight: 800;
+    opacity: .92;
+}
+
+.qa-input {
+    background: #1a1a1a;
+    color: #fff;
+    border: 1px solid #2b2b2b;
+}
+
+.qa-full {
+    width: 100%;
+}
+
+.qa-grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: end;
+    margin-bottom: 10px;
+}
+
+.qa-col {
+    flex: 1 1 280px;
+}
+
+.qa-col-auto {
+    flex: 0 0 auto;
+}
+
+.qa-actions {
+    text-align: right;
+}
+
+.qa-list {
+    display: grid;
+    gap: 8px;
+}
+
+.qa-item {
+    padding: 10px;
+    margin: 0;
+    border: 2px solid rgba(255,255,255,.11);
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(23,23,23,.96), rgba(16,16,16,.96));
+    cursor: pointer;
+    transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+}
+
+.qa-item:hover,
+.qa-item:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(123,47,247,.62);
+    box-shadow: 0 8px 16px rgba(0,0,0,.34);
+    outline: none;
+}
+
+.qa-item-main {
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.qa-item-meta {
+    font-size: 12px;
+    opacity: .9;
+    margin-top: 3px;
+}
+

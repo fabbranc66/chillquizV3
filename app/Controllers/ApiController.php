@@ -103,6 +103,213 @@ class ApiController
         return hash_equals($this->getAdminToken(), $incoming);
     }
 
+    private function domandeColumnExists(\PDO $pdo, string $columnName): bool
+    {
+        $stmt = $pdo->prepare(
+            "SELECT COUNT(*) AS c
+             FROM information_schema.COLUMNS
+             WHERE TABLE_SCHEMA = DATABASE()
+               AND TABLE_NAME = 'domande'
+               AND COLUMN_NAME = :column_name"
+        );
+        $stmt->execute(['column_name' => $columnName]);
+        return (int) ($stmt->fetch()['c'] ?? 0) > 0;
+    }
+
+    private function domandeIndexExists(\PDO $pdo, string $indexName): bool
+    {
+        $stmt = $pdo->prepare(
+            "SELECT COUNT(*) AS c
+             FROM information_schema.STATISTICS
+             WHERE TABLE_SCHEMA = DATABASE()
+               AND TABLE_NAME = 'domande'
+               AND INDEX_NAME = :index_name"
+        );
+        $stmt->execute(['index_name' => $indexName]);
+        return (int) ($stmt->fetch()['c'] ?? 0) > 0;
+    }
+
+    private function normalizeFingerprintValue(string $value): string
+    {
+        $normalized = mb_strtolower(trim($value), 'UTF-8');
+        $normalized = str_replace(["\r", "\n", "\t"], ' ', $normalized);
+        $normalized = preg_replace('/\s+/u', ' ', $normalized) ?? $normalized;
+
+        $transliterated = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $normalized);
+        if (is_string($transliterated) && $transliterated !== '') {
+            $normalized = $transliterated;
+        }
+
+        $normalized = preg_replace('/[^a-z0-9 ]+/i', '', $normalized) ?? $normalized;
+        $normalized = preg_replace('/\s+/', ' ', trim($normalized)) ?? trim($normalized);
+
+        return $normalized;
+    }
+
+    private function questionTypeCodePrefix(?string $tipoDomanda): string
+    {
+        $map = [
+            'CLASSIC' => 'CLS',
+            'MEDIA' => 'MED',
+            'SARABANDA' => 'SRB',
+            'IMPOSTORE' => 'IMP',
+            'MEME' => 'MEM',
+            'MAJORITY' => 'MJR',
+            'RANDOM_BONUS' => 'RND',
+            'BOMB' => 'BMB',
+            'CHAOS' => 'CHS',
+            'AUDIO_PARTY' => 'AUD',
+            'IMAGE_PARTY' => 'IMG',
+        ];
+
+        $key = strtoupper(trim((string) ($tipoDomanda ?? 'CLASSIC')));
+        return $map[$key] ?? 'QST';
+    }
+
+    private function buildCodiceDomanda(int $domandaId, ?int $argomentoId, ?string $tipoDomanda): string
+    {
+        $prefix = $this->questionTypeCodePrefix($tipoDomanda);
+        $arg = max(0, (int) ($argomentoId ?? 0));
+        return sprintf('%s-A%03d-%05d', $prefix, $arg, max(1, $domandaId));
+    }
+
+    private function buildDomandaFingerprint(array $domanda, array $opzioni): string
+    {
+        $chunks = [];
+        $chunks[] = 't:' . $this->normalizeFingerprintValue((string) ($domanda['testo'] ?? ''));
+        $chunks[] = 'a:' . (int) ($domanda['argomento_id'] ?? 0);
+        $chunks[] = 'y:' . $this->normalizeFingerprintValue((string) ($domanda['tipo_domanda'] ?? 'CLASSIC'));
+
+        $opzioniNorm = [];
+        foreach ($opzioni as $opzione) {
+            $isCorretta = (int) ($opzione['corretta'] ?? 0) === 1 ? '1' : '0';
+            $testo = $this->normalizeFingerprintValue((string) ($opzione['testo'] ?? ''));
+            $opzioniNorm[] = $isCorretta . ':' . $testo;
+        }
+
+        sort($opzioniNorm, SORT_STRING);
+        foreach ($opzioniNorm as $opt) {
+            $chunks[] = 'o:' . $opt;
+        }
+
+        return sha1(implode('|', $chunks));
+    }
+
+    private function syncDomandaIdentityFields(\PDO $pdo, int $domandaId, bool $strictDuplicate = false): array
+    {
+        $stmtDomanda = $pdo->prepare(
+            "SELECT id, testo, argomento_id, tipo_domanda, codice_domanda
+             FROM domande
+             WHERE id = :id
+             LIMIT 1"
+        );
+        $stmtDomanda->execute(['id' => $domandaId]);
+        $domanda = $stmtDomanda->fetch() ?: null;
+
+        if (!$domanda) {
+            return [];
+        }
+
+        $stmtOpzioni = $pdo->prepare(
+            "SELECT id, testo, corretta
+             FROM opzioni
+             WHERE domanda_id = :domanda_id"
+        );
+        $stmtOpzioni->execute(['domanda_id' => $domandaId]);
+        $opzioni = $stmtOpzioni->fetchAll() ?: [];
+
+        // Il codice viene sempre riallineato al tipo/argomento correnti.
+        // Esempio: CLS-A006-00123 -> SRB-A006-00123 se la domanda diventa SARABANDA.
+        $codiceDomanda = $this->buildCodiceDomanda(
+            (int) ($domanda['id'] ?? 0),
+            isset($domanda['argomento_id']) ? (int) $domanda['argomento_id'] : null,
+            (string) ($domanda['tipo_domanda'] ?? 'CLASSIC')
+        );
+
+        $fingerprint = $this->buildDomandaFingerprint($domanda, $opzioni);
+
+        $checkDup = $pdo->prepare(
+            "SELECT id
+             FROM domande
+             WHERE fingerprint_unico = :fingerprint
+               AND id <> :id
+             LIMIT 1"
+        );
+        $checkDup->execute([
+            'fingerprint' => $fingerprint,
+            'id' => $domandaId,
+        ]);
+        $dupRow = $checkDup->fetch() ?: null;
+        $duplicateId = (int) ($dupRow['id'] ?? 0);
+
+        if ($duplicateId > 0 && $strictDuplicate) {
+            throw new \RuntimeException("Duplicato rilevato: domanda #{$domandaId} coincide con domanda #{$duplicateId}");
+        }
+
+        $fingerprintToSave = $duplicateId > 0 ? null : $fingerprint;
+
+        $update = $pdo->prepare(
+            "UPDATE domande
+             SET codice_domanda = :codice_domanda,
+                 fingerprint_unico = :fingerprint_unico
+             WHERE id = :id"
+        );
+        $update->execute([
+            'codice_domanda' => $codiceDomanda,
+            'fingerprint_unico' => $fingerprintToSave,
+            'id' => $domandaId,
+        ]);
+
+        return [
+            'codice_domanda' => $codiceDomanda,
+            'fingerprint_unico' => $fingerprintToSave,
+            'duplicate_id' => $duplicateId > 0 ? $duplicateId : null,
+        ];
+    }
+
+    private function ensureDomandeIdentitySchema(\PDO $pdo): void
+    {
+        static $done = false;
+        if ($done) {
+            return;
+        }
+
+        if (!$this->domandeColumnExists($pdo, 'codice_domanda')) {
+            $pdo->exec("ALTER TABLE domande ADD COLUMN codice_domanda VARCHAR(80) NULL AFTER testo");
+        }
+
+        if (!$this->domandeColumnExists($pdo, 'fingerprint_unico')) {
+            $pdo->exec("ALTER TABLE domande ADD COLUMN fingerprint_unico CHAR(40) NULL AFTER codice_domanda");
+        }
+
+        $stmt = $pdo->query(
+            "SELECT id
+             FROM domande
+             WHERE codice_domanda IS NULL
+                OR codice_domanda = ''
+                OR fingerprint_unico IS NULL
+                OR fingerprint_unico = ''"
+        );
+        $rows = $stmt ? ($stmt->fetchAll() ?: []) : [];
+        foreach ($rows as $row) {
+            $this->syncDomandaIdentityFields($pdo, (int) ($row['id'] ?? 0), false);
+        }
+
+        if (!$this->domandeIndexExists($pdo, 'idx_domande_codice_domanda')) {
+            $pdo->exec("CREATE INDEX idx_domande_codice_domanda ON domande (codice_domanda)");
+        }
+
+        if (!$this->domandeIndexExists($pdo, 'ux_domande_fingerprint_unico')) {
+            try {
+                $pdo->exec("CREATE UNIQUE INDEX ux_domande_fingerprint_unico ON domande (fingerprint_unico)");
+            } catch (\Throwable $e) {
+                // Se esistono storici incoerenti l'indice potrebbe fallire: la logica applicativa resta attiva.
+            }
+        }
+
+        $done = true;
+    }
+
 
     public function stato($sessioneId): void
     {
@@ -611,6 +818,16 @@ public function join($sessioneId): void
                     }
 
                     $previewSec = (int) ($domanda['media_audio_preview_sec'] ?? 0);
+                    $tipoDomanda = strtoupper(trim((string) ($domanda['tipo_domanda'] ?? 'CLASSIC')));
+
+                    if ($tipoDomanda === 'SARABANDA' && $previewSec <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Per SARABANDA imposta Intro secondi maggiore di 0',
+                        ]);
+                        return;
+                    }
+
                     $payload = [
                         'token' => $targetSessioneId . '-' . time() . '-' . random_int(1000, 9999),
                         'sessione_id' => $targetSessioneId,
@@ -627,6 +844,30 @@ public function join($sessioneId): void
                             'error' => 'Impossibile inviare comando anteprima audio'
                         ]);
                         return;
+                    }
+
+                    if ($tipoDomanda === 'SARABANDA') {
+                        $pdo = \App\Core\Database::getInstance();
+                        $stmt = $pdo->prepare("SELECT stato FROM sessioni WHERE id = :id LIMIT 1");
+                        $stmt->execute(['id' => $targetSessioneId]);
+                        $sessioneRow = $stmt->fetch() ?: null;
+                        $statoCorrente = (string) ($sessioneRow['stato'] ?? '');
+
+                        // Timer parte al termine preview + 3 secondi.
+                        if ($statoCorrente === 'domanda') {
+                            $startAt = time() + max(0, $previewSec) + 3;
+                            $up = $pdo->prepare(
+                                "UPDATE sessioni
+                                 SET inizio_domanda = :start_at
+                                 WHERE id = :id"
+                            );
+                            $up->execute([
+                                'start_at' => $startAt,
+                                'id' => $targetSessioneId,
+                            ]);
+
+                            $payload['start_at'] = $startAt;
+                        }
                     }
 
                     $this->json([
@@ -658,6 +899,16 @@ public function join($sessioneId): void
                     ]);
                     return;
 
+                case 'argomenti-lista':
+                    $pdo = \App\Core\Database::getInstance();
+                    $stmt = $pdo->query("SELECT id, nome FROM argomenti ORDER BY nome ASC");
+                    $this->json([
+                        'success' => true,
+                        'action' => $action,
+                        'argomenti' => $stmt ? ($stmt->fetchAll() ?: []) : []
+                    ]);
+                    return;
+
                 case 'set-corrente':
                     $targetSessioneId = (int) ($_POST['sessione_id'] ?? 0);
                     if ($targetSessioneId <= 0) {
@@ -677,6 +928,42 @@ public function join($sessioneId): void
                     ]);
                     return;
 
+                case 'sessione-update':
+                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? 0);
+                    if ($targetSessioneId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Sessione non valida'
+                        ]);
+                        return;
+                    }
+
+                    $nomeSessione = trim((string) ($_POST['nome_sessione'] ?? $_POST['nome'] ?? ''));
+                    $numeroDomande = (int) ($_POST['numero_domande'] ?? 0);
+                    $poolTipo = trim((string) ($_POST['pool_tipo'] ?? 'tutti'));
+                    $argomentoRaw = $_POST['argomento_id'] ?? null;
+                    $selezioneTipo = trim((string) ($_POST['selezione_tipo'] ?? 'random'));
+
+                    $sessioneModel = new Sessione();
+                    $ok = $sessioneModel->aggiornaSnapshot($targetSessioneId, [
+                        'nome_sessione' => $nomeSessione,
+                        'numero_domande' => $numeroDomande,
+                        'pool_tipo' => $poolTipo,
+                        'argomento_id' => $argomentoRaw,
+                        'selezione_tipo' => $selezioneTipo,
+                    ]);
+
+                    $aggiornata = $sessioneModel->trova($targetSessioneId) ?: null;
+
+                    $this->json([
+                        'success' => $ok,
+                        'action' => $action,
+                        'sessione_id' => $targetSessioneId,
+                        'sessione' => $aggiornata,
+                        'error' => $ok ? null : 'Impossibile aggiornare sessione'
+                    ]);
+                    return;
+
                 case 'domande-sessione':
                     $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
                     if ($targetSessioneId <= 0) {
@@ -688,10 +975,12 @@ public function join($sessioneId): void
                     }
 
                     $pdo = \App\Core\Database::getInstance();
+                    $this->ensureDomandeIdentitySchema($pdo);
                     $stmt = $pdo->prepare(
                         "SELECT
                             sd.posizione,
                             d.id AS domanda_id,
+                            d.codice_domanda,
                             d.testo,
                             d.tipo_domanda,
                             d.modalita_party,
@@ -736,6 +1025,7 @@ public function join($sessioneId): void
                     }
 
                     $pdo = \App\Core\Database::getInstance();
+                    $this->ensureDomandeIdentitySchema($pdo);
 
                     $check = $pdo->prepare(
                         "SELECT d.id
@@ -759,7 +1049,7 @@ public function join($sessioneId): void
                     }
 
                     $stmt = $pdo->prepare(
-                        "SELECT id, testo, tipo_domanda, modalita_party, fase_domanda, media_image_path, media_audio_path, media_audio_preview_sec, media_caption, config_json
+                        "SELECT id, codice_domanda, fingerprint_unico, testo, tipo_domanda, modalita_party, fase_domanda, media_image_path, media_audio_path, media_audio_preview_sec, media_caption, config_json
                          FROM domande
                          WHERE id = :id
                          LIMIT 1"
@@ -795,6 +1085,7 @@ public function join($sessioneId): void
                     }
 
                     $pdo = \App\Core\Database::getInstance();
+                    $this->ensureDomandeIdentitySchema($pdo);
 
                     $domandaId = (int) ($_POST['domanda_id'] ?? 0);
                     if ($domandaId <= 0) {
@@ -914,8 +1205,10 @@ public function join($sessioneId): void
                         'domanda_id' => $domandaId,
                     ]);
 
+                    $identity = $this->syncDomandaIdentityFields($pdo, $domandaId, false);
+
                     $stmt = $pdo->prepare(
-                        "SELECT id, testo, tipo_domanda, modalita_party, fase_domanda, media_image_path, media_audio_path, media_audio_preview_sec, media_caption, config_json
+                        "SELECT id, codice_domanda, fingerprint_unico, testo, tipo_domanda, modalita_party, fase_domanda, media_image_path, media_audio_path, media_audio_preview_sec, media_caption, config_json
                          FROM domande
                          WHERE id = :id
                          LIMIT 1"
@@ -928,6 +1221,7 @@ public function join($sessioneId): void
                         'action' => $action,
                         'sessione_id' => $targetSessioneId,
                         'domanda_id' => $domandaId,
+                        'identity' => $identity,
                         'domanda' => $domandaAggiornata,
                     ]);
                     return;
@@ -1126,9 +1420,81 @@ public function join($sessioneId): void
                     return;
 
                 case 'domanda-media-list':
+                    $mediaModel = new ScreenMedia();
+                    $listDomanda = $mediaModel->lista('domanda');
+
+                    $merged = [];
+                    $seen = [];
+
+                    foreach ($listDomanda as $row) {
+                        $filePath = (string) ($row['file_path'] ?? '');
+                        $tipoFile = (string) ($row['tipo_file'] ?? '');
+                        $isDomandaAudio = $tipoFile === 'audio' && strpos($filePath, '/upload/domanda/audio/') === 0;
+                        $isDomandaImage = $tipoFile === 'image' && strpos($filePath, '/upload/domanda/image/') === 0;
+                        if (!$isDomandaAudio && !$isDomandaImage) {
+                            continue;
+                        }
+                        $key = $tipoFile . '|' . $filePath;
+                        if ($filePath === '' || isset($seen[$key])) {
+                            continue;
+                        }
+                        $seen[$key] = true;
+                        $merged[] = $row;
+                    }
+
+                    // Aggiunge anche file presenti su disco (copiati manualmente)
+                    // non ancora registrati in tabella screen_media.
+                    $scanSources = [
+                        ['dir' => BASE_PATH . '/public/upload/domanda/audio', 'urlPrefix' => '/upload/domanda/audio/', 'tipo' => 'audio'],
+                        ['dir' => BASE_PATH . '/public/upload/domanda/image', 'urlPrefix' => '/upload/domanda/image/', 'tipo' => 'image'],
+                    ];
+
+                    foreach ($scanSources as $src) {
+                        $dir = (string) ($src['dir'] ?? '');
+                        $urlPrefix = (string) ($src['urlPrefix'] ?? '');
+                        $tipo = (string) ($src['tipo'] ?? '');
+
+                        if ($dir === '' || !is_dir($dir)) {
+                            continue;
+                        }
+
+                        $files = @scandir($dir);
+                        if (!is_array($files)) {
+                            continue;
+                        }
+
+                        foreach ($files as $file) {
+                            if ($file === '.' || $file === '..') {
+                                continue;
+                            }
+
+                            $fullPath = $dir . DIRECTORY_SEPARATOR . $file;
+                            if (!is_file($fullPath)) {
+                                continue;
+                            }
+
+                            $filePath = $urlPrefix . $file;
+                            $key = $tipo . '|' . $filePath;
+                            if (isset($seen[$key])) {
+                                continue;
+                            }
+
+                            $seen[$key] = true;
+                            $merged[] = [
+                                'id' => 0,
+                                'titolo' => pathinfo($file, PATHINFO_FILENAME),
+                                'file_path' => $filePath,
+                                'contesto' => 'domanda',
+                                'tipo_file' => $tipo,
+                                'attiva' => 0,
+                                'creato_il' => null,
+                            ];
+                        }
+                    }
+
                     $this->json([
                         'success' => true,
-                        'media' => (new ScreenMedia())->lista('domanda')
+                        'media' => $merged
                     ]);
                     return;
 

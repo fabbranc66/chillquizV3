@@ -9,6 +9,10 @@
 
   const TYPES_WITH_MEDIA = new Set(['MEDIA', 'SARABANDA', 'AUDIO_PARTY', 'IMAGE_PARTY']);
   let mediaCatalog = [];
+  let sessioniCache = new Map();
+  let sessionLabelToId = new Map();
+  let sessionNameToId = new Map();
+  let argomentiCache = [];
 
   function yesNo(value) {
     return value ? 'si' : 'no';
@@ -61,7 +65,18 @@
 
     const domanda = S.domandaCorrente || null;
     const hasAudio = String(domanda?.media_audio_path || '').trim() !== '';
-    D.btnAudioPreview.style.display = hasAudio ? 'inline-block' : 'none';
+    const domandaId = Number(domanda?.id || 0);
+    const alreadyStarted = domandaId > 0 && Number(S.audioPreviewDomandaId || 0) === domandaId;
+    const enabled = hasAudio && !alreadyStarted;
+
+    D.btnAudioPreview.style.display = 'inline-block';
+    D.btnAudioPreview.disabled = !enabled;
+    D.btnAudioPreview.classList.toggle('disabled', !enabled);
+    D.btnAudioPreview.classList.toggle('enabled', enabled);
+
+    if (!hasAudio) {
+      S.audioPreviewDomandaId = 0;
+    }
   }
 
   function editorSetValue(el, value) {
@@ -104,6 +119,89 @@
     }
   }
 
+  function buildSessionLabel(sessione) {
+    const id = Number(sessione?.id || 0);
+    const nome = String(sessione?.nome_sessione || sessione?.nome || sessione?.titolo || '').trim();
+    return `${id} · ${nome}`;
+  }
+
+  function extractNomeForNewSession(rawValue) {
+    const raw = String(rawValue || '').trim();
+    const match = raw.match(/^\d+\s*·\s*(.+)$/);
+    if (match && match[1]) return String(match[1]).trim();
+    return raw;
+  }
+
+  function resolveSessioneIdFromNomeInput() {
+    const raw = String(D.inputSessioneNome?.value || '').trim();
+    if (raw === '') return 0;
+
+    if (sessionLabelToId.has(raw)) {
+      return Number(sessionLabelToId.get(raw) || 0);
+    }
+
+    const lower = raw.toLowerCase();
+    if (sessionNameToId.has(lower)) {
+      return Number(sessionNameToId.get(lower) || 0);
+    }
+
+    const matchId = raw.match(/^(\d+)\s*·/);
+    if (matchId && Number(matchId[1]) > 0) {
+      return Number(matchId[1]);
+    }
+
+    if (/^\d+$/.test(raw)) {
+      return Number(raw);
+    }
+
+    return 0;
+  }
+
+  function applySessioneSelection(sessioneId) {
+    const id = Number(sessioneId || 0);
+    if (id <= 0) return;
+
+    const row = sessioniCache.get(id) || null;
+    if (!row) return;
+
+    if (D.sessioneSelect) {
+      D.sessioneSelect.value = String(id);
+    }
+
+    popolaFormSessione(row);
+  }
+
+  function popolaFormSessione(sessione) {
+    if (!sessione) return;
+
+    const id = Number(sessione.id || 0);
+    const nome = String(sessione.nome_sessione || sessione.nome || sessione.titolo || '').trim();
+    const numeroDomande = Number(sessione.numero_domande || 0);
+    const poolTipo = String(sessione.pool_tipo || 'tutti').trim();
+    const argomentoId = sessione.argomento_id ?? '';
+
+    if (D.inputSessioneNome) {
+      D.inputSessioneNome.value = buildSessionLabel(sessione);
+      D.inputSessioneNome.dataset.sessioneId = String(id);
+    }
+
+    if (D.inputSessioneNumeroDomande) {
+      D.inputSessioneNumeroDomande.value = (Number.isFinite(numeroDomande) && numeroDomande > 0)
+        ? String(Math.floor(numeroDomande))
+        : '10';
+    }
+
+    if (D.inputSessionePoolTipo) {
+      D.inputSessionePoolTipo.value = (poolTipo === 'mono' || poolTipo === 'fisso') ? 'fisso' : 'misto';
+    }
+
+    if (D.inputSessioneArgomentoId) {
+      D.inputSessioneArgomentoId.value = (argomentoId === null || argomentoId === undefined) ? '' : String(argomentoId);
+    }
+
+    Admin.actions.syncArgomentoFieldState();
+  }
+
   function fillDomandaEditorFromData(domanda) {
     if (!domanda) return;
 
@@ -140,9 +238,10 @@
 
     if (D.domandaEditorSelectedInfo) {
       const id = Number(domanda.id || 0);
+      const codice = escapeHtml(String(domanda.codice_domanda || '-'));
       const testo = escapeHtml(String(domanda.testo || ''));
       const tipoLabel = escapeHtml(String(tipo || 'CLASSIC'));
-      D.domandaEditorSelectedInfo.innerHTML = `<strong>Domanda selezionata:</strong> [${id}] ${testo}<br><span style="opacity:.85;">Tipo: ${tipoLabel}</span>`;
+      D.domandaEditorSelectedInfo.innerHTML = `<strong>Domanda selezionata:</strong> [${id}] ${testo}<br><span style="opacity:.85;">Codice: ${codice} · Tipo: ${tipoLabel}</span>`;
     }
   }
 
@@ -165,23 +264,40 @@
     },
 
     async caricaCatalogoMedia() {
-      const res = await fetch(`${S.API_BASE}/admin/domanda-media-list/0`, {
-        method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
-      });
+      try {
+        const res = await fetch(`${S.API_BASE}/admin/domanda-media-list/0`, {
+          method: 'POST',
+          headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
+          cache: 'no-store',
+        });
 
-      const data = await res.json();
-      if (!data.success) {
-        addLog({ ok: false, title: 'media-list', message: data.error || 'Errore caricamento catalogo media', data });
-        return;
+        const data = await res.json();
+        if (!data.success) {
+          addLog({ ok: false, title: 'media-list', message: data.error || 'Errore caricamento catalogo media', data });
+          return;
+        }
+
+        mediaCatalog = Array.isArray(data.media) ? data.media : [];
+
+        fillMediaSelect(D.domandaEditorMediaImageSelect, mediaCatalog, D.domandaEditorMediaImage?.value || '', 'image');
+        fillMediaSelect(D.domandaEditorMediaAudioSelect, mediaCatalog, D.domandaEditorMediaAudio?.value || '', 'audio');
+
+        const countImage = mediaCatalog.filter((m) => String(m.tipo_file || '').toLowerCase() === 'image').length;
+        const countAudio = mediaCatalog.filter((m) => String(m.tipo_file || '').toLowerCase() === 'audio').length;
+        addLog({
+          ok: true,
+          title: 'media-list',
+          message: `Catalogo media caricato (img: ${countImage}, audio: ${countAudio})`,
+          data: { total: mediaCatalog.length, image: countImage, audio: countAudio },
+        });
+      } catch (e) {
+        addLog({
+          ok: false,
+          title: 'media-list',
+          message: 'Errore rete/caricamento catalogo media',
+          data: { error: String(e?.message || e) },
+        });
       }
-
-      mediaCatalog = Array.isArray(data.media) ? data.media : [];
-
-      fillMediaSelect(D.domandaEditorMediaImageSelect, mediaCatalog, D.domandaEditorMediaImage?.value || '', 'image');
-      fillMediaSelect(D.domandaEditorMediaAudioSelect, mediaCatalog, D.domandaEditorMediaAudio?.value || '', 'audio');
-
-      addLog({ ok: true, title: 'media-list', message: `Catalogo media caricato (${mediaCatalog.length})`, data: { count: mediaCatalog.length } });
     },
 
     async uploadDomandaMedia() {
@@ -323,6 +439,11 @@
         message: data.success ? 'Anteprima audio inviata allo schermo' : (data.error || 'Errore avvio anteprima audio'),
         data,
       });
+
+      if (data.success) {
+        S.audioPreviewDomandaId = Number(domanda?.id || 0);
+        syncAudioPreviewButton();
+      }
     },
 
     toggleDomandaEditor() {
@@ -366,7 +487,7 @@
       await Admin.actions.caricaCatalogoMedia();
     },
 
-    async caricaDomandaEditorDaLista(domandaIdRaw) {
+    async caricaDomandaEditorDaLista(domandaIdRaw, anchorRowEl = null) {
       const domandaId = Number(domandaIdRaw || 0);
       if (domandaId <= 0) return;
       const targetSessioneId = Number(D.sessioneSelect?.value || S.SESSIONE_ID || 0);
@@ -380,8 +501,22 @@
         return;
       }
 
+      const editorVisible = !!D.domandaEditorWrapper
+        && D.domandaEditorWrapper.style.display !== 'none'
+        && D.domandaEditorWrapper.style.display !== '';
+      const selectedEditorId = Number(D.domandaEditorId?.value || 0);
+      const sameQuestionToggle = editorVisible && selectedEditorId > 0 && selectedEditorId === domandaId;
+
+      if (sameQuestionToggle) {
+        D.domandaEditorWrapper.style.display = 'none';
+        return;
+      }
+
       if (D.domandaEditorWrapper) {
         D.domandaEditorWrapper.style.display = 'block';
+        if (anchorRowEl && anchorRowEl.parentNode) {
+          anchorRowEl.insertAdjacentElement('afterend', D.domandaEditorWrapper);
+        }
       }
 
       const formData = new FormData();
@@ -419,6 +554,7 @@
 
     async salvaDomandaEditor() {
       const domandaId = Number(D.domandaEditorId?.value || 0);
+      const targetSessioneId = Number(D.sessioneSelect?.value || S.SESSIONE_ID || 0);
       const tipo = normalizeTipo(D.domandaEditorTipo?.value || 'CLASSIC');
       const fase = String(D.domandaEditorFase?.value || 'domanda').toLowerCase() === 'intro' ? 'intro' : 'domanda';
       const modalitaParty = String(D.domandaEditorModalitaParty?.value || '').trim();
@@ -430,6 +566,20 @@
 
       if (domandaId <= 0) {
         addLog({ ok: false, title: 'domanda-update', message: 'Nessuna domanda corrente da modificare', data: {} });
+        return;
+      }
+      if (targetSessioneId <= 0) {
+        addLog({ ok: false, title: 'domanda-update', message: 'Sessione non valida per il salvataggio', data: {} });
+        return;
+      }
+
+      if (tipo === 'SARABANDA' && !(Number.isFinite(mediaPreview) && mediaPreview > 0)) {
+        addLog({
+          ok: false,
+          title: 'domanda-update',
+          message: 'Per SARABANDA imposta "Preview audio (secondi)" maggiore di 0',
+          data: { tipo_domanda: tipo, media_audio_preview_sec: mediaPreview },
+        });
         return;
       }
 
@@ -453,7 +603,7 @@
       formData.append('media_caption', mediaCaption);
       formData.append('config_json', configJsonRaw);
 
-      const res = await fetch(`${S.API_BASE}/admin/domanda-update/${S.SESSIONE_ID}`, {
+      const res = await fetch(`${S.API_BASE}/admin/domanda-update/${targetSessioneId}`, {
         method: 'POST',
         headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
         body: formData,
@@ -471,7 +621,7 @@
       if (data.success) {
         await Admin.actions.aggiornaDomandaCorrenteMeta();
         if (D.domandeSessioneWrapper && D.domandeSessioneWrapper.style.display !== 'none') {
-          await Admin.actions.caricaDomandeSessione(S.SESSIONE_ID);
+          await Admin.actions.caricaDomandeSessione(targetSessioneId);
         }
       }
     },
@@ -515,6 +665,31 @@
       if (!data.success) return;
 
       const lista = Array.isArray(data.sessioni) ? data.sessioni : [];
+      sessioniCache = new Map();
+      sessionLabelToId = new Map();
+      sessionNameToId = new Map();
+      lista.forEach((s) => {
+        const id = Number(s.id || 0);
+        if (id > 0) {
+          sessioniCache.set(id, s);
+
+          const label = buildSessionLabel(s);
+          sessionLabelToId.set(label, id);
+
+          const nameLower = String(s.nome_sessione || s.nome || s.titolo || '').trim().toLowerCase();
+          if (nameLower !== '' && !sessionNameToId.has(nameLower)) {
+            sessionNameToId.set(nameLower, id);
+          }
+        }
+      });
+
+      if (D.inputSessioneNomeOptions) {
+        D.inputSessioneNomeOptions.innerHTML = lista.map((s) => {
+          const label = escapeHtml(buildSessionLabel(s));
+          return `<option value="${label}"></option>`;
+        }).join('');
+      }
+
       D.sessioneSelect.innerHTML = lista.map((s) => {
         const id = Number(s.id || 0);
         const nome = escapeHtml(nomeSessioneFromRecord(s));
@@ -523,14 +698,104 @@
 
       const correnteId = Number(data.sessione_corrente_id || S.SESSIONE_ID || 0);
       if (correnteId > 0) {
-        D.sessioneSelect.value = String(correnteId);
+        applySessioneSelection(correnteId);
+      }
+    },
+
+    syncArgomentoFieldState() {
+      if (!D.inputSessioneArgomentoId || !D.inputSessionePoolTipo) return;
+      const isFisso = String(D.inputSessionePoolTipo.value || 'misto') === 'fisso';
+      D.inputSessioneArgomentoId.disabled = !isFisso;
+      if (!isFisso) {
+        D.inputSessioneArgomentoId.value = '';
+      }
+    },
+
+    async caricaArgomenti() {
+      if (!D.inputSessioneArgomentoId) return;
+
+      const res = await fetch(`${S.API_BASE}/admin/argomenti-lista/0`, {
+        method: 'POST',
+        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
+      });
+
+      const data = await res.json();
+      if (!data.success) {
+        addLog({ ok: false, title: 'argomenti-lista', message: data.error || 'Errore caricamento argomenti', data });
+        return;
+      }
+
+      argomentiCache = Array.isArray(data.argomenti) ? data.argomenti : [];
+      D.inputSessioneArgomentoId.innerHTML = '<option value="">Argomento (solo se fisso)</option>' +
+        argomentiCache.map((a) => `<option value="${Number(a.id || 0)}">${escapeHtml(String(a.nome || `Argomento ${Number(a.id || 0)}`))}</option>`).join('');
+
+      Admin.actions.syncArgomentoFieldState();
+    },
+
+    popolaFormSessioneDaSelect() {
+      const sessioneId = Number(D.sessioneSelect?.value || 0);
+      if (sessioneId <= 0) return;
+      applySessioneSelection(sessioneId);
+    },
+
+    syncSessioneDaNomeInput() {
+      const id = resolveSessioneIdFromNomeInput();
+      if (id <= 0) return 0;
+      applySessioneSelection(id);
+      return id;
+    },
+
+    async salvaSessioneCorrente() {
+      const fromNome = Admin.actions.syncSessioneDaNomeInput();
+      const targetId = Number(D.sessioneSelect?.value || fromNome || 0);
+      if (targetId <= 0) {
+        addLog({ ok: false, title: 'sessione-update', message: 'Seleziona una sessione valida', data: {} });
+        return;
+      }
+
+      const nomeSessione = String(D.inputSessioneNome?.value || '').trim();
+      const numeroDomande = Number(D.inputSessioneNumeroDomande?.value || 0);
+      const poolRaw = String(D.inputSessionePoolTipo?.value || 'misto').trim();
+      const argomentoRaw = String(D.inputSessioneArgomentoId?.value || '').trim();
+
+      const poolTipo = (poolRaw === 'fisso' || poolRaw === 'mono') ? 'mono' : 'tutti';
+      const argomentoId = poolTipo === 'mono' && Number(argomentoRaw) > 0 ? String(Number(argomentoRaw)) : '';
+
+      const formData = new FormData();
+      formData.append('sessione_id', String(targetId));
+      formData.append('nome_sessione', nomeSessione);
+      formData.append('numero_domande', Number.isFinite(numeroDomande) && numeroDomande > 0 ? String(Math.floor(numeroDomande)) : '10');
+      formData.append('pool_tipo', poolTipo);
+      formData.append('argomento_id', argomentoId);
+      formData.append('selezione_tipo', 'random');
+
+      const res = await fetch(`${S.API_BASE}/admin/sessione-update/0`, {
+        method: 'POST',
+        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      addLog({
+        ok: !!data.success,
+        title: 'sessione-update',
+        message: data.success ? `Sessione ${targetId} aggiornata` : (data.error || 'Errore aggiornamento sessione'),
+        data,
+      });
+
+      if (data.success) {
+        await Admin.actions.caricaSessioni();
+        D.sessioneSelect.value = String(targetId);
+        Admin.actions.popolaFormSessioneDaSelect();
       }
     },
 
     async impostaSessioneCorrente() {
       if (!D.sessioneSelect) return;
 
-      const targetId = Number(D.sessioneSelect.value || 0);
+      const fromNome = Admin.actions.syncSessioneDaNomeInput();
+      const targetId = Number(D.sessioneSelect.value || fromNome || 0);
       if (targetId <= 0) {
         addLog({ ok: false, title: 'set-corrente', message: 'Seleziona una sessione valida', data: {} });
         return;
@@ -559,6 +824,7 @@
         await Admin.actions.aggiornaStato();
         await Admin.actions.aggiornaJoinRichieste();
         await Admin.actions.caricaSessioni();
+        applySessioneSelection(targetId);
         await Admin.actions.aggiornaDomandaCorrenteMeta();
 
         if (D.domandeSessioneWrapper && D.domandeSessioneWrapper.style.display !== 'none') {
@@ -573,6 +839,12 @@
 
     async caricaDomandeSessione(sessioneId) {
       if (!D.domandeSessioneList) return;
+      if (D.domandaEditorWrapper && D.domandaEditorWrapper.parentElement === D.domandeSessioneList) {
+        const panelQuestion = document.getElementById('panel-question');
+        if (panelQuestion) {
+          panelQuestion.appendChild(D.domandaEditorWrapper);
+        }
+      }
 
       const formData = new FormData();
       formData.append('sessione_id', String(Number(sessioneId || 0)));
@@ -598,30 +870,38 @@
       D.domandeSessioneList.innerHTML = domande.map((d) => {
         const posizione = Number(d.posizione || 0);
         const id = Number(d.domanda_id || 0);
+        const codice = escapeHtml(String(d.codice_domanda || '-'));
         const testo = escapeHtml(String(d.testo || ''));
         const tipo = escapeHtml(String(d.tipo_domanda || 'CLASSIC'));
         const fase = escapeHtml(String(d.fase_domanda || 'domanda'));
         const hasMedia = String(d.media_image_path || '').trim() !== '' || String(d.media_audio_path || '').trim() !== '';
 
-        return `<div style="padding:8px 0; border-bottom:1px solid #222;">
-          <div style="display:flex; gap:8px; align-items:center; justify-content:space-between;">
-            <div style="min-width:0; flex:1 1 auto;">
-              <div>#${posizione} · [${id}] ${testo}</div>
-              <div style="font-size:12px; opacity:.9; margin-top:2px;">
-                tipo=${tipo} · fase=${fase} · media=${hasMedia ? 'si' : 'no'}
-              </div>
+        return `<div
+          data-edit-domanda-id="${id}"
+          role="button"
+          tabindex="0"
+          class="qa-item"
+        >
+          <div style="min-width:0;">
+            <div class="qa-item-main">#${posizione} · [${id}] ${testo}</div>
+            <div class="qa-item-meta">
+              codice=${codice} · tipo=${tipo} · fase=${fase} · media=${hasMedia ? 'si' : 'no'}
             </div>
-            <button type="button" data-edit-domanda-id="${id}" style="padding:6px 10px; font-size:12px; border-radius:8px; margin:0;">
-              Modifica
-            </button>
           </div>
         </div>`;
       }).join('');
 
       D.domandeSessioneList.querySelectorAll('[data-edit-domanda-id]').forEach((btn) => {
-        btn.onclick = () => {
+        const openEditor = () => {
           const domandaId = Number(btn.getAttribute('data-edit-domanda-id') || 0);
-          Admin.actions.caricaDomandaEditorDaLista(domandaId);
+          Admin.actions.caricaDomandaEditorDaLista(domandaId, btn);
+        };
+        btn.onclick = openEditor;
+        btn.onkeydown = (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            ev.preventDefault();
+            openEditor();
+          }
         };
       });
     },
@@ -661,7 +941,7 @@
     },
 
     async nuovaSessione() {
-      const nomeSessione = String(D.inputSessioneNome?.value || '').trim();
+      const nomeSessione = extractNomeForNewSession(D.inputSessioneNome?.value || '');
       const numeroDomande = Number(D.inputSessioneNumeroDomande?.value || 0);
       const poolRaw = String(D.inputSessionePoolTipo?.value || 'misto').trim();
       const argomentoRaw = String(D.inputSessioneArgomentoId?.value || '').trim();

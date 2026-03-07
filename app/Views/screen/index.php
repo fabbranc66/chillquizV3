@@ -82,6 +82,10 @@ if ($isLocalHost) {
         </span>
         <span class="stage-timer-label" id="stage-timer-label">0s</span>
     </div>
+    <div id="question-type-badge-screen" class="question-type-badge hidden" aria-live="polite">
+        <img id="question-type-badge-image-screen" class="question-type-badge-image hidden" alt="Tipologia domanda">
+        <span id="question-type-badge-label-screen" class="question-type-badge-label hidden"></span>
+    </div>
 
     <?php require BASE_PATH . '/app/Views/modules/screen/stage_header.php'; ?>
 

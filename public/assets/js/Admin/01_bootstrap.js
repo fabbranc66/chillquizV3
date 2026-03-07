@@ -14,5 +14,6 @@
     timerInterval: null,
     ultimoNumeroPartecipanti: 0,
     domandaCorrente: null,
+    audioPreviewDomandaId: 0,
   };
 })();

@@ -243,8 +243,8 @@ class Sessione
 
         $nomeColumn = $this->resolveSessionNameColumn();
         $select = $nomeColumn !== null
-            ? "SELECT id, pin, {$nomeColumn} AS nome_sessione, stato, domanda_corrente, creata_il FROM sessioni ORDER BY id DESC LIMIT :lim"
-            : "SELECT id, pin, stato, domanda_corrente, creata_il FROM sessioni ORDER BY id DESC LIMIT :lim";
+            ? "SELECT id, pin, {$nomeColumn} AS nome_sessione, stato, domanda_corrente, numero_domande, pool_tipo, argomento_id, selezione_tipo, creata_il FROM sessioni ORDER BY id DESC LIMIT :lim"
+            : "SELECT id, pin, stato, domanda_corrente, numero_domande, pool_tipo, argomento_id, selezione_tipo, creata_il FROM sessioni ORDER BY id DESC LIMIT :lim";
 
         $stmt = $this->pdo->prepare($select);
         $stmt->bindValue(':lim', $safeLimit, PDO::PARAM_INT);
@@ -263,6 +263,76 @@ class Sessione
         }
 
         return $rows;
+    }
+
+    public function aggiornaSnapshot(int $id, array $input): bool
+    {
+        if ($id <= 0 || !$this->trova($id)) {
+            return false;
+        }
+
+        $numeroDomande = (int) ($input['numero_domande'] ?? 0);
+        if ($numeroDomande <= 0) {
+            $numeroDomande = 10;
+        }
+
+        $poolRaw = trim((string) ($input['pool_tipo'] ?? 'tutti'));
+        $poolTipo = in_array($poolRaw, ['mono', 'fisso'], true) ? 'mono' : 'tutti';
+
+        $argomentoId = null;
+        if ($poolTipo === 'mono') {
+            $argomentoRaw = $input['argomento_id'] ?? null;
+            if ($argomentoRaw !== null && $argomentoRaw !== '') {
+                $argomentoInt = (int) $argomentoRaw;
+                if ($argomentoInt > 0) {
+                    $argomentoId = $argomentoInt;
+                }
+            }
+        }
+
+        $selezioneRaw = trim((string) ($input['selezione_tipo'] ?? 'random'));
+        $selezioneTipo = $selezioneRaw === 'manuale' ? 'manuale' : 'random';
+
+        $nomeColumn = $this->resolveSessionNameColumn();
+        $nomeSessione = trim((string) ($input['nome_sessione'] ?? ''));
+
+        if ($nomeColumn !== null) {
+            $stmt = $this->pdo->prepare(
+                "UPDATE sessioni
+                 SET {$nomeColumn} = :nome_sessione,
+                     numero_domande = :numero_domande,
+                     pool_tipo = :pool_tipo,
+                     argomento_id = :argomento_id,
+                     selezione_tipo = :selezione_tipo
+                 WHERE id = :id"
+            );
+
+            return $stmt->execute([
+                'nome_sessione' => $nomeSessione,
+                'numero_domande' => $numeroDomande,
+                'pool_tipo' => $poolTipo,
+                'argomento_id' => $argomentoId,
+                'selezione_tipo' => $selezioneTipo,
+                'id' => $id,
+            ]);
+        }
+
+        $stmt = $this->pdo->prepare(
+            "UPDATE sessioni
+             SET numero_domande = :numero_domande,
+                 pool_tipo = :pool_tipo,
+                 argomento_id = :argomento_id,
+                 selezione_tipo = :selezione_tipo
+             WHERE id = :id"
+        );
+
+        return $stmt->execute([
+            'numero_domande' => $numeroDomande,
+            'pool_tipo' => $poolTipo,
+            'argomento_id' => $argomentoId,
+            'selezione_tipo' => $selezioneTipo,
+            'id' => $id,
+        ]);
     }
 
     public function lista(int $limit = 100): array

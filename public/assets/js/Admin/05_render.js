@@ -53,9 +53,12 @@
       if (!joinRichiesteEl) return;
 
       if (!Array.isArray(lista) || lista.length === 0) {
+        Admin.ui?.ensureJoinPanelClosed?.();
         joinRichiesteEl.innerHTML = '<div class="join-item">Nessuna richiesta pending</div>';
         return;
       }
+
+      Admin.ui?.ensureJoinPanelOpen?.();
 
       joinRichiesteEl.innerHTML = lista.map((r) => `
         <div class="join-item">

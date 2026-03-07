@@ -37,6 +37,14 @@ trait TransizioniTrait
         }
 
         $timestamp = time();
+        $domandaCorrente = $this->domandaCorrente();
+        $tipoDomanda = strtoupper(trim((string) ($domandaCorrente['tipo_domanda'] ?? 'CLASSIC')));
+
+        if ($tipoDomanda === 'SARABANDA') {
+            // In SARABANDA la domanda parte in "intro": timer non avviato finché
+            // l'admin non lancia l'anteprima audio (che imposta inizio_domanda).
+            $timestamp = null;
+        }
 
         $stmt = $this->pdo->prepare("
             UPDATE sessioni

@@ -139,6 +139,55 @@ input {
     transform: scale(0.98);
 }
 
+/* PUNTATA ACTIONS (Kahoot style) */
+.puntata-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.btn-secondary {
+    min-height: 50px;
+    padding: 12px 10px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 16px;
+    font-weight: 900;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.12s ease, filter 0.12s ease;
+    touch-action: manipulation;
+}
+
+#btn-puntata-dec {
+    background: #e84118;
+}
+
+#btn-puntata-allin {
+    background: #fbc531;
+    color: #111;
+}
+
+#btn-puntata-inc {
+    background: #0097e6;
+}
+
+.btn-secondary:active {
+    transform: scale(0.98);
+}
+
+.btn-secondary:hover {
+    filter: brightness(1.05);
+}
+
+#btn-punta {
+    margin-top: 10px;
+    background: #4cd137;
+    color: #111;
+}
+
 /* DOMANDA */
 #domanda-testo {
     margin-bottom: 16px;
@@ -146,10 +195,41 @@ input {
     text-wrap: balance;
 }
 
+.question-type-badge-player {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0 0 4px;
+}
+
+.question-type-badge-image-player {
+    width: min(96vw, 280px);
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+}
+
 .domanda-media-wrap {
     margin: 0 0 14px;
     display: grid;
     gap: 8px;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    border: 1px dashed rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+.domanda-media-wrap.media-slot-empty {
+    border-style: dashed;
+}
+
+.domanda-media-wrap.has-media {
+    background: transparent;
+    border: 0;
+    overflow: visible;
 }
 
 .domanda-media-image {

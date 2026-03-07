@@ -3,6 +3,27 @@
   const Player = window.Player;
   const S = Player.state;
   const D = Player.dom;
+  const STEP = 250;
+
+  function capitaleAttuale() {
+    const raw = String(D.capitaleValue?.innerText || '').replace(/[^\d.-]/g, '');
+    const value = Number(raw);
+    return Number.isFinite(value) && value > 0 ? Math.floor(value) : 0;
+  }
+
+  function puntataCorrente() {
+    const value = Number(D.inputPuntata?.value || 0);
+    return Number.isFinite(value) && value > 0 ? Math.floor(value) : 0;
+  }
+
+  function setPuntata(value) {
+    if (!D.inputPuntata) return;
+
+    const capitale = capitaleAttuale();
+    const normalized = Math.max(0, Math.floor(Number(value) || 0));
+    const clamped = capitale > 0 ? Math.min(normalized, capitale) : normalized;
+    D.inputPuntata.value = clamped > 0 ? String(clamped) : '';
+  }
 
   async function handlePuntata() {
     if (S.puntataInviata) return;
@@ -39,5 +60,24 @@
     }
   }
 
-  Player.puntata = { handlePuntata };
+  function increasePuntata() {
+    const current = puntataCorrente();
+    setPuntata(current + STEP);
+  }
+
+  function decreasePuntata() {
+    const current = puntataCorrente();
+    setPuntata(Math.max(0, current - STEP));
+  }
+
+  function setAllIn() {
+    setPuntata(capitaleAttuale());
+  }
+
+  Player.puntata = {
+    handlePuntata,
+    increasePuntata,
+    decreasePuntata,
+    setAllIn,
+  };
 })();

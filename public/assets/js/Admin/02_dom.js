@@ -9,11 +9,13 @@
     timerIndicator: document.getElementById('timer-indicator'),
 
     inputSessioneNome: document.getElementById('sessione-nome'),
+    inputSessioneNomeOptions: document.getElementById('sessione-nome-options'),
     inputSessioneNumeroDomande: document.getElementById('sessione-numero-domande'),
     inputSessionePoolTipo: document.getElementById('sessione-pool-tipo'),
     inputSessioneArgomentoId: document.getElementById('sessione-argomento-id'),
     btnNuova: document.getElementById('btnNuova'),
     btnSetCorrente: document.getElementById('btnSetCorrente'),
+    btnSalvaSessione: document.getElementById('btnSalvaSessione'),
     sessioneSelect: document.getElementById('sessione-select'),
 
     btnToggleDomandeSessione: document.getElementById('btnToggleDomandeSessione'),
@@ -57,8 +59,18 @@
     btnSchermo: document.getElementById('btnSchermo'),
     btnMedia: document.getElementById('btnMedia'),
     btnSettings: document.getElementById('btnSettings'),
+    btnToggleDomandePanel: document.getElementById('btnToggleDomandePanel'),
+    btnToggleClassificaPanel: document.getElementById('btnToggleClassifica'),
+    btnToggleJoinPanel: document.getElementById('btnToggleJoinRequests'),
+    btnToggleLogPanel: document.getElementById('btnToggleLog'),
     btnQuizConfigV2: document.getElementById('btnQuizConfigV2'),
     btnClearLog: document.getElementById('btnClearLog'),
+
+    panelClassifica: document.getElementById('panel-classifica'),
+    panelJoin: document.getElementById('panel-join'),
+    panelSystem: document.getElementById('panel-system'),
+    panelQuestion: document.getElementById('panel-question'),
+    panelLog: document.getElementById('panel-log'),
 
     statoDiv: document.getElementById('stato'),
     conclusaDiv: document.getElementById('conclusa'),

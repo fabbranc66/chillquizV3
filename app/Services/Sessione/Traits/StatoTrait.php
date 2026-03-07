@@ -34,7 +34,20 @@ trait StatoTrait
 
     public function puoRispondere(): bool
     {
-        return $this->sessione['stato'] === 'domanda';
+        if ($this->sessione['stato'] !== 'domanda') {
+            return false;
+        }
+
+        $inizio = (int) ($this->sessione['inizio_domanda'] ?? 0);
+        if ($inizio <= 0) {
+            return false;
+        }
+
+        if (time() < $inizio) {
+            return false;
+        }
+
+        return true;
     }
 
     private function aggiornaStato(string $nuovoStato): void

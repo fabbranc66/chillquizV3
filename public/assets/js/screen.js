@@ -17,8 +17,24 @@ let domandaRenderizzata = false;
 let mediaAttiva = null;
 let lastAudioPreviewToken = '';
 let pendingAudioPreview = null;
+let previewAudio = null;
 const STATO_POLL_MS = 1000;
 const MEDIA_POLL_MS = 10000;
+let currentTimerStart = 0;
+let audioUnlockedByUser = false;
+const QUESTION_TYPE_ICON_MAP = {
+  CLASSIC: 'assets/img/question-types/classic.png',
+  MEDIA: 'assets/img/question-types/classic.png',
+  SARABANDA: 'assets/img/question-types/sarabanda.png',
+  IMPOSTORE: 'assets/img/question-types/impostore.png',
+  MEME: 'assets/img/question-types/meme.png',
+  MAJORITY: 'assets/img/question-types/majority.png',
+  RANDOM_BONUS: 'assets/img/question-types/random_bonus.png',
+  BOMB: 'assets/img/question-types/bomb.png',
+  CHAOS: 'assets/img/question-types/chaos.png',
+  AUDIO_PARTY: 'assets/img/question-types/audio_party.png',
+  IMAGE_PARTY: 'assets/img/question-types/image_party.png',
+};
 
 function extractSessioneIdFromUrl() {
   const raw = new URLSearchParams(window.location.search).get('url') || '';
@@ -130,6 +146,7 @@ function showRisultatiView() {
   document.getElementById('screen-placeholder').classList.add('hidden');
   document.getElementById('screen-domanda').classList.add('hidden');
   document.getElementById('screen-risultati').classList.remove('hidden');
+  clearQuestionTypeBadge();
 
   const stateImage = document.getElementById('state-image');
   if (stateImage) stateImage.removeAttribute('src');
@@ -197,8 +214,84 @@ function getDomandaMediaNodes() {
   };
 }
 
+function getPreviewAudio() {
+  if (!previewAudio) {
+    previewAudio = new Audio();
+    previewAudio.preload = 'auto';
+    previewAudio.playsInline = true;
+  }
+  return previewAudio;
+}
+
+function stopPreviewAudio() {
+  const audio = getPreviewAudio();
+  window.clearTimeout(audio.__previewTimer);
+  try { audio.pause(); } catch (e) { console.warn(e); }
+}
+
+function getQuestionTypeBadgeNodes() {
+  return {
+    wrap: document.getElementById('question-type-badge-screen'),
+    image: document.getElementById('question-type-badge-image-screen'),
+    label: document.getElementById('question-type-badge-label-screen'),
+  };
+}
+
+function clearQuestionTypeBadge() {
+  const { wrap, image, label } = getQuestionTypeBadgeNodes();
+  if (image) {
+    image.removeAttribute('src');
+    image.classList.add('hidden');
+  }
+  if (label) {
+    label.innerText = '';
+    label.classList.add('hidden');
+  }
+  if (wrap) {
+    wrap.classList.add('hidden');
+  }
+}
+
+function normalizeQuestionType(domanda) {
+  const tipo = String(domanda?.tipo_domanda || 'CLASSIC').trim().toUpperCase();
+  if (tipo) return tipo;
+  return 'CLASSIC';
+}
+
+function resolveQuestionTypeIconPath(questionType) {
+  const rel = QUESTION_TYPE_ICON_MAP[questionType] || '';
+  if (!rel) return '';
+  const clean = rel.startsWith('/') ? rel.substring(1) : rel;
+  return `${window.location.origin}${BASE_PUBLIC_URL}${clean}`;
+}
+
+function renderQuestionTypeBadge(domanda) {
+  const { wrap, image, label } = getQuestionTypeBadgeNodes();
+  if (!wrap || !image || !label) return;
+
+  const questionType = normalizeQuestionType(domanda);
+  const iconUrl = resolveQuestionTypeIconPath(questionType);
+
+  if (!iconUrl) {
+    clearQuestionTypeBadge();
+    return;
+  }
+
+  image.onerror = () => {
+    clearQuestionTypeBadge();
+  };
+  image.src = iconUrl;
+  image.alt = `Tipologia domanda: ${questionType}`;
+  image.classList.remove('hidden');
+  label.innerText = '';
+  label.classList.add('hidden');
+
+  wrap.classList.remove('hidden');
+}
+
 function clearDomandaMedia() {
   const { wrap, image, audio, caption } = getDomandaMediaNodes();
+  stopPreviewAudio();
 
   if (image) {
     image.removeAttribute('src');
@@ -220,17 +313,18 @@ function clearDomandaMedia() {
   }
 
   if (wrap) {
-    wrap.classList.add('hidden');
+    wrap.classList.remove('hidden');
+    wrap.classList.add('media-slot-empty');
   }
 }
 
-function renderDomandaMedia(domanda) {
+function renderDomandaMedia(domanda, imageOnly = false) {
   const { wrap, image, audio, caption } = getDomandaMediaNodes();
   if (!wrap) return;
 
   const imageUrl = resolveMediaUrl(domanda?.media_image_path);
   const audioUrl = resolveMediaUrl(domanda?.media_audio_path);
-  const captionText = String(domanda?.media_caption || '').trim();
+  const captionText = imageOnly ? '' : String(domanda?.media_caption || '').trim();
 
   let hasAny = false;
 
@@ -243,14 +337,14 @@ function renderDomandaMedia(domanda) {
     image.classList.add('hidden');
   }
 
-  if (audio && audioUrl) {
+  if (!imageOnly && audio && audioUrl) {
     const currentMediaSrc = String(audio.dataset.mediaSrc || '');
     if (currentMediaSrc !== audioUrl) {
       audio.src = audioUrl;
       audio.dataset.mediaSrc = audioUrl;
     }
     audio.classList.remove('hidden');
-  } else if (audio) {
+  } else if (!imageOnly && audio) {
     window.clearTimeout(audio.__previewTimer);
     audio.pause();
     audio.removeAttribute('src');
@@ -267,24 +361,25 @@ function renderDomandaMedia(domanda) {
     caption.classList.add('hidden');
   }
 
-  wrap.classList.toggle('hidden', !hasAny);
+  wrap.classList.remove('hidden');
+  wrap.classList.toggle('has-media', hasAny);
+  wrap.classList.toggle('media-slot-empty', !hasAny);
 }
 
 async function playScreenAudioPreview(preview) {
-  const { audio } = getDomandaMediaNodes();
-  if (!audio || !preview || !preview.audio_path) return false;
+  if (!preview || !preview.audio_path) return false;
 
   const src = resolveMediaUrl(preview.audio_path);
   if (!src) return false;
 
+  const audio = getPreviewAudio();
   window.clearTimeout(audio.__previewTimer);
   audio.pause();
-  audio.classList.remove('hidden');
   audio.muted = false;
   audio.volume = 1;
+  audio.playsInline = true;
   audio.preload = 'auto';
-  audio.src = src;
-  audio.dataset.mediaSrc = src;
+  audio.src = `${src}${src.includes('?') ? '&' : '?'}_=${Date.now()}`;
   audio.currentTime = 0;
   audio.load();
 
@@ -301,8 +396,41 @@ async function playScreenAudioPreview(preview) {
     pendingAudioPreview = null;
     return true;
   } catch (e) {
-    console.warn('Audio preview play failed', e);
-    pendingAudioPreview = preview;
+    // Fallback autoplay: prova play mutato e poi riattiva audio.
+    try {
+      audio.muted = true;
+      await audio.play();
+      audio.muted = false;
+      pendingAudioPreview = null;
+      return true;
+    } catch (e2) {
+      console.warn('Audio preview play failed', e2);
+      pendingAudioPreview = preview;
+      return false;
+    }
+  }
+}
+
+async function unlockAudioByGesture() {
+  if (audioUnlockedByUser) return true;
+
+  const audio = getPreviewAudio();
+
+  try {
+    // Silent tiny wav used only to prime autoplay permission.
+    audio.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
+    audio.muted = true;
+    audio.volume = 0;
+    audio.playsInline = true;
+    audio.preload = 'auto';
+    await audio.play();
+    audio.pause();
+    audio.currentTime = 0;
+    audio.muted = false;
+    audio.volume = 1;
+    audioUnlockedByUser = true;
+    return true;
+  } catch (e) {
     return false;
   }
 }
@@ -328,11 +456,13 @@ async function fetchAudioPreviewStatus() {
 }
 
 function hideDomandaView() {
+  stopPreviewAudio();
   hideRisultatiView();
   document.getElementById('screen-domanda').classList.add('hidden');
   document.getElementById('screen-placeholder').classList.remove('hidden');
   document.getElementById('domanda-testo').innerText = '';
   document.getElementById('opzioni').innerHTML = '';
+  clearQuestionTypeBadge();
   clearDomandaMedia();
   domandaRenderizzata = false;
 
@@ -359,6 +489,7 @@ function showDomandaLoadingView() {
   if (!titolo || !opzioni) return;
 
   titolo.innerText = 'Caricamento domanda...';
+  clearQuestionTypeBadge();
   clearDomandaMedia();
 
   if (opzioni.children.length > 0) return;
@@ -378,12 +509,28 @@ function renderDomanda(domanda) {
     return;
   }
 
+  const tipoDomanda = String(domanda?.tipo_domanda || 'CLASSIC').trim().toUpperCase();
+  const nowSec = Math.floor(Date.now() / 1000);
+  const isSarabandaIntro = tipoDomanda === 'SARABANDA' && (currentTimerStart <= 0 || nowSec < currentTimerStart);
+
   const titolo = document.getElementById('domanda-testo');
   const opzioni = document.getElementById('opzioni');
 
-  titolo.innerText = domanda.testo || '';
-  renderDomandaMedia(domanda);
+  titolo.innerText = isSarabandaIntro ? '' : (domanda.testo || '');
+  if (isSarabandaIntro) {
+    clearQuestionTypeBadge();
+    renderDomandaMedia(domanda, true);
+  } else {
+    renderQuestionTypeBadge(domanda);
+    renderDomandaMedia(domanda, false);
+  }
   opzioni.innerHTML = '';
+
+  if (isSarabandaIntro) {
+    domandaRenderizzata = true;
+    showDomandaView();
+    return;
+  }
 
   domanda.opzioni.forEach((o) => {
     const el = document.createElement('div');
@@ -456,6 +603,7 @@ async function fetchStato() {
     }
 
     currentState = data.sessione?.stato || null;
+    currentTimerStart = Number(data.sessione?.timer_start || 0);
     renderStageTimer(data.sessione || null);
 
     if (currentState === 'domanda') {
@@ -487,7 +635,8 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchStato();
   fetchAudioPreviewStatus();
 
-  const tryUnlockPendingAudio = () => {
+  const tryUnlockPendingAudio = async () => {
+    await unlockAudioByGesture();
     if (!pendingAudioPreview) return;
     playScreenAudioPreview(pendingAudioPreview);
   };

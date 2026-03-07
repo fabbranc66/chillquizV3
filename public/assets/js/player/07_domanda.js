@@ -6,6 +6,19 @@
   const { isDomandaAttiva } = Player.utils;
 
   const PUBLIC_BASE = String(S.API_BASE || '').replace(/\?url=api.*$/i, '');
+  const QUESTION_TYPE_ICON_MAP = {
+    CLASSIC: 'assets/img/question-types/classic.png',
+    MEDIA: 'assets/img/question-types/classic.png',
+    SARABANDA: 'assets/img/question-types/sarabanda.png',
+    IMPOSTORE: 'assets/img/question-types/impostore.png',
+    MEME: 'assets/img/question-types/meme.png',
+    MAJORITY: 'assets/img/question-types/majority.png',
+    RANDOM_BONUS: 'assets/img/question-types/random_bonus.png',
+    BOMB: 'assets/img/question-types/bomb.png',
+    CHAOS: 'assets/img/question-types/chaos.png',
+    AUDIO_PARTY: 'assets/img/question-types/audio_party.png',
+    IMAGE_PARTY: 'assets/img/question-types/image_party.png',
+  };
 
   function resolveMediaUrl(path) {
     const raw = String(path || '').trim();
@@ -26,6 +39,38 @@
       audio: document.getElementById('domanda-media-audio-player'),
       caption: document.getElementById('domanda-media-caption-player'),
     };
+  }
+
+  function clearQuestionTypeBadge() {
+    S.badgeQuestionId = 0;
+    S.badgeTipoDomanda = '';
+    if (D.questionTypeBadgeImagePlayer) {
+      D.questionTypeBadgeImagePlayer.removeAttribute('src');
+      D.questionTypeBadgeImagePlayer.classList.add('hidden');
+    }
+    if (D.questionTypeBadgePlayer) {
+      D.questionTypeBadgePlayer.classList.add('hidden');
+    }
+  }
+
+  function renderQuestionTypeBadge(tipoDomandaRaw) {
+    const tipo = String(tipoDomandaRaw || 'CLASSIC').trim().toUpperCase();
+    const rel = QUESTION_TYPE_ICON_MAP[tipo] || '';
+    if (!rel || !D.questionTypeBadgePlayer || !D.questionTypeBadgeImagePlayer) {
+      clearQuestionTypeBadge();
+      return;
+    }
+
+    const src = resolveMediaUrl(rel);
+    if (D.questionTypeBadgeImagePlayer.src === src && !D.questionTypeBadgeImagePlayer.classList.contains('hidden')) {
+      if (D.questionTypeBadgePlayer) D.questionTypeBadgePlayer.classList.remove('hidden');
+      return;
+    }
+
+    D.questionTypeBadgeImagePlayer.onerror = () => clearQuestionTypeBadge();
+    D.questionTypeBadgeImagePlayer.src = src;
+    D.questionTypeBadgeImagePlayer.classList.remove('hidden');
+    D.questionTypeBadgePlayer.classList.remove('hidden');
   }
 
   function resetDomandaMedia() {
@@ -49,16 +94,17 @@
     }
 
     if (wrap) {
-      wrap.classList.add('hidden');
+      wrap.classList.remove('hidden');
+      wrap.classList.add('media-slot-empty');
     }
   }
 
-  function renderDomandaMedia(domanda) {
+  function renderDomandaMedia(domanda, imageOnly = false) {
     const { wrap, image, audio, caption } = getMediaNodes();
     if (!wrap) return;
 
     const imageUrl = resolveMediaUrl(domanda?.media_image_path);
-    const captionText = String(domanda?.media_caption || '').trim();
+    const captionText = imageOnly ? '' : String(domanda?.media_caption || '').trim();
 
     let hasAny = false;
 
@@ -88,13 +134,16 @@
       caption.classList.add('hidden');
     }
 
-    wrap.classList.toggle('hidden', !hasAny);
+    wrap.classList.remove('hidden');
+    wrap.classList.toggle('has-media', hasAny);
+    wrap.classList.toggle('media-slot-empty', !hasAny);
   }
 
   function resetDomandaView() {
     if (D.domandaTesto) D.domandaTesto.innerText = '';
     if (D.opzioniDiv) D.opzioniDiv.innerHTML = '';
     resetDomandaMedia();
+    clearQuestionTypeBadge();
   }
 
   async function fetchDomanda() {
@@ -116,6 +165,35 @@
     }
   }
 
+  async function fetchTipoDomandaBadge() {
+    if (!S.sessioneId) {
+      clearQuestionTypeBadge();
+      return;
+    }
+
+    try {
+      const response = await fetch(`${S.API_BASE}/domanda/${S.sessioneId || 0}`);
+      const data = await response.json();
+
+      if (!data.success || !data.domanda) {
+        return;
+      }
+
+      const domandaId = Number(data.domanda.id || 0);
+      const tipoDomanda = String(data.domanda.tipo_domanda || 'CLASSIC').trim().toUpperCase();
+
+      if (S.badgeQuestionId === domandaId && S.badgeTipoDomanda === tipoDomanda) {
+        return;
+      }
+
+      S.badgeQuestionId = domandaId;
+      S.badgeTipoDomanda = tipoDomanda;
+      renderQuestionTypeBadge(tipoDomanda);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   function renderDomanda(domanda) {
     if (!isDomandaAttiva(S.currentState)) return;
 
@@ -126,9 +204,26 @@
 
     if (!D.domandaTesto || !D.opzioniDiv) return;
 
-    D.domandaTesto.innerText = domanda.testo || '';
-    renderDomandaMedia(domanda);
+    const domandaId = Number(domanda.id || 0);
+    const tipoDomanda = String(domanda.tipo_domanda || 'CLASSIC').trim().toUpperCase();
+    const nowSec = Math.floor(Date.now() / 1000);
+    const isSarabandaIntro = tipoDomanda === 'SARABANDA' && (Number(S.domandaTimerStart || 0) <= 0 || nowSec < Number(S.domandaTimerStart || 0));
+
+    D.domandaTesto.innerText = isSarabandaIntro ? '' : (domanda.testo || '');
+    S.badgeQuestionId = domandaId;
+    S.badgeTipoDomanda = tipoDomanda;
+    if (isSarabandaIntro) {
+      clearQuestionTypeBadge();
+      renderDomandaMedia(domanda, true);
+    } else {
+      renderQuestionTypeBadge(tipoDomanda);
+      renderDomandaMedia(domanda, false);
+    }
     D.opzioniDiv.innerHTML = '';
+
+    if (isSarabandaIntro) {
+      return;
+    }
 
     domanda.opzioni.forEach((opzione, index) => {
       const btn = document.createElement('button');
@@ -183,5 +278,13 @@
     }
   }
 
-  Player.domanda = { fetchDomanda, renderDomanda, resetDomandaView, inviaRisposta, resetDomandaMedia };
+  Player.domanda = {
+    fetchDomanda,
+    fetchTipoDomandaBadge,
+    renderDomanda,
+    resetDomandaView,
+    inviaRisposta,
+    resetDomandaMedia,
+    clearQuestionTypeBadge,
+  };
 })();

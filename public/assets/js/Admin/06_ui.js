@@ -70,6 +70,7 @@
       Admin.ui.setButton(D.btnProssima, sessione.stato === 'risultati');
 
       Admin.ui.setButton(D.btnNuova, true);
+      Admin.ui.setButton(D.btnSalvaSessione, true);
       Admin.ui.setButton(D.btnRiavvia, true);
       Admin.ui.setButton(D.btnSchermo, true);
       Admin.ui.setButton(D.btnMedia, true);

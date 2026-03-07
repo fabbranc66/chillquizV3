@@ -25,5 +25,8 @@
     puntataInviata: false,
 
     domandaFetchNonce: 0,
+    badgeQuestionId: 0,
+    badgeTipoDomanda: '',
+    domandaTimerStart: 0,
   };
 })();

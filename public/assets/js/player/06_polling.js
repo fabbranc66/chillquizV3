@@ -75,6 +75,7 @@
 
       const sessione = data.sessione;
       const stato = sessione.stato;
+      S.domandaTimerStart = Number(sessione?.timer_start || 0);
 
       if (stato !== S.currentState) {
         S.currentState = stato;
@@ -97,9 +98,10 @@
 
     Player.screens.hideAllScreens();
 
-    if (!isDomandaAttiva(stato)) {
+    if (!isDomandaAttiva(stato) && stato !== 'puntata') {
       S.domandaFetchNonce++;
       Player.domanda.resetDomandaView();
+      Player.domanda.clearQuestionTypeBadge?.();
     }
 
     switch (stato) {
@@ -122,6 +124,7 @@
 
       case 'puntata':
         Player.screens.show('screen-puntata');
+        Player.domanda.fetchTipoDomandaBadge?.();
         resetTimerUI();
         break;
 
