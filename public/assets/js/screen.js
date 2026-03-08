@@ -463,6 +463,10 @@ function clearDomandaMedia() {
   }
 }
 
+function getDomandaStatusMessageNode() {
+  return document.getElementById('domanda-status-message-screen');
+}
+
 function renderDomandaMedia(domanda, imageOnly = false) {
   const { wrap, image, audio, caption } = getDomandaMediaNodes();
   if (!wrap) return;
@@ -625,6 +629,12 @@ function hideDomandaView() {
   document.getElementById('screen-domanda').classList.add('hidden');
   document.getElementById('screen-placeholder').classList.remove('hidden');
   document.getElementById('domanda-testo').innerText = '';
+  const statusMessage = getDomandaStatusMessageNode();
+  if (statusMessage) {
+    statusMessage.innerText = '';
+    statusMessage.classList.add('hidden');
+    statusMessage.classList.remove('is-impostore');
+  }
   document.getElementById('opzioni').innerHTML = '';
   clearQuestionTypeBadge();
   clearDomandaMedia();
@@ -650,9 +660,15 @@ function showDomandaLoadingView() {
 
   const titolo = document.getElementById('domanda-testo');
   const opzioni = document.getElementById('opzioni');
+  const statusMessage = getDomandaStatusMessageNode();
   if (!titolo || !opzioni) return;
 
   titolo.innerText = 'Caricamento domanda...';
+  if (statusMessage) {
+    statusMessage.innerText = '';
+    statusMessage.classList.add('hidden');
+    statusMessage.classList.remove('is-impostore');
+  }
   clearQuestionTypeBadge();
   clearDomandaMedia();
 
@@ -678,15 +694,34 @@ function renderDomanda(domanda) {
   const tipoDomanda = normalizeQuestionType(domanda);
   const nowSec = Math.floor(Date.now() / 1000);
   const isSarabandaIntro = tipoDomanda === 'SARABANDA' && (currentTimerStart <= 0 || nowSec < currentTimerStart);
+  const isImpostoreMasked = !!domanda.impostore_masked;
   const showCorrect = !!domanda.show_correct;
   const correctOptionId = String(domanda.correct_option_id || '');
 
   const titolo = document.getElementById('domanda-testo');
   const opzioni = document.getElementById('opzioni');
+  const statusMessage = getDomandaStatusMessageNode();
 
   titolo.innerText = isSarabandaIntro ? '' : (domanda.testo || '');
+  if (statusMessage) {
+    if (isImpostoreMasked) {
+      statusMessage.innerText = String(domanda.impostore_screen_notice || 'Modalita IMPOSTORE: lo schermo non mostra la domanda.');
+      statusMessage.classList.remove('hidden');
+      statusMessage.classList.add('is-impostore');
+    } else {
+      statusMessage.innerText = '';
+      statusMessage.classList.add('hidden');
+      statusMessage.classList.remove('is-impostore');
+    }
+  }
   renderQuestionTypeBadge(domanda);
-  if (isSarabandaIntro) {
+  if (isImpostoreMasked) {
+    clearDomandaMedia();
+    const mediaNodes = getDomandaMediaNodes();
+    if (mediaNodes.wrap) {
+      mediaNodes.wrap.classList.add('hidden');
+    }
+  } else if (isSarabandaIntro) {
     renderDomandaMedia(domanda, true);
   } else {
     renderDomandaMedia(domanda, false);
@@ -726,7 +761,9 @@ async function fetchDomandaIfActive() {
   }
 
   try {
-    const r = await fetch(`${API_BASE}/domanda/${sessioneId || 0}`);
+    const url = new URL(`${API_BASE}/domanda/${sessioneId || 0}`, window.location.origin);
+    url.searchParams.set('viewer', 'screen');
+    const r = await fetch(url.toString());
     const data = await r.json();
     if (!isDomandaState()) return;
 

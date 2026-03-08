@@ -12,6 +12,7 @@
         <div id="domanda-media-caption-screen" class="domanda-media-caption hidden"></div>
     </div>
 
+    <div id="domanda-status-message-screen" class="domanda-status-message hidden"></div>
     <h2 id="domanda-testo"></h2>
     <div id="opzioni" class="grid-opzioni"></div>
 </div>

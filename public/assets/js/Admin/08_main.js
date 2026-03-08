@@ -56,6 +56,7 @@
 
   if (D.btnSetCorrente) D.btnSetCorrente.onclick = () => Admin.actions.impostaSessioneCorrente();
   if (D.btnSalvaSessione) D.btnSalvaSessione.onclick = () => Admin.actions.salvaSessioneCorrente();
+  if (D.btnImpostoreToggle) D.btnImpostoreToggle.onclick = () => Admin.actions.toggleImpostoreCorrente();
 
   if (D.btnToggleDomandeSessione) D.btnToggleDomandeSessione.onclick = () => Admin.actions.toggleDomandeSessione();
   if (D.btnToggleDomandaEditor) D.btnToggleDomandaEditor.onclick = () => Admin.actions.toggleDomandaEditor();

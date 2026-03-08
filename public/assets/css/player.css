@@ -236,6 +236,22 @@ input {
     letter-spacing: -0.02em;
 }
 
+.domanda-status-message {
+    padding: 10px 12px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.35;
+    font-weight: 800;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.domanda-status-message.is-impostore {
+    background: linear-gradient(135deg, rgba(138, 24, 48, 0.94), rgba(74, 10, 30, 0.9));
+    border-color: rgba(255, 194, 209, 0.32);
+    color: #fff4f7;
+}
+
 .question-type-badge-player {
     display: flex;
     align-items: center;

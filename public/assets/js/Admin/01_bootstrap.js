@@ -24,6 +24,7 @@
     audioPreviewDomandaId: 0,
     audioPreviewResetTimer: null,
     sessionImageSearchSessionId: 0,
+    impostoreEnabled: false,
     statoRequestInFlight: false,
     joinRequestInFlight: false,
     domandaMetaRequestInFlight: false,

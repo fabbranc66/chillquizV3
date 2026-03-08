@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Core\Database;
+use App\Services\Question\ImpostoreModeService;
 use App\Services\Question\QuestionModeResolver;
 use App\Services\Question\Score\ScoreEngine;
 use PDO;
@@ -146,6 +147,7 @@ class Partecipazione
 
         $sessioneId = (int) $sessionData['sessione_id'];
         $inizioDomanda = (float) $sessionData['inizio_domanda'];
+        $modeMeta = (new ImpostoreModeService())->applyRuntimeOverride($sessioneId, $domandaId, $modeMeta);
 
         $tempoServer = max(0, round(microtime(true) - $inizioDomanda, 3));
         $tempoRisposta = $tempoServer;
@@ -167,6 +169,8 @@ class Partecipazione
 
         $bonusPrimo = 0;
         $isPrimoARispondere = false;
+        $isImpostore = false;
+        $bonusImpostore = 0;
 
         if ($bonusPrimoAttivo) {
             $check = $this->pdo->prepare(
@@ -190,6 +194,18 @@ class Partecipazione
             }
         }
 
+        if (strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC'))) === 'IMPOSTORE') {
+            $impostoreService = new ImpostoreModeService();
+            $assignment = $impostoreService->getAssignment($sessioneId, $domandaId);
+            $isImpostore = (int) ($assignment['impostore_partecipazione_id'] ?? 0) === $partecipazioneId;
+            $bonusImpostore = $impostoreService->calculateBonus(
+                $modeMeta,
+                $puntata,
+                (bool) $corretta,
+                $isImpostore
+            );
+        }
+
         $scoreEngine = new ScoreEngine();
         $score = $scoreEngine->calculate($modeMeta['tipo_domanda'], [
             'puntata' => $puntata,
@@ -197,6 +213,7 @@ class Partecipazione
             'difficolta' => $difficolta,
             'fattore_velocita' => $fattoreVelocita,
             'bonus_primo' => $bonusPrimo,
+            'bonus_impostore' => $bonusImpostore,
             'tempo_risposta' => $tempoRisposta,
             'question_meta' => $modeMeta,
         ]);
@@ -205,6 +222,7 @@ class Partecipazione
         $vincitaDifficolta = $score->vincitaDifficolta;
         $vincitaVelocita = $score->vincitaVelocita;
         $bonusPrimoCalcolato = $score->bonusPrimo;
+        $bonusImpostoreCalcolato = $score->bonusImpostore;
 
         $update = $this->pdo->prepare(
             "UPDATE partecipazioni
@@ -246,11 +264,13 @@ class Partecipazione
             'vincita_difficolta' => $vincitaDifficolta,
             'vincita_velocita' => $vincitaVelocita,
             'bonus_primo' => $bonusPrimoCalcolato,
+            'bonus_impostore' => $bonusImpostoreCalcolato,
             'fattore_velocita' => $fattoreVelocita,
             'tempo_risposta' => $tempoRisposta,
             'tempo_risposta_display' => $this->formatTempoRispostaDisplay($tempoRisposta),
             'difficolta_domanda' => $difficolta,
             'primo_a_rispondere' => $isPrimoARispondere,
+            'is_impostore' => $isImpostore,
             'vincita_domanda' => $punti,
             'capitale' => $capitaleFinale,
             'tipo_domanda' => $modeMeta['tipo_domanda'],

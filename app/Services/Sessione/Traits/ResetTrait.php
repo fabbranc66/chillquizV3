@@ -2,6 +2,8 @@
 
 namespace App\Services\Sessione\Traits;
 
+use App\Services\Question\ImpostoreModeService;
+
 trait ResetTrait
 {
     public function resetTotale(): void
@@ -22,6 +24,7 @@ trait ResetTrait
         $this->sessione['inizio_domanda'] = null;
         $this->sessione['mostra_corretta_fino'] = null;
 
+        (new ImpostoreModeService())->clearRuntimeState($this->sessioneId);
         $this->svuotaPuntateLive();
         $this->generaDomandeSessione();
     }

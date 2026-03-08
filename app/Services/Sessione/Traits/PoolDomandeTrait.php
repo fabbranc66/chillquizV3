@@ -2,6 +2,7 @@
 
 namespace App\Services\Sessione\Traits;
 
+use App\Services\Question\ImpostoreModeService;
 use App\Services\Question\QuestionModeResolver;
 use RuntimeException;
 
@@ -118,6 +119,7 @@ trait PoolDomandeTrait
         $domanda['opzioni'] = $this->shuffleQuestionOptions($domanda['opzioni'], (int) $domanda['id']);
 
         $modeMeta = (new QuestionModeResolver())->resolveFromRow($domanda);
+        $modeMeta = (new ImpostoreModeService())->applyRuntimeOverride($this->sessioneId, (int) ($domanda['id'] ?? 0), $modeMeta);
 
         $domanda['tipo_domanda'] = $modeMeta['tipo_domanda'];
         $domanda['modalita_party'] = $modeMeta['modalita_party'];
@@ -139,6 +141,16 @@ trait PoolDomandeTrait
                 }
             }
         }
+
+        $viewer = strtolower(trim((string) ($_GET['viewer'] ?? 'generic')));
+        $partecipazioneIdRaw = (int) ($_GET['partecipazione_id'] ?? 0);
+        $partecipazioneId = $partecipazioneIdRaw > 0 ? $partecipazioneIdRaw : null;
+        $domanda = (new ImpostoreModeService())->decorateQuestionForViewer(
+            $this->sessioneId,
+            $domanda,
+            $viewer,
+            $partecipazioneId
+        );
 
         return $domanda;
     }

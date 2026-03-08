@@ -148,9 +148,23 @@
 
   function resetDomandaView() {
     if (D.domandaTesto) D.domandaTesto.innerText = '';
+    if (D.domandaStatusMessage) {
+      D.domandaStatusMessage.innerText = '';
+      D.domandaStatusMessage.classList.add('hidden');
+      D.domandaStatusMessage.classList.remove('is-impostore');
+    }
     if (D.opzioniDiv) D.opzioniDiv.innerHTML = '';
     resetDomandaMedia();
     clearQuestionTypeBadge();
+  }
+
+  function buildDomandaRequestUrl() {
+    const url = new URL(`${S.API_BASE}/domanda/${S.sessioneId || 0}`, window.location.origin);
+    url.searchParams.set('viewer', 'player');
+    if (Number(S.partecipazioneId || 0) > 0) {
+      url.searchParams.set('partecipazione_id', String(Number(S.partecipazioneId || 0)));
+    }
+    return url.toString();
   }
 
   async function fetchDomanda() {
@@ -159,7 +173,7 @@
     const requestNonce = ++S.domandaFetchNonce;
 
     try {
-      const response = await fetch(`${S.API_BASE}/domanda/${S.sessioneId || 0}`);
+      const response = await fetch(buildDomandaRequestUrl());
       const data = await response.json();
 
       if (!data.success) return;
@@ -179,7 +193,7 @@
     }
 
     try {
-      const response = await fetch(`${S.API_BASE}/domanda/${S.sessioneId || 0}`);
+      const response = await fetch(buildDomandaRequestUrl());
       const data = await response.json();
 
       if (!data.success || !data.domanda) {
@@ -217,12 +231,33 @@
     const isSarabandaIntro = tipoDomanda === 'SARABANDA' && (Number(S.domandaTimerStart || 0) <= 0 || nowSec < Number(S.domandaTimerStart || 0));
     const showCorrect = !!domanda.show_correct;
     const correctOptionId = String(domanda.correct_option_id || '');
+    const isImpostoreMasked = !!domanda.impostore_masked;
+    const isImpostore = !!domanda.is_impostore;
 
     D.domandaTesto.innerText = isSarabandaIntro ? '' : (domanda.testo || '');
+    if (D.domandaStatusMessage) {
+      if (isImpostoreMasked) {
+        D.domandaStatusMessage.innerText = String(domanda.impostore_notice || 'Sei l\'impostore: osserva gli altri e deduci la risposta.');
+        D.domandaStatusMessage.classList.remove('hidden');
+        D.domandaStatusMessage.classList.add('is-impostore');
+      } else if (isImpostore) {
+        D.domandaStatusMessage.innerText = 'Sei l\'impostore, ma in questa vista la domanda e mascherata.';
+        D.domandaStatusMessage.classList.remove('hidden');
+        D.domandaStatusMessage.classList.add('is-impostore');
+      } else {
+        D.domandaStatusMessage.innerText = '';
+        D.domandaStatusMessage.classList.add('hidden');
+        D.domandaStatusMessage.classList.remove('is-impostore');
+      }
+    }
     S.badgeQuestionId = domandaId;
     S.badgeTipoDomanda = tipoDomanda;
     renderQuestionTypeBadge(tipoDomanda);
-    if (isSarabandaIntro) {
+    if (isImpostoreMasked) {
+      resetDomandaMedia();
+      const mediaNodes = getMediaNodes();
+      if (mediaNodes.wrap) mediaNodes.wrap.classList.add('hidden');
+    } else if (isSarabandaIntro) {
       renderDomandaMedia(domanda, true);
     } else {
       renderDomandaMedia(domanda, false);

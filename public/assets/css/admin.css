@@ -71,6 +71,13 @@ h2 {
     margin: 3px;
 }
 
+.badge-toggle {
+    margin: 3px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+}
+
 /* ================= CARD LOOK ================= */
 
 .row {

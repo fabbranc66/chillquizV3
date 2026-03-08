@@ -21,6 +21,7 @@
 
     // domanda
     domandaTesto: document.getElementById('domanda-testo'),
+    domandaStatusMessage: document.getElementById('domanda-status-message-player'),
     opzioniDiv: document.getElementById('opzioni'),
     questionTypeBadgePlayer: document.getElementById('question-type-badge-player'),
     questionTypeBadgeImagePlayer: document.getElementById('question-type-badge-image-player'),

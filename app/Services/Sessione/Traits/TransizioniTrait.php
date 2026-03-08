@@ -3,6 +3,7 @@
 namespace App\Services\Sessione\Traits;
 
 use App\Models\Partecipazione;
+use App\Services\Question\ImpostoreModeService;
 use RuntimeException;
 
 trait TransizioniTrait
@@ -55,6 +56,10 @@ trait TransizioniTrait
         $domandaCorrente = $this->domandaCorrente();
         $tipoDomanda = strtoupper(trim((string) ($domandaCorrente['tipo_domanda'] ?? 'CLASSIC')));
         $hasAudio = trim((string) ($domandaCorrente['media_audio_path'] ?? '')) !== '';
+
+        if ($tipoDomanda === 'IMPOSTORE') {
+            (new ImpostoreModeService())->assignForQuestion($this->sessioneId, (int) ($domandaCorrente['id'] ?? 0));
+        }
 
         if ($tipoDomanda === 'SARABANDA' && $hasAudio) {
             $timestamp = null;
@@ -119,9 +124,11 @@ trait TransizioniTrait
             $this->sessione['stato'] = 'puntata';
             $this->sessione['inizio_domanda'] = null;
             $this->sessione['mostra_corretta_fino'] = null;
+            (new ImpostoreModeService())->clearRuntimeState($this->sessioneId);
         } else {
             $this->resetRevealCorretta();
             $this->aggiornaStato('conclusa');
+            (new ImpostoreModeService())->clearRuntimeState($this->sessioneId);
         }
     }
 }

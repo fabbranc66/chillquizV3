@@ -3,6 +3,8 @@
 namespace App\Services\Sessione\Traits;
 
 use App\Models\Sistema;
+use App\Services\Question\ImpostoreModeService;
+use App\Services\Question\QuestionModeResolver;
 
 trait ClassificaTrait
 {
@@ -26,6 +28,13 @@ trait ClassificaTrait
         $fattoreVelocitaMax = (float) ($sistema->get('fattore_velocita_max') ?? 1);
         $bonusPrimoAttivo = (int) ($sistema->get('bonus_primo_attivo') ?? 0) === 1;
         $coefficienteBonusPrimo = (float) ($sistema->get('coefficiente_bonus_primo') ?? 0);
+        $domandaCorrenteRow = $this->loadDomandaCorrenteRow($domandaId);
+        $modeMeta = (new QuestionModeResolver())->resolveFromRow($domandaCorrenteRow);
+        $modeMeta = (new ImpostoreModeService())->applyRuntimeOverride($this->sessioneId, $domandaId, $modeMeta);
+        $isImpostoreMode = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC'))) === 'IMPOSTORE';
+        $impostoreService = new ImpostoreModeService();
+        $assignment = $isImpostoreMode ? $impostoreService->getAssignment($this->sessioneId, $domandaId) : null;
+        $impostorePartecipazioneId = (int) ($assignment['impostore_partecipazione_id'] ?? 0);
 
         $stmt = $this->pdo->prepare(
             "SELECT
@@ -106,6 +115,7 @@ trait ClassificaTrait
             $vincitaDifficolta = 0;
             $vincitaVelocita = 0;
             $bonusPrimo = 0;
+            $bonusImpostore = 0;
             $vincitaDomandaCalcolata = null;
 
             if ($row['esito'] === 'corretta') {
@@ -116,7 +126,11 @@ trait ClassificaTrait
                     $bonusPrimo = (int) round($puntata * $coefficienteBonusPrimo);
                 }
 
-                $vincitaDomandaCalcolata = $vincitaDifficolta + $vincitaVelocita + $bonusPrimo;
+                if ($isImpostoreMode && $impostorePartecipazioneId > 0 && (int) $row['partecipazione_id'] === $impostorePartecipazioneId) {
+                    $bonusImpostore = $impostoreService->calculateBonus($modeMeta, $puntata, true, true);
+                }
+
+                $vincitaDomandaCalcolata = $vincitaDifficolta + $vincitaVelocita + $bonusPrimo + $bonusImpostore;
             } elseif ($row['esito'] === 'errata') {
                 $vincitaDomandaCalcolata = -$puntata;
             }
@@ -141,6 +155,10 @@ trait ClassificaTrait
             $row['vincita_difficolta'] = $vincitaDifficolta;
             $row['vincita_velocita'] = $vincitaVelocita;
             $row['bonus_primo'] = $bonusPrimo;
+            $row['bonus_impostore'] = $bonusImpostore;
+            $row['is_impostore'] = $isImpostoreMode && $impostorePartecipazioneId > 0
+                ? ((int) $row['partecipazione_id'] === $impostorePartecipazioneId)
+                : false;
             $row['tempo_risposta_display'] = $this->formatTempoRispostaDisplay($tempoRisposta);
 
             unset($row['esito_corretta']);
@@ -151,6 +169,17 @@ trait ClassificaTrait
         unset($row);
 
         return $rows;
+    }
+
+    private function loadDomandaCorrenteRow(int $domandaId): array
+    {
+        if ($domandaId <= 0) {
+            return [];
+        }
+
+        $stmt = $this->pdo->prepare("SELECT * FROM domande WHERE id = :id LIMIT 1");
+        $stmt->execute(['id' => $domandaId]);
+        return $stmt->fetch() ?: [];
     }
 
     private function allineaPunteggioPersistito(

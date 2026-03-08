@@ -7,6 +7,7 @@
     domandaNumero: document.getElementById('domanda-numero'),
     partecipantiSpan: document.getElementById('partecipanti-numero'),
     timerIndicator: document.getElementById('timer-indicator'),
+    btnImpostoreToggle: document.getElementById('btnImpostoreToggle'),
 
     inputSessioneNome: document.getElementById('sessione-nome'),
     inputSessioneNomeOptions: document.getElementById('sessione-nome-options'),

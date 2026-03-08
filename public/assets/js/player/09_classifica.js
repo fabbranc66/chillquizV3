@@ -87,6 +87,7 @@
     const vincitaDifficolta = Number(miaRiga.vincita_difficolta ?? 0);
     const vincitaVelocita = Number(miaRiga.vincita_velocita ?? 0);
     const bonusPrimo = Number(miaRiga.bonus_primo ?? 0);
+    const bonusImpostore = Number(miaRiga.bonus_impostore ?? 0);
     const vincitaTotale = (miaRiga.vincita_domanda === null || miaRiga.vincita_domanda === undefined)
       ? '-'
       : Number(miaRiga.vincita_domanda);
@@ -106,6 +107,7 @@
       rowLine('Coeff. velocita', `x${formatCoeff(fattoreVelocita)}`),
       rowLine('Vincita velocita', `${vincitaVelocita}`, true),
       rowLine('Bonus primo', `${bonusPrimo}`, true),
+      rowLine('Bonus impostore', `${bonusImpostore}`, true),
       rowLine('Vincita totale', `${vincitaTotale}`, true),
       rowLine('Punti attuali', formatCapitaleBreakdown(capitale, vincitaTotale)),
     ].join('');
@@ -122,6 +124,7 @@
     const vincitaDifficolta = Number(risultato.vincita_difficolta ?? 0);
     const vincitaVelocita = Number(risultato.vincita_velocita ?? 0);
     const bonusPrimo = Number(risultato.bonus_primo ?? 0);
+    const bonusImpostore = Number(risultato.bonus_impostore ?? 0);
     const punti = Number(risultato.punti ?? 0);
     const tempo = forceDisplayString(risultato.tempo_risposta_display || formatTempoRisposta(risultato.tempo_risposta ?? 0));
     const capitale = Number(risultato.capitale ?? 0);
@@ -138,6 +141,7 @@
       rowLine('Coeff. velocita', `x${formatCoeff(fattoreVelocita)}`),
       rowLine('Vincita velocita', `${vincitaVelocita}`, true),
       rowLine('Bonus primo', `${bonusPrimo}`, true),
+      rowLine('Bonus impostore', `${bonusImpostore}`, true),
       rowLine('Vincita totale', `${punti}`, true),
       rowLine('Punti attuali', formatCapitaleBreakdown(capitale, punti)),
     ].join('');

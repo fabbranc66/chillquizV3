@@ -11,6 +11,7 @@ use App\Models\Utente;
 use App\Models\ScreenMedia;
 use App\Models\AppSettings;
 use App\Services\Admin\SessionImageSearchService;
+use App\Services\Question\ImpostoreModeService;
 use App\Services\SessioneService;
 use Throwable;
 
@@ -114,6 +115,28 @@ class ApiController
         }
 
         return hash_equals($this->getAdminToken(), $incoming);
+    }
+
+    private function loadCurrentQuestionForSession(int $sessioneId): ?array
+    {
+        if ($sessioneId <= 0) {
+            return null;
+        }
+
+        $pdo = \App\Core\Database::getInstance();
+        $stmt = $pdo->prepare(
+            "SELECT d.*
+             FROM sessioni s
+             JOIN sessione_domande sd
+               ON sd.sessione_id = s.id
+              AND sd.posizione = s.domanda_corrente
+             JOIN domande d ON d.id = sd.domanda_id
+             WHERE s.id = :sessione_id
+             LIMIT 1"
+        );
+        $stmt->execute(['sessione_id' => $sessioneId]);
+        $row = $stmt->fetch() ?: null;
+        return is_array($row) ? $row : null;
     }
 
     private function domandeColumnExists(\PDO $pdo, string $columnName): bool
@@ -348,6 +371,23 @@ class ApiController
                 $sessione['timer_max'] = $timerMax;
                 $sessione['show_correct'] = $revealUntil > $now;
                 $sessione['reveal_until'] = $revealUntil > 0 ? $revealUntil : null;
+
+                $currentQuestion = $this->loadCurrentQuestionForSession((int) ($sessione['id'] ?? 0));
+                $modeMeta = $currentQuestion
+                    ? (new \App\Services\Question\QuestionModeResolver())->resolveFromRow($currentQuestion)
+                    : [];
+                $currentType = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
+                $eligible = is_array($currentQuestion) && $currentType !== 'SARABANDA';
+                $impostoreService = new ImpostoreModeService();
+                $enabled = $eligible
+                    ? $impostoreService->isEnabledForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
+                    : false;
+                $locked = in_array((string) ($sessione['stato'] ?? ''), ['domanda', 'conclusa'], true);
+
+                $sessione['impostore_enabled'] = $enabled;
+                $sessione['impostore_eligible'] = (bool) $eligible;
+                $sessione['impostore_locked'] = $locked;
+                $sessione['impostore_question_id'] = (int) ($currentQuestion['id'] ?? 0);
             }
 
             $this->json([
@@ -1031,6 +1071,65 @@ public function join($sessioneId): void
                         'success' => true,
                         'action' => $action,
                         'argomenti' => $stmt ? ($stmt->fetchAll() ?: []) : []
+                    ]);
+                    return;
+
+                case 'impostore-toggle':
+                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                    if ($targetSessioneId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Sessione non valida'
+                        ]);
+                        return;
+                    }
+
+                    $sessionRow = (new Sessione())->trova($targetSessioneId);
+                    if (!$sessionRow) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Sessione non trovata'
+                        ]);
+                        return;
+                    }
+
+                    if (in_array((string) ($sessionRow['stato'] ?? ''), ['domanda', 'conclusa'], true)) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'IMPOSTORE modificabile solo prima dello stato domanda'
+                        ]);
+                        return;
+                    }
+
+                    $currentQuestion = $this->loadCurrentQuestionForSession($targetSessioneId);
+                    if (!$currentQuestion) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Domanda corrente non disponibile'
+                        ]);
+                        return;
+                    }
+
+                    $modeMeta = (new \App\Services\Question\QuestionModeResolver())->resolveFromRow($currentQuestion);
+                    $currentType = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
+                    if ($currentType === 'SARABANDA') {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'IMPOSTORE non disponibile su domande SARABANDA'
+                        ]);
+                        return;
+                    }
+
+                    $enabled = (int) ($_POST['enabled'] ?? 0) === 1;
+                    $impostoreService = new ImpostoreModeService();
+                    $impostoreService->setEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled);
+
+                    $this->json([
+                        'success' => true,
+                        'action' => $action,
+                        'sessione_id' => $targetSessioneId,
+                        'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
+                        'enabled' => $impostoreService->isEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
                     ]);
                     return;
 

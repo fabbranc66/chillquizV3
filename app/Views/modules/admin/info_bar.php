@@ -21,6 +21,7 @@
     <div class="badge">
         <span class="timer-wrap">Timer: <span id="timer-indicator" class="timer-indicator"><span class="timer-indicator-inner"></span></span></span>
     </div>
+    <button id="btnImpostoreToggle" type="button" class="badge badge-toggle">IMPOSTORE OFF</button>
 </div>
 
 <div id="stato">Stato: ...</div>

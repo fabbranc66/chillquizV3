@@ -1126,6 +1126,49 @@
       }
     },
 
+    async toggleImpostoreCorrente() {
+      const targetSessioneId = Number(D.sessioneSelect?.value || S.SESSIONE_ID || 0);
+      if (targetSessioneId <= 0) {
+        addLog({ ok: false, title: 'impostore-toggle', message: 'Sessione non valida', data: {} });
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('sessione_id', String(targetSessioneId));
+      formData.append('enabled', S.impostoreEnabled ? '0' : '1');
+
+      try {
+        const res = await fetch(`${S.API_BASE}/admin/impostore-toggle/0`, {
+          method: 'POST',
+          headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
+          body: formData,
+        });
+
+        const data = await res.json();
+        addLog({
+          ok: !!data.success,
+          title: 'impostore-toggle',
+          message: data.success
+            ? `IMPOSTORE ${data.enabled ? 'attivato' : 'disattivato'} per la domanda corrente`
+            : (data.error || 'Operazione fallita'),
+          data,
+        });
+
+        if (data.success) {
+          S.impostoreEnabled = !!data.enabled;
+          await Admin.actions.aggiornaStato();
+          await Admin.actions.aggiornaDomandaCorrenteMeta();
+        }
+      } catch (e) {
+        addLog({
+          ok: false,
+          title: 'impostore-toggle',
+          message: 'Errore rete durante toggle IMPOSTORE',
+          data: { error: String(e?.message || e) },
+        });
+      }
+    },
+
     async caricaDomandeSessione(sessioneId) {
       if (!D.domandeSessioneList) return;
       if (D.domandaEditorWrapper && D.domandaEditorWrapper.parentElement === D.domandeSessioneList) {

@@ -63,6 +63,7 @@
       if (D.domandaNumero) D.domandaNumero.textContent = String(sessione.domanda_corrente);
       if (D.statoDiv) D.statoDiv.textContent = 'Stato: ' + sessione.stato;
       if (D.conclusaDiv) D.conclusaDiv.style.display = (sessione.stato === 'conclusa') ? 'block' : 'none';
+      S.impostoreEnabled = !!sessione.impostore_enabled;
 
       Admin.ui.setButton(D.btnPuntata, sessione.stato === 'attesa' || sessione.stato === 'risultati');
       Admin.ui.setButton(D.btnDomanda, sessione.stato === 'puntata');
@@ -76,6 +77,19 @@
       Admin.ui.setButton(D.btnMedia, true);
       Admin.ui.setButton(D.btnSettings, true);
       Admin.ui.setButton(D.btnQuizConfigV2, true);
+
+      if (D.btnImpostoreToggle) {
+        const eligible = !!sessione.impostore_eligible;
+        const locked = !!sessione.impostore_locked;
+        const enabled = !!sessione.impostore_enabled;
+        D.btnImpostoreToggle.textContent = enabled ? 'IMPOSTORE ON' : 'IMPOSTORE OFF';
+        D.btnImpostoreToggle.disabled = !eligible || locked;
+        D.btnImpostoreToggle.classList.toggle('enabled', enabled && eligible && !locked);
+        D.btnImpostoreToggle.classList.toggle('disabled', !enabled || !eligible || locked);
+        D.btnImpostoreToggle.title = !eligible
+          ? 'Non disponibile per SARABANDA'
+          : (locked ? 'Modificabile solo prima dello stato domanda' : 'Applica IMPOSTORE alla domanda corrente');
+      }
 
       Admin.actions.aggiornaPartecipanti();
       Admin.ui.aggiornaTimer(sessione);
