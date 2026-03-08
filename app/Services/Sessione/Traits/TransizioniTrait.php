@@ -80,7 +80,6 @@ trait TransizioniTrait
         $this->sessione['inizio_domanda'] = $timestamp;
         $this->sessione['mostra_corretta_fino'] = null;
 
-        $this->svuotaPuntateLive();
     }
 
     public function chiudiDomanda(): void
@@ -94,7 +93,9 @@ trait TransizioniTrait
         }
 
         $partecipazioneModel = new Partecipazione();
+        $partecipazioneModel->registraAssenzeRisposta($this->sessioneId, (int) ($this->domandaCorrenteId() ?? 0));
         $partecipazioneModel->ripristinaCapitaleEliminatiFineFase($this->sessioneId);
+        $this->svuotaPuntateLive();
         $this->resetRevealCorretta();
         $this->aggiornaStato('risultati');
     }

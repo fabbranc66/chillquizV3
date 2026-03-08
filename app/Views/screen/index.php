@@ -2,7 +2,7 @@
  * FILE: app/Views/screen/index.php
  * RUOLO: Layout pagina Schermo, compone moduli screen/classifica e carica bootstrap JS screen.
  * MODULI INCLUSI: modules/screen/* e modules/classifica/live_screen.php.
- * JS UTILIZZATO: public/assets/js/screen.js
+ * JS UTILIZZATO: public/assets/js/screen/*.js
  */
 
 $httpHost = (string) ($_SERVER['HTTP_HOST'] ?? '');
@@ -107,7 +107,12 @@ window.SCREEN_BOOTSTRAP = {
 };
 </script>
 
-<script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/bootstrap.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/api.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/state.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/risultati.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/domanda.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/polling.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 
 </body>
 </html>

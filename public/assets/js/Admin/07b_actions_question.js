@@ -332,6 +332,7 @@
       D.domandeSessioneList.innerHTML = domande.map((domanda) => {
         const posizione = Number(domanda.posizione || 0);
         const id = Number(domanda.domanda_id || 0);
+        const isCurrent = posizione > 0 && posizione === Number(S.currentSessionState?.domanda_corrente || 0);
         const codice = escapeHtml(String(domanda.codice_domanda || '-'));
         const testo = escapeHtml(String(domanda.testo || ''));
         const tipo = escapeHtml(String(domanda.tipo_domanda || 'CLASSIC'));
@@ -345,9 +346,10 @@
 
         return `<div
           data-edit-domanda-id="${id}"
+          data-domanda-posizione="${posizione}"
           role="button"
           tabindex="0"
-          class="qa-item"
+          class="qa-item${isCurrent ? ' qa-item-current' : ''}"
         >
           ${thumbHtml}
           <div class="qa-item-content">
@@ -372,6 +374,8 @@
           }
         };
       });
+
+      Support.syncCurrentQuestionHighlight();
     },
 
     async cercaImmaginiSessioneCorrente() {

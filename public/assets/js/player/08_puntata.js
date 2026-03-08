@@ -3,6 +3,7 @@
   const Player = window.Player;
   const S = Player.state;
   const D = Player.dom;
+  const Alert = Player.uiAlert;
   const STEP = 250;
 
   function capitaleAttuale() {
@@ -32,7 +33,11 @@
     const importo = Number(importoRaw);
 
     if (!importo || importo <= 0) {
-      alert('Inserisci importo valido');
+      Alert.show({
+        title: 'Puntata non valida',
+        message: 'Inserisci un importo valido.',
+        tone: 'warn',
+      });
       return;
     }
 
@@ -51,11 +56,23 @@
       const data = await response.json();
 
       if (!data.success) {
-        alert(data.error || 'Errore puntata');
+        Alert.show({
+          title: 'Puntata rifiutata',
+          message: data.error || 'Errore puntata.',
+          tone: 'error',
+        });
         S.puntataInviata = false;
+        return;
       }
+
+      Alert.hide();
     } catch (err) {
       console.error(err);
+      Alert.show({
+        title: 'Errore di rete',
+        message: 'Impossibile inviare la puntata.',
+        tone: 'error',
+      });
       S.puntataInviata = false;
     }
   }

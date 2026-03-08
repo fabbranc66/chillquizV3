@@ -4,6 +4,7 @@
   const S = Player.state;
   const D = Player.dom;
   const { isDomandaAttiva } = Player.utils;
+  const Alert = Player.uiAlert;
 
   const PUBLIC_BASE = String(S.PUBLIC_BASE_URL || '/');
   function resolveMediaUrl(path) {
@@ -318,7 +319,7 @@
     D.domandaTesto.innerText = (isSarabandaIntro || isMemeMode || isImpostoreMasked) ? '' : (domanda.testo || '');
     if (D.domandaStatusMessage) {
       if (isMemeMode) {
-        D.domandaStatusMessage.innerText = String(domanda.meme_player_notice || 'Modalita MEME: premi A/B/C/D mentre le associazioni ruotano.');
+        D.domandaStatusMessage.innerText = String(domanda.meme_player_notice || 'Modalita\' MEME: premi A/B/C/D mentre le associazioni ruotano.');
         D.domandaStatusMessage.classList.remove('hidden');
         D.domandaStatusMessage.classList.add('is-meme');
         D.domandaStatusMessage.classList.remove('is-impostore');
@@ -328,7 +329,7 @@
         D.domandaStatusMessage.classList.add('is-impostore');
         D.domandaStatusMessage.classList.remove('is-meme');
       } else if (isImpostore) {
-        D.domandaStatusMessage.innerText = 'Sei l\'impostore, ma in questa vista la domanda e mascherata.';
+        D.domandaStatusMessage.innerText = 'Sei l\'impostore, ma in questa vista la domanda e\' mascherata.';
         D.domandaStatusMessage.classList.remove('hidden');
         D.domandaStatusMessage.classList.add('is-impostore');
         D.domandaStatusMessage.classList.remove('is-meme');
@@ -442,14 +443,24 @@
       const data = await response.json();
 
       if (!data.success) {
-        alert(data.error || 'Errore invio risposta');
+        Alert.show({
+          title: 'Risposta non inviata',
+          message: data.error || 'Errore invio risposta.',
+          tone: 'error',
+        });
         S.rispostaInviata = false;
         return;
       }
 
+      Alert.hide();
       Player.classifica.renderRisultatoPersonaleImmediato(data.risultato);
     } catch (err) {
       console.error(err);
+      Alert.show({
+        title: 'Errore di rete',
+        message: 'Impossibile inviare la risposta.',
+        tone: 'error',
+      });
       S.rispostaInviata = false;
     }
   }

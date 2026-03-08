@@ -1,103 +1,143 @@
-// public/assets/js/screen/state.js
+/* public/assets/js/screen/state.js */
 (function () {
   window.ScreenApp = window.ScreenApp || {};
   const ScreenApp = window.ScreenApp;
+  const S = ScreenApp.store;
 
-  let mediaAttiva = null;
-
-  function warnMissing(ids) {
-    const missing = ids.filter((id) => !document.getElementById(id));
-    if (missing.length) console.warn('[screen/state] DOM missing:', missing);
+  function isDomandaState() {
+    return String(S.currentState || '') === 'domanda';
   }
 
-  function getStateMeta(state) {
-    if (state === 'risultati') return { message: 'Risultati del round' };
-    if (state === 'conclusa' || state === 'fine') return { message: 'Quiz terminato' };
-    if (state === 'domanda') return { message: 'Domanda in corso...' };
-    return { message: 'In attesa della prossima domanda...' };
+  function canUseAudioPreview() {
+    return isDomandaState() && Number(S.sessioneId || 0) > 0;
   }
 
-  function showOnly(which) {
-    warnMissing(['screen-placeholder', 'screen-domanda', 'screen-risultati']);
-
-    const ph = document.getElementById('screen-placeholder');
-    const dm = document.getElementById('screen-domanda');
-    const rs = document.getElementById('screen-risultati');
-
-    if (!ph || !dm || !rs) return;
-
-    ph.classList.toggle('hidden', which !== 'placeholder');
-    dm.classList.toggle('hidden', which !== 'domanda');
-    rs.classList.toggle('hidden', which !== 'risultati');
-  }
-
-  function renderPlaceholder(state) {
-    const img = document.getElementById('state-image');
-    const msg = document.getElementById('placeholder-message');
-
-    if (!msg) {
-      console.warn('[screen/state] DOM missing: placeholder-message');
-      return;
-    }
-
-    const meta = getStateMeta(state);
-    msg.innerText = meta.message;
-
-    // se abbiamo media attiva, mettiamo l'immagine
-    if (img) {
-      if (mediaAttiva && mediaAttiva.file_path) {
-        const basePublic = ScreenApp.api?.basePublicUrl || '/';
-        const filePath = String(mediaAttiva.file_path || '');
-        const clean = filePath.startsWith('/') ? filePath.substring(1) : filePath;
-        img.src = window.location.origin + basePublic + clean;
-        img.alt = mediaAttiva.titolo || meta.message;
-      } else {
-        img.removeAttribute('src');
-        img.alt = meta.message;
-      }
-    }
-  }
-
-  function setupQrJoin() {
-    const sessioneId = ScreenApp.api?.sessioneId || 0;
-    if (!sessioneId) return;
+  function setupSessionQr() {
+    if (!S.sessioneId) return;
 
     const qrImg = document.getElementById('sessione-qr');
     if (!qrImg) return;
 
-    // join URL player (come avevi prima)
-    const basePublic = ScreenApp.api?.basePublicUrl || '/';
-    const joinUrl = `${window.location.origin}${basePublic}index.php?url=player`;
-
-    qrImg.src =
-      `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=` +
-      encodeURIComponent(joinUrl);
+    const protocol = window.location.protocol || 'http:';
+    const joinUrl = `${protocol}//${ScreenApp.api.publicHost}${ScreenApp.api.publicBaseUrl}index.php?url=player`;
+    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(joinUrl)}`;
   }
 
-  function setMedia(media) {
-    mediaAttiva = media || null;
+  function resetStageTimer() {
+    if (S.timerTick) {
+      clearInterval(S.timerTick);
+      S.timerTick = null;
+    }
+
+    const indicator = document.getElementById('stage-timer-indicator');
+    const label = document.getElementById('stage-timer-label');
+
+    if (indicator) indicator.style.setProperty('--progress', '0deg');
+    if (label) label.innerText = '0s';
   }
 
-  function onState(state) {
-    if (state === 'domanda') {
-      showOnly('domanda');
+  function renderStageTimer(sessione) {
+    const indicator = document.getElementById('stage-timer-indicator');
+    const label = document.getElementById('stage-timer-label');
+    if (!indicator || !label) return;
+
+    const max = Number(sessione?.timer_max || 0);
+    const start = Number(sessione?.timer_start || 0);
+    const stato = String(sessione?.stato || '');
+
+    if (stato !== 'domanda' || max <= 0 || start <= 0) {
+      resetStageTimer();
       return;
     }
 
-    if (state === 'risultati' || state === 'conclusa') {
-      showOnly('risultati');
+    if (S.timerTick) {
+      clearInterval(S.timerTick);
+      S.timerTick = null;
+    }
+
+    const tick = () => {
+      const elapsed = Math.max(0, (Date.now() / 1000) - start);
+      const remaining = Math.max(0, max - elapsed);
+      const visibleRemaining = Math.max(0, Math.ceil(remaining));
+      const pct = max > 0 ? (remaining / max) : 0;
+      const deg = Math.max(0, Math.min(360, pct * 360));
+
+      indicator.style.setProperty('--progress', `${deg}deg`);
+      label.innerText = `${visibleRemaining}s`;
+
+      if (remaining <= 0 && S.timerTick) {
+        clearInterval(S.timerTick);
+        S.timerTick = null;
+      }
+    };
+
+    tick();
+    S.timerTick = setInterval(tick, 250);
+  }
+
+  function getStateMeta(state) {
+    if (state === 'classifica') return { message: 'Classifica in aggiornamento...' };
+    if (state === 'risultati') return { message: 'Risultati del round' };
+    if (state === 'conclusa' || state === 'fine') return { message: 'Quiz terminato' };
+    return { message: 'In attesa della prossima domanda...' };
+  }
+
+  function renderPlaceholder(state) {
+    if (state === 'risultati') return;
+
+    const img = document.getElementById('state-image');
+    const message = document.getElementById('placeholder-message');
+    if (!img || !message) return;
+
+    const meta = getStateMeta(state);
+    message.innerText = meta.message;
+
+    if (S.mediaAttiva && S.mediaAttiva.file_path) {
+      const mediaPath = String(S.mediaAttiva.file_path || '').startsWith('/')
+        ? String(S.mediaAttiva.file_path || '').substring(1)
+        : String(S.mediaAttiva.file_path || '');
+      img.src = `${window.location.origin}${ScreenApp.api.publicBaseUrl}${mediaPath}`;
+      img.alt = S.mediaAttiva.titolo || `Immagine stato: ${meta.message}`;
       return;
     }
 
-    // attesa / puntata / ecc
-    showOnly('placeholder');
-    renderPlaceholder(state);
+    img.removeAttribute('src');
+    img.alt = `Immagine stato: ${meta.message}`;
+  }
+
+  function showOnly(which) {
+    const placeholder = document.getElementById('screen-placeholder');
+    const domanda = document.getElementById('screen-domanda');
+    const risultati = document.getElementById('screen-risultati');
+    if (!placeholder || !domanda || !risultati) return;
+
+    placeholder.classList.toggle('hidden', which !== 'placeholder');
+    domanda.classList.toggle('hidden', which !== 'domanda');
+    risultati.classList.toggle('hidden', which !== 'risultati');
+  }
+
+  function showRisultatiView() {
+    showOnly('risultati');
+    ScreenApp.domanda?.clearQuestionTypeBadge?.();
+    const stateImage = document.getElementById('state-image');
+    if (stateImage) stateImage.removeAttribute('src');
+  }
+
+  function hideRisultatiView() {
+    const risultati = document.getElementById('screen-risultati');
+    if (risultati) risultati.classList.add('hidden');
   }
 
   ScreenApp.state = {
-    onState,
-    setupQrJoin,
-    setMedia,
+    isDomandaState,
+    canUseAudioPreview,
+    setupSessionQr,
+    resetStageTimer,
+    renderStageTimer,
+    getStateMeta,
     renderPlaceholder,
+    showOnly,
+    showRisultatiView,
+    hideRisultatiView,
   };
 })();

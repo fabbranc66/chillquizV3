@@ -1,58 +1,41 @@
-// public/assets/js/screen/api.js
+/* public/assets/js/screen/api.js */
 (function () {
   window.ScreenApp = window.ScreenApp || {};
   const ScreenApp = window.ScreenApp;
+  const S = ScreenApp.store;
 
-  function getBoot() {
-    return window.SCREEN_BOOTSTRAP || {};
-  }
-
-  function getSessioneId() {
-    const id = Number(getBoot().sessioneId || 0);
-    return Number.isFinite(id) ? id : 0;
-  }
-
-  function getBasePublicUrl() {
-    const boot = getBoot();
-    const fromBoot = String(boot.basePublicUrl || '').trim();
-    if (fromBoot) return fromBoot; // es: "/public/"
-
-    // fallback: deriva da pathname
-    // /public/index.php -> /public/
-    const path = window.location.pathname;
-    return path.replace(/index\.php$/, '');
-  }
-
-  function getApiBase() {
-    const boot = getBoot();
-    const fromBoot = String(boot.apiBase || '').trim();
-    if (fromBoot) return fromBoot; // es: "/public/index.php?url=api"
-
-    return getBasePublicUrl() + 'index.php?url=api';
+  function extractSessioneIdFromUrl() {
+    const raw = new URLSearchParams(window.location.search).get('url') || '';
+    if (!raw.startsWith('screen/')) return 0;
+    const id = parseInt(raw.split('/')[1], 10);
+    return Number.isNaN(id) || id <= 0 ? 0 : id;
   }
 
   async function fetchJson(url, options = {}) {
-    const r = await fetch(url, { cache: 'no-store', ...options });
-    const txt = await r.text();
+    const response = await fetch(url, { cache: 'no-store', ...options });
+    const text = await response.text();
 
-    // guard HTML
-    if (/^\s*</.test(txt)) {
-      throw new Error('Risposta HTML (non JSON) da: ' + url);
+    if (/^\s*</.test(text)) {
+      throw new Error(`Risposta HTML (non JSON) da: ${url}`);
     }
 
-    return JSON.parse(txt);
+    return JSON.parse(text);
   }
 
   ScreenApp.api = {
+    extractSessioneIdFromUrl,
+    fetchJson,
     get sessioneId() {
-      return getSessioneId();
+      return Number(S.sessioneId || 0);
     },
-    get basePublicUrl() {
-      return getBasePublicUrl();
+    get publicBaseUrl() {
+      return String(S.publicBaseUrl || '/');
     },
     get apiBase() {
-      return getApiBase();
+      return String(S.apiBase || '');
     },
-    fetchJson,
+    get publicHost() {
+      return String(S.publicHost || window.location.host || '');
+    },
   };
 })();

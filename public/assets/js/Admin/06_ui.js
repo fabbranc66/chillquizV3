@@ -118,6 +118,8 @@
           : (locked ? 'Modificabile solo prima dello stato domanda' : 'Applica MEME alla domanda corrente');
       }
 
+      Admin.actionsSupport.syncCurrentQuestionHighlight();
+
       Admin.actions.aggiornaPartecipanti();
       Admin.ui.aggiornaTimer(sessione);
     }

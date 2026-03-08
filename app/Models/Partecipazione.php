@@ -274,6 +274,17 @@ class Partecipazione
             'data' => time(),
         ]);
 
+        $deleteLive = $this->pdo->prepare(
+            "DELETE FROM puntate_live
+             WHERE sessione_id = :sessione_id
+               AND partecipazione_id = :partecipazione_id"
+        );
+
+        $deleteLive->execute([
+            'sessione_id' => $sessioneId,
+            'partecipazione_id' => $partecipazioneId,
+        ]);
+
         unset($_SESSION['puntate'][$partecipazioneId]);
 
         $aggiornata = $this->trova($partecipazioneId);
@@ -301,6 +312,116 @@ class Partecipazione
             'risposta_data_testo' => $rispostaDataTesto,
             'risposta_corretta_testo' => $rispostaCorrettaTesto,
         ];
+    }
+
+    public function registraAssenzeRisposta(int $sessioneId, int $domandaId): int
+    {
+        if ($sessioneId <= 0 || $domandaId <= 0) {
+            return 0;
+        }
+
+        $this->ensurePuntateLiveTable();
+
+        $stmt = $this->pdo->prepare(
+            "SELECT pl.partecipazione_id, pl.importo
+             FROM puntate_live pl
+             LEFT JOIN risposte r
+               ON r.partecipazione_id = pl.partecipazione_id
+              AND r.domanda_id = :domanda_id
+             WHERE pl.sessione_id = :sessione_id
+               AND pl.importo > 0
+               AND r.id IS NULL"
+        );
+
+        $stmt->execute([
+            'sessione_id' => $sessioneId,
+            'domanda_id' => $domandaId,
+        ]);
+
+        $rows = $stmt->fetchAll();
+        if (!$rows) {
+            return 0;
+        }
+
+        $durataStmt = $this->pdo->query(
+            "SELECT valore
+             FROM configurazioni_sistema
+             WHERE chiave = 'durata_domanda'
+             LIMIT 1"
+        );
+
+        $durataRow = $durataStmt ? $durataStmt->fetch() : null;
+        $tempoRispostaAssenza = max(0, (float) ($durataRow['valore'] ?? 0));
+
+        $processed = 0;
+        $started = false;
+
+        try {
+            if (!$this->pdo->inTransaction()) {
+                $this->pdo->beginTransaction();
+                $started = true;
+            }
+
+            $updateCapitale = $this->pdo->prepare(
+                "UPDATE partecipazioni
+                 SET capitale_attuale = capitale_attuale - :puntata
+                 WHERE id = :partecipazione_id"
+            );
+
+            $insertRisposta = $this->pdo->prepare(
+                "INSERT INTO risposte
+                 (partecipazione_id, domanda_id, puntata, corretta, punti, tempo_risposta, data_risposta)
+                 VALUES
+                 (:partecipazione_id, :domanda_id, :puntata, 0, :punti, :tempo_risposta, :data)"
+            );
+
+            $deleteLive = $this->pdo->prepare(
+                "DELETE FROM puntate_live
+                 WHERE sessione_id = :sessione_id
+                   AND partecipazione_id = :partecipazione_id"
+            );
+
+            foreach ($rows as $row) {
+                $partecipazioneId = (int) ($row['partecipazione_id'] ?? 0);
+                $puntata = (int) ($row['importo'] ?? 0);
+                if ($partecipazioneId <= 0 || $puntata <= 0) {
+                    continue;
+                }
+
+                $updateCapitale->execute([
+                    'puntata' => $puntata,
+                    'partecipazione_id' => $partecipazioneId,
+                ]);
+
+                $insertRisposta->execute([
+                    'partecipazione_id' => $partecipazioneId,
+                    'domanda_id' => $domandaId,
+                    'puntata' => $puntata,
+                    'punti' => -$puntata,
+                    'tempo_risposta' => $tempoRispostaAssenza,
+                    'data' => time(),
+                ]);
+
+                $deleteLive->execute([
+                    'sessione_id' => $sessioneId,
+                    'partecipazione_id' => $partecipazioneId,
+                ]);
+
+                unset($_SESSION['puntate'][$partecipazioneId]);
+                $processed++;
+            }
+
+            if ($started) {
+                $this->pdo->commit();
+            }
+        } catch (\Throwable $e) {
+            if ($started && $this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            throw $e;
+        }
+
+        return $processed;
     }
 
     public function ripristinaCapitaleEliminatiFineFase(int $sessioneId): void
@@ -369,5 +490,19 @@ class Partecipazione
         $stmt->execute(['sessione_id' => $sessioneId]);
 
         return $stmt->fetchAll();
+    }
+
+    private function ensurePuntateLiveTable(): void
+    {
+        $this->pdo->exec("
+            CREATE TABLE IF NOT EXISTS puntate_live (
+                sessione_id INT NOT NULL,
+                partecipazione_id INT NOT NULL,
+                importo INT NOT NULL,
+                aggiornato_il INT NOT NULL,
+                PRIMARY KEY (sessione_id, partecipazione_id),
+                KEY idx_sessione (sessione_id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+        ");
     }
 }

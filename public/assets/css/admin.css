@@ -746,6 +746,28 @@ textarea {
     outline: none;
 }
 
+.qa-item.qa-item-current {
+    border-color: rgba(76, 217, 55, .92);
+    background:
+        linear-gradient(135deg, rgba(76, 217, 55, .16), rgba(76, 217, 55, .06)),
+        linear-gradient(135deg, rgba(23,23,23,.96), rgba(16,16,16,.96));
+    box-shadow: 0 0 0 1px rgba(76, 217, 55, .24), 0 12px 24px rgba(0,0,0,.30);
+}
+
+.qa-item.qa-item-current .qa-item-main::before {
+    content: 'IN CORSO';
+    display: inline-block;
+    margin-right: 8px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    background: #4cd137;
+    color: #111;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .04em;
+    vertical-align: middle;
+}
+
 .qa-item-thumb-wrap {
     width: 36px;
     height: 36px;

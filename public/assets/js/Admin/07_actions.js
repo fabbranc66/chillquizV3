@@ -471,6 +471,15 @@
     if (D.domandaEditorId) D.domandaEditorId.value = '0';
   }
 
+  function syncCurrentQuestionHighlight() {
+    if (!D.domandeSessioneList) return;
+    const currentPosizione = Number(S.currentSessionState?.domanda_corrente || 0);
+    D.domandeSessioneList.querySelectorAll('[data-domanda-posizione]').forEach((node) => {
+      const posizione = Number(node.getAttribute('data-domanda-posizione') || 0);
+      node.classList.toggle('qa-item-current', currentPosizione > 0 && posizione === currentPosizione);
+    });
+  }
+
   Admin.actions = Admin.actions || {};
   Admin.actionsSupport = {
     TYPES_WITH_MEDIA,
@@ -513,6 +522,7 @@
     popolaFormSessione,
     fillDomandaEditorFromData,
     closeDomandaEditor,
+    syncCurrentQuestionHighlight,
   };
 
   Admin.actions.syncDomandaMediaPreview = syncDomandaMediaPreview;

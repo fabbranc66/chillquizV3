@@ -9,5 +9,6 @@
     if (D.btnPuntataInc) D.btnPuntataInc.addEventListener('click', Player.puntata.increasePuntata);
     if (D.btnPuntataDec) D.btnPuntataDec.addEventListener('click', Player.puntata.decreasePuntata);
     if (D.btnPuntataAllIn) D.btnPuntataAllIn.addEventListener('click', Player.puntata.setAllIn);
+    if (D.uiAlertClose) D.uiAlertClose.addEventListener('click', Player.uiAlert.hide);
   });
 })();

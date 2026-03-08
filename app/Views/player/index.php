@@ -29,6 +29,14 @@
 
     </div>
 
+    <div id="player-ui-alert" class="player-ui-alert hidden" aria-live="assertive" aria-atomic="true">
+        <div id="player-ui-alert-card" class="player-ui-alert-card player-ui-alert-info">
+            <div id="player-ui-alert-title" class="player-ui-alert-title">Messaggio</div>
+            <div id="player-ui-alert-message" class="player-ui-alert-message"></div>
+            <button id="player-ui-alert-close" type="button" class="player-ui-alert-close">OK</button>
+        </div>
+    </div>
+
 </div>
 
 <script>

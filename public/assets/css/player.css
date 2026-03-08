@@ -131,6 +131,77 @@ body {
     display: none !important;
 }
 
+.player-ui-alert {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(8, 12, 28, 0.58);
+    backdrop-filter: blur(8px);
+}
+
+.player-ui-alert-card {
+    width: min(100%, 420px);
+    border-radius: 22px;
+    padding: 20px 18px 18px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 22px 54px rgba(0, 0, 0, 0.42);
+    border: 2px solid rgba(255, 255, 255, 0.18);
+}
+
+.player-ui-alert-title {
+    font-size: clamp(22px, 6vw, 30px);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 10px;
+}
+
+.player-ui-alert-message {
+    font-size: clamp(15px, 4.4vw, 18px);
+    line-height: 1.35;
+    font-weight: 700;
+    margin-bottom: 16px;
+    overflow-wrap: anywhere;
+}
+
+.player-ui-alert-close {
+    min-width: 132px;
+    min-height: 48px;
+    padding: 12px 18px;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.96);
+    color: #111;
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.player-ui-alert-info {
+    background: linear-gradient(135deg, #1f3cff, #3256ff);
+}
+
+.player-ui-alert-success {
+    background: linear-gradient(135deg, #1f9f4a, #38d96b);
+}
+
+.player-ui-alert-warn {
+    background: linear-gradient(135deg, #ff8a00, #ffbf00);
+    color: #111;
+}
+
+.player-ui-alert-warn .player-ui-alert-close {
+    background: #111;
+    color: #fff;
+}
+
+.player-ui-alert-error {
+    background: linear-gradient(135deg, #d81b60, #ff3b30);
+}
+
 h1 {
     font-size: clamp(28px, 8vw, 40px);
     line-height: 1.1;

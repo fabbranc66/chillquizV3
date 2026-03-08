@@ -29,5 +29,12 @@
     // risultati/classifica
     risultatoPersonale: document.getElementById('risultato-personale'),
     classifica: document.getElementById('classifica'),
+
+    // ui alert
+    uiAlert: document.getElementById('player-ui-alert'),
+    uiAlertCard: document.getElementById('player-ui-alert-card'),
+    uiAlertTitle: document.getElementById('player-ui-alert-title'),
+    uiAlertMessage: document.getElementById('player-ui-alert-message'),
+    uiAlertClose: document.getElementById('player-ui-alert-close'),
   };
 })();
