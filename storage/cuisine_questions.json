@@ -1,0 +1,1102 @@
+[
+    {
+        "testo":  "Quale ingrediente e fondamentale nella carbonara tradizionale romana?",
+        "opzioni":  [
+                        "Guanciale",
+                        "Pancetta affumicata",
+                        "Panna",
+                        "Prosciutto cotto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Carbonara"
+    },
+    {
+        "testo":  "Quale formaggio si usa tradizionalmente nel pesto alla genovese?",
+        "opzioni":  [
+                        "Parmigiano Reggiano",
+                        "Gorgonzola",
+                        "Taleggio",
+                        "Provolone"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pesto"
+    },
+    {
+        "testo":  "Quale cereale e la base del couscous?",
+        "opzioni":  [
+                        "Semola di grano duro",
+                        "Riso",
+                        "Orzo",
+                        "Mais"
+                    ],
+        "corretta":  0,
+        "image_page":  "Couscous"
+    },
+    {
+        "testo":  "Da quale paese proviene il sushi?",
+        "opzioni":  [
+                        "Giappone",
+                        "Cina",
+                        "Corea del Sud",
+                        "Thailandia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sushi"
+    },
+    {
+        "testo":  "Quale ingrediente rende gialla la paella?",
+        "opzioni":  [
+                        "Zafferano",
+                        "Curcuma",
+                        "Paprika",
+                        "Curry"
+                    ],
+        "corretta":  0,
+        "image_page":  "Paella"
+    },
+    {
+        "testo":  "Quale salsa messicana si prepara con avocado schiacciato?",
+        "opzioni":  [
+                        "Guacamole",
+                        "Salsa verde",
+                        "Pico de gallo",
+                        "Mole"
+                    ],
+        "corretta":  0,
+        "image_page":  "Guacamole"
+    },
+    {
+        "testo":  "Quale pasta corta e tipica della cucina romana nella amatriciana?",
+        "opzioni":  [
+                        "Bucatini",
+                        "Farfalle",
+                        "Trofie",
+                        "Orecchiette"
+                    ],
+        "corretta":  0,
+        "image_page":  "Amatriciana_sauce"
+    },
+    {
+        "testo":  "Quale dolce italiano e fatto con savoiardi caffè e mascarpone?",
+        "opzioni":  [
+                        "Tiramisù",
+                        "Zuppa inglese",
+                        "Cannolo",
+                        "Babà"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tiramisu"
+    },
+    {
+        "testo":  "Quale ingrediente principale si usa per fare il tofu?",
+        "opzioni":  [
+                        "Soia",
+                        "Ceci",
+                        "Lenticchie",
+                        "Riso"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tofu"
+    },
+    {
+        "testo":  "Quale taglio di carne si usa tradizionalmente per l osso buco?",
+        "opzioni":  [
+                        "Geretto di vitello",
+                        "Filetto di manzo",
+                        "Arista di maiale",
+                        "Fesa di tacchino"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ossobuco"
+    },
+    {
+        "testo":  "Quale cottura sottovuoto a bassa temperatura e popolare nell alta cucina?",
+        "opzioni":  [
+                        "Sous vide",
+                        "Wok",
+                        "Gratinatura",
+                        "Affumicatura a caldo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sous_vide"
+    },
+    {
+        "testo":  "Quale regione italiana e famosa per la ribollita?",
+        "opzioni":  [
+                        "Toscana",
+                        "Liguria",
+                        "Veneto",
+                        "Calabria"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ribollita"
+    },
+    {
+        "testo":  "Quale ingrediente piccante e tipico del kimchi?",
+        "opzioni":  [
+                        "Peperoncino gochugaru",
+                        "Pepe nero",
+                        "Paprika dolce",
+                        "Senape"
+                    ],
+        "corretta":  0,
+        "image_page":  "Kimchi"
+    },
+    {
+        "testo":  "Quale dolce francese e composto da bignè e crema con caramello?",
+        "opzioni":  [
+                        "Croquembouche",
+                        "Clafoutis",
+                        "Crème brûlée",
+                        "Madeleine"
+                    ],
+        "corretta":  0,
+        "image_page":  "Croquembouche"
+    },
+    {
+        "testo":  "Quale pesce e alla base dell acciuga sott olio?",
+        "opzioni":  [
+                        "Alice",
+                        "Merluzzo",
+                        "Sgombro",
+                        "Tonno"
+                    ],
+        "corretta":  0,
+        "image_page":  "Anchovy"
+    },
+    {
+        "testo":  "Quale piatto indiano ha come pane piatto lievitato cotto nel forno tandoor?",
+        "opzioni":  [
+                        "Naan",
+                        "Chapati",
+                        "Paratha",
+                        "Puri"
+                    ],
+        "corretta":  0,
+        "image_page":  "Naan"
+    },
+    {
+        "testo":  "Quale legume e usato per preparare l hummus?",
+        "opzioni":  [
+                        "Ceci",
+                        "Fagioli cannellini",
+                        "Piselli",
+                        "Lenticchie"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hummus"
+    },
+    {
+        "testo":  "Quale salsa emulsionata francese si prepara con tuorli e burro chiarificato?",
+        "opzioni":  [
+                        "Salsa olandese",
+                        "Besciamella",
+                        "Velouté",
+                        "Bernese fredda"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hollandaise_sauce"
+    },
+    {
+        "testo":  "Quale riso e più usato per il risotto italiano?",
+        "opzioni":  [
+                        "Carnaroli",
+                        "Basmati",
+                        "Jasmine",
+                        "Venere"
+                    ],
+        "corretta":  0,
+        "image_page":  "Risotto"
+    },
+    {
+        "testo":  "Quale dolce siciliano ha una cialda fritta ripiena di ricotta?",
+        "opzioni":  [
+                        "Cannolo",
+                        "Cassata",
+                        "Granita",
+                        "Frutta martorana"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cannoli"
+    },
+    {
+        "testo":  "Quale formaggio greco viene spesso usato nell insalata ellenica?",
+        "opzioni":  [
+                        "Feta",
+                        "Halloumi",
+                        "Ricotta salata",
+                        "Kefalotyri"
+                    ],
+        "corretta":  0,
+        "image_page":  "Feta"
+    },
+    {
+        "testo":  "Quale piatto spagnolo a base di patate e uova e noto come tortilla?",
+        "opzioni":  [
+                        "Tortilla española",
+                        "Patatas bravas",
+                        "Gazpacho",
+                        "Fabada"
+                    ],
+        "corretta":  0,
+        "image_page":  "Spanish_omelette"
+    },
+    {
+        "testo":  "Quale tecnica consiste nel cuocere un alimento immerso nel suo grasso?",
+        "opzioni":  [
+                        "Confit",
+                        "Blanching",
+                        "Poaching",
+                        "Deglassare"
+                    ],
+        "corretta":  0,
+        "image_page":  "Confit"
+    },
+    {
+        "testo":  "Quale ingrediente aromatico è indispensabile nel mojito classico?",
+        "opzioni":  [
+                        "Menta",
+                        "Basilico",
+                        "Rosmarino",
+                        "Salvia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mojito"
+    },
+    {
+        "testo":  "Quale zuppa fredda spagnola e a base di pomodoro?",
+        "opzioni":  [
+                        "Gazpacho",
+                        "Salmorejo",
+                        "Ajoblanco",
+                        "Caldo verde"
+                    ],
+        "corretta":  0,
+        "image_page":  "Gazpacho"
+    },
+    {
+        "testo":  "Quale pasta ripiena emiliana e tradizionalmente servita in brodo?",
+        "opzioni":  [
+                        "Tortellini",
+                        "Ravioli",
+                        "Cappelletti dolci",
+                        "Agnolotti"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tortellini"
+    },
+    {
+        "testo":  "Quale ingrediente si usa per addensare la polenta?",
+        "opzioni":  [
+                        "Farina di mais",
+                        "Semola di grano",
+                        "Farina di riso",
+                        "Fecola di patate"
+                    ],
+        "corretta":  0,
+        "image_page":  "Polenta"
+    },
+    {
+        "testo":  "Quale preparazione francese indica il fondo di cottura ristretto con vino?",
+        "opzioni":  [
+                        "Deglassatura",
+                        "Fermentazione",
+                        "Macerazione",
+                        "Lievitazione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Deglazing_(cooking)"
+    },
+    {
+        "testo":  "Quale ingrediente principale ha la bagna cauda piemontese?",
+        "opzioni":  [
+                        "Acciughe",
+                        "Tonno",
+                        "Olive",
+                        "Capperi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Bagna_càuda"
+    },
+    {
+        "testo":  "Quale dessert giapponese consiste in palline di riso glutinoso?",
+        "opzioni":  [
+                        "Mochi",
+                        "Dorayaki",
+                        "Taiyaki",
+                        "Anmitsu"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mochi"
+    },
+    {
+        "testo":  "Quale spezia e tipica del curry giallo thai insieme al latte di cocco?",
+        "opzioni":  [
+                        "Curcuma",
+                        "Zafferano",
+                        "Cumino nero",
+                        "Anice stellato"
+                    ],
+        "corretta":  0,
+        "image_page":  "Thai_curry"
+    },
+    {
+        "testo":  "Quale formaggio filante è più usato sulla pizza napoletana?",
+        "opzioni":  [
+                        "Fior di latte",
+                        "Taleggio",
+                        "Asiago",
+                        "Pecorino romano"
+                    ],
+        "corretta":  0,
+        "image_page":  "Neapolitan_pizza"
+    },
+    {
+        "testo":  "Quale salsa ligure si prepara con basilico pinoli aglio olio e formaggio?",
+        "opzioni":  [
+                        "Pesto",
+                        "Tapenade",
+                        "Salsa verde",
+                        "Aioli"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pesto"
+    },
+    {
+        "testo":  "Quale dolce viennese e famoso per cioccolato e confettura di albicocche?",
+        "opzioni":  [
+                        "Sachertorte",
+                        "Linzer torte",
+                        "Kaiserschmarrn",
+                        "Strudel"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sachertorte"
+    },
+    {
+        "testo":  "Quale carne si usa tipicamente per il pulled pork?",
+        "opzioni":  [
+                        "Spalla di maiale",
+                        "Petto di pollo",
+                        "Agnello",
+                        "Vitello"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pulled_pork"
+    },
+    {
+        "testo":  "Quale piatto mediorientale e formato da polpette di ceci fritte?",
+        "opzioni":  [
+                        "Falafel",
+                        "Shawarma",
+                        "Kofta",
+                        "Tabbouleh"
+                    ],
+        "corretta":  0,
+        "image_page":  "Falafel"
+    },
+    {
+        "testo":  "Quale frutto secco è alla base del marzapane?",
+        "opzioni":  [
+                        "Mandorla",
+                        "Nocciola",
+                        "Pistacchio",
+                        "Noce"
+                    ],
+        "corretta":  0,
+        "image_page":  "Marzipan"
+    },
+    {
+        "testo":  "Quale minestra italiana ha fagioli e pasta come base comune?",
+        "opzioni":  [
+                        "Pasta e fagioli",
+                        "Minestrone",
+                        "Stracciatella",
+                        "Passatelli"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pasta_e_fagioli"
+    },
+    {
+        "testo":  "Quale pane indiano non lievitato viene cotto su piastra?",
+        "opzioni":  [
+                        "Chapati",
+                        "Naan",
+                        "Pita",
+                        "Focaccia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Chapati"
+    },
+    {
+        "testo":  "Quale ingrediente fermentato giapponese si usa per la zuppa miso?",
+        "opzioni":  [
+                        "Miso",
+                        "Wasabi",
+                        "Mirin",
+                        "Dashi secco"
+                    ],
+        "corretta":  0,
+        "image_page":  "Miso"
+    },
+    {
+        "testo":  "Quale tecnica di pasticceria monta tuorli e zucchero a caldo?",
+        "opzioni":  [
+                        "Pâte à bombe",
+                        "Ganache",
+                        "Meringa italiana",
+                        "Sabayon freddo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pâte_à_bombe"
+    },
+    {
+        "testo":  "Quale pesce e alla base del baccalà mantecato veneto?",
+        "opzioni":  [
+                        "Merluzzo",
+                        "Tonno",
+                        "Salmone",
+                        "Trota"
+                    ],
+        "corretta":  0,
+        "image_page":  "Baccalà_mantecato"
+    },
+    {
+        "testo":  "Quale piatto coreano si cuoce spesso su piastra al tavolo?",
+        "opzioni":  [
+                        "Bulgogi",
+                        "Japchae",
+                        "Bibimbap",
+                        "Tteokbokki"
+                    ],
+        "corretta":  0,
+        "image_page":  "Bulgogi"
+    },
+    {
+        "testo":  "Quale ingrediente rende croccante la tempura giapponese?",
+        "opzioni":  [
+                        "Pastella leggera ghiacciata",
+                        "Pangrattato",
+                        "Farina di ceci",
+                        "Semolino"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tempura"
+    },
+    {
+        "testo":  "Quale regione italiana e famosa per l arancino o arancina?",
+        "opzioni":  [
+                        "Sicilia",
+                        "Campania",
+                        "Puglia",
+                        "Abruzzo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Arancini"
+    },
+    {
+        "testo":  "Quale salsa francese deriva dalla maionese con cetriolini e capperi?",
+        "opzioni":  [
+                        "Remoulade",
+                        "Béarnaise",
+                        "Velouté",
+                        "Allemande"
+                    ],
+        "corretta":  0,
+        "image_page":  "Rémoulade"
+    },
+    {
+        "testo":  "Quale dolce americano e tradizionalmente a base di cream cheese?",
+        "opzioni":  [
+                        "Cheesecake",
+                        "Brownie",
+                        "Apple pie",
+                        "Cupcake"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cheesecake"
+    },
+    {
+        "testo":  "Quale ingrediente principale ha il baba ganoush?",
+        "opzioni":  [
+                        "Melanzana",
+                        "Ceci",
+                        "Peperone",
+                        "Zucchina"
+                    ],
+        "corretta":  0,
+        "image_page":  "Baba_ghanoush"
+    },
+    {
+        "testo":  "Quale pasta sarda e piccola come chicchi di grano?",
+        "opzioni":  [
+                        "Fregola",
+                        "Malloreddus",
+                        "Trofie",
+                        "Pici"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fregula"
+    },
+    {
+        "testo":  "Quale salsa emiliana si serve con il bollito misto ed e verde?",
+        "opzioni":  [
+                        "Salsa verde",
+                        "Mostarda",
+                        "Cren",
+                        "Bagnetto rosso"
+                    ],
+        "corretta":  0,
+        "image_page":  "Salsa_verde"
+    },
+    {
+        "testo":  "Quale preparazione francese e una crema di panna montata zuccherata e vanigliata?",
+        "opzioni":  [
+                        "Chantilly",
+                        "Diplomatica",
+                        "Pasticcera",
+                        "Ganache"
+                    ],
+        "corretta":  0,
+        "image_page":  "Chantilly_cream"
+    },
+    {
+        "testo":  "Quale prodotto ittico giapponese consiste in uova di pesce volante?",
+        "opzioni":  [
+                        "Tobiko",
+                        "Uni",
+                        "Katsuobushi",
+                        "Natto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tobiko"
+    },
+    {
+        "testo":  "Quale ingrediente e essenziale nella focaccia barese oltre alla farina?",
+        "opzioni":  [
+                        "Patata nell impasto",
+                        "Latte",
+                        "Burro",
+                        "Uova"
+                    ],
+        "corretta":  0,
+        "image_page":  "Focaccia_barese"
+    },
+    {
+        "testo":  "Quale piatto toscano usa pane raffermo pomodoro cetriolo e cipolla?",
+        "opzioni":  [
+                        "Panzanella",
+                        "Ribollita",
+                        "Acquacotta",
+                        "Cacciucco"
+                    ],
+        "corretta":  0,
+        "image_page":  "Panzanella"
+    },
+    {
+        "testo":  "Quale tecnica consiste nel cuocere rapidamente in padella molto calda mescolando continuamente?",
+        "opzioni":  [
+                        "Saltare in padella",
+                        "Brasare",
+                        "Stufare",
+                        "Lessare"
+                    ],
+        "corretta":  0,
+        "image_page":  "Stir_frying"
+    },
+    {
+        "testo":  "Quale piatto peruviano ha pesce marinato negli agrumi?",
+        "opzioni":  [
+                        "Ceviche",
+                        "Lomo saltado",
+                        "Aji de gallina",
+                        "Causa limeña"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ceviche"
+    },
+    {
+        "testo":  "Quale spezia si usa nella miscela berbere etiope?",
+        "opzioni":  [
+                        "Peperoncino",
+                        "Zafferano",
+                        "Finocchietto",
+                        "Vaniglia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Berbere"
+    },
+    {
+        "testo":  "Quale formaggio campano si ottiene da latte di bufala?",
+        "opzioni":  [
+                        "Mozzarella di bufala",
+                        "Scamorza",
+                        "Provola affumicata",
+                        "Caciocavallo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Buffalo_mozzarella"
+    },
+    {
+        "testo":  "Quale dessert francese ha superficie di zucchero caramellato croccante?",
+        "opzioni":  [
+                        "Crème brûlée",
+                        "Mille-feuille",
+                        "Soufflé",
+                        "Profiterole"
+                    ],
+        "corretta":  0,
+        "image_page":  "Crème_brûlée"
+    },
+    {
+        "testo":  "Quale ingrediente si usa per preparare il seitan?",
+        "opzioni":  [
+                        "Glutine di frumento",
+                        "Soia",
+                        "Ceci",
+                        "Mais"
+                    ],
+        "corretta":  0,
+        "image_page":  "Seitan"
+    },
+    {
+        "testo":  "Quale zuppa vietnamita è celebre con noodles e brodo speziato?",
+        "opzioni":  [
+                        "Phở",
+                        "Bún chả",
+                        "Cao lầu",
+                        "Laksa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pho"
+    },
+    {
+        "testo":  "Quale taglio di carne bovina e classico per la fiorentina?",
+        "opzioni":  [
+                        "Lombata con osso",
+                        "Girello",
+                        "Fesone di spalla",
+                        "Reale"
+                    ],
+        "corretta":  0,
+        "image_page":  "Bistecca_alla_fiorentina"
+    },
+    {
+        "testo":  "Quale salsa italiana a base di basilico non va cotta dopo la preparazione?",
+        "opzioni":  [
+                        "Pesto",
+                        "Ragù",
+                        "Amatriciana",
+                        "Sugo all arrabbiata"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pesto"
+    },
+    {
+        "testo":  "Quale piatto piemontese prevede carne cruda tritata condita?",
+        "opzioni":  [
+                        "Battuta al coltello",
+                        "Brasato",
+                        "Vitello tonnato",
+                        "Bollito misto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Steak_tartare"
+    },
+    {
+        "testo":  "Quale farina si usa per la tempura leggera insieme ad acqua fredda?",
+        "opzioni":  [
+                        "Farina di frumento debole",
+                        "Semola rimacinata",
+                        "Farina integrale",
+                        "Farina di ceci"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tempura"
+    },
+    {
+        "testo":  "Quale pasta lunga bucata è tipica della cucina napoletana e romana?",
+        "opzioni":  [
+                        "Bucatini",
+                        "Spaghetti quadrati",
+                        "Linguine",
+                        "Tagliolini"
+                    ],
+        "corretta":  0,
+        "image_page":  "Bucatini"
+    },
+    {
+        "testo":  "Quale dolce natalizio milanese e alto e lievitato con canditi?",
+        "opzioni":  [
+                        "Panettone",
+                        "Pandoro",
+                        "Colomba",
+                        "Panforte"
+                    ],
+        "corretta":  0,
+        "image_page":  "Panettone"
+    },
+    {
+        "testo":  "Quale pietanza francese unisce fagioli bianchi e carni nel sud ovest?",
+        "opzioni":  [
+                        "Cassoulet",
+                        "Bouillabaisse",
+                        "Ratatouille",
+                        "Quiche lorraine"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cassoulet"
+    },
+    {
+        "testo":  "Quale salsa a base di aglio e olio e tipica della Catalogna?",
+        "opzioni":  [
+                        "Aioli",
+                        "Rouille",
+                        "Sofrito",
+                        "Romesco"
+                    ],
+        "corretta":  0,
+        "image_page":  "Aioli"
+    },
+    {
+        "testo":  "Quale piatto hawaiano combina pesce crudo a cubetti con riso e condimenti?",
+        "opzioni":  [
+                        "Poke",
+                        "Ceviche",
+                        "Sashimi don",
+                        "Bibimbap"
+                    ],
+        "corretta":  0,
+        "image_page":  "Poke_(Hawaiian_dish)"
+    },
+    {
+        "testo":  "Quale ingrediente è tipico della caprese insieme a pomodoro e mozzarella?",
+        "opzioni":  [
+                        "Basilico",
+                        "Rucola",
+                        "Origano secco",
+                        "Cipolla rossa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Caprese_salad"
+    },
+    {
+        "testo":  "Quale piatto emiliano usa sfoglia verde ragù besciamella e parmigiano?",
+        "opzioni":  [
+                        "Lasagne alla bolognese",
+                        "Cannelloni",
+                        "Timballo",
+                        "Pasticcio ferrarese"
+                    ],
+        "corretta":  0,
+        "image_page":  "Lasagne"
+    },
+    {
+        "testo":  "Quale dolce mediorientale è composto da pasta fillo e frutta secca con sciroppo?",
+        "opzioni":  [
+                        "Baklava",
+                        "Kunafa",
+                        "Halva",
+                        "Basbousa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Baklava"
+    },
+    {
+        "testo":  "Quale preparazione giapponese usa brodo dashi riso e spesso pesce crudo sopra?",
+        "opzioni":  [
+                        "Donburi",
+                        "Onigiri",
+                        "Takoyaki",
+                        "Okonomiyaki"
+                    ],
+        "corretta":  0,
+        "image_page":  "Donburi"
+    },
+    {
+        "testo":  "Quale piatto francese e una zuppa di cipolle gratinata?",
+        "opzioni":  [
+                        "Soupe à l oignon",
+                        "Bisque",
+                        "Bouillon",
+                        "Velouté"
+                    ],
+        "corretta":  0,
+        "image_page":  "French_onion_soup"
+    },
+    {
+        "testo":  "Quale ingrediente distingue il vitello tonnato?",
+        "opzioni":  [
+                        "Salsa al tonno",
+                        "Pesto di pistacchi",
+                        "Riduzione di vino rosso",
+                        "Mostarda di frutta"
+                    ],
+        "corretta":  0,
+        "image_page":  "Vitello_tonnato"
+    },
+    {
+        "testo":  "Quale cereale si usa per il bulgur?",
+        "opzioni":  [
+                        "Grano duro spezzato",
+                        "Riso integrale",
+                        "Farro decorticato",
+                        "Orzo perlato"
+                    ],
+        "corretta":  0,
+        "image_page":  "Bulgur"
+    },
+    {
+        "testo":  "Quale piatto marocchino prende il nome dal recipiente di cottura conico?",
+        "opzioni":  [
+                        "Tajine",
+                        "Couscous royale",
+                        "Harira",
+                        "Pastilla"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tajine"
+    },
+    {
+        "testo":  "Quale salsa piccante nordafricana è fatta con peperoncino e aglio?",
+        "opzioni":  [
+                        "Harissa",
+                        "Chermoula",
+                        "Tahina",
+                        "Dukkah"
+                    ],
+        "corretta":  0,
+        "image_page":  "Harissa"
+    },
+    {
+        "testo":  "Quale tipo di pasta fresca piemontese è piccola e chiusa a pizzicotto?",
+        "opzioni":  [
+                        "Agnolotti del plin",
+                        "Tortellini",
+                        "Culurgiones",
+                        "Cappelletti"
+                    ],
+        "corretta":  0,
+        "image_page":  "Agnolotti_del_plin"
+    },
+    {
+        "testo":  "Quale dessert britannico e un rotolo di pan di spagna con marmellata?",
+        "opzioni":  [
+                        "Swiss roll",
+                        "Trifle",
+                        "Scone",
+                        "Sticky toffee pudding"
+                    ],
+        "corretta":  0,
+        "image_page":  "Swiss_roll"
+    },
+    {
+        "testo":  "Quale ingrediente e tipico dell insalata Caesar oltre alla lattuga romana?",
+        "opzioni":  [
+                        "Crostini",
+                        "Barbabietola",
+                        "Olive nere",
+                        "Feta"
+                    ],
+        "corretta":  0,
+        "image_page":  "Caesar_salad"
+    },
+    {
+        "testo":  "Quale dolce campano e a base di ricotta e grano cotto?",
+        "opzioni":  [
+                        "Pastiera",
+                        "Sfogliatella",
+                        "Babà",
+                        "Delizia al limone"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pastiera"
+    },
+    {
+        "testo":  "Quale piatto brasiliano a base di fagioli neri e carne e considerato nazionale?",
+        "opzioni":  [
+                        "Feijoada",
+                        "Moqueca",
+                        "Vatapá",
+                        "Farofa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Feijoada"
+    },
+    {
+        "testo":  "Quale preparazione italiana usa caffè espresso ghiaccio e crema di latte nel Salento?",
+        "opzioni":  [
+                        "Caffè leccese",
+                        "Affogato al caffè",
+                        "Shakerato",
+                        "Marocchino"
+                    ],
+        "corretta":  0,
+        "image_page":  "Caffè_leccese"
+    },
+    {
+        "testo":  "Quale salsa messicana complessa può contenere cacao e vari peperoncini?",
+        "opzioni":  [
+                        "Mole",
+                        "Salsa ranchera",
+                        "Pico de gallo",
+                        "Guacamole"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mole_sauce"
+    },
+    {
+        "testo":  "Quale piatto ligure cuoce il polpo con patate olive e fagiolini in insalata?",
+        "opzioni":  [
+                        "Polpo alla ligure",
+                        "Cacciucco",
+                        "Burrida",
+                        "Cappon magro"
+                    ],
+        "corretta":  0,
+        "image_page":  "Octopus_salad"
+    },
+    {
+        "testo":  "Quale ingrediente dà sapidità alla puttanesca insieme a olive e pomodoro?",
+        "opzioni":  [
+                        "Capperi",
+                        "Panna",
+                        "Basilico fresco",
+                        "Pinoli"
+                    ],
+        "corretta":  0,
+        "image_page":  "Spaghetti_alla_puttanesca"
+    },
+    {
+        "testo":  "Quale dolce francese capovolto ha mele caramellate?",
+        "opzioni":  [
+                        "Tarte Tatin",
+                        "Paris-Brest",
+                        "Mille-feuille",
+                        "Financier"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tarte_Tatin"
+    },
+    {
+        "testo":  "Quale formaggio viene tradizionalmente grattugiato sulla cacio e pepe?",
+        "opzioni":  [
+                        "Pecorino Romano",
+                        "Parmigiano Reggiano",
+                        "Asiago",
+                        "Ricotta salata"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cacio_e_pepe"
+    },
+    {
+        "testo":  "Quale piatto thai combina noodles saltati tamarindo e arachidi?",
+        "opzioni":  [
+                        "Pad thai",
+                        "Green curry",
+                        "Tom yum",
+                        "Massaman curry"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pad_thai"
+    },
+    {
+        "testo":  "Quale ingrediente si usa per fare la tahina?",
+        "opzioni":  [
+                        "Semi di sesamo",
+                        "Semi di lino",
+                        "Semi di zucca",
+                        "Nocciole"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tahini"
+    },
+    {
+        "testo":  "Quale piatto russo a base di barbabietola è noto come borscht?",
+        "opzioni":  [
+                        "Borsch",
+                        "Solyanka",
+                        "Shchi",
+                        "Okroshka"
+                    ],
+        "corretta":  0,
+        "image_page":  "Borscht"
+    },
+    {
+        "testo":  "Quale specialità emiliana si ottiene cuocendo mosto d uva per anni in botticelle?",
+        "opzioni":  [
+                        "Aceto balsamico tradizionale",
+                        "Saba fresca",
+                        "Lambrusco",
+                        "Vincotto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Traditional_balsamic_vinegar"
+    },
+    {
+        "testo":  "Quale pane piatto mediorientale si apre formando una tasca interna?",
+        "opzioni":  [
+                        "Pita",
+                        "Naan",
+                        "Focaccia",
+                        "Chapati"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pita"
+    },
+    {
+        "testo":  "Quale piatto piemontese freddo prevede fettine di vitello e salsa al tonno?",
+        "opzioni":  [
+                        "Vitello tonnato",
+                        "Carpaccio",
+                        "Brasato",
+                        "Bollito misto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Vitello_tonnato"
+    },
+    {
+        "testo":  "Quale dolce fritto del Carnevale italiano e noto con vari nomi regionali come frappe o chiacchiere?",
+        "opzioni":  [
+                        "Chiacchiere",
+                        "Zeppole",
+                        "Castagnole",
+                        "Graffe"
+                    ],
+        "corretta":  0,
+        "image_page":  "Chiacchiere"
+    },
+    {
+        "testo":  "Quale piatto francese provenzale combina verdure stufate come melanzane e zucchine?",
+        "opzioni":  [
+                        "Ratatouille",
+                        "Bouillabaisse",
+                        "Cassoulet",
+                        "Navarin"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ratatouille"
+    },
+    {
+        "testo":  "Quale condimento giapponese piccante verde accompagna spesso il sushi?",
+        "opzioni":  [
+                        "Wasabi",
+                        "Yuzu kosho",
+                        "Shichimi",
+                        "Karashi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Wasabi"
+    },
+    {
+        "testo":  "Quale insaccato emiliano entra nel ripieno dei tortellini tradizionali insieme ad altre carni?",
+        "opzioni":  [
+                        "Mortadella",
+                        "Coppa",
+                        "Culatello",
+                        "Salame felino"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tortellini"
+    }
+]

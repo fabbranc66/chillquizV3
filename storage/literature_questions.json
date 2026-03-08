@@ -1,0 +1,1102 @@
+[
+    {
+        "testo":  "Chi ha scritto Il nome della rosa?",
+        "opzioni":  [
+                        "Umberto Eco",
+                        "Italo Calvino",
+                        "Primo Levi",
+                        "Elsa Morante"
+                    ],
+        "corretta":  0,
+        "image_page":  "Umberto_Eco"
+    },
+    {
+        "testo":  "Quale autore ha creato il commissario Montalbano?",
+        "opzioni":  [
+                        "Andrea Camilleri",
+                        "Leonardo Sciascia",
+                        "Massimo Carlotto",
+                        "Gianrico Carofiglio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Andrea_Camilleri"
+    },
+    {
+        "testo":  "Chi ha scritto I promessi sposi?",
+        "opzioni":  [
+                        "Alessandro Manzoni",
+                        "Ugo Foscolo",
+                        "Giacomo Leopardi",
+                        "Gabriele D Annunzio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Alessandro_Manzoni"
+    },
+    {
+        "testo":  "Quale scrittrice ha pubblicato L amica geniale?",
+        "opzioni":  [
+                        "Elena Ferrante",
+                        "Dacia Maraini",
+                        "Elsa Morante",
+                        "Natalia Ginzburg"
+                    ],
+        "corretta":  0,
+        "image_page":  "Elena_Ferrante"
+    },
+    {
+        "testo":  "Chi e l autore della Divina Commedia?",
+        "opzioni":  [
+                        "Dante Alighieri",
+                        "Francesco Petrarca",
+                        "Giovanni Boccaccio",
+                        "Ludovico Ariosto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Dante_Alighieri"
+    },
+    {
+        "testo":  "Quale autore ha scritto Se questo e un uomo?",
+        "opzioni":  [
+                        "Primo Levi",
+                        "Cesare Pavese",
+                        "Beppe Fenoglio",
+                        "Curzio Malaparte"
+                    ],
+        "corretta":  0,
+        "image_page":  "Primo_Levi"
+    },
+    {
+        "testo":  "Chi ha scritto Il Gattopardo?",
+        "opzioni":  [
+                        "Giuseppe Tomasi di Lampedusa",
+                        "Alberto Moravia",
+                        "Italo Svevo",
+                        "Leonardo Sciascia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Giuseppe_Tomasi_di_Lampedusa"
+    },
+    {
+        "testo":  "Quale autore ha creato il personaggio di Pinocchio?",
+        "opzioni":  [
+                        "Carlo Collodi",
+                        "Edmondo De Amicis",
+                        "Gianni Rodari",
+                        "Luigi Capuana"
+                    ],
+        "corretta":  0,
+        "image_page":  "Carlo_Collodi"
+    },
+    {
+        "testo":  "Chi ha scritto Uno nessuno e centomila?",
+        "opzioni":  [
+                        "Luigi Pirandello",
+                        "Italo Svevo",
+                        "Federigo Tozzi",
+                        "Alberto Moravia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Luigi_Pirandello"
+    },
+    {
+        "testo":  "Quale poeta e autore de L infinito?",
+        "opzioni":  [
+                        "Giacomo Leopardi",
+                        "Ugo Foscolo",
+                        "Giovanni Pascoli",
+                        "Giosuè Carducci"
+                    ],
+        "corretta":  0,
+        "image_page":  "Giacomo_Leopardi"
+    },
+    {
+        "testo":  "Chi ha scritto Il barone rampante?",
+        "opzioni":  [
+                        "Italo Calvino",
+                        "Cesare Pavese",
+                        "Dino Buzzati",
+                        "Vasco Pratolini"
+                    ],
+        "corretta":  0,
+        "image_page":  "Italo_Calvino"
+    },
+    {
+        "testo":  "Quale autore ha scritto La coscienza di Zeno?",
+        "opzioni":  [
+                        "Italo Svevo",
+                        "Luigi Pirandello",
+                        "Alberto Moravia",
+                        "Elio Vittorini"
+                    ],
+        "corretta":  0,
+        "image_page":  "Italo_Svevo"
+    },
+    {
+        "testo":  "Chi ha scritto Il deserto dei Tartari?",
+        "opzioni":  [
+                        "Dino Buzzati",
+                        "Beppe Fenoglio",
+                        "Tommaso Landolfi",
+                        "Carlo Emilio Gadda"
+                    ],
+        "corretta":  0,
+        "image_page":  "Dino_Buzzati"
+    },
+    {
+        "testo":  "Quale autore ha scritto Ragazzi di vita?",
+        "opzioni":  [
+                        "Pier Paolo Pasolini",
+                        "Alberto Moravia",
+                        "Ennio Flaiano",
+                        "Vittorio Sereni"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pier_Paolo_Pasolini"
+    },
+    {
+        "testo":  "Chi ha scritto Il sentiero dei nidi di ragno?",
+        "opzioni":  [
+                        "Italo Calvino",
+                        "Beppe Fenoglio",
+                        "Cesare Pavese",
+                        "Primo Levi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Italo_Calvino"
+    },
+    {
+        "testo":  "Quale scrittrice ha scritto L isola di Arturo?",
+        "opzioni":  [
+                        "Elsa Morante",
+                        "Natalia Ginzburg",
+                        "Anna Maria Ortese",
+                        "Dacia Maraini"
+                    ],
+        "corretta":  0,
+        "image_page":  "Elsa_Morante"
+    },
+    {
+        "testo":  "Chi ha scritto Le avventure di Tom Sawyer?",
+        "opzioni":  [
+                        "Mark Twain",
+                        "Charles Dickens",
+                        "Robert Louis Stevenson",
+                        "Jack London"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mark_Twain"
+    },
+    {
+        "testo":  "Quale autore ha scritto 1984?",
+        "opzioni":  [
+                        "George Orwell",
+                        "Aldous Huxley",
+                        "Ray Bradbury",
+                        "Arthur Koestler"
+                    ],
+        "corretta":  0,
+        "image_page":  "George_Orwell"
+    },
+    {
+        "testo":  "Chi ha scritto Orgoglio e pregiudizio?",
+        "opzioni":  [
+                        "Jane Austen",
+                        "Emily Brontë",
+                        "Charlotte Brontë",
+                        "George Eliot"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jane_Austen"
+    },
+    {
+        "testo":  "Quale autore ha scritto Delitto e castigo?",
+        "opzioni":  [
+                        "Fëdor Dostoevskij",
+                        "Lev Tolstoj",
+                        "Ivan Turgenev",
+                        "Nikolaj Gogol"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fyodor_Dostoevsky"
+    },
+    {
+        "testo":  "Chi ha scritto I fratelli Karamazov?",
+        "opzioni":  [
+                        "Fëdor Dostoevskij",
+                        "Lev Tolstoj",
+                        "Anton Čechov",
+                        "Maksim Gor kij"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fyodor_Dostoevsky"
+    },
+    {
+        "testo":  "Quale autore ha scritto Guerra e pace?",
+        "opzioni":  [
+                        "Lev Tolstoj",
+                        "Fëdor Dostoevskij",
+                        "Ivan Turgenev",
+                        "Boris Pasternak"
+                    ],
+        "corretta":  0,
+        "image_page":  "Leo_Tolstoy"
+    },
+    {
+        "testo":  "Chi ha scritto Anna Karenina?",
+        "opzioni":  [
+                        "Lev Tolstoj",
+                        "Ivan Turgenev",
+                        "Fëdor Dostoevskij",
+                        "Nikolaj Leskov"
+                    ],
+        "corretta":  0,
+        "image_page":  "Leo_Tolstoy"
+    },
+    {
+        "testo":  "Quale autore ha scritto Il processo?",
+        "opzioni":  [
+                        "Franz Kafka",
+                        "Thomas Mann",
+                        "Robert Musil",
+                        "Hermann Hesse"
+                    ],
+        "corretta":  0,
+        "image_page":  "Franz_Kafka"
+    },
+    {
+        "testo":  "Chi ha scritto La metamorfosi?",
+        "opzioni":  [
+                        "Franz Kafka",
+                        "Albert Camus",
+                        "Jean-Paul Sartre",
+                        "Thomas Mann"
+                    ],
+        "corretta":  0,
+        "image_page":  "Franz_Kafka"
+    },
+    {
+        "testo":  "Quale autore ha scritto Il piccolo principe?",
+        "opzioni":  [
+                        "Antoine de Saint-Exupéry",
+                        "Jules Verne",
+                        "Marcel Pagnol",
+                        "Albert Camus"
+                    ],
+        "corretta":  0,
+        "image_page":  "Antoine_de_Saint-Exupéry"
+    },
+    {
+        "testo":  "Chi ha scritto Madame Bovary?",
+        "opzioni":  [
+                        "Gustave Flaubert",
+                        "Honoré de Balzac",
+                        "Émile Zola",
+                        "Guy de Maupassant"
+                    ],
+        "corretta":  0,
+        "image_page":  "Gustave_Flaubert"
+    },
+    {
+        "testo":  "Quale autore ha scritto I miserabili?",
+        "opzioni":  [
+                        "Victor Hugo",
+                        "Alexandre Dumas",
+                        "Émile Zola",
+                        "Stendhal"
+                    ],
+        "corretta":  0,
+        "image_page":  "Victor_Hugo"
+    },
+    {
+        "testo":  "Chi ha scritto Il rosso e il nero?",
+        "opzioni":  [
+                        "Stendhal",
+                        "Honoré de Balzac",
+                        "Victor Hugo",
+                        "Gustave Flaubert"
+                    ],
+        "corretta":  0,
+        "image_page":  "Stendhal"
+    },
+    {
+        "testo":  "Quale autore ha scritto Alla ricerca del tempo perduto?",
+        "opzioni":  [
+                        "Marcel Proust",
+                        "André Gide",
+                        "Albert Camus",
+                        "Louis-Ferdinand Céline"
+                    ],
+        "corretta":  0,
+        "image_page":  "Marcel_Proust"
+    },
+    {
+        "testo":  "Chi ha scritto Lo straniero?",
+        "opzioni":  [
+                        "Albert Camus",
+                        "Jean-Paul Sartre",
+                        "André Malraux",
+                        "Marcel Proust"
+                    ],
+        "corretta":  0,
+        "image_page":  "Albert_Camus"
+    },
+    {
+        "testo":  "Quale autore ha scritto La nausea?",
+        "opzioni":  [
+                        "Jean-Paul Sartre",
+                        "Albert Camus",
+                        "Simone de Beauvoir",
+                        "André Gide"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jean-Paul_Sartre"
+    },
+    {
+        "testo":  "Chi ha scritto Don Chisciotte della Mancia?",
+        "opzioni":  [
+                        "Miguel de Cervantes",
+                        "Lope de Vega",
+                        "Calderón de la Barca",
+                        "Benito Pérez Galdós"
+                    ],
+        "corretta":  0,
+        "image_page":  "Miguel_de_Cervantes"
+    },
+    {
+        "testo":  "Quale autore ha scritto Cent anni di solitudine?",
+        "opzioni":  [
+                        "Gabriel García Márquez",
+                        "Mario Vargas Llosa",
+                        "Julio Cortázar",
+                        "Carlos Fuentes"
+                    ],
+        "corretta":  0,
+        "image_page":  "Gabriel_García_Márquez"
+    },
+    {
+        "testo":  "Chi ha scritto L amore ai tempi del colera?",
+        "opzioni":  [
+                        "Gabriel García Márquez",
+                        "Isabel Allende",
+                        "Mario Vargas Llosa",
+                        "Jorge Luis Borges"
+                    ],
+        "corretta":  0,
+        "image_page":  "Gabriel_García_Márquez"
+    },
+    {
+        "testo":  "Quale autore ha scritto La casa degli spiriti?",
+        "opzioni":  [
+                        "Isabel Allende",
+                        "Laura Esquivel",
+                        "Elena Poniatowska",
+                        "Gioconda Belli"
+                    ],
+        "corretta":  0,
+        "image_page":  "Isabel_Allende"
+    },
+    {
+        "testo":  "Chi ha scritto Il vecchio e il mare?",
+        "opzioni":  [
+                        "Ernest Hemingway",
+                        "John Steinbeck",
+                        "William Faulkner",
+                        "Jack London"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ernest_Hemingway"
+    },
+    {
+        "testo":  "Quale autore ha scritto Per chi suona la campana?",
+        "opzioni":  [
+                        "Ernest Hemingway",
+                        "John Dos Passos",
+                        "Francis Scott Fitzgerald",
+                        "John Steinbeck"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ernest_Hemingway"
+    },
+    {
+        "testo":  "Chi ha scritto Furore?",
+        "opzioni":  [
+                        "John Steinbeck",
+                        "Ernest Hemingway",
+                        "William Faulkner",
+                        "Upton Sinclair"
+                    ],
+        "corretta":  0,
+        "image_page":  "John_Steinbeck"
+    },
+    {
+        "testo":  "Quale autore ha scritto Moby Dick?",
+        "opzioni":  [
+                        "Herman Melville",
+                        "Nathaniel Hawthorne",
+                        "Walt Whitman",
+                        "Mark Twain"
+                    ],
+        "corretta":  0,
+        "image_page":  "Herman_Melville"
+    },
+    {
+        "testo":  "Chi ha scritto Il grande Gatsby?",
+        "opzioni":  [
+                        "F. Scott Fitzgerald",
+                        "Ernest Hemingway",
+                        "John Steinbeck",
+                        "Sinclair Lewis"
+                    ],
+        "corretta":  0,
+        "image_page":  "F._Scott_Fitzgerald"
+    },
+    {
+        "testo":  "Quale autore ha scritto Ulysses?",
+        "opzioni":  [
+                        "James Joyce",
+                        "Virginia Woolf",
+                        "Samuel Beckett",
+                        "W. B. Yeats"
+                    ],
+        "corretta":  0,
+        "image_page":  "James_Joyce"
+    },
+    {
+        "testo":  "Chi ha scritto Dubliners?",
+        "opzioni":  [
+                        "James Joyce",
+                        "Samuel Beckett",
+                        "Seamus Heaney",
+                        "Oscar Wilde"
+                    ],
+        "corretta":  0,
+        "image_page":  "James_Joyce"
+    },
+    {
+        "testo":  "Quale scrittrice ha scritto Mrs Dalloway?",
+        "opzioni":  [
+                        "Virginia Woolf",
+                        "Dorothy Richardson",
+                        "Katherine Mansfield",
+                        "Jean Rhys"
+                    ],
+        "corretta":  0,
+        "image_page":  "Virginia_Woolf"
+    },
+    {
+        "testo":  "Chi ha scritto Cime tempestose?",
+        "opzioni":  [
+                        "Emily Brontë",
+                        "Charlotte Brontë",
+                        "Jane Austen",
+                        "George Eliot"
+                    ],
+        "corretta":  0,
+        "image_page":  "Emily_Brontë"
+    },
+    {
+        "testo":  "Quale autrice ha scritto Jane Eyre?",
+        "opzioni":  [
+                        "Charlotte Brontë",
+                        "Emily Brontë",
+                        "Elizabeth Gaskell",
+                        "George Eliot"
+                    ],
+        "corretta":  0,
+        "image_page":  "Charlotte_Brontë"
+    },
+    {
+        "testo":  "Chi ha scritto Oliver Twist?",
+        "opzioni":  [
+                        "Charles Dickens",
+                        "William Thackeray",
+                        "Thomas Hardy",
+                        "Anthony Trollope"
+                    ],
+        "corretta":  0,
+        "image_page":  "Charles_Dickens"
+    },
+    {
+        "testo":  "Quale autore ha scritto David Copperfield?",
+        "opzioni":  [
+                        "Charles Dickens",
+                        "Thomas Hardy",
+                        "George Eliot",
+                        "William Thackeray"
+                    ],
+        "corretta":  0,
+        "image_page":  "Charles_Dickens"
+    },
+    {
+        "testo":  "Chi ha scritto Robinson Crusoe?",
+        "opzioni":  [
+                        "Daniel Defoe",
+                        "Jonathan Swift",
+                        "Henry Fielding",
+                        "Samuel Richardson"
+                    ],
+        "corretta":  0,
+        "image_page":  "Daniel_Defoe"
+    },
+    {
+        "testo":  "Quale autore ha scritto I viaggi di Gulliver?",
+        "opzioni":  [
+                        "Jonathan Swift",
+                        "Daniel Defoe",
+                        "Laurence Sterne",
+                        "Henry Fielding"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jonathan_Swift"
+    },
+    {
+        "testo":  "Chi ha scritto Dracula?",
+        "opzioni":  [
+                        "Bram Stoker",
+                        "Mary Shelley",
+                        "Robert Louis Stevenson",
+                        "Sheridan Le Fanu"
+                    ],
+        "corretta":  0,
+        "image_page":  "Bram_Stoker"
+    },
+    {
+        "testo":  "Quale autrice ha scritto Frankenstein?",
+        "opzioni":  [
+                        "Mary Shelley",
+                        "Ann Radcliffe",
+                        "Emily Brontë",
+                        "George Eliot"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mary_Shelley"
+    },
+    {
+        "testo":  "Chi ha scritto L isola del tesoro?",
+        "opzioni":  [
+                        "Robert Louis Stevenson",
+                        "Jack London",
+                        "Daniel Defoe",
+                        "Jules Verne"
+                    ],
+        "corretta":  0,
+        "image_page":  "Robert_Louis_Stevenson"
+    },
+    {
+        "testo":  "Quale autore ha scritto Ventimila leghe sotto i mari?",
+        "opzioni":  [
+                        "Jules Verne",
+                        "H. G. Wells",
+                        "Edgar Rice Burroughs",
+                        "Arthur Conan Doyle"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jules_Verne"
+    },
+    {
+        "testo":  "Chi ha scritto Il giro del mondo in ottanta giorni?",
+        "opzioni":  [
+                        "Jules Verne",
+                        "H. G. Wells",
+                        "Alexandre Dumas",
+                        "Robert Louis Stevenson"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jules_Verne"
+    },
+    {
+        "testo":  "Quale autore ha creato Sherlock Holmes?",
+        "opzioni":  [
+                        "Arthur Conan Doyle",
+                        "Agatha Christie",
+                        "Edgar Allan Poe",
+                        "Wilkie Collins"
+                    ],
+        "corretta":  0,
+        "image_page":  "Arthur_Conan_Doyle"
+    },
+    {
+        "testo":  "Chi ha scritto Dieci piccoli indiani?",
+        "opzioni":  [
+                        "Agatha Christie",
+                        "Dorothy L. Sayers",
+                        "Ngaio Marsh",
+                        "Patricia Highsmith"
+                    ],
+        "corretta":  0,
+        "image_page":  "Agatha_Christie"
+    },
+    {
+        "testo":  "Quale autrice ha creato Hercule Poirot?",
+        "opzioni":  [
+                        "Agatha Christie",
+                        "P. D. James",
+                        "Ngaio Marsh",
+                        "Patricia Wentworth"
+                    ],
+        "corretta":  0,
+        "image_page":  "Agatha_Christie"
+    },
+    {
+        "testo":  "Chi ha scritto Il ritratto di Dorian Gray?",
+        "opzioni":  [
+                        "Oscar Wilde",
+                        "Bram Stoker",
+                        "Thomas Hardy",
+                        "William Butler Yeats"
+                    ],
+        "corretta":  0,
+        "image_page":  "Oscar_Wilde"
+    },
+    {
+        "testo":  "Quale autore ha scritto Il fu Mattia Pascal?",
+        "opzioni":  [
+                        "Luigi Pirandello",
+                        "Italo Svevo",
+                        "Federigo Tozzi",
+                        "Alberto Moravia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Luigi_Pirandello"
+    },
+    {
+        "testo":  "Chi ha scritto Il giorno della civetta?",
+        "opzioni":  [
+                        "Leonardo Sciascia",
+                        "Andrea Camilleri",
+                        "Gesualdo Bufalino",
+                        "Sebastiano Vassalli"
+                    ],
+        "corretta":  0,
+        "image_page":  "Leonardo_Sciascia"
+    },
+    {
+        "testo":  "Quale autore ha scritto Fontamara?",
+        "opzioni":  [
+                        "Ignazio Silone",
+                        "Carlo Levi",
+                        "Elio Vittorini",
+                        "Cesare Pavese"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ignazio_Silone"
+    },
+    {
+        "testo":  "Chi ha scritto Cristo si e fermato a Eboli?",
+        "opzioni":  [
+                        "Carlo Levi",
+                        "Ignazio Silone",
+                        "Alberto Moravia",
+                        "Elio Vittorini"
+                    ],
+        "corretta":  0,
+        "image_page":  "Carlo_Levi"
+    },
+    {
+        "testo":  "Quale autore ha scritto Conversazione in Sicilia?",
+        "opzioni":  [
+                        "Elio Vittorini",
+                        "Cesare Pavese",
+                        "Beppe Fenoglio",
+                        "Primo Levi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Elio_Vittorini"
+    },
+    {
+        "testo":  "Chi ha scritto La luna e i falo?",
+        "opzioni":  [
+                        "Cesare Pavese",
+                        "Beppe Fenoglio",
+                        "Elio Vittorini",
+                        "Primo Levi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cesare_Pavese"
+    },
+    {
+        "testo":  "Quale autore ha scritto Una questione privata?",
+        "opzioni":  [
+                        "Beppe Fenoglio",
+                        "Cesare Pavese",
+                        "Elio Vittorini",
+                        "Renata Viganò"
+                    ],
+        "corretta":  0,
+        "image_page":  "Beppe_Fenoglio"
+    },
+    {
+        "testo":  "Chi ha scritto Quer pasticciaccio brutto de via Merulana?",
+        "opzioni":  [
+                        "Carlo Emilio Gadda",
+                        "Alberto Moravia",
+                        "Tommaso Landolfi",
+                        "Dino Buzzati"
+                    ],
+        "corretta":  0,
+        "image_page":  "Carlo_Emilio_Gadda"
+    },
+    {
+        "testo":  "Quale autore ha scritto Gli indifferenti?",
+        "opzioni":  [
+                        "Alberto Moravia",
+                        "Elsa Morante",
+                        "Elio Vittorini",
+                        "Cesare Pavese"
+                    ],
+        "corretta":  0,
+        "image_page":  "Alberto_Moravia"
+    },
+    {
+        "testo":  "Chi ha scritto Canne al vento?",
+        "opzioni":  [
+                        "Grazia Deledda",
+                        "Matilde Serao",
+                        "Sibilla Aleramo",
+                        "Neera"
+                    ],
+        "corretta":  0,
+        "image_page":  "Grazia_Deledda"
+    },
+    {
+        "testo":  "Quale autore ha scritto Cuore?",
+        "opzioni":  [
+                        "Edmondo De Amicis",
+                        "Carlo Collodi",
+                        "Giovanni Verga",
+                        "Luigi Capuana"
+                    ],
+        "corretta":  0,
+        "image_page":  "Edmondo_De_Amicis"
+    },
+    {
+        "testo":  "Chi ha scritto I Malavoglia?",
+        "opzioni":  [
+                        "Giovanni Verga",
+                        "Luigi Capuana",
+                        "Federico De Roberto",
+                        "Matilde Serao"
+                    ],
+        "corretta":  0,
+        "image_page":  "Giovanni_Verga"
+    },
+    {
+        "testo":  "Quale autore ha scritto Mastro-don Gesualdo?",
+        "opzioni":  [
+                        "Giovanni Verga",
+                        "Luigi Capuana",
+                        "Federico De Roberto",
+                        "Gabriele D Annunzio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Giovanni_Verga"
+    },
+    {
+        "testo":  "Chi ha scritto Il piacere?",
+        "opzioni":  [
+                        "Gabriele D Annunzio",
+                        "Antonio Fogazzaro",
+                        "Federico De Roberto",
+                        "Giovanni Verga"
+                    ],
+        "corretta":  0,
+        "image_page":  "Gabriele_D\u0027Annunzio"
+    },
+    {
+        "testo":  "Quale autore ha scritto Il visconte dimezzato?",
+        "opzioni":  [
+                        "Italo Calvino",
+                        "Gianni Rodari",
+                        "Dino Buzzati",
+                        "Tommaso Landolfi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Italo_Calvino"
+    },
+    {
+        "testo":  "Chi ha scritto Marcovaldo?",
+        "opzioni":  [
+                        "Italo Calvino",
+                        "Gianni Rodari",
+                        "Dino Buzzati",
+                        "Cesare Zavattini"
+                    ],
+        "corretta":  0,
+        "image_page":  "Italo_Calvino"
+    },
+    {
+        "testo":  "Quale autore ha scritto Il cavaliere inesistente?",
+        "opzioni":  [
+                        "Italo Calvino",
+                        "Ludovico Ariosto",
+                        "Tommaso Landolfi",
+                        "Gianni Rodari"
+                    ],
+        "corretta":  0,
+        "image_page":  "Italo_Calvino"
+    },
+    {
+        "testo":  "Chi ha scritto Novecento?",
+        "opzioni":  [
+                        "Alessandro Baricco",
+                        "Stefano Benni",
+                        "Niccolò Ammaniti",
+                        "Erri De Luca"
+                    ],
+        "corretta":  0,
+        "image_page":  "Alessandro_Baricco"
+    },
+    {
+        "testo":  "Quale autore ha scritto Seta?",
+        "opzioni":  [
+                        "Alessandro Baricco",
+                        "Paolo Giordano",
+                        "Niccolò Ammaniti",
+                        "Erri De Luca"
+                    ],
+        "corretta":  0,
+        "image_page":  "Alessandro_Baricco"
+    },
+    {
+        "testo":  "Chi ha scritto Io non ho paura?",
+        "opzioni":  [
+                        "Niccolò Ammaniti",
+                        "Paolo Giordano",
+                        "Alessandro Baricco",
+                        "Domenico Starnone"
+                    ],
+        "corretta":  0,
+        "image_page":  "Niccolò_Ammaniti"
+    },
+    {
+        "testo":  "Quale autore ha scritto La solitudine dei numeri primi?",
+        "opzioni":  [
+                        "Paolo Giordano",
+                        "Niccolò Ammaniti",
+                        "Alessandro Piperno",
+                        "Walter Siti"
+                    ],
+        "corretta":  0,
+        "image_page":  "Paolo_Giordano"
+    },
+    {
+        "testo":  "Chi ha scritto Tre metri sopra il cielo?",
+        "opzioni":  [
+                        "Federico Moccia",
+                        "Fabio Volo",
+                        "Enrico Brizzi",
+                        "Andrea De Carlo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Federico_Moccia"
+    },
+    {
+        "testo":  "Quale autore ha scritto Jack Frusciante e uscito dal gruppo?",
+        "opzioni":  [
+                        "Enrico Brizzi",
+                        "Niccolò Ammaniti",
+                        "Pier Vittorio Tondelli",
+                        "Fabio Volo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Enrico_Brizzi"
+    },
+    {
+        "testo":  "Chi ha scritto Acciaio?",
+        "opzioni":  [
+                        "Silvia Avallone",
+                        "Michela Murgia",
+                        "Elena Stancanelli",
+                        "Valeria Parrella"
+                    ],
+        "corretta":  0,
+        "image_page":  "Silvia_Avallone"
+    },
+    {
+        "testo":  "Quale autrice ha scritto Accabadora?",
+        "opzioni":  [
+                        "Michela Murgia",
+                        "Dacia Maraini",
+                        "Milena Agus",
+                        "Melania G. Mazzucco"
+                    ],
+        "corretta":  0,
+        "image_page":  "Michela_Murgia"
+    },
+    {
+        "testo":  "Chi ha scritto Non ti muovere?",
+        "opzioni":  [
+                        "Margaret Mazzantini",
+                        "Susanna Tamaro",
+                        "Dacia Maraini",
+                        "Elena Ferrante"
+                    ],
+        "corretta":  0,
+        "image_page":  "Margaret_Mazzantini"
+    },
+    {
+        "testo":  "Quale autore ha scritto Oceano mare?",
+        "opzioni":  [
+                        "Alessandro Baricco",
+                        "Erri De Luca",
+                        "Sandro Veronesi",
+                        "Paolo Giordano"
+                    ],
+        "corretta":  0,
+        "image_page":  "Alessandro_Baricco"
+    },
+    {
+        "testo":  "Chi ha scritto Il giovane Holden?",
+        "opzioni":  [
+                        "J. D. Salinger",
+                        "John Updike",
+                        "Saul Bellow",
+                        "Philip Roth"
+                    ],
+        "corretta":  0,
+        "image_page":  "J._D._Salinger"
+    },
+    {
+        "testo":  "Quale autore ha scritto Fahrenheit 451?",
+        "opzioni":  [
+                        "Ray Bradbury",
+                        "George Orwell",
+                        "Aldous Huxley",
+                        "Kurt Vonnegut"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ray_Bradbury"
+    },
+    {
+        "testo":  "Chi ha scritto Brave New World?",
+        "opzioni":  [
+                        "Aldous Huxley",
+                        "George Orwell",
+                        "Ray Bradbury",
+                        "H. G. Wells"
+                    ],
+        "corretta":  0,
+        "image_page":  "Aldous_Huxley"
+    },
+    {
+        "testo":  "Quale autore ha scritto Il signore delle mosche?",
+        "opzioni":  [
+                        "William Golding",
+                        "Graham Greene",
+                        "George Orwell",
+                        "Anthony Burgess"
+                    ],
+        "corretta":  0,
+        "image_page":  "William_Golding"
+    },
+    {
+        "testo":  "Chi ha scritto Il signore degli anelli?",
+        "opzioni":  [
+                        "J. R. R. Tolkien",
+                        "C. S. Lewis",
+                        "Terry Brooks",
+                        "Ursula K. Le Guin"
+                    ],
+        "corretta":  0,
+        "image_page":  "J._R._R._Tolkien"
+    },
+    {
+        "testo":  "Quale autore ha scritto Lo Hobbit?",
+        "opzioni":  [
+                        "J. R. R. Tolkien",
+                        "C. S. Lewis",
+                        "Philip Pullman",
+                        "Terry Pratchett"
+                    ],
+        "corretta":  0,
+        "image_page":  "J._R._R._Tolkien"
+    },
+    {
+        "testo":  "Chi ha creato il personaggio di Harry Potter?",
+        "opzioni":  [
+                        "J. K. Rowling",
+                        "Philip Pullman",
+                        "C. S. Lewis",
+                        "Cornelia Funke"
+                    ],
+        "corretta":  0,
+        "image_page":  "J._K._Rowling"
+    },
+    {
+        "testo":  "Quale autore ha scritto Il leone la strega e l armadio?",
+        "opzioni":  [
+                        "C. S. Lewis",
+                        "J. R. R. Tolkien",
+                        "Philip Pullman",
+                        "Neil Gaiman"
+                    ],
+        "corretta":  0,
+        "image_page":  "C._S._Lewis"
+    },
+    {
+        "testo":  "Chi ha scritto Il codice Da Vinci?",
+        "opzioni":  [
+                        "Dan Brown",
+                        "Ken Follett",
+                        "Michael Crichton",
+                        "John Grisham"
+                    ],
+        "corretta":  0,
+        "image_page":  "Dan_Brown"
+    },
+    {
+        "testo":  "Quale autore ha scritto I pilastri della Terra?",
+        "opzioni":  [
+                        "Ken Follett",
+                        "Wilbur Smith",
+                        "Jeffrey Archer",
+                        "Edward Rutherfurd"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ken_Follett"
+    },
+    {
+        "testo":  "Chi ha scritto Il cacciatore di aquiloni?",
+        "opzioni":  [
+                        "Khaled Hosseini",
+                        "Amir Aczel",
+                        "Orhan Pamuk",
+                        "Elif Shafak"
+                    ],
+        "corretta":  0,
+        "image_page":  "Khaled_Hosseini"
+    },
+    {
+        "testo":  "Quale autore ha scritto Norwegian Wood?",
+        "opzioni":  [
+                        "Haruki Murakami",
+                        "Kenzaburō Ōe",
+                        "Yukio Mishima",
+                        "Banana Yoshimoto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Haruki_Murakami"
+    },
+    {
+        "testo":  "Chi ha scritto Kafka sulla spiaggia?",
+        "opzioni":  [
+                        "Haruki Murakami",
+                        "Yukio Mishima",
+                        "Kazuo Ishiguro",
+                        "Kenzaburō Ōe"
+                    ],
+        "corretta":  0,
+        "image_page":  "Haruki_Murakami"
+    },
+    {
+        "testo":  "Quale autore ha scritto Cecità?",
+        "opzioni":  [
+                        "José Saramago",
+                        "Antonio Lobo Antunes",
+                        "Fernando Pessoa",
+                        "José Cardoso Pires"
+                    ],
+        "corretta":  0,
+        "image_page":  "José_Saramago"
+    }
+]

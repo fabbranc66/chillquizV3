@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="169" viewBox="0 0 300 169" role="img" aria-label="Coin toss odds">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#102542"/>
+<stop offset="100%" stop-color="#1f487e"/>
+</linearGradient>
+</defs>
+<rect width="300" height="169" rx="22" fill="url(#bg)"/>
+<circle cx="34" cy="30" r="42" fill="#ffffff10"/>
+<circle cx="272" cy="144" r="54" fill="#ffffff10"/>
+<rect x="20" y="20" width="260" height="129" rx="18" fill="#ffffff10" stroke="#ffffff22"/>
+<circle cx="106" cy="84" r="38" fill="#ffd166" stroke="#fffb" stroke-width="4"/>
+<circle cx="106" cy="84" r="22" fill="none" stroke="#f4a261" stroke-width="4"/>
+<path d="M170 54 h44 a12 12 0 0 1 12 12 v0 a12 12 0 0 1 -12 12 h-44 z" fill="#ffffff18" stroke="#ffffff44"/>
+<path d="M170 90 h60 a12 12 0 0 1 12 12 v0 a12 12 0 0 1 -12 12 h-60 z" fill="#ffffff18" stroke="#ffffff44"/>
+<path d="M196 44 v80" stroke="#ffffff55" stroke-width="3" stroke-dasharray="5 6"/>
+<circle cx="200" cy="66" r="8" fill="#caf0f8"/>
+<circle cx="222" cy="102" r="8" fill="#90e0ef"/>
+</svg>

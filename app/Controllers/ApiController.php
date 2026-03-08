@@ -10,6 +10,7 @@ use App\Models\JoinRichiesta;
 use App\Models\Utente;
 use App\Models\ScreenMedia;
 use App\Models\AppSettings;
+use App\Services\Admin\SessionImageSearchService;
 use App\Services\SessioneService;
 use Throwable;
 
@@ -1125,6 +1126,30 @@ public function join($sessioneId): void
                         'action' => $action,
                         'sessione_id' => $targetSessioneId,
                         'domande' => $stmt->fetchAll() ?: []
+                    ]);
+                    return;
+
+                case 'sessione-image-search':
+                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                    if ($targetSessioneId <= 0) {
+                        $corrente = (new Sessione())->corrente();
+                        $targetSessioneId = (int) ($corrente['id'] ?? 0);
+                    }
+
+                    if ($targetSessioneId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Sessione corrente non disponibile'
+                        ]);
+                        return;
+                    }
+
+                    $report = (new SessionImageSearchService())->analyzeSession($targetSessioneId);
+                    $this->json([
+                        'success' => true,
+                        'action' => $action,
+                        'sessione_id' => $targetSessioneId,
+                        'report' => $report,
                     ]);
                     return;
 

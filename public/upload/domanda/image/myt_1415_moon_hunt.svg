@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="169" viewBox="0 0 300 169" role="img" aria-label="Moon and hunt">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#2b124c"/>
+<stop offset="100%" stop-color="#522b5b"/>
+</linearGradient>
+</defs>
+<rect width="300" height="169" rx="22" fill="url(#bg)"/>
+<circle cx="34" cy="30" r="42" fill="#ffffff10"/>
+<circle cx="272" cy="144" r="54" fill="#ffffff10"/>
+<rect x="20" y="20" width="260" height="129" rx="18" fill="#ffffff10" stroke="#ffffff22"/>
+<path d="M95 84 a34 34 0 1 0 42 -48 a28 28 0 1 1 -42 48z" fill="#fefae0"/>
+<path d="M172 46 q34 38 0 76" fill="none" stroke="#ffd166" stroke-width="7" stroke-linecap="round"/>
+<path d="M172 46 q22 38 0 76" fill="none" stroke="#ffffff88" stroke-width="2" stroke-linecap="round"/>
+<path d="M170 84 h44" stroke="#fefae0" stroke-width="4" stroke-linecap="round"/>
+<path d="M214 84 l-10 -8 M214 84 l-10 8" stroke="#fefae0" stroke-width="4" stroke-linecap="round"/>
+<circle cx="212" cy="52" r="4" fill="#ffffffaa"/>
+<circle cx="234" cy="72" r="3" fill="#ffffffaa"/>
+<circle cx="226" cy="106" r="4" fill="#ffffffaa"/>
+</svg>

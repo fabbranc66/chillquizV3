@@ -1,0 +1,2202 @@
+[
+    {
+        "text":  "Qual è la capitale del Canada?",
+        "image_term":  "Ottawa",
+        "options":  [
+                        {
+                            "text":  "Ottawa",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Toronto",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Vancouver",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Montreal",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Qual è la capitale dell Australia?",
+        "image_term":  "Canberra",
+        "options":  [
+                        {
+                            "text":  "Canberra",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Sydney",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Melbourne",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Perth",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale pianeta è noto come Pianeta Rosso?",
+        "image_term":  "Mars",
+        "options":  [
+                        {
+                            "text":  "Marte",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Venere",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Giove",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mercurio",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale oceano è il più grande della Terra?",
+        "image_term":  "Pacific_Ocean",
+        "options":  [
+                        {
+                            "text":  "Pacifico",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Atlantico",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Indiano",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Artico",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Chi dipinse la Gioconda?",
+        "image_term":  "Leonardo_da_Vinci",
+        "options":  [
+                        {
+                            "text":  "Leonardo da Vinci",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Michelangelo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Raffaello",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Donatello",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "In quale paese si trova Machu Picchu?",
+        "image_term":  "Machu_Picchu",
+        "options":  [
+                        {
+                            "text":  "Perù",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Cile",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Messico",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bolivia",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Qual è l elemento chimico con simbolo O?",
+        "image_term":  "Oxygen",
+        "options":  [
+                        {
+                            "text":  "Ossigeno",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Oro",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Osmio",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Olmio",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Chi scrisse la Divina Commedia?",
+        "image_term":  "Dante_Alighieri",
+        "options":  [
+                        {
+                            "text":  "Dante Alighieri",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Petrarca",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Boccaccio",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Ariosto",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale animale è il più grande del mondo?",
+        "image_term":  "Blue_whale",
+        "options":  [
+                        {
+                            "text":  "Balenottera azzurra",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Elefante africano",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Squalo balena",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Giraffa",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale continente ha più stati sovrani?",
+        "image_term":  "Africa",
+        "options":  [
+                        {
+                            "text":  "Africa",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Europa",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Asia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "America del Sud",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale strumento misura i terremoti?",
+        "image_term":  "Seismometer",
+        "options":  [
+                        {
+                            "text":  "Sismografo",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Barometro",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Termometro",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Anemometro",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale lingua si parla principalmente in Brasile?",
+        "image_term":  "Portuguese_language",
+        "options":  [
+                        {
+                            "text":  "Portoghese",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Spagnolo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Inglese",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Francese",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale gas respirano principalmente gli esseri umani?",
+        "image_term":  "Oxygen",
+        "options":  [
+                        {
+                            "text":  "Ossigeno",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Azoto",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Anidride carbonica",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Elio",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città ospita la Torre Eiffel?",
+        "image_term":  "Eiffel_Tower",
+        "options":  [
+                        {
+                            "text":  "Parigi",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Lione",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Marsiglia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Nizza",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Chi formulò la teoria della relatività?",
+        "image_term":  "Albert_Einstein",
+        "options":  [
+                        {
+                            "text":  "Albert Einstein",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Isaac Newton",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Galileo Galilei",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Nikola Tesla",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale metallo prezioso ha simbolo Au?",
+        "image_term":  "Gold",
+        "options":  [
+                        {
+                            "text":  "Oro",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Argento",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Rame",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Platino",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale mare bagna Venezia?",
+        "image_term":  "Adriatic_Sea",
+        "options":  [
+                        {
+                            "text":  "Mare Adriatico",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Mar Tirreno",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mar Ionio",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mar Ligure",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale organo del corpo umano pompa il sangue?",
+        "image_term":  "Heart",
+        "options":  [
+                        {
+                            "text":  "Cuore",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Fegato",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Polmone",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Rene",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale paese è famoso per le piramidi di Giza?",
+        "image_term":  "Giza_pyramid_complex",
+        "options":  [
+                        {
+                            "text":  "Egitto",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Marocco",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Tunisia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Giordania",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quanti giorni ha un anno bisestile?",
+        "image_term":  "Leap_year",
+        "options":  [
+                        {
+                            "text":  "366",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "365",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "364",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "367",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale pianeta ha gli anelli più evidenti?",
+        "image_term":  "Saturn",
+        "options":  [
+                        {
+                            "text":  "Saturno",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Urano",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Giove",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Nettuno",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Chi scrisse Romeo e Giulietta?",
+        "image_term":  "William_Shakespeare",
+        "options":  [
+                        {
+                            "text":  "William Shakespeare",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Charles Dickens",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Jane Austen",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Oscar Wilde",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Qual è il fiume più lungo del mondo secondo la classificazione più diffusa?",
+        "image_term":  "Nile",
+        "options":  [
+                        {
+                            "text":  "Nilo",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Amazzoni",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mississippi",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Danubio",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città è la capitale della Spagna?",
+        "image_term":  "Madrid",
+        "options":  [
+                        {
+                            "text":  "Madrid",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Barcellona",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Valencia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Siviglia",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale scienza studia gli esseri viventi?",
+        "image_term":  "Biology",
+        "options":  [
+                        {
+                            "text":  "Biologia",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Geologia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Astronomia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Fisica",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale colore si ottiene mescolando blu e giallo?",
+        "image_term":  "Green",
+        "options":  [
+                        {
+                            "text":  "Verde",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Viola",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Arancione",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Marrone",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale pianeta è il più vicino al Sole?",
+        "image_term":  "Mercury_(planet)",
+        "options":  [
+                        {
+                            "text":  "Mercurio",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Venere",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Terra",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Marte",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Chi scolpì il David conservato a Firenze?",
+        "image_term":  "David_(Michelangelo)",
+        "options":  [
+                        {
+                            "text":  "Michelangelo",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Bernini",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Canova",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Donatello",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale montagna è la più alta del mondo sul livello del mare?",
+        "image_term":  "Mount_Everest",
+        "options":  [
+                        {
+                            "text":  "Everest",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "K2",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Kangchenjunga",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Monte Bianco",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale apparato del corpo consente la respirazione?",
+        "image_term":  "Respiratory_system",
+        "options":  [
+                        {
+                            "text":  "Apparato respiratorio",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Apparato digerente",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Sistema nervoso",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Apparato urinario",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale paese usa lo yen come moneta?",
+        "image_term":  "Japanese_yen",
+        "options":  [
+                        {
+                            "text":  "Giappone",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Cina",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Corea del Sud",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Thailandia",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città italiana è attraversata dal fiume Arno?",
+        "image_term":  "Arno",
+        "options":  [
+                        {
+                            "text":  "Firenze",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Roma",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Milano",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Torino",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Chi scoprì la penicillina?",
+        "image_term":  "Alexander_Fleming",
+        "options":  [
+                        {
+                            "text":  "Alexander Fleming",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Louis Pasteur",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Robert Koch",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Marie Curie",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale stella è al centro del nostro sistema solare?",
+        "image_term":  "Sun",
+        "options":  [
+                        {
+                            "text":  "Sole",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Sirio",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Polare",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Betelgeuse",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale strumento serve a orientarsi indicando il nord magnetico?",
+        "image_term":  "Compass",
+        "options":  [
+                        {
+                            "text":  "Bussola",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Sestante",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Altimetro",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Cronometro",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale mammifero è noto per avere una proboscide?",
+        "image_term":  "Elephant",
+        "options":  [
+                        {
+                            "text":  "Elefante",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Rinoceronte",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Ippopotamo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Tapiro",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città è la capitale della Germania?",
+        "image_term":  "Berlin",
+        "options":  [
+                        {
+                            "text":  "Berlino",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Monaco",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Amburgo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Colonia",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale parte della pianta assorbe soprattutto acqua e sali minerali?",
+        "image_term":  "Root",
+        "options":  [
+                        {
+                            "text":  "Radice",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Foglia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Fiore",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Frutto",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale compositore scrisse Le quattro stagioni?",
+        "image_term":  "Antonio_Vivaldi",
+        "options":  [
+                        {
+                            "text":  "Antonio Vivaldi",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Mozart",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Verdi",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Beethoven",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale deserto è il più grande caldo del mondo?",
+        "image_term":  "Sahara",
+        "options":  [
+                        {
+                            "text":  "Sahara",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Gobi",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Kalahari",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Arabico",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale materiale produce la seta?",
+        "image_term":  "Bombyx_mori",
+        "options":  [
+                        {
+                            "text":  "Baco da seta",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Ape",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Ragno",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Pecora",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città è la capitale dell Argentina?",
+        "image_term":  "Buenos_Aires",
+        "options":  [
+                        {
+                            "text":  "Buenos Aires",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Cordoba",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Rosario",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mendoza",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale pianeta è chiamato il gigante gassoso più grande?",
+        "image_term":  "Jupiter",
+        "options":  [
+                        {
+                            "text":  "Giove",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Saturno",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Urano",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Nettuno",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale scrittrice creò il personaggio di Harry Potter?",
+        "image_term":  "J._K._Rowling",
+        "options":  [
+                        {
+                            "text":  "J. K. Rowling",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Suzanne Collins",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Stephenie Meyer",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Agatha Christie",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale mare separa Italia e Grecia?",
+        "image_term":  "Ionian_Sea",
+        "options":  [
+                        {
+                            "text":  "Mar Ionio",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Mar Ligure",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mar Nero",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mar Baltico",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale vitamina si produce soprattutto con l esposizione al sole?",
+        "image_term":  "Vitamin_D",
+        "options":  [
+                        {
+                            "text":  "Vitamina D",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Vitamina C",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Vitamina A",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Vitamina K",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale popolo costruì il Colosseo?",
+        "image_term":  "Colosseum",
+        "options":  [
+                        {
+                            "text":  "Romani",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Greci",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Egizi",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Fenici",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città è la capitale del Portogallo?",
+        "image_term":  "Lisbon",
+        "options":  [
+                        {
+                            "text":  "Lisbona",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Porto",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Braga",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Coimbra",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale strato atmosferico contiene la maggior parte dell ozono?",
+        "image_term":  "Stratosphere",
+        "options":  [
+                        {
+                            "text":  "Stratosfera",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Troposfera",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mesosfera",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Termosfera",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale animale è simbolo dell Australia insieme al canguro?",
+        "image_term":  "Koala",
+        "options":  [
+                        {
+                            "text":  "Koala",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Panda",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Lama",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bisonte",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Chi dipinse La notte stellata?",
+        "image_term":  "The_Starry_Night",
+        "options":  [
+                        {
+                            "text":  "Vincent van Gogh",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Claude Monet",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Paul Cézanne",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Edgar Degas",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale fiume attraversa Budapest?",
+        "image_term":  "Danube",
+        "options":  [
+                        {
+                            "text":  "Danubio",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Senna",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Tamigi",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Po",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale paese è noto per i tulipani e i mulini a vento?",
+        "image_term":  "Netherlands",
+        "options":  [
+                        {
+                            "text":  "Paesi Bassi",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Belgio",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Danimarca",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Svezia",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale organo produce l insulina?",
+        "image_term":  "Pancreas",
+        "options":  [
+                        {
+                            "text":  "Pancreas",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Fegato",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Milza",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Rene",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale invenzione è associata a Johannes Gutenberg?",
+        "image_term":  "Johannes_Gutenberg",
+        "options":  [
+                        {
+                            "text":  "Stampa a caratteri mobili",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Telefono",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Lampadina",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Radio",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città è la capitale della Grecia?",
+        "image_term":  "Athens",
+        "options":  [
+                        {
+                            "text":  "Atene",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Salonicco",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Patrasso",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Candia",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale fenomeno ottico forma l arcobaleno?",
+        "image_term":  "Rainbow",
+        "options":  [
+                        {
+                            "text":  "Rifrazione della luce",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Diffusione sonora",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Induzione magnetica",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Evaporazione",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale animale depone le uova ma è un mammifero?",
+        "image_term":  "Platypus",
+        "options":  [
+                        {
+                            "text":  "Ornitorinco",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Delfino",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Pipistrello",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Koala",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale filosofo fu maestro di Alessandro Magno?",
+        "image_term":  "Aristotle",
+        "options":  [
+                        {
+                            "text":  "Aristotele",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Socrate",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Platone",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Epicuro",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città è la capitale della Svezia?",
+        "image_term":  "Stockholm",
+        "options":  [
+                        {
+                            "text":  "Stoccolma",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Goteborg",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Malmo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Uppsala",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale metallo è liquido a temperatura ambiente?",
+        "image_term":  "Mercury_(element)",
+        "options":  [
+                        {
+                            "text":  "Mercurio",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Ferro",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Alluminio",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Piombo",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale nave portò Charles Darwin nel viaggio che ispirò molte sue osservazioni?",
+        "image_term":  "HMS_Beagle",
+        "options":  [
+                        {
+                            "text":  "Beagle",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Endeavour",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bounty",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Victoria",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale paese è famoso per i fiordi?",
+        "image_term":  "Norway",
+        "options":  [
+                        {
+                            "text":  "Norvegia",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Finlandia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Islanda",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Irlanda",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale gas costituisce la maggior parte dell atmosfera terrestre?",
+        "image_term":  "Nitrogen",
+        "options":  [
+                        {
+                            "text":  "Azoto",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Ossigeno",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Argon",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Anidride carbonica",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Chi compose la Nona Sinfonia?",
+        "image_term":  "Symphony_No._9_(Beethoven)",
+        "options":  [
+                        {
+                            "text":  "Ludwig van Beethoven",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Chopin",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bach",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Haydn",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città è la capitale del Belgio?",
+        "image_term":  "Brussels",
+        "options":  [
+                        {
+                            "text":  "Bruxelles",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Anversa",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bruges",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Liegi",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale animale è il più veloce sulla terraferma?",
+        "image_term":  "Cheetah",
+        "options":  [
+                        {
+                            "text":  "Ghepardo",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Leone",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Antilope",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Cavallo",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale scienza studia i minerali e le rocce?",
+        "image_term":  "Geology",
+        "options":  [
+                        {
+                            "text":  "Geologia",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Zoologia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Botanica",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Meteorologia",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale paese ha la forma di uno stivale sulla mappa?",
+        "image_term":  "Italy",
+        "options":  [
+                        {
+                            "text":  "Italia",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Grecia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Cile",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Messico",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale pittore è noto per Guernica?",
+        "image_term":  "Guernica_(Picasso)",
+        "options":  [
+                        {
+                            "text":  "Pablo Picasso",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Salvador Dali",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Joan Miro",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Goya",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città è la capitale dell Austria?",
+        "image_term":  "Vienna",
+        "options":  [
+                        {
+                            "text":  "Vienna",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Salisburgo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Graz",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Innsbruck",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale parte del corpo umano contiene il cristallino?",
+        "image_term":  "Eye",
+        "options":  [
+                        {
+                            "text":  "Occhio",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Orecchio",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Cuore",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Polmone",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale isola è la più grande del Mar Mediterraneo?",
+        "image_term":  "Sicily",
+        "options":  [
+                        {
+                            "text":  "Sicilia",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Sardegna",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Corsica",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Creta",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Chi fu il primo uomo a camminare sulla Luna?",
+        "image_term":  "Neil_Armstrong",
+        "options":  [
+                        {
+                            "text":  "Neil Armstrong",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Buzz Aldrin",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Yuri Gagarin",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Michael Collins",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale popolo antico costruì Stonehenge secondo il nome del monumento?",
+        "image_term":  "Stonehenge",
+        "options":  [
+                        {
+                            "text":  "Preistorici britannici",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Romani",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Vichinghi",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Normanni",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città è la capitale della Turchia?",
+        "image_term":  "Ankara",
+        "options":  [
+                        {
+                            "text":  "Ankara",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Istanbul",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Smirne",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bursa",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale strumento astronomico osserva corpi celesti lontani?",
+        "image_term":  "Telescope",
+        "options":  [
+                        {
+                            "text":  "Telescopio",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Microscopio",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Barometro",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Densimetro",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale animale è noto per cambiare colore per mimetizzarsi?",
+        "image_term":  "Chameleon",
+        "options":  [
+                        {
+                            "text":  "Camaleonte",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Iguana",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Cobra",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Lontra",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale scrittore italiano scrisse I promessi sposi?",
+        "image_term":  "Alessandro_Manzoni",
+        "options":  [
+                        {
+                            "text":  "Alessandro Manzoni",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Italo Calvino",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Umberto Eco",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Luigi Pirandello",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città è la capitale della Finlandia?",
+        "image_term":  "Helsinki",
+        "options":  [
+                        {
+                            "text":  "Helsinki",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Turku",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Tampere",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Oulu",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale fenomeno naturale si misura con la scala Richter o magnitudo momento?",
+        "image_term":  "Earthquake",
+        "options":  [
+                        {
+                            "text":  "Terremoto",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Uragano",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Tornado",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Maremoto",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale osso è il più lungo del corpo umano?",
+        "image_term":  "Femur",
+        "options":  [
+                        {
+                            "text":  "Femore",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Tibia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Omero",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Radio",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale stretto separa Europa e Africa tra Spagna e Marocco?",
+        "image_term":  "Strait_of_Gibraltar",
+        "options":  [
+                        {
+                            "text":  "Stretto di Gibilterra",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Bosforo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Dardanelli",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bering",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Chi dipinse L ultima cena?",
+        "image_term":  "The_Last_Supper_(Leonardo)",
+        "options":  [
+                        {
+                            "text":  "Leonardo da Vinci",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Tintoretto",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Caravaggio",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Giotto",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città è la capitale dell Irlanda?",
+        "image_term":  "Dublin",
+        "options":  [
+                        {
+                            "text":  "Dublino",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Cork",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Galway",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Limerick",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale unità misura la corrente elettrica?",
+        "image_term":  "Ampere",
+        "options":  [
+                        {
+                            "text":  "Ampere",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Volt",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Watt",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Ohm",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale animale è il simbolo tradizionale della saggezza?",
+        "image_term":  "Owl",
+        "options":  [
+                        {
+                            "text":  "Gufo",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Aquila",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Cigno",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Volpe",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale scienziata vinse due premi Nobel in discipline diverse?",
+        "image_term":  "Marie_Curie",
+        "options":  [
+                        {
+                            "text":  "Marie Curie",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Rosalind Franklin",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Ada Lovelace",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Rita Levi-Montalcini",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città è la capitale della Danimarca?",
+        "image_term":  "Copenhagen",
+        "options":  [
+                        {
+                            "text":  "Copenaghen",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Aarhus",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Odense",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Aalborg",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale parte della cellula contiene il DNA nelle cellule eucariotiche?",
+        "image_term":  "Cell_nucleus",
+        "options":  [
+                        {
+                            "text":  "Nucleo",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Membrana",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Citoplasma",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mitocondrio",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale paese è attraversato dal fiume Nilo fino al Mediterraneo?",
+        "image_term":  "Nile",
+        "options":  [
+                        {
+                            "text":  "Egitto",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Sudan",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Etiopia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Uganda",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale autore scrisse Il piccolo principe?",
+        "image_term":  "The_Little_Prince",
+        "options":  [
+                        {
+                            "text":  "Antoine de Saint-Exupery",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Victor Hugo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Jules Verne",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Albert Camus",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città è la capitale della Polonia?",
+        "image_term":  "Warsaw",
+        "options":  [
+                        {
+                            "text":  "Varsavia",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Cracovia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Danzica",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Lodz",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale pianeta ha una grande macchia rossa osservabile da secoli?",
+        "image_term":  "Great_Red_Spot",
+        "options":  [
+                        {
+                            "text":  "Giove",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Marte",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Saturno",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Nettuno",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale materiale naturale producono le api?",
+        "image_term":  "Honey",
+        "options":  [
+                        {
+                            "text":  "Miele",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Latte",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Seta",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Cera d albero",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città ospita il Cremlino?",
+        "image_term":  "Moscow_Kremlin",
+        "options":  [
+                        {
+                            "text":  "Mosca",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "San Pietroburgo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Kiev",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Minsk",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Chi compose l opera La Traviata?",
+        "image_term":  "La_traviata",
+        "options":  [
+                        {
+                            "text":  "Giuseppe Verdi",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Gioachino Rossini",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Giacomo Puccini",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Gaetano Donizetti",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale apparato del corpo trasporta il sangue?",
+        "image_term":  "Circulatory_system",
+        "options":  [
+                        {
+                            "text":  "Apparato circolatorio",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Apparato respiratorio",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Apparato digerente",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Sistema endocrino",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città è la capitale della Svizzera?",
+        "image_term":  "Bern",
+        "options":  [
+                        {
+                            "text":  "Berna",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Zurigo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Ginevra",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Losanna",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale fenomeno fa apparire il cielo azzurro di giorno?",
+        "image_term":  "Rayleigh_scattering",
+        "options":  [
+                        {
+                            "text":  "Diffusione della luce",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Riflessione magnetica",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Rifrazione dell acqua",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Condensazione",
+                            "corretta":  false
+                        }
+                    ]
+    }
+]

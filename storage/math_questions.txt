@@ -1,0 +1,100 @@
+Quanto fa 7 x 8?|56|54|48|64|Multiplication
+Quanto fa 144 diviso 12?|12|11|14|16|Division_(mathematics)
+Quale numero è il quadrato di 9?|81|72|99|18|Square_number
+Quanto vale 3 al cubo?|27|9|18|81|Cube_(algebra)
+Quale numero primo e pari?|2|3|5|7|Prime_number
+Quanto fa 15 + 27?|42|40|43|44|Addition
+Quanto fa 90 - 37?|53|57|47|63|Subtraction
+Quale frazione e equivalente a un mezzo?|2/4|3/5|1/3|4/5|Fraction_(mathematics)
+Quanto vale il 25% di 200?|50|25|40|75|Percentage
+Quale numero rappresenta il doppio di 18?|36|28|27|32|Multiplication
+Quanto fa 11 x 11?|121|111|101|132|Multiplication
+Quanto vale la radice quadrata di 64?|8|6|7|9|Square_root
+Quale numero e divisibile per 3?|27|28|25|22|Divisibility_rule
+Quanto fa 5/10 semplificato?|1/2|1/5|2/5|5/2|Fraction_(mathematics)
+Quale risultato si ottiene sommando 1/4 e 1/4?|1/2|1/4|2/3|3/4|Fraction_(mathematics)
+Quanto fa 6 x 7 - 5?|37|42|35|47|Order_of_operations
+Quale numero e multiplo di 9?|81|82|83|85|Multiple_(mathematics)
+Quanto fa 1000 - 475?|525|575|625|425|Subtraction
+Quale numero romano corrisponde a 50?|L|X|C|V|Roman_numerals
+Quanto fa 2,5 + 1,5?|4|3|3,5|5|Decimal
+Quale angolo misura 90 gradi?|Angolo retto|Angolo acuto|Angolo ottuso|Angolo giro|Right_angle
+Quale figura geometrica ha tre lati?|Triangolo|Quadrato|Cerchio|Pentagono|Triangle
+Quanti lati ha un esagono?|6|5|7|8|Hexagon
+Quale figura ha tutti i punti equidistanti dal centro?|Cerchio|Rettangolo|Rombo|Trapezio|Circle
+Come si chiama un triangolo con tutti i lati uguali?|Equilatero|Scaleno|Isoscele|Rettangolo|Equilateral_triangle
+Come si chiama un quadrilatero con quattro lati uguali e quattro angoli retti?|Quadrato|Rombo|Rettangolo|Trapezio|Square
+Quale poligono ha otto lati?|Ottagono|Ettagono|Esagono|Decagono|Octagon
+Quanti gradi misura un angolo piatto?|180|90|270|360|Straight_angle
+Quanti gradi misura un angolo giro?|360|180|90|270|Full_circle
+Quale e la formula dell area del rettangolo?|base x altezza|lato x lato|base x altezza diviso 2|2 x base + 2 x altezza|Rectangle
+Quale e la formula dell area del triangolo?|base x altezza diviso 2|lato x lato|base x altezza|2 x base + 2 x altezza|Triangle
+Quale e la formula del perimetro del quadrato?|4 x lato|2 x lato|lato x lato|2 x base + 2 x altezza|Square
+Quale e la formula del perimetro del rettangolo?|2 x base + 2 x altezza|base x altezza|4 x lato|base + altezza|Rectangle
+Come si chiama il segmento che unisce il centro del cerchio a un punto della circonferenza?|Raggio|Diametro|Corda|Tangente|Radius
+Come si chiama il segmento che passa per il centro e unisce due punti della circonferenza?|Diametro|Raggio|Apotema|Corda|Diameter
+Quante facce ha un cubo?|6|4|8|12|Cube
+Quanti spigoli ha un cubo?|12|8|6|10|Cube
+Come si chiama un solido con base circolare e vertice?|Cono|Cilindro|Prisma|Cubo|Cone
+Quale solido ha sei facce rettangolari congruenti a due a due?|Parallelepipedo rettangolo|Cono|Sfera|Piramide|Cuboid
+Quale solido non ha spigoli né vertici?|Sfera|Cubo|Cono|Prisma|Sphere
+Come si chiama il valore che appare più volte in una raccolta di dati?|Moda|Media|Mediana|Varianza|Mode_(statistics)
+Come si chiama la somma dei valori divisa per il loro numero?|Media aritmetica|Moda|Mediana|Scarto medio|Arithmetic_mean
+Come si chiama il valore centrale in una serie ordinata di dati?|Mediana|Media|Moda|Percentile|Median
+Se lanci una moneta equa qual è la probabilità di testa?|1/2|1/3|1/4|2/3|Probability
+Quanti risultati possibili ci sono lanciando un dado standard?|6|5|8|10|Dice
+Quale probabilità e impossibile da superare?|1|0|2|1,5|Probability_axioms
+Come si chiama il grafico a forma di cerchio diviso in settori?|Grafico a torta|Istogramma|Diagramma cartesiano|Poligono delle frequenze|Pie_chart
+Quanto fa 2 + 2 x 3 rispettando le priorità delle operazioni?|8|12|10|6|Order_of_operations
+Quanto fa (2 + 2) x 3?|12|8|10|6|Order_of_operations
+Quanto fa 49 diviso 7?|7|6|8|9|Division_(mathematics)
+Qual è il minimo comune multiplo di 4 e 6?|12|24|8|10|Least_common_multiple
+Qual è il massimo comune divisore di 18 e 24?|6|3|12|9|Greatest_common_divisor
+Quale numero e il successivo di -3 sulla retta dei numeri?| -2| -4|2|3|Integer
+Quale numero e l opposto di 7?| -7|7|1/7|0|Additive_inverse
+Quale numero e il valore assoluto di -9?|9| -9|0|1|Absolute_value
+Come si chiama un equazione con una sola incognita al primo grado?|Equazione lineare|Equazione quadratica|Disequazione|Sistema impossibile|Linear_equation
+Nell equazione x + 5 = 9 quanto vale x?|4|5|9|14|Linear_equation
+Nell equazione 2x = 14 quanto vale x?|7|6|12|28|Linear_equation
+Nell equazione x - 3 = 10 quanto vale x?|13|7|10|3|Linear_equation
+Nell equazione 3x = 21 quanto vale x?|7|6|8|9|Linear_equation
+Come si chiama una scrittura del tipo 3x + 2?|Espressione algebrica|Numero primo|Potenza|Frazione impropria|Algebraic_expression
+Quale e il coefficiente di x in 5x + 2?|5|2|7|x|Coefficient
+Come si chiama la lettera usata al posto di un numero sconosciuto?|Incognita|Radice|Costante|Base|Variable_(mathematics)
+Quanto fa x se x/4 = 5?|20|9|1,25|10|Linear_equation
+Quanto fa 10 elevato alla seconda?|100|20|1000|12|Exponentiation
+Quanto fa 2 elevato alla quinta?|32|16|25|64|Exponentiation
+Quale proprietà dice che a + b = b + a?|Commutativa|Associativa|Distributiva|Transitiva|Commutative_property
+Quale proprietà dice che a x (b + c) = a x b + a x c?|Distributiva|Associativa|Commutativa|Riflessiva|Distributive_property
+Quale proprietà dice che (a + b) + c = a + (b + c)?|Associativa|Commutativa|Distributiva|Inversa|Associative_property
+Come si chiama un numero con la virgola?|Numero decimale|Numero primo|Numero intero|Numero irrazionale|Decimal
+Quale numero e minore di zero?|Numero negativo|Numero naturale|Numero primo|Numero pari|Negative_number
+Quale insieme contiene 1 2 3 4 ...?|Numeri naturali|Numeri irrazionali|Numeri complessi|Numeri negativi|Natural_number
+Quale insieme contiene anche i numeri negativi e lo zero?|Numeri interi|Numeri naturali|Numeri irrazionali|Numeri primi|Integer
+Come si chiama un numero che si può scrivere come frazione?|Numero razionale|Numero irrazionale|Numero primo|Numero perfetto|Rational_number
+Pi greco e un numero...?|Irrazionale|Primo|Naturale|Intero|Pi
+Quale e una stima di π comunemente usata?|3,14|2,17|1,41|4,13|Pi
+Come si chiama il rapporto tra circonferenza e diametro?|Pi greco|Radiante|Tangente|Pendenza|Pi
+Quanto misura la somma degli angoli interni di un triangolo?|180 gradi|90 gradi|270 gradi|360 gradi|Triangle
+Come si chiama il lato opposto all angolo retto in un triangolo rettangolo?|Ipotenusa|Cateto|Apotema|Diagonale|Hypotenuse
+Quale teorema lega i lati di un triangolo rettangolo?|Teorema di Pitagora|Teorema di Talete|Teorema di Euclide|Teorema di Fermat|Pythagorean_theorem
+In un triangolo rettangolo con cateti 3 e 4 quanto misura l ipotenusa?|5|6|7|8|Pythagorean_theorem
+Quale unità si usa per misurare gli angoli nel sistema più comune scolastico?|Gradi|Metri|Secondi|Joule|Degree_(angle)
+Come si chiama una linea che non finisce mai da entrambi i lati?|Retta|Segmento|Semiretta|Corda|Line_(geometry)
+Come si chiama una parte di retta delimitata da due estremi?|Segmento|Retta|Semiretta|Tangente|Line_segment
+Come si chiama una parte di retta con un origine e una sola direzione infinita?|Semiretta|Segmento|Corda|Diametro|Ray_(geometry)
+Quale figura piana ha quattro lati con una sola coppia di lati paralleli?|Trapezio|Rettangolo|Quadrato|Rombo|Trapezoid
+Come si chiama un quadrilatero con lati opposti paralleli e angoli obliqui o retti?|Parallelogramma|Trapezio|Pentagono|Cerchio|Parallelogram
+Come si chiama un quadrilatero con tutti i lati uguali ma angoli non tutti retti?|Rombo|Quadrato|Rettangolo|Trapezio|Rhombus
+Quale numero e divisibile solo per 1 e per se stesso?|Numero primo|Numero pari|Numero decimale|Numero multiplo|Prime_number
+Quale dei seguenti numeri e primo?|13|15|21|27|Prime_number
+Quale dei seguenti numeri e composto?|21|13|17|19|Composite_number
+Quanto fa 1/3 di 12?|4|3|6|9|Fraction_(mathematics)
+Quanto fa 3/4 di 20?|15|10|12|18|Fraction_(mathematics)
+Quanto fa 0,5 di 18?|9|8|6|12|Decimal
+Quale e il 10% di 350?|35|30|25|45|Percentage
+Se un prezzo passa da 50 a 60 euro di quanto aumenta in percentuale?|20%|10%|15%|25%|Percentage
+Quale numero e il risultato di 2(3 + 4)?|14|11|9|16|Order_of_operations
+Quanto fa 5 + 5 x 5?|30|50|25|15|Order_of_operations
+Quale simbolo indica la radice quadrata?|√|π|%|=|Square_root
+Come si chiama una tabella che mette in corrispondenza due insiemi di valori x e y?|Tabella di funzione|Grafico a torta|Istogramma|Matrice identica|Function_(mathematics)

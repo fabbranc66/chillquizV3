@@ -1,0 +1,2202 @@
+[
+    {
+        "text":  "Quale città ha ospitato i Giochi Olimpici estivi del 2024?",
+        "image_term":  "Paris",
+        "options":  [
+                        {
+                            "text":  "Parigi",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Los Angeles",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Tokyo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Brisbane",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale nazionale ha vinto UEFA Euro 2024?",
+        "image_term":  "UEFA_Euro_2024",
+        "options":  [
+                        {
+                            "text":  "Spagna",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Inghilterra",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Francia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Germania",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale nazionale ha vinto la Copa América 2024?",
+        "image_term":  "2024_Copa_América",
+        "options":  [
+                        {
+                            "text":  "Argentina",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Colombia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Brasile",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Uruguay",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale club ha vinto la UEFA Champions League 2024?",
+        "image_term":  "2024_UEFA_Champions_League_final",
+        "options":  [
+                        {
+                            "text":  "Real Madrid",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Borussia Dortmund",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Manchester City",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Inter",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale squadra ha vinto le NBA Finals 2024?",
+        "image_term":  "2024_NBA_Finals",
+        "options":  [
+                        {
+                            "text":  "Boston Celtics",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Dallas Mavericks",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Denver Nuggets",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Miami Heat",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda ha sviluppato ChatGPT?",
+        "image_term":  "OpenAI",
+        "options":  [
+                        {
+                            "text":  "OpenAI",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Google",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Anthropic",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Meta",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda sviluppa il modello Gemini?",
+        "image_term":  "Google",
+        "options":  [
+                        {
+                            "text":  "Google",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "OpenAI",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Microsoft",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Amazon",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda sviluppa l assistente Copilot?",
+        "image_term":  "Microsoft",
+        "options":  [
+                        {
+                            "text":  "Microsoft",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Apple",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Meta",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Anthropic",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda ha lanciato il visore Vision Pro?",
+        "image_term":  "Apple_Inc.",
+        "options":  [
+                        {
+                            "text":  "Apple",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Meta",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Sony",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Microsoft",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale social network di Meta è stato lanciato come rivale di X/Twitter?",
+        "image_term":  "Threads_(social_network)",
+        "options":  [
+                        {
+                            "text":  "Threads",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Instagram",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "WhatsApp",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Messenger",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda possiede TikTok?",
+        "image_term":  "ByteDance",
+        "options":  [
+                        {
+                            "text":  "ByteDance",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Tencent",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Alibaba",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Baidu",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda ha creato la piattaforma streaming Disney+?",
+        "image_term":  "Disney+",
+        "options":  [
+                        {
+                            "text":  "Disney",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Netflix",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Warner Bros. Discovery",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Paramount",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale compagnia spaziale ha sviluppato Starship?",
+        "image_term":  "SpaceX_Starship",
+        "options":  [
+                        {
+                            "text":  "SpaceX",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Blue Origin",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Rocket Lab",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "ULA",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale missione NASA sarà il primo volo con equipaggio del programma Artemis?",
+        "image_term":  "Artemis_program",
+        "options":  [
+                        {
+                            "text":  "Artemis II",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Artemis I",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Artemis III",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Artemis IV",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale agenzia spaziale europea ha lanciato il razzo Ariane 6?",
+        "image_term":  "European_Space_Agency",
+        "options":  [
+                        {
+                            "text":  "ESA",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "NASA",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Roscosmos",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "JAXA",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale telescopio spaziale opera in infrarosso profondo dal 2022?",
+        "image_term":  "James_Webb_Space_Telescope",
+        "options":  [
+                        {
+                            "text":  "James Webb Space Telescope",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Hubble Space Telescope",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Gaia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Euclid_(spacecraft)",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale missione NASA ha riportato campioni dell asteroide Bennu sulla Terra?",
+        "image_term":  "OSIRIS-REx",
+        "options":  [
+                        {
+                            "text":  "OSIRIS-REx",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Hayabusa2",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "DART",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Lucy",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale paese ha ospitato la COP28 sul clima nel 2023?",
+        "image_term":  "2023_United_Nations_Climate_Change_Conference",
+        "options":  [
+                        {
+                            "text":  "Emirati Arabi Uniti",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Egitto",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Azerbaigian",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Brasile",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città ha ospitato la COP29 nel 2024?",
+        "image_term":  "2024_United_Nations_Climate_Change_Conference",
+        "options":  [
+                        {
+                            "text":  "Baku",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Dubai",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Rio de Janeiro",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Sharm el-Sheikh",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Come si chiama l accordo climatico globale del 2015 che punta a limitare il riscaldamento globale?",
+        "image_term":  "Paris_Agreement",
+        "options":  [
+                        {
+                            "text":  "Accordo di Parigi",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Protocollo di Kyoto",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Green Deal europeo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Agenda 2030",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale istituzione ha approvato l AI Act dell Unione europea?",
+        "image_term":  "European_Union",
+        "options":  [
+                        {
+                            "text":  "Unione europea",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "NATO",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "ONU",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Consiglio d Europa",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città ospita la sede centrale della NATO?",
+        "image_term":  "NATO",
+        "options":  [
+                        {
+                            "text":  "Bruxelles",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Strasburgo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Lussemburgo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Ginevra",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città ospita la sede centrale delle Nazioni Unite?",
+        "image_term":  "Headquarters_of_the_United_Nations",
+        "options":  [
+                        {
+                            "text":  "New York",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Ginevra",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "L Aia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Washington",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città ospita la sede centrale dell OMS?",
+        "image_term":  "World_Health_Organization",
+        "options":  [
+                        {
+                            "text":  "Ginevra",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Vienna",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bruxelles",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Parigi",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quanti sono gli Stati membri dell OMS?",
+        "image_term":  "World_Health_Organization",
+        "options":  [
+                        {
+                            "text":  "194",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "193",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "195",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "192",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale istituzione europea ha sede a Francoforte e gestisce l euro?",
+        "image_term":  "European_Central_Bank",
+        "options":  [
+                        {
+                            "text":  "Banca centrale europea",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Commissione europea",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Eurogruppo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Banca europea per gli investimenti",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale moneta è usata dai paesi dell Eurozona?",
+        "image_term":  "Euro",
+        "options":  [
+                        {
+                            "text":  "Euro",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Dollaro",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Franco svizzero",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Sterlina",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale paese ha presieduto il G20 nel 2024?",
+        "image_term":  "G20",
+        "options":  [
+                        {
+                            "text":  "Brasile",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "India",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Italia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Sudafrica",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città ha ospitato il vertice G20 del 2024?",
+        "image_term":  "2024_G20_Rio_de_Janeiro_summit",
+        "options":  [
+                        {
+                            "text":  "Rio de Janeiro",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Nuova Delhi",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Roma",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Johannesburg",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale gruppo internazionale include Brasile Russia India Cina e Sudafrica?",
+        "image_term":  "BRICS",
+        "options":  [
+                        {
+                            "text":  "BRICS",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "G7",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "NATO",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "ASEAN",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale paese è entrato nei BRICS dal 2024 insieme ad altri nuovi membri?",
+        "image_term":  "BRICS",
+        "options":  [
+                        {
+                            "text":  "Egitto",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Spagna",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Canada",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Norvegia",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale paese ha ospitato Expo 2025?",
+        "image_term":  "Expo_2025",
+        "options":  [
+                        {
+                            "text":  "Giappone",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Cina",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Italia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Corea del Sud",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città ospita Expo 2025?",
+        "image_term":  "Expo_2025",
+        "options":  [
+                        {
+                            "text":  "Osaka",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Tokyo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Nagoya",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Kyoto",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale piattaforma di streaming è nota per la serie Squid Game?",
+        "image_term":  "Netflix",
+        "options":  [
+                        {
+                            "text":  "Netflix",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Disney+",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Prime Video",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Apple TV+",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale piattaforma è proprietaria della serie The Boys?",
+        "image_term":  "Amazon_Prime_Video",
+        "options":  [
+                        {
+                            "text":  "Prime Video",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Netflix",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Disney+",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Max",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda è proprietaria di YouTube?",
+        "image_term":  "YouTube",
+        "options":  [
+                        {
+                            "text":  "Google",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Meta",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Microsoft",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Apple",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda è proprietaria di Instagram?",
+        "image_term":  "Instagram",
+        "options":  [
+                        {
+                            "text":  "Meta",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Snap",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Google",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "ByteDance",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda è proprietaria di WhatsApp?",
+        "image_term":  "WhatsApp",
+        "options":  [
+                        {
+                            "text":  "Meta",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Telegram",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Google",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Apple",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda ha rinominato Twitter in X?",
+        "image_term":  "X_Corp.",
+        "options":  [
+                        {
+                            "text":  "xAI",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Meta",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "OpenAI",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Snap",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda ha sviluppato Claude?",
+        "image_term":  "Anthropic",
+        "options":  [
+                        {
+                            "text":  "Anthropic",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "OpenAI",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Google DeepMind",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Meta",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda è nota per il chatbot Grok?",
+        "image_term":  "xAI",
+        "options":  [
+                        {
+                            "text":  "xAI",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Anthropic",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "OpenAI",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Perplexity",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale motore di ricerca basato su AI ha reso popolare il brand Perplexity?",
+        "image_term":  "Perplexity_AI",
+        "options":  [
+                        {
+                            "text":  "Perplexity",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Bing",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "DuckDuckGo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Brave",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda ha lanciato il chatbot Le Chat nel 2024?",
+        "image_term":  "Mistral_AI",
+        "options":  [
+                        {
+                            "text":  "Mistral AI",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Anthropic",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Cohere",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Meta",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale paese ha vinto l Eurovision Song Contest 2024?",
+        "image_term":  "Eurovision_Song_Contest_2024",
+        "options":  [
+                        {
+                            "text":  "Svizzera",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Croazia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Ucraina",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Italia",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale paese ha vinto il Junior Eurovision 2024?",
+        "image_term":  "Junior_Eurovision_Song_Contest_2024",
+        "options":  [
+                        {
+                            "text":  "Georgia",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Francia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Spagna",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Armenia",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale cantautrice ha concluso nel 2024 il tour mondiale The Eras Tour?",
+        "image_term":  "The_Eras_Tour",
+        "options":  [
+                        {
+                            "text":  "Taylor Swift",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Beyoncé",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Adele",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Dua Lipa",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale film ha vinto l Oscar 2024 come miglior film?",
+        "image_term":  "96th_Academy_Awards",
+        "options":  [
+                        {
+                            "text":  "Oppenheimer",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Poor Things",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Barbie",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Killers of the Flower Moon",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale regista ha firmato il film Oppenheimer?",
+        "image_term":  "Christopher_Nolan",
+        "options":  [
+                        {
+                            "text":  "Christopher Nolan",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Denis Villeneuve",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Martin Scorsese",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Greta Gerwig",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale film d animazione Disney/Pixar del 2024 ha come titolo Inside Out 2 in italiano?",
+        "image_term":  "Inside_Out_2",
+        "options":  [
+                        {
+                            "text":  "Inside Out 2",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Elemental 2",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Soul 2",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Toy Story 5",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale gioco del 2025 di Rockstar è stato annunciato con il ritorno a Vice City?",
+        "image_term":  "Grand_Theft_Auto_VI",
+        "options":  [
+                        {
+                            "text":  "Grand Theft Auto VI",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Red Dead Redemption 3",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bully 2",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Max Payne 4",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale società produce le GPU GeForce RTX?",
+        "image_term":  "Nvidia",
+        "options":  [
+                        {
+                            "text":  "Nvidia",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "AMD",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Intel",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Qualcomm",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda sviluppa i processori Ryzen?",
+        "image_term":  "Advanced_Micro_Devices",
+        "options":  [
+                        {
+                            "text":  "AMD",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Intel",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Apple",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Qualcomm",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda ha realizzato i chip M1 M2 e M3?",
+        "image_term":  "Apple_silicon",
+        "options":  [
+                        {
+                            "text":  "Apple",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Intel",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "AMD",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Nvidia",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale servizio di streaming musicale è il più noto per Wrapped annuale?",
+        "image_term":  "Spotify",
+        "options":  [
+                        {
+                            "text":  "Spotify",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Apple Music",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "YouTube Music",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Deezer",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale piattaforma video breve è nota per i Reels?",
+        "image_term":  "Instagram",
+        "options":  [
+                        {
+                            "text":  "Instagram",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Twitch",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "LinkedIn",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Reddit",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale servizio di messaggistica è stato fondato da Pavel Durov?",
+        "image_term":  "Telegram_(software)",
+        "options":  [
+                        {
+                            "text":  "Telegram",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Signal",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Discord",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "WeChat",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale piattaforma è nota per i server vocali e chat usati dai gamer?",
+        "image_term":  "Discord",
+        "options":  [
+                        {
+                            "text":  "Discord",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Slack",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Teams",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Signal",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale compagnia automobilistica produce la Model 3?",
+        "image_term":  "Tesla,_Inc.",
+        "options":  [
+                        {
+                            "text":  "Tesla",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "BYD",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Volkswagen",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Toyota",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda cinese è diventata un grande produttore globale di auto elettriche?",
+        "image_term":  "BYD_Auto",
+        "options":  [
+                        {
+                            "text":  "BYD",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "NIO",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Xpeng",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Geely",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale casa automobilistica ha lanciato il marchio elettrico ID in Europa?",
+        "image_term":  "Volkswagen",
+        "options":  [
+                        {
+                            "text":  "Volkswagen",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Renault",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Fiat",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Honda",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città ospiterà i Giochi Olimpici invernali del 2026 insieme a Cortina?",
+        "image_term":  "2026_Winter_Olympics",
+        "options":  [
+                        {
+                            "text":  "Milano",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Torino",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Roma",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Venezia",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale club ha vinto la Serie A 2023-24?",
+        "image_term":  "2023–24_Serie_A",
+        "options":  [
+                        {
+                            "text":  "Inter",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Milan",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Juventus",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Napoli",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale tennista ha vinto il Roland Garros maschile 2024?",
+        "image_term":  "2024_French_Open",
+        "options":  [
+                        {
+                            "text":  "Carlos Alcaraz",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Jannik Sinner",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Novak Djokovic",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Alexander Zverev",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale tennista ha vinto gli Australian Open maschili 2024?",
+        "image_term":  "2024_Australian_Open",
+        "options":  [
+                        {
+                            "text":  "Jannik Sinner",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Daniil Medvedev",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Novak Djokovic",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Carlos Alcaraz",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale tennista italiana ha vinto la medaglia d oro olimpica a Parigi 2024 in doppio con Sara Errani?",
+        "image_term":  "Jasmine_Paolini",
+        "options":  [
+                        {
+                            "text":  "Jasmine Paolini",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Elisabetta Cocciaretto",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Lucia Bronzetti",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Martina Trevisan",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale paese ha ospitato gli Europei di calcio del 2024?",
+        "image_term":  "UEFA_Euro_2024",
+        "options":  [
+                        {
+                            "text":  "Germania",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Francia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Qatar",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Inghilterra",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città ha ospitato la finale di Euro 2024?",
+        "image_term":  "UEFA_Euro_2024_final",
+        "options":  [
+                        {
+                            "text":  "Berlino",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Monaco di Baviera",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Amburgo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Colonia",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale app di messaggistica usa il logo con cornetta bianca su sfondo verde?",
+        "image_term":  "WhatsApp",
+        "options":  [
+                        {
+                            "text":  "WhatsApp",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Telegram",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Signal",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Line",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale browser sviluppato da Google domina il mercato desktop globale?",
+        "image_term":  "Google_Chrome",
+        "options":  [
+                        {
+                            "text":  "Chrome",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Firefox",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Edge",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Safari",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale browser è sviluppato da Mozilla?",
+        "image_term":  "Firefox",
+        "options":  [
+                        {
+                            "text":  "Firefox",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Chrome",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Edge",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Opera GX",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda sviluppa il sistema operativo Windows?",
+        "image_term":  "Microsoft_Windows",
+        "options":  [
+                        {
+                            "text":  "Microsoft",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Apple",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Google",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Linux Foundation",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale sistema operativo mobile è sviluppato da Google?",
+        "image_term":  "Android_(operating_system)",
+        "options":  [
+                        {
+                            "text":  "Android",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "iOS",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "HarmonyOS",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Windows Phone",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale sistema operativo mobile è sviluppato da Apple?",
+        "image_term":  "IOS",
+        "options":  [
+                        {
+                            "text":  "iOS",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Android",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "KaiOS",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "HarmonyOS",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale piattaforma di videochiamate di gruppo è integrata in Microsoft 365?",
+        "image_term":  "Microsoft_Teams",
+        "options":  [
+                        {
+                            "text":  "Teams",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Zoom",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Meet",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Webex",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale servizio di videoconferenza usa spesso il verbo zoomare colloquialmente?",
+        "image_term":  "Zoom_(software)",
+        "options":  [
+                        {
+                            "text":  "Zoom",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Meet",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Teams",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Skype",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale piattaforma di cloud storage è sviluppata da Google?",
+        "image_term":  "Google_Drive",
+        "options":  [
+                        {
+                            "text":  "Google Drive",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "OneDrive",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "iCloud Drive",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Dropbox",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale piattaforma di cloud storage è sviluppata da Microsoft?",
+        "image_term":  "OneDrive",
+        "options":  [
+                        {
+                            "text":  "OneDrive",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Google Drive",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Dropbox",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Box",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale piattaforma di cloud storage è sviluppata da Apple?",
+        "image_term":  "ICloud",
+        "options":  [
+                        {
+                            "text":  "iCloud",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Google Drive",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Box",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "OneDrive",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale social professionale è di proprietà di Microsoft?",
+        "image_term":  "LinkedIn",
+        "options":  [
+                        {
+                            "text":  "LinkedIn",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Xing",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Indeed",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Glassdoor",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda ha acquistato Activision Blizzard nel 2023-2024?",
+        "image_term":  "Activision_Blizzard",
+        "options":  [
+                        {
+                            "text":  "Microsoft",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Sony",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Tencent",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "EA",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale console portatile/ibrida di Valve compete con Switch nel gaming PC?",
+        "image_term":  "Steam_Deck",
+        "options":  [
+                        {
+                            "text":  "Steam Deck",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "ROG Ally",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Legion Go",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Playdate",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda produce la console portatile ROG Ally?",
+        "image_term":  "Asus",
+        "options":  [
+                        {
+                            "text":  "Asus",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Lenovo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "MSI",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Acer",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale piattaforma di streaming è nata da HBO Max e Max?",
+        "image_term":  "Max_(streaming_service)",
+        "options":  [
+                        {
+                            "text":  "Max",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Paramount+",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Peacock",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Hulu",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale piattaforma di streaming è di proprietà di Warner Bros. Discovery?",
+        "image_term":  "Warner_Bros._Discovery",
+        "options":  [
+                        {
+                            "text":  "Max",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Netflix",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Prime Video",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Disney+",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale piattaforma di streaming è di proprietà di Paramount Global?",
+        "image_term":  "Paramount+",
+        "options":  [
+                        {
+                            "text":  "Paramount+",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Max",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Netflix",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Peacock",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale piattaforma di streaming è di proprietà di Comcast/NBCUniversal?",
+        "image_term":  "Peacock_(streaming_service)",
+        "options":  [
+                        {
+                            "text":  "Peacock",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Hulu",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Disney+",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Apple TV+",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale motore di ricerca è sviluppato da Microsoft?",
+        "image_term":  "Microsoft_Bing",
+        "options":  [
+                        {
+                            "text":  "Bing",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Google",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Yahoo!",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "DuckDuckGo",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città ospita la sede centrale di Apple?",
+        "image_term":  "Apple_Park",
+        "options":  [
+                        {
+                            "text":  "Cupertino",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Seattle",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mountain View",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Austin",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città ospita la sede centrale di Microsoft?",
+        "image_term":  "Microsoft",
+        "options":  [
+                        {
+                            "text":  "Redmond",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "San Jose",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Cupertino",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Austin",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città ospita la sede centrale di Google?",
+        "image_term":  "Googleplex",
+        "options":  [
+                        {
+                            "text":  "Mountain View",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Palo Alto",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Cupertino",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "San Francisco",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale città ospita la sede principale di Meta?",
+        "image_term":  "Meta_Platforms",
+        "options":  [
+                        {
+                            "text":  "Menlo Park",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "San Jose",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Seattle",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Austin",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda produce le console PlayStation?",
+        "image_term":  "PlayStation",
+        "options":  [
+                        {
+                            "text":  "Sony",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Microsoft",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Nintendo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Sega",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda produce le console Nintendo Switch?",
+        "image_term":  "Nintendo",
+        "options":  [
+                        {
+                            "text":  "Nintendo",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Sony",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Atari",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Sega",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale piattaforma di streaming live è dominata dai creator gaming?",
+        "image_term":  "Twitch_(service)",
+        "options":  [
+                        {
+                            "text":  "Twitch",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Kick",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "YouTube Live",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Facebook Live",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale azienda possiede Twitch?",
+        "image_term":  "Twitch_(service)",
+        "options":  [
+                        {
+                            "text":  "Amazon",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Google",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Microsoft",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Meta",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale società è il principale operatore di Starlink?",
+        "image_term":  "Starlink",
+        "options":  [
+                        {
+                            "text":  "SpaceX",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Amazon",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "OneWeb",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "SES",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale progetto Amazon compete con Starlink nel satellite internet?",
+        "image_term":  "Project_Kuiper",
+        "options":  [
+                        {
+                            "text":  "Project Kuiper",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Blue Moon",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Prime Air",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Alexa Satellite",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale missione europea del 2023-2024 studia l universo oscuro con un telescopio spaziale?",
+        "image_term":  "Euclid_(spacecraft)",
+        "options":  [
+                        {
+                            "text":  "Euclid",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Gaia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Ariel",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "JUICE",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale missione ESA è diretta verso le lune ghiacciate di Giove?",
+        "image_term":  "Jupiter_Icy_Moons_Explorer",
+        "options":  [
+                        {
+                            "text":  "JUICE",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Rosetta",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Gaia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "BepiColombo",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale missione indiana del 2023 ha studiato il polo sud lunare?",
+        "image_term":  "Chandrayaan-3",
+        "options":  [
+                        {
+                            "text":  "Chandrayaan-3",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Mangalyaan",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Aditya-L1",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Gaganyaan",
+                            "corretta":  false
+                        }
+                    ]
+    }
+]

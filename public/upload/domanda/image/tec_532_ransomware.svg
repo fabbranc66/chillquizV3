@@ -1,0 +1,14 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1280' height='720' viewBox='0 0 1280 720'>
+  <defs>
+    <linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0%' stop-color='#0b1220'/>
+      <stop offset='100%' stop-color='#151f36'/>
+    </linearGradient>
+  </defs>
+  <rect width='1280' height='720' fill='url(#bg)' rx='36'/>
+  <rect x='56' y='56' width='1168' height='608' rx='28' fill='none' stroke='#ff5d5d' stroke-width='10' opacity='0.95'/>
+  <circle cx='190' cy='170' r='52' fill='#ff5d5d' opacity='0.18'/>
+  <circle cx='1090' cy='560' r='68' fill='#ff5d5d' opacity='0.14'/>
+  <text x='640' y='295' text-anchor='middle' fill='#f7fbff' font-family='Arial, Helvetica, sans-serif' font-size='88' font-weight='700'>RANSOMWARE</text>
+  <text x='640' y='382' text-anchor='middle' fill='#ff5d5d' font-family='Arial, Helvetica, sans-serif' font-size='34' font-weight='700'>CHILLQUIZ TECNOLOGIA</text>
+</svg>

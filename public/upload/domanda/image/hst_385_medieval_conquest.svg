@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="169" viewBox="0 0 300 169" role="img" aria-label="Medieval conquest motif">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#4a2c2a"/>
+<stop offset="100%" stop-color="#7f5539"/>
+</linearGradient>
+</defs>
+<rect width="300" height="169" rx="22" fill="url(#bg)"/>
+<circle cx="34" cy="30" r="42" fill="#ffffff10"/>
+<circle cx="272" cy="144" r="54" fill="#ffffff10"/>
+<rect x="20" y="20" width="260" height="129" rx="18" fill="#ffffff10" stroke="#ffffff22"/>
+<path d="M96 120 L96 64 q0 -22 24 -30 q24 8 24 30 v56z" fill="#d4a373" stroke="#fefae0aa" stroke-width="4"/>
+<rect x="146" y="52" width="8" height="76" rx="4" fill="#ddb892"/>
+<path d="M154 54 q36 10 40 28 q-22 6 -40 0z" fill="#a4133c"/>
+<path d="M198 42 q12 6 0 24 q-12 -18 0 -24z" fill="#fefae0"/>
+<path d="M78 128 q40 -16 80 0" fill="none" stroke="#ffffff33" stroke-width="4" stroke-linecap="round"/>
+<path d="M174 114 q16 -8 28 0" fill="none" stroke="#ffffff33" stroke-width="4" stroke-linecap="round"/>
+</svg>

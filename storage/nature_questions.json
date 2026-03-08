@@ -1,0 +1,1102 @@
+[
+    {
+        "testo":  "Quale e il più grande oceano della Terra?",
+        "opzioni":  [
+                        "Oceano Pacifico",
+                        "Oceano Atlantico",
+                        "Oceano Indiano",
+                        "Oceano Artico"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pacific_Ocean"
+    },
+    {
+        "testo":  "Quale foresta pluviale e la più estesa del pianeta?",
+        "opzioni":  [
+                        "Foresta amazzonica",
+                        "Foresta del Congo",
+                        "Taiga siberiana",
+                        "Foresta di Borneo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Amazon_rainforest"
+    },
+    {
+        "testo":  "Quale tipo di albero produce ghiande?",
+        "opzioni":  [
+                        "Quercia",
+                        "Faggio",
+                        "Betulla",
+                        "Acero"
+                    ],
+        "corretta":  0,
+        "image_page":  "Oak"
+    },
+    {
+        "testo":  "Quale montagna e la più alta del mondo sul livello del mare?",
+        "opzioni":  [
+                        "Everest",
+                        "K2",
+                        "Kangchenjunga",
+                        "Lhotse"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mount_Everest"
+    },
+    {
+        "testo":  "Quale fenomeno atmosferico produce scariche elettriche tra nube e suolo?",
+        "opzioni":  [
+                        "Fulmine",
+                        "Arcobaleno",
+                        "Nebbia",
+                        "Aurora boreale"
+                    ],
+        "corretta":  0,
+        "image_page":  "Lightning"
+    },
+    {
+        "testo":  "Quale deserto caldo e il più vasto del mondo?",
+        "opzioni":  [
+                        "Sahara",
+                        "Arabico",
+                        "Gobi",
+                        "Kalahari"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sahara"
+    },
+    {
+        "testo":  "Quale gas è il più abbondante nell atmosfera terrestre?",
+        "opzioni":  [
+                        "Azoto",
+                        "Ossigeno",
+                        "Anidride carbonica",
+                        "Argon"
+                    ],
+        "corretta":  0,
+        "image_page":  "Nitrogen"
+    },
+    {
+        "testo":  "Quale strato dell atmosfera contiene la maggior parte dell ozono?",
+        "opzioni":  [
+                        "Stratosfera",
+                        "Troposfera",
+                        "Mesosfera",
+                        "Termosfera"
+                    ],
+        "corretta":  0,
+        "image_page":  "Stratosphere"
+    },
+    {
+        "testo":  "Quale pianta succulenta del deserto è famosa per le spine?",
+        "opzioni":  [
+                        "Cactus",
+                        "Felce",
+                        "Bambù",
+                        "Muschio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cactus"
+    },
+    {
+        "testo":  "Quale fenomeno avviene quando la Luna si interpone tra Terra e Sole?",
+        "opzioni":  [
+                        "Eclissi solare",
+                        "Eclissi lunare",
+                        "Equinozio",
+                        "Solstizio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Solar_eclipse"
+    },
+    {
+        "testo":  "Quale e il più grande mammifero terrestre? ",
+        "opzioni":  [
+                        "Elefante africano",
+                        "Ippopotamo",
+                        "Giraffa",
+                        "Rinoceronte bianco"
+                    ],
+        "corretta":  0,
+        "image_page":  "African_bush_elephant"
+    },
+    {
+        "testo":  "Quale albero e simbolo del Libano?",
+        "opzioni":  [
+                        "Cedro del Libano",
+                        "Sequoia",
+                        "Cipresso",
+                        "Abete bianco"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cedrus_libani"
+    },
+    {
+        "testo":  "Quale tipo di roccia si forma dal raffreddamento del magma?",
+        "opzioni":  [
+                        "Roccia ignea",
+                        "Roccia sedimentaria",
+                        "Ardesia",
+                        "Marmo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Igneous_rock"
+    },
+    {
+        "testo":  "Quale fiume e generalmente considerato il più lungo del mondo nelle classifiche tradizionali?",
+        "opzioni":  [
+                        "Nilo",
+                        "Amazzoni",
+                        "Yangtze",
+                        "Mississippi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Nile"
+    },
+    {
+        "testo":  "Quale fenomeno luminoso si osserva nelle regioni polari?",
+        "opzioni":  [
+                        "Aurora boreale",
+                        "Alone lunare",
+                        "Arcobaleno",
+                        "Miraggio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Aurora"
+    },
+    {
+        "testo":  "Quale e il nome della zona di transizione tra terra e mare soggetta a maree?",
+        "opzioni":  [
+                        "Zona intertidale",
+                        "Piattaforma continentale",
+                        "Delta",
+                        "Estuario"
+                    ],
+        "corretta":  0,
+        "image_page":  "Intertidal_zone"
+    },
+    {
+        "testo":  "Quale albero produce pigne?",
+        "opzioni":  [
+                        "Pino",
+                        "Acero",
+                        "Olivo",
+                        "Pioppo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pine"
+    },
+    {
+        "testo":  "Quale bioma e dominato da erbe alte e pochi alberi sparsi in Africa tropicale?",
+        "opzioni":  [
+                        "Savana",
+                        "Taiga",
+                        "Tundra",
+                        "Steppa alpina"
+                    ],
+        "corretta":  0,
+        "image_page":  "Savanna"
+    },
+    {
+        "testo":  "Quale minerale cristallizza in cubi e costituisce il sale da cucina naturale?",
+        "opzioni":  [
+                        "Halite",
+                        "Quarzo",
+                        "Calcite",
+                        "Gesso"
+                    ],
+        "corretta":  0,
+        "image_page":  "Halite"
+    },
+    {
+        "testo":  "Quale nuvola temporalesca e associata a rovesci intensi e fulmini?",
+        "opzioni":  [
+                        "Cumulonembo",
+                        "Cirro",
+                        "Strato",
+                        "Altocumulo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cumulonimbus_cloud"
+    },
+    {
+        "testo":  "Quale pianta acquatica galleggiante e simbolo di molti stagni tropicali?",
+        "opzioni":  [
+                        "Ninfea",
+                        "Felce acquatica",
+                        "Alga kelp",
+                        "Mangrovia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Water_lily"
+    },
+    {
+        "testo":  "Quale e il processo con cui le piante producono zuccheri usando la luce?",
+        "opzioni":  [
+                        "Fotosintesi",
+                        "Respirazione cellulare",
+                        "Fermentazione",
+                        "Osmosi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Photosynthesis"
+    },
+    {
+        "testo":  "Quale catena montuosa separa spesso Europa e Asia nella definizione geografica classica?",
+        "opzioni":  [
+                        "Urali",
+                        "Ande",
+                        "Alpi",
+                        "Appalachi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ural_Mountains"
+    },
+    {
+        "testo":  "Quale tipo di bosco perde le foglie in autunno?",
+        "opzioni":  [
+                        "Bosco deciduo",
+                        "Foresta pluviale",
+                        "Taiga",
+                        "Mangrovia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Temperate_broadleaf_and_mixed_forest"
+    },
+    {
+        "testo":  "Quale e il più grande lago d acqua dolce per superficie?",
+        "opzioni":  [
+                        "Lago Superiore",
+                        "Lago Baikal",
+                        "Lago Vittoria",
+                        "Lago Michigan"
+                    ],
+        "corretta":  0,
+        "image_page":  "Lake_Superior"
+    },
+    {
+        "testo":  "Quale pianta aromatica mediterranea produce drupe usate per l olio?",
+        "opzioni":  [
+                        "Olivo",
+                        "Noce",
+                        "Mandorlo",
+                        "Carrubo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Olive"
+    },
+    {
+        "testo":  "Quale fenomeno geologico avviene quando una placca sprofonda sotto un altra?",
+        "opzioni":  [
+                        "Subduzione",
+                        "Erosione",
+                        "Sedimentazione",
+                        "Evaporazione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Subduction"
+    },
+    {
+        "testo":  "Quale tipo di suolo congelato permanentemente e tipico delle regioni artiche?",
+        "opzioni":  [
+                        "Permafrost",
+                        "Chernozem",
+                        "Laterite",
+                        "Loess"
+                    ],
+        "corretta":  0,
+        "image_page":  "Permafrost"
+    },
+    {
+        "testo":  "Quale albero gigante della California e tra i più alti al mondo?",
+        "opzioni":  [
+                        "Sequoia sempervirens",
+                        "Cedro rosso",
+                        "Eucalipto regnans",
+                        "Baobab"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sequoia_sempervirens"
+    },
+    {
+        "testo":  "Quale e il nome della parte visibile di un vulcano in eruzione composta da roccia fusa?",
+        "opzioni":  [
+                        "Lava",
+                        "Magma",
+                        "Basalto",
+                        "Pomice"
+                    ],
+        "corretta":  0,
+        "image_page":  "Lava"
+    },
+    {
+        "testo":  "Quale corrente oceanica calda influenza il clima dell Europa occidentale?",
+        "opzioni":  [
+                        "Corrente del Golfo",
+                        "Corrente del Labrador",
+                        "Kuroshio",
+                        "Corrente di Humboldt"
+                    ],
+        "corretta":  0,
+        "image_page":  "Gulf_Stream"
+    },
+    {
+        "testo":  "Quale pianta tropicale gigante appartiene alle graminacee?",
+        "opzioni":  [
+                        "Bambù",
+                        "Banano",
+                        "Papavero",
+                        "Felce arborea"
+                    ],
+        "corretta":  0,
+        "image_page":  "Bamboo"
+    },
+    {
+        "testo":  "Quale fenomeno ottico divide la luce bianca nei colori dello spettro dopo la pioggia?",
+        "opzioni":  [
+                        "Arcobaleno",
+                        "Halo solare",
+                        "Miraggio",
+                        "Corona lunare"
+                    ],
+        "corretta":  0,
+        "image_page":  "Rainbow"
+    },
+    {
+        "testo":  "Quale regione gelata copre gran parte della Groenlandia?",
+        "opzioni":  [
+                        "Calotta glaciale",
+                        "Tundra erbosa",
+                        "Taiga boreale",
+                        "Steppe polari"
+                    ],
+        "corretta":  0,
+        "image_page":  "Greenland_ice_sheet"
+    },
+    {
+        "testo":  "Quale minerale prezioso puro cristallino e una varietà del carbonio?",
+        "opzioni":  [
+                        "Diamante",
+                        "Smeraldo",
+                        "Rubino",
+                        "Opale"
+                    ],
+        "corretta":  0,
+        "image_page":  "Diamond"
+    },
+    {
+        "testo":  "Quale ecosistema costiero tropicale e formato da alberi adattati all acqua salmastra?",
+        "opzioni":  [
+                        "Mangrovia",
+                        "Savana",
+                        "Brughiera",
+                        "Tundra"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mangrove"
+    },
+    {
+        "testo":  "Quale e il principale gas responsabile dell effetto serra antropico?",
+        "opzioni":  [
+                        "Anidride carbonica",
+                        "Azoto",
+                        "Elio",
+                        "Argon"
+                    ],
+        "corretta":  0,
+        "image_page":  "Carbon_dioxide"
+    },
+    {
+        "testo":  "Quale fiore e spesso simbolo dei paesi bassi e dei campi primaverili colorati?",
+        "opzioni":  [
+                        "Tulipano",
+                        "Rosa",
+                        "Peonia",
+                        "Orchidea"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tulip"
+    },
+    {
+        "testo":  "Quale strumento naturale misura l intensità dei terremoti con onde sismiche?",
+        "opzioni":  [
+                        "Sismografo",
+                        "Barometro",
+                        "Anemometro",
+                        "Igrometro"
+                    ],
+        "corretta":  0,
+        "image_page":  "Seismometer"
+    },
+    {
+        "testo":  "Quale e il più grande deserto freddo del mondo?",
+        "opzioni":  [
+                        "Antartide",
+                        "Artico",
+                        "Gobi",
+                        "Patagonico"
+                    ],
+        "corretta":  0,
+        "image_page":  "Antarctica"
+    },
+    {
+        "testo":  "Quale albero mediterraneo e noto per il tronco contorto e le foglie argentee?",
+        "opzioni":  [
+                        "Olivo",
+                        "Sughera",
+                        "Leccio",
+                        "Carrubo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Olive"
+    },
+    {
+        "testo":  "Quale è il nome dello strato fertile superiore del suolo?",
+        "opzioni":  [
+                        "Humus",
+                        "Manto",
+                        "Magma",
+                        "Litosfera"
+                    ],
+        "corretta":  0,
+        "image_page":  "Humus"
+    },
+    {
+        "testo":  "Quale fenomeno può creare una colonna d aria rotante estremamente distruttiva?",
+        "opzioni":  [
+                        "Tornado",
+                        "Monsoni",
+                        "Bora",
+                        "Nebbia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tornado"
+    },
+    {
+        "testo":  "Quale specie di felce fossile vivente e nota per le foglie a ventaglio?",
+        "opzioni":  [
+                        "Ginkgo biloba",
+                        "Felce aquilina",
+                        "Cicadea",
+                        "Abete rosso"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ginkgo_biloba"
+    },
+    {
+        "testo":  "Quale tipo di costa e scavata dal mare in pareti rocciose ripide?",
+        "opzioni":  [
+                        "Falesia",
+                        "Delta",
+                        "Laguna",
+                        "Atollo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cliff"
+    },
+    {
+        "testo":  "Quale elemento è indispensabile in grandi quantità per la crescita delle piante insieme a fosforo e potassio?",
+        "opzioni":  [
+                        "Azoto",
+                        "Elio",
+                        "Sodio",
+                        "Silicio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fertilizer"
+    },
+    {
+        "testo":  "Quale e il nome del processo di consumo graduale del suolo da parte di acqua e vento?",
+        "opzioni":  [
+                        "Erosione",
+                        "Fotosintesi",
+                        "Condensazione",
+                        "Impollinazione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Erosion"
+    },
+    {
+        "testo":  "Quale lago russo e il più profondo del mondo?",
+        "opzioni":  [
+                        "Lago Baikal",
+                        "Lago Ladoga",
+                        "Mar Caspio",
+                        "Lago Onega"
+                    ],
+        "corretta":  0,
+        "image_page":  "Lake_Baikal"
+    },
+    {
+        "testo":  "Quale tipo di nuvola alta e sottile appare come filamenti bianchi?",
+        "opzioni":  [
+                        "Cirro",
+                        "Cumulo",
+                        "Stratocumulo",
+                        "Nembostrato"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cirrus_cloud"
+    },
+    {
+        "testo":  "Quale pianta carnivora intrappola gli insetti con foglie a scatto?",
+        "opzioni":  [
+                        "Venere acchiappamosche",
+                        "Drosera",
+                        "Nepenthes",
+                        "Sarracenia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Venus_flytrap"
+    },
+    {
+        "testo":  "Quale e il nome della grande barriera corallina australiana?",
+        "opzioni":  [
+                        "Grande barriera corallina",
+                        "Barriera del Belize",
+                        "Triangolo dei coralli",
+                        "Ningaloo Reef"
+                    ],
+        "corretta":  0,
+        "image_page":  "Great_Barrier_Reef"
+    },
+    {
+        "testo":  "Quale e il fenomeno che trasforma il vapore acqueo in goccioline nelle nuvole?",
+        "opzioni":  [
+                        "Condensazione",
+                        "Evaporazione",
+                        "Sublimazione",
+                        "Fusione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Condensation"
+    },
+    {
+        "testo":  "Quale albero africano ha un tronco enorme che immagazzina acqua?",
+        "opzioni":  [
+                        "Baobab",
+                        "Acacia",
+                        "Tamarindo",
+                        "Mogano"
+                    ],
+        "corretta":  0,
+        "image_page":  "Baobab"
+    },
+    {
+        "testo":  "Quale tipo di prato freddo senza alberi è tipico delle alte latitudini?",
+        "opzioni":  [
+                        "Tundra",
+                        "Savana",
+                        "Prateria",
+                        "Steppe subtropicali"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tundra"
+    },
+    {
+        "testo":  "Quale roccia metamorfica deriva spesso dal calcare?",
+        "opzioni":  [
+                        "Marmo",
+                        "Granito",
+                        "Arenaria",
+                        "Basalto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Marble"
+    },
+    {
+        "testo":  "Quale e il nome della scienza che studia i funghi?",
+        "opzioni":  [
+                        "Micologia",
+                        "Botanica",
+                        "Entomologia",
+                        "Ecologia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mycology"
+    },
+    {
+        "testo":  "Quale pianta produce ghiande amare usate nell alimentazione animale e talvolta umana in passato?",
+        "opzioni":  [
+                        "Quercia",
+                        "Castagno",
+                        "Acero",
+                        "Pioppo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Oak"
+    },
+    {
+        "testo":  "Quale fenomeno oceanico del Pacifico altera periodicamente clima e piogge globali?",
+        "opzioni":  [
+                        "El Niño",
+                        "Monsone indiano",
+                        "Marea rossa",
+                        "La Nina fredda permanente"
+                    ],
+        "corretta":  0,
+        "image_page":  "El_Niño–Southern_Oscillation"
+    },
+    {
+        "testo":  "Quale tipo di foresta domina le regioni fredde del Canada e della Siberia?",
+        "opzioni":  [
+                        "Taiga",
+                        "Savana",
+                        "Macchia mediterranea",
+                        "Foresta monsonica"
+                    ],
+        "corretta":  0,
+        "image_page":  "Taiga"
+    },
+    {
+        "testo":  "Quale e il nome del confine tra crosta terrestre e mantello?",
+        "opzioni":  [
+                        "Discontinuità di Mohorovičić",
+                        "Discontinuità di Gutenberg",
+                        "Litosfera",
+                        "Astenosfera"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mohorovičić_discontinuity"
+    },
+    {
+        "testo":  "Quale fiore acquatico sacro in molte culture asiatiche emerge dal fango?",
+        "opzioni":  [
+                        "Loto",
+                        "Ninfea",
+                        "Iris d acqua",
+                        "Papavero blu"
+                    ],
+        "corretta":  0,
+        "image_page":  "Nelumbo_nucifera"
+    },
+    {
+        "testo":  "Quale gas nobile e presente in piccola quantità nell atmosfera e nelle insegne luminose?",
+        "opzioni":  [
+                        "Neon",
+                        "Azoto",
+                        "Idrogeno",
+                        "Metano"
+                    ],
+        "corretta":  0,
+        "image_page":  "Neon"
+    },
+    {
+        "testo":  "Quale massiccio montuoso europeo include il Monte Bianco?",
+        "opzioni":  [
+                        "Alpi",
+                        "Pirenei",
+                        "Carpazi",
+                        "Balcani"
+                    ],
+        "corretta":  0,
+        "image_page":  "Alps"
+    },
+    {
+        "testo":  "Quale processo porta polline dallo stame al pistillo nei fiori?",
+        "opzioni":  [
+                        "Impollinazione",
+                        "Germinazione",
+                        "Capillarità",
+                        "Traspirazione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pollination"
+    },
+    {
+        "testo":  "Quale tipo di suolo scuro e fertile è tipico di alcune steppe dell Europa orientale?",
+        "opzioni":  [
+                        "Chernozem",
+                        "Laterite",
+                        "Podzol",
+                        "Alluvione recente"
+                    ],
+        "corretta":  0,
+        "image_page":  "Chernozem"
+    },
+    {
+        "testo":  "Quale pianta e nota per le foglie aghiformi e la resina profumata?",
+        "opzioni":  [
+                        "Abete",
+                        "Betulla",
+                        "Faggio",
+                        "Salice"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fir"
+    },
+    {
+        "testo":  "Quale fenomeno astronomico segna il giorno più lungo dell anno nell emisfero nord?",
+        "opzioni":  [
+                        "Solstizio d estate",
+                        "Equinozio di primavera",
+                        "Perielio",
+                        "Eclissi totale"
+                    ],
+        "corretta":  0,
+        "image_page":  "Summer_solstice"
+    },
+    {
+        "testo":  "Quale e la più grande isola del mondo escludendo i continenti?",
+        "opzioni":  [
+                        "Groenlandia",
+                        "Nuova Guinea",
+                        "Borneo",
+                        "Madagascar"
+                    ],
+        "corretta":  0,
+        "image_page":  "Greenland"
+    },
+    {
+        "testo":  "Quale formazione rocciosa calcarea si sviluppa sul soffitto delle grotte?",
+        "opzioni":  [
+                        "Stalattite",
+                        "Stalagmite",
+                        "Geode",
+                        "Basalto colonnare"
+                    ],
+        "corretta":  0,
+        "image_page":  "Stalactite"
+    },
+    {
+        "testo":  "Quale arbusto mediterraneo aromatico ha foglie lineari usate spesso in cucina?",
+        "opzioni":  [
+                        "Rosmarino",
+                        "Alloro",
+                        "Salvia",
+                        "Timo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Salvia_rosmarinus"
+    },
+    {
+        "testo":  "Quale tipo di vento caldo e secco soffia talvolta sul versante sottovento delle montagne?",
+        "opzioni":  [
+                        "Föhn",
+                        "Maestrale",
+                        "Scirocco",
+                        "Tramontana"
+                    ],
+        "corretta":  0,
+        "image_page":  "Foehn_wind"
+    },
+    {
+        "testo":  "Quale e il nome della pianura alluvionale alla foce di un fiume ramificato?",
+        "opzioni":  [
+                        "Delta",
+                        "Laguna",
+                        "Istmo",
+                        "Fiordo"
+                    ],
+        "corretta":  0,
+        "image_page":  "River_delta"
+    },
+    {
+        "testo":  "Quale organismo fotosintetico marino microscopico produce molto ossigeno del pianeta?",
+        "opzioni":  [
+                        "Fitoplancton",
+                        "Zooplancton",
+                        "Krill",
+                        "Corallo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Phytoplankton"
+    },
+    {
+        "testo":  "Quale tipo di precipitazione è costituita da granuli di ghiaccio traslucidi?",
+        "opzioni":  [
+                        "Grandine",
+                        "Nevischio",
+                        "Brina",
+                        "Rugiada"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hail"
+    },
+    {
+        "testo":  "Quale montagna giapponese e un vulcano simbolo nazionale?",
+        "opzioni":  [
+                        "Monte Fuji",
+                        "Aso",
+                        "Ontake",
+                        "Hakone"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mount_Fuji"
+    },
+    {
+        "testo":  "Quale e il nome della roccia sedimentaria composta da sabbia cementata?",
+        "opzioni":  [
+                        "Arenaria",
+                        "Basalto",
+                        "Marmo",
+                        "Gneiss"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sandstone"
+    },
+    {
+        "testo":  "Quale pianta produce grandi coni legnosi ed è simbolo natalizio in molte culture?",
+        "opzioni":  [
+                        "Abete rosso",
+                        "Bambù",
+                        "Palma da dattero",
+                        "Betulla"
+                    ],
+        "corretta":  0,
+        "image_page":  "Picea_abies"
+    },
+    {
+        "testo":  "Quale zona terrestre riceve i raggi del Sole quasi perpendicolari durante l anno?",
+        "opzioni":  [
+                        "Zona tropicale",
+                        "Zona temperata",
+                        "Zona polare",
+                        "Zona subartica"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tropics"
+    },
+    {
+        "testo":  "Quale fenomeno naturale scava profondi canali sinuosi nel terreno per opera dell acqua?",
+        "opzioni":  [
+                        "Erosione fluviale",
+                        "Subduzione",
+                        "Metamorfismo",
+                        "Fotosintesi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fluvial_landforms_of_streams"
+    },
+    {
+        "testo":  "Quale tipo di foresta cresce in aree con piogge molto abbondanti e temperature elevate?",
+        "opzioni":  [
+                        "Foresta pluviale tropicale",
+                        "Taiga",
+                        "Macchia mediterranea",
+                        "Tundra"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tropical_rainforest"
+    },
+    {
+        "testo":  "Quale minerale trasparente e tra i più comuni nella crosta terrestre?",
+        "opzioni":  [
+                        "Quarzo",
+                        "Topazio",
+                        "Diamante",
+                        "Ametista"
+                    ],
+        "corretta":  0,
+        "image_page":  "Quartz"
+    },
+    {
+        "testo":  "Quale è il nome dello strato di roccia rigida esterno della Terra che comprende crosta e parte del mantello?",
+        "opzioni":  [
+                        "Litosfera",
+                        "Astenosfera",
+                        "Nucleo esterno",
+                        "Mesosfera"
+                    ],
+        "corretta":  0,
+        "image_page":  "Lithosphere"
+    },
+    {
+        "testo":  "Quale pianta delle zone umide ha fusti alti e flessibili chiamati canne?",
+        "opzioni":  [
+                        "Canna comune",
+                        "Bambù",
+                        "Papiro",
+                        "Giunco"
+                    ],
+        "corretta":  0,
+        "image_page":  "Phragmites_australis"
+    },
+    {
+        "testo":  "Quale corrente fredda del Pacifico orientale favorisce la produttività del Perù?",
+        "opzioni":  [
+                        "Corrente di Humboldt",
+                        "Corrente del Golfo",
+                        "Kuroshio",
+                        "Corrente del Brasile"
+                    ],
+        "corretta":  0,
+        "image_page":  "Humboldt_Current"
+    },
+    {
+        "testo":  "Quale e il nome della nube bassa uniforme che spesso porta cielo grigio continuo?",
+        "opzioni":  [
+                        "Strato",
+                        "Cirro",
+                        "Cumulo congesto",
+                        "Altocumulo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Stratus_cloud"
+    },
+    {
+        "testo":  "Quale fiore alpino bianco e considerato simbolo delle montagne europee?",
+        "opzioni":  [
+                        "Stella alpina",
+                        "Genziana",
+                        "Rododendro",
+                        "Croco alpino"
+                    ],
+        "corretta":  0,
+        "image_page":  "Leontopodium_nivale"
+    },
+    {
+        "testo":  "Quale e il nome del fenomeno che causa lo sgretolamento delle rocce per gelo e disgelo?",
+        "opzioni":  [
+                        "Crioclastismo",
+                        "Erosione eolica",
+                        "Sedimentazione",
+                        "Subduzione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mechanical_weathering"
+    },
+    {
+        "testo":  "Quale mare interno salato è il più grande lago del mondo per superficie?",
+        "opzioni":  [
+                        "Mar Caspio",
+                        "Mar Morto",
+                        "Lago Superiore",
+                        "Lago Vittoria"
+                    ],
+        "corretta":  0,
+        "image_page":  "Caspian_Sea"
+    },
+    {
+        "testo":  "Quale tipo di vegetazione bassa e arbustiva domina molte coste mediterranee?",
+        "opzioni":  [
+                        "Macchia mediterranea",
+                        "Taiga",
+                        "Brughiera tropicale",
+                        "Tundra alpina"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mediterranean_forests,_woodlands,_and_scrub"
+    },
+    {
+        "testo":  "Quale pianta produce semi racchiusi in pigne e aghi persistenti?",
+        "opzioni":  [
+                        "Conifera",
+                        "Felce",
+                        "Angiosperma annuale",
+                        "Muschio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Conifer"
+    },
+    {
+        "testo":  "Quale fenomeno naturale consiste nello slittamento improvviso di masse di neve lungo un pendio?",
+        "opzioni":  [
+                        "Valanga",
+                        "Tromba d aria",
+                        "Marea di tempesta",
+                        "Alluvione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Avalanche"
+    },
+    {
+        "testo":  "Quale e il nome della zona di acqua bassa e sabbiosa tipica delle coste tropicali coralline?",
+        "opzioni":  [
+                        "Laguna",
+                        "Delta",
+                        "Fiordo",
+                        "Estuario"
+                    ],
+        "corretta":  0,
+        "image_page":  "Lagoon"
+    },
+    {
+        "testo":  "Quale formazione geologica e una cavità sotterranea con concrezioni e sale spesso visibile nel carsismo?",
+        "opzioni":  [
+                        "Grotta carsica",
+                        "Caldera",
+                        "Geyser",
+                        "Duna"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cave"
+    },
+    {
+        "testo":  "Quale albero europeo produce castagne commestibili?",
+        "opzioni":  [
+                        "Castagno",
+                        "Betulla",
+                        "Acero rosso",
+                        "Olmo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Chestnut"
+    },
+    {
+        "testo":  "Quale fenomeno porta l acqua liquida a diventare vapore per effetto del calore?",
+        "opzioni":  [
+                        "Evaporazione",
+                        "Condensazione",
+                        "Solidificazione",
+                        "Sublimazione inversa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Evaporation"
+    },
+    {
+        "testo":  "Quale grande sistema montuoso sudamericano ospita molte vette oltre i 6000 metri?",
+        "opzioni":  [
+                        "Ande",
+                        "Rocciose",
+                        "Urali",
+                        "Atlante"
+                    ],
+        "corretta":  0,
+        "image_page":  "Andes"
+    },
+    {
+        "testo":  "Quale tipo di suolo acido e povero e tipico di foreste boreali con conifere?",
+        "opzioni":  [
+                        "Podzol",
+                        "Chernozem",
+                        "Terra rossa tropicale",
+                        "Loess"
+                    ],
+        "corretta":  0,
+        "image_page":  "Podzol"
+    },
+    {
+        "testo":  "Quale pianta tropicale palustre e stata storicamente usata in Egitto per supporti di scrittura?",
+        "opzioni":  [
+                        "Papiro",
+                        "Bambù",
+                        "Canna da zucchero",
+                        "Giunco marino"
+                    ],
+        "corretta":  0,
+        "image_page":  "Papyrus"
+    },
+    {
+        "testo":  "Quale nube bassa produce spesso pioviggine continua e persistente?",
+        "opzioni":  [
+                        "Nembostrato",
+                        "Cirrostrato",
+                        "Cumulo umile",
+                        "Altostrato secco"
+                    ],
+        "corretta":  0,
+        "image_page":  "Nimbostratus_cloud"
+    },
+    {
+        "testo":  "Quale e il nome della distesa di sabbia modellata dal vento in forme ondulate?",
+        "opzioni":  [
+                        "Duna",
+                        "Delta",
+                        "Geyser",
+                        "Moraine"
+                    ],
+        "corretta":  0,
+        "image_page":  "Dune"
+    }
+]

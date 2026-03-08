@@ -1,0 +1,100 @@
+Quale ingrediente e fondamentale nella carbonara tradizionale romana?|Guanciale|Pancetta affumicata|Panna|Prosciutto cotto|Carbonara
+Quale formaggio si usa tradizionalmente nel pesto alla genovese?|Parmigiano Reggiano|Gorgonzola|Taleggio|Provolone|Pesto
+Quale cereale e la base del couscous?|Semola di grano duro|Riso|Orzo|Mais|Couscous
+Da quale paese proviene il sushi?|Giappone|Cina|Corea del Sud|Thailandia|Sushi
+Quale ingrediente rende gialla la paella?|Zafferano|Curcuma|Paprika|Curry|Paella
+Quale salsa messicana si prepara con avocado schiacciato?|Guacamole|Salsa verde|Pico de gallo|Mole|Guacamole
+Quale pasta corta e tipica della cucina romana nella amatriciana?|Bucatini|Farfalle|Trofie|Orecchiette|Amatriciana_sauce
+Quale dolce italiano e fatto con savoiardi caffè e mascarpone?|Tiramisù|Zuppa inglese|Cannolo|Babà|Tiramisu
+Quale ingrediente principale si usa per fare il tofu?|Soia|Ceci|Lenticchie|Riso|Tofu
+Quale taglio di carne si usa tradizionalmente per l osso buco?|Geretto di vitello|Filetto di manzo|Arista di maiale|Fesa di tacchino|Ossobuco
+Quale cottura sottovuoto a bassa temperatura e popolare nell alta cucina?|Sous vide|Wok|Gratinatura|Affumicatura a caldo|Sous_vide
+Quale regione italiana e famosa per la ribollita?|Toscana|Liguria|Veneto|Calabria|Ribollita
+Quale ingrediente piccante e tipico del kimchi?|Peperoncino gochugaru|Pepe nero|Paprika dolce|Senape|Kimchi
+Quale dolce francese e composto da bignè e crema con caramello?|Croquembouche|Clafoutis|Crème brûlée|Madeleine|Croquembouche
+Quale pesce e alla base dell acciuga sott olio?|Alice|Merluzzo|Sgombro|Tonno|Anchovy
+Quale piatto indiano ha come pane piatto lievitato cotto nel forno tandoor?|Naan|Chapati|Paratha|Puri|Naan
+Quale legume e usato per preparare l hummus?|Ceci|Fagioli cannellini|Piselli|Lenticchie|Hummus
+Quale salsa emulsionata francese si prepara con tuorli e burro chiarificato?|Salsa olandese|Besciamella|Velouté|Bernese fredda|Hollandaise_sauce
+Quale riso e più usato per il risotto italiano?|Carnaroli|Basmati|Jasmine|Venere|Risotto
+Quale dolce siciliano ha una cialda fritta ripiena di ricotta?|Cannolo|Cassata|Granita|Frutta martorana|Cannoli
+Quale formaggio greco viene spesso usato nell insalata ellenica?|Feta|Halloumi|Ricotta salata|Kefalotyri|Feta
+Quale piatto spagnolo a base di patate e uova e noto come tortilla?|Tortilla española|Patatas bravas|Gazpacho|Fabada|Spanish_omelette
+Quale tecnica consiste nel cuocere un alimento immerso nel suo grasso?|Confit|Blanching|Poaching|Deglassare|Confit
+Quale ingrediente aromatico è indispensabile nel mojito classico?|Menta|Basilico|Rosmarino|Salvia|Mojito
+Quale zuppa fredda spagnola e a base di pomodoro?|Gazpacho|Salmorejo|Ajoblanco|Caldo verde|Gazpacho
+Quale pasta ripiena emiliana e tradizionalmente servita in brodo?|Tortellini|Ravioli|Cappelletti dolci|Agnolotti|Tortellini
+Quale ingrediente si usa per addensare la polenta?|Farina di mais|Semola di grano|Farina di riso|Fecola di patate|Polenta
+Quale preparazione francese indica il fondo di cottura ristretto con vino?|Deglassatura|Fermentazione|Macerazione|Lievitazione|Deglazing_(cooking)
+Quale ingrediente principale ha la bagna cauda piemontese?|Acciughe|Tonno|Olive|Capperi|Bagna_càuda
+Quale dessert giapponese consiste in palline di riso glutinoso?|Mochi|Dorayaki|Taiyaki|Anmitsu|Mochi
+Quale spezia e tipica del curry giallo thai insieme al latte di cocco?|Curcuma|Zafferano|Cumino nero|Anice stellato|Thai_curry
+Quale formaggio filante è più usato sulla pizza napoletana?|Fior di latte|Taleggio|Asiago|Pecorino romano|Neapolitan_pizza
+Quale salsa ligure si prepara con basilico pinoli aglio olio e formaggio?|Pesto|Tapenade|Salsa verde|Aioli|Pesto
+Quale dolce viennese e famoso per cioccolato e confettura di albicocche?|Sachertorte|Linzer torte|Kaiserschmarrn|Strudel|Sachertorte
+Quale carne si usa tipicamente per il pulled pork?|Spalla di maiale|Petto di pollo|Agnello|Vitello|Pulled_pork
+Quale piatto mediorientale e formato da polpette di ceci fritte?|Falafel|Shawarma|Kofta|Tabbouleh|Falafel
+Quale frutto secco è alla base del marzapane?|Mandorla|Nocciola|Pistacchio|Noce|Marzipan
+Quale minestra italiana ha fagioli e pasta come base comune?|Pasta e fagioli|Minestrone|Stracciatella|Passatelli|Pasta_e_fagioli
+Quale pane indiano non lievitato viene cotto su piastra?|Chapati|Naan|Pita|Focaccia|Chapati
+Quale ingrediente fermentato giapponese si usa per la zuppa miso?|Miso|Wasabi|Mirin|Dashi secco|Miso
+Quale tecnica di pasticceria monta tuorli e zucchero a caldo?|Pâte à bombe|Ganache|Meringa italiana|Sabayon freddo|Pâte_à_bombe
+Quale pesce e alla base del baccalà mantecato veneto?|Merluzzo|Tonno|Salmone|Trota|Baccalà_mantecato
+Quale piatto coreano si cuoce spesso su piastra al tavolo?|Bulgogi|Japchae|Bibimbap|Tteokbokki|Bulgogi
+Quale ingrediente rende croccante la tempura giapponese?|Pastella leggera ghiacciata|Pangrattato|Farina di ceci|Semolino|Tempura
+Quale regione italiana e famosa per l arancino o arancina?|Sicilia|Campania|Puglia|Abruzzo|Arancini
+Quale salsa francese deriva dalla maionese con cetriolini e capperi?|Remoulade|Béarnaise|Velouté|Allemande|Rémoulade
+Quale dolce americano e tradizionalmente a base di cream cheese?|Cheesecake|Brownie|Apple pie|Cupcake|Cheesecake
+Quale ingrediente principale ha il baba ganoush?|Melanzana|Ceci|Peperone|Zucchina|Baba_ghanoush
+Quale pasta sarda e piccola come chicchi di grano?|Fregola|Malloreddus|Trofie|Pici|Fregula
+Quale salsa emiliana si serve con il bollito misto ed e verde?|Salsa verde|Mostarda|Cren|Bagnetto rosso|Salsa_verde
+Quale preparazione francese e una crema di panna montata zuccherata e vanigliata?|Chantilly|Diplomatica|Pasticcera|Ganache|Chantilly_cream
+Quale prodotto ittico giapponese consiste in uova di pesce volante?|Tobiko|Uni|Katsuobushi|Natto|Tobiko
+Quale ingrediente e essenziale nella focaccia barese oltre alla farina?|Patata nell impasto|Latte|Burro|Uova|Focaccia_barese
+Quale piatto toscano usa pane raffermo pomodoro cetriolo e cipolla?|Panzanella|Ribollita|Acquacotta|Cacciucco|Panzanella
+Quale tecnica consiste nel cuocere rapidamente in padella molto calda mescolando continuamente?|Saltare in padella|Brasare|Stufare|Lessare|Stir_frying
+Quale piatto peruviano ha pesce marinato negli agrumi?|Ceviche|Lomo saltado|Aji de gallina|Causa limeña|Ceviche
+Quale spezia si usa nella miscela berbere etiope?|Peperoncino|Zafferano|Finocchietto|Vaniglia|Berbere
+Quale formaggio campano si ottiene da latte di bufala?|Mozzarella di bufala|Scamorza|Provola affumicata|Caciocavallo|Buffalo_mozzarella
+Quale dessert francese ha superficie di zucchero caramellato croccante?|Crème brûlée|Mille-feuille|Soufflé|Profiterole|Crème_brûlée
+Quale ingrediente si usa per preparare il seitan?|Glutine di frumento|Soia|Ceci|Mais|Seitan
+Quale zuppa vietnamita è celebre con noodles e brodo speziato?|Phở|Bún chả|Cao lầu|Laksa|Pho
+Quale taglio di carne bovina e classico per la fiorentina?|Lombata con osso|Girello|Fesone di spalla|Reale|Bistecca_alla_fiorentina
+Quale salsa italiana a base di basilico non va cotta dopo la preparazione?|Pesto|Ragù|Amatriciana|Sugo all arrabbiata|Pesto
+Quale piatto piemontese prevede carne cruda tritata condita?|Battuta al coltello|Brasato|Vitello tonnato|Bollito misto|Steak_tartare
+Quale farina si usa per la tempura leggera insieme ad acqua fredda?|Farina di frumento debole|Semola rimacinata|Farina integrale|Farina di ceci|Tempura
+Quale pasta lunga bucata è tipica della cucina napoletana e romana?|Bucatini|Spaghetti quadrati|Linguine|Tagliolini|Bucatini
+Quale dolce natalizio milanese e alto e lievitato con canditi?|Panettone|Pandoro|Colomba|Panforte|Panettone
+Quale pietanza francese unisce fagioli bianchi e carni nel sud ovest?|Cassoulet|Bouillabaisse|Ratatouille|Quiche lorraine|Cassoulet
+Quale salsa a base di aglio e olio e tipica della Catalogna?|Aioli|Rouille|Sofrito|Romesco|Aioli
+Quale piatto hawaiano combina pesce crudo a cubetti con riso e condimenti?|Poke|Ceviche|Sashimi don|Bibimbap|Poke_(Hawaiian_dish)
+Quale ingrediente è tipico della caprese insieme a pomodoro e mozzarella?|Basilico|Rucola|Origano secco|Cipolla rossa|Caprese_salad
+Quale piatto emiliano usa sfoglia verde ragù besciamella e parmigiano?|Lasagne alla bolognese|Cannelloni|Timballo|Pasticcio ferrarese|Lasagne
+Quale dolce mediorientale è composto da pasta fillo e frutta secca con sciroppo?|Baklava|Kunafa|Halva|Basbousa|Baklava
+Quale preparazione giapponese usa brodo dashi riso e spesso pesce crudo sopra?|Donburi|Onigiri|Takoyaki|Okonomiyaki|Donburi
+Quale piatto francese e una zuppa di cipolle gratinata?|Soupe à l oignon|Bisque|Bouillon|Velouté|French_onion_soup
+Quale ingrediente distingue il vitello tonnato?|Salsa al tonno|Pesto di pistacchi|Riduzione di vino rosso|Mostarda di frutta|Vitello_tonnato
+Quale cereale si usa per il bulgur?|Grano duro spezzato|Riso integrale|Farro decorticato|Orzo perlato|Bulgur
+Quale piatto marocchino prende il nome dal recipiente di cottura conico?|Tajine|Couscous royale|Harira|Pastilla|Tajine
+Quale salsa piccante nordafricana è fatta con peperoncino e aglio?|Harissa|Chermoula|Tahina|Dukkah|Harissa
+Quale tipo di pasta fresca piemontese è piccola e chiusa a pizzicotto?|Agnolotti del plin|Tortellini|Culurgiones|Cappelletti|Agnolotti_del_plin
+Quale dessert britannico e un rotolo di pan di spagna con marmellata?|Swiss roll|Trifle|Scone|Sticky toffee pudding|Swiss_roll
+Quale ingrediente e tipico dell insalata Caesar oltre alla lattuga romana?|Crostini|Barbabietola|Olive nere|Feta|Caesar_salad
+Quale dolce campano e a base di ricotta e grano cotto?|Pastiera|Sfogliatella|Babà|Delizia al limone|Pastiera
+Quale piatto brasiliano a base di fagioli neri e carne e considerato nazionale?|Feijoada|Moqueca|Vatapá|Farofa|Feijoada
+Quale preparazione italiana usa caffè espresso ghiaccio e crema di latte nel Salento?|Caffè leccese|Affogato al caffè|Shakerato|Marocchino|Caffè_leccese
+Quale salsa messicana complessa può contenere cacao e vari peperoncini?|Mole|Salsa ranchera|Pico de gallo|Guacamole|Mole_sauce
+Quale piatto ligure cuoce il polpo con patate olive e fagiolini in insalata?|Polpo alla ligure|Cacciucco|Burrida|Cappon magro|Octopus_salad
+Quale ingrediente dà sapidità alla puttanesca insieme a olive e pomodoro?|Capperi|Panna|Basilico fresco|Pinoli|Spaghetti_alla_puttanesca
+Quale dolce francese capovolto ha mele caramellate?|Tarte Tatin|Paris-Brest|Mille-feuille|Financier|Tarte_Tatin
+Quale formaggio viene tradizionalmente grattugiato sulla cacio e pepe?|Pecorino Romano|Parmigiano Reggiano|Asiago|Ricotta salata|Cacio_e_pepe
+Quale piatto thai combina noodles saltati tamarindo e arachidi?|Pad thai|Green curry|Tom yum|Massaman curry|Pad_thai
+Quale ingrediente si usa per fare la tahina?|Semi di sesamo|Semi di lino|Semi di zucca|Nocciole|Tahini
+Quale piatto russo a base di barbabietola è noto come borscht?|Borsch|Solyanka|Shchi|Okroshka|Borscht
+Quale specialità emiliana si ottiene cuocendo mosto d uva per anni in botticelle?|Aceto balsamico tradizionale|Saba fresca|Lambrusco|Vincotto|Traditional_balsamic_vinegar
+Quale pane piatto mediorientale si apre formando una tasca interna?|Pita|Naan|Focaccia|Chapati|Pita
+Quale piatto piemontese freddo prevede fettine di vitello e salsa al tonno?|Vitello tonnato|Carpaccio|Brasato|Bollito misto|Vitello_tonnato
+Quale dolce fritto del Carnevale italiano e noto con vari nomi regionali come frappe o chiacchiere?|Chiacchiere|Zeppole|Castagnole|Graffe|Chiacchiere
+Quale piatto francese provenzale combina verdure stufate come melanzane e zucchine?|Ratatouille|Bouillabaisse|Cassoulet|Navarin|Ratatouille
+Quale condimento giapponese piccante verde accompagna spesso il sushi?|Wasabi|Yuzu kosho|Shichimi|Karashi|Wasabi
+Quale insaccato emiliano entra nel ripieno dei tortellini tradizionali insieme ad altre carni?|Mortadella|Coppa|Culatello|Salame felino|Tortellini

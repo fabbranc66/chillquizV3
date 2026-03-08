@@ -8,8 +8,13 @@
 <!-- PUNTATA -->
 <div id="screen-puntata" class="screen hidden">
     <h2>Fai la tua puntata</h2>
-    <div id="question-type-badge-player" class="question-type-badge-player hidden" aria-live="polite">
-        <img id="question-type-badge-image-player" class="question-type-badge-image-player hidden" alt="Tipologia domanda">
+    <div class="puntata-placeholder" aria-hidden="true">
+        <img
+            class="puntata-placeholder-image"
+            src="<?= htmlspecialchars(chillquiz_asset_url('assets/img/player/puntata-placeholder.svg'), ENT_QUOTES, 'UTF-8') ?>"
+            alt="Fase puntata"
+        >
+        <div class="puntata-placeholder-copy">La domanda arriva tra poco</div>
     </div>
     <input type="number" id="puntata" placeholder="Importo">
     <div class="puntata-actions">

@@ -1,0 +1,125 @@
+﻿Quale azienda ha sviluppato il sistema operativo Windows?|Microsoft|Apple|IBM|Oracle|Microsoft
+Quale sigla indica la memoria a stato solido usata al posto dei dischi meccanici?|SSD|RAM|CPU|GPU|Solid-state_drive
+Quale protocollo viene usato di base per trasferire pagine web?|HTTP|FTP|SMTP|SSH|HTTP
+Quale azienda ha progettato l iPhone originale?|Apple|Nokia|Samsung|Motorola|IPhone
+Quale linguaggio e tipicamente eseguito dai browser web nel frontend?|JavaScript|Python|C|Go|JavaScript
+Quale componente del computer esegue la maggior parte delle istruzioni generali?|CPU|SSD|Monitor|Modem|Central_processing_unit
+Quale termine indica la tecnologia per pagare avvicinando il telefono al lettore?|NFC|VPN|UPS|BIOS|Near-field_communication
+Quale motore di ricerca e stato creato da Larry Page e Sergey Brin?|Google|Bing|Yahoo|DuckDuckGo|Google_Search
+Quale standard Wi Fi e noto commercialmente come Wi Fi 6?|802.11ax|802.11n|802.11g|802.11ac|IEEE_802.11ax
+Quale dispositivo converte i segnali digitali per il collegamento a una linea dati esterna?|Modem|Mouse|Case|Scanner|Modem
+Quale formato di immagine usa compressione con perdita ed e molto diffuso sul web?|JPEG|PNG|SVG|BMP|JPEG
+Quale linguaggio e tradizionalmente usato per strutturare il contenuto delle pagine web?|HTML|SQL|Rust|Kotlin|HTML
+Quale linguaggio definisce lo stile grafico delle pagine web?|CSS|PHP|Csharp|Swift|CSS
+Quale sigla identifica il sistema dei nomi di dominio su Internet?|DNS|GPU|OLED|IDE|Domain_Name_System
+Quale azienda produce i processori Ryzen?|AMD|Intel|Nvidia|Qualcomm|Ryzen
+Quale azienda e nota per la linea di schede video GeForce?|Nvidia|AMD|Intel|Broadcom|GeForce
+Quale sistema operativo open source e basato sul kernel Linux ed e molto usato sui server?|Ubuntu|Windows Server|macOS|iOS|Ubuntu
+Quale termine indica l autenticazione con due fattori?|2FA|OCR|NAT|RAID|Multi-factor_authentication
+Quale porta video digitale ha sostituito in molti casi la VGA?|HDMI|PS2|RJ11|COM|HDMI
+Quale azienda ha sviluppato Android?|Google|Samsung|Nokia|Sony|Android_(operating_system)
+Quale comando SQL viene usato per leggere dati da una tabella?|SELECT|DELETE|DROP|GRANT|SQL
+Quale software di controllo versione usa il comando clone per copiare repository remoti?|Git|Subversion|Mercurial|Perforce|Git
+Quale protocollo viene usato tipicamente per inviare email da un client a un server?|SMTP|IMAP|POP3|Telnet|Simple_Mail_Transfer_Protocol
+Quale protocollo viene usato per ricevere email mantenendole sincronizzate sul server?|IMAP|SMTP|SNMP|RDP|Internet_Message_Access_Protocol
+Quale sigla indica una rete privata virtuale?|VPN|NAS|SSD|LCD|Virtual_private_network
+Quale termine indica un archivio collegato in rete per file e backup domestici o aziendali?|NAS|CPU|ROM|KVM|Network-attached_storage
+Quale linguaggio ha come mascotte un serpente e punta sulla leggibilita?|Python|Java|Ruby|Scala|Python_(programming_language)
+Quale linguaggio compilato e stato creato da Bjarne Stroustrup?|C++|Java|Perl|Lua|C%2B%2B
+Quale azienda ha prodotto storicamente il Macintosh?|Apple|Dell|HP|Acer|Macintosh
+Quale tecnologia di pannello e comune nei televisori di fascia alta per il contrasto elevato?|OLED|CRT|Plasma|VFD|OLED
+Quale componente mantiene data e impostazioni di base del PC anche a computer spento grazie a una batteria?|CMOS|GPU|SSD|Cache L3|Complementary_metal_oxide_semiconductor
+Quale parola indica un programma malevolo che cifra i dati e chiede un riscatto?|Ransomware|Firewall|Driver|Hypervisor|Ransomware
+Quale software di versionamento usa il comando clone per copiare repository remoti?|Git|Excel|Docker|Photoshop|Git
+Quale formato video e noto per lo streaming online e per i file .mp4?|MPEG-4|GIF|TIFF|WAV|MPEG-4_Part_14
+Quale standard di collegamento usa la sigla USB?|Universal Serial Bus|Ultra System Bridge|Unified Service Base|Universal Signal Board|USB
+Quale tecnologia permette di eseguire piu sistemi operativi virtuali sulla stessa macchina fisica?|Virtualizzazione|Deframmentazione|Rasterizzazione|Compressione|Virtualization
+Quale azienda sviluppa il browser Chrome?|Google|Mozilla|Microsoft|Opera|Google_Chrome
+Quale browser open source e sviluppato dalla Mozilla Foundation?|Firefox|Safari|Edge|Brave|Firefox
+Quale protocollo protegge il traffico web con cifratura ed e indicato dal lucchetto nel browser?|HTTPS|HTTP|FTP|TFTP|HTTPS
+Quale tecnologia di stampa 3D fonde filamento plastico depositandolo strato per strato?|FDM|RAID|OLED|LTO|Fused_filament_fabrication
+Quale linguaggio di interrogazione e usato nei database relazionali?|SQL|XML|JSON|YAML|SQL
+Quale dispositivo di rete inoltra pacchetti tra reti diverse?|Router|Switch|Hub|Repeater|Router_(computing)
+Quale dispositivo di rete opera tipicamente a livello 2 smistando frame in una LAN?|Switch|Router|Firewall|Modem|Network_switch
+Quale azienda ha creato il servizio AWS?|Amazon|Google|IBM|Oracle|Amazon_Web_Services
+Quale modello di servizio cloud offre macchine virtuali e infrastruttura di base?|IaaS|SaaS|PaaS|DaaS|Cloud_computing
+Quale acronimo indica un software distribuito come servizio via web?|SaaS|BIOS|PCIe|CDN|Software_as_a_service
+Quale memoria e volatile e perde i dati allo spegnimento?|RAM|ROM|SSD|Flash|Random-access_memory
+Quale memoria non volatile contiene spesso il firmware di avvio?|ROM|RAM|VRAM|SRAM|Read-only_memory
+Quale interfaccia viene usata comunemente per collegare SSD molto veloci sulla scheda madre moderna?|M.2|PS2|RJ45|AGP|M.2
+Quale standard di comunicazione mobile e comunemente associato alla quinta generazione?|5G|3G|LTE|GPRS|5G
+Quale archivio compressore open source usa spesso l estensione .7z?|7-Zip|Winamp|Notepad++|VLC|7-Zip
+Quale formato serve per rappresentare dati strutturati in coppie chiave valore nel web moderno?|JSON|BMP|AVI|PSD|JSON
+Quale formato basato su tag e stato molto usato per dati e configurazioni prima di JSON?|XML|CSV|DOC|PNG|XML
+Quale azienda ha sviluppato il formato PDF?|Adobe|Corel|Autodesk|Xerox|PDF
+Quale applicazione e molto usata per il versionamento del codice con repository remoti Git?|GitHub|Figma|Trello|Slack|GitHub
+Quale azienda e dietro al servizio GitLab?|GitLab Inc.|Atlassian|Meta|SAP|GitLab
+Quale termine indica un programma che media tra sistema operativo e periferica?|Driver|Cookie|Patch panel|Daemon set|Device_driver
+Quale azienda ha sviluppato il database open source MySQL?|MySQL AB|IBM|Netscape|Cisco|MySQL
+Quale database relazionale open source e noto per la sua estensibilita e robustezza?|PostgreSQL|Access|SQLite|Redis|PostgreSQL
+Quale database in memoria a chiave valore usa spesso il comando SET?|Redis|MongoDB|MariaDB|Cassandra|Redis
+Quale tecnologia viene spesso usata per containerizzare applicazioni?|Docker|Vim|Jira|WinRAR|Docker_(software)
+Quale piattaforma di orchestrazione container e nota per i pod?|Kubernetes|OpenOffice|FreeBSD|Ansible|Kubernetes
+Quale formato audio compresso con perdita e stato reso famoso dai lettori portatili digitali?|MP3|FLAC|WAV|AIFF|MP3
+Quale codec video e alla base di gran parte dei contenuti streaming in HD per anni?|H.264|GIF|PCM|AAC|Advanced_Video_Coding
+Quale tipo di cavo di rete usa il connettore RJ45 nelle LAN moderne?|Ethernet|Coassiale TV|Telefonico RJ11|Fibra ottica SCART|Ethernet
+Quale tecnologia di storage ridondante usa piu dischi e puo migliorare affidabilita o prestazioni?|RAID|BIOS|UEFI|DPI|RAID
+Quale acronimo indica un gruppo di continuita per proteggere da blackout brevi?|UPS|CPU|URL|APK|Uninterruptible_power_supply
+Quale tipo di schermo usa inchiostro elettronico ed e tipico degli e reader?|E Ink|OLED|Plasma|LCD CCFL|Electronic_paper
+Quale azienda ha sviluppato la console PlayStation?|Sony|Nintendo|Sega|Atari|PlayStation
+Quale azienda produce la console Xbox?|Microsoft|Sony|Valve|Lenovo|Xbox
+Quale piattaforma di gioco per PC ha reso popolare Valve per la distribuzione digitale?|Steam|Origin|Uplay|GOG Galaxy|Steam_(service)
+Quale azienda ha prodotto storicamente i processori Core?|Intel|AMD|Arm|Texas Instruments|Intel_Core
+Quale architettura di processori e molto diffusa negli smartphone moderni?|ARM|x86|PowerPC|SPARC|ARM_architecture_family
+Quale sistema di firmware moderno ha in gran parte sostituito il BIOS tradizionale?|UEFI|DOS|BASIC|RAID|UEFI
+Quale linguaggio viene usato spesso per sviluppare applicazioni Android native insieme a Java?|Kotlin|Ruby|Delphi|Fortran|Kotlin_(programming_language)
+Quale linguaggio di Apple e usato per app iOS moderne?|Swift|PHP|Assembly|Pascal|Swift_(programming_language)
+Quale tipo di attacco inganna l utente per rubare credenziali simulando siti o messaggi legittimi?|Phishing|Hashing|Caching|Routing|Phishing
+Quale componente software filtra traffico di rete in ingresso e uscita secondo regole?|Firewall|Compiler|Hyperlink|Scheduler|Firewall_(computing)
+Quale tecnologia blockchain e nota per la criptovaluta Bitcoin?|Blockchain|Bluetooth|NFC|USB|Blockchain
+Quale criptovaluta e stata proposta da Satoshi Nakamoto?|Bitcoin|Ethereum|Litecoin|Monero|Bitcoin
+Quale licenza open source e spesso associata al copyleft del software libero?|GPL|MIT No Attribution|EULA|NDA|GNU_General_Public_License
+Quale sistema operativo per smartphone era prodotto da BlackBerry Limited?|BlackBerry OS|Symbian|Palm OS|HarmonyOS|BlackBerry_OS
+Quale azienda ha creato il protocollo Bluetooth insieme a un consorzio industriale?|Ericsson|Nokia|IBM|Philips|Bluetooth
+Quale porta viene usata tipicamente per collegare una rete Ethernet cablata a un PC?|RJ45|HDMI|USB-C audio only|3.5 mm|Registered_jack
+Quale estensione di file eseguibile e tipica dei programmi Windows?|.exe|.png|.csv|.html|EXE
+Quale tipo di software consente di modificare immagini raster a livelli ed e reso famoso da Adobe?|Photoshop|Premiere Pro|Illustrator|Audition|Adobe_Photoshop
+Quale applicazione e nota per il montaggio video professionale di Adobe?|Premiere Pro|Lightroom|Acrobat|Dreamweaver|Adobe_Premiere_Pro
+Quale programma open source e molto diffuso per l editing di immagini raster come alternativa gratuita?|GIMP|Inkscape|OBS Studio|Audacity|GIMP
+Quale programma open source e usato spesso per registrazione e streaming video live?|OBS Studio|Blender|LibreOffice Calc|Thunderbird|OBS_Studio
+Quale programma open source e molto usato per editing audio multitraccia di base?|Audacity|VLC|HandBrake|Kodi|Audacity_(audio_editor)
+Quale software libero di modellazione 3D e animazione e noto anche per i corti open movie?|Blender|Maya|SolidWorks|AutoCAD|Blender_(software)
+Quale tecnologia permette di risolvere nomi tipo esempio.com in indirizzi IP?|DNS|DHCP|POP3|MMS|Domain_Name_System
+Quale protocollo assegna automaticamente indirizzi IP in molte reti locali?|DHCP|DNS|SSH|NTP|Dynamic_Host_Configuration_Protocol
+Quale protocollo viene usato per collegarsi in modo sicuro a una shell remota?|SSH|FTP|HTTP|LDAP|Secure_Shell
+Quale protocollo storico non cifrato veniva usato per terminali remoti prima di SSH?|Telnet|HTTPS|SCP|SFTP|Telnet
+Quale formato e usato per pacchettizzare applicazioni Android da installare manualmente?|APK|DMG|ISO|DEB|APK_(file_format)
+Quale formato e comune per immagini vettoriali sul web?|SVG|JPEG|BMP|RAW|SVG
+Quale piattaforma professionale di networking lavorativo appartiene a Microsoft?|LinkedIn|Reddit|Pinterest|Snapchat|LinkedIn
+Quale azienda ha acquistato Instagram nel 2012?|Meta|Google|X Corp|Adobe|Instagram
+Quale servizio di messaggistica di Meta usa la crittografia end to end di Signal per impostazione diffusa?|WhatsApp|Messenger Rooms|Workplace|Threads|WhatsApp
+Quale piattaforma video in streaming appartiene a Google?|YouTube|Vimeo|Twitch|Dailymotion|YouTube
+Quale azienda ha sviluppato il servizio di streaming live Twitch?|Amazon|Google|Netflix|Zoom|Twitch_(service)
+Quale piattaforma e nota per le videoriunioni online e ha reso popolare il verbo zoomare?|Zoom|Discord|Skype|Teamspeak|Zoom_(software)
+Quale suite di produttivita cloud include Documenti Fogli e Presentazioni?|Google Workspace|LibreOffice|iWork|OpenOffice|Google_Workspace
+Quale servizio Microsoft include Word Excel e PowerPoint in abbonamento cloud?|Microsoft 365|Visual Studio Code|Bing Webmaster|Azure DevOps|Microsoft_365
+Quale editor di codice open source di Microsoft e molto diffuso tra gli sviluppatori?|Visual Studio Code|Paint|FrontPage|Publisher|Visual_Studio_Code
+Quale formato di configurazione usa spesso sezioni tra parentesi quadre in file moderni?|TOML|YAML|CSV|BMP|TOML
+Quale strumento CLI di Node.js installa pacchetti dal registro pubblico JavaScript?|npm|pip|cargo|gem|Npm_(software)
+Quale gestore pacchetti e tipico dell ecosistema Python?|pip|apt|brew|nuget|Pip_(package_manager)
+Quale gestore pacchetti e tipico dell ecosistema Rust?|cargo|composer|conda|snap|Cargo_(software)
+Quale formato di immagine supporta trasparenza lossless ed e molto usato per loghi web?|PNG|JPEG|MPEG|MP3|Portable_Network_Graphics
+Quale formato compresso e tipico per archivi di software e sorgenti su sistemi Unix?|tar.gz|docx|psd|aac|Gzip
+Quale software open source e noto per la virtualizzazione desktop gratuita di Oracle?|VirtualBox|Procreate|WinZip|MATLAB|VirtualBox
+Quale produttore ha sviluppato il protocollo AirDrop per il trasferimento tra dispositivi vicini?|Apple|Samsung|Huawei|Dell|AirDrop
+Quale interfaccia moderna e reversibile ha sostituito molte connessioni USB precedenti?|USB-C|Micro-USB|PS2|Parallel port|USB-C
+Quale azienda ha creato il linguaggio Go?|Google|Meta|Sun Microsystems|IBM|Go_(programming_language)
+Quale azienda ha creato il linguaggio Rust?|Mozilla|Apple|SAP|Siemens|Rust_(programming_language)
+Quale formato di pacchetto e tipico di molte distribuzioni Debian e Ubuntu?|DEB|RPM spec text|APK Android|ISO9660|Deb_(file_format)
+Quale formato di pacchetto e tipico di Red Hat Enterprise Linux e Fedora?|RPM|DEB|DMG|EXE|RPM_Package_Manager
+Quale servizio cloud di Google offre macchine virtuali chiamate Compute Engine?|Google Cloud|AWS|Heroku|DigitalOcean only|Google_Cloud_Platform
+Quale protocollo sincronizza l ora tra computer e server in rete?|NTP|SMTP|POP3|SIP|Network_Time_Protocol
+Quale piattaforma di chat e collaborazione e molto usata dai team di sviluppo?|Slack|WinSCP|Notion calendar only|Paint.NET|Slack_Technologies
+Quale piattaforma e nota per la collaborazione su design UI e prototipi nel browser?|Figma|GIMP|WordPad|Postman Echo|Figma
+Quale strumento e spesso usato per testare API REST con richieste manuali e collection?|Postman|Firefox Sync|Paint|PuTTY Tray|Postman_(software)
+Quale programma e noto per connessioni SSH e Telnet su Windows?|PuTTY|Teams|Outlook|OneNote|PuTTY

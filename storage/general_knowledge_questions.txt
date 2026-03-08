@@ -1,0 +1,100 @@
+Qual è la capitale del Canada?|Ottawa|Toronto|Vancouver|Montreal|Ottawa
+Qual è la capitale dell Australia?|Canberra|Sydney|Melbourne|Perth|Canberra
+Quale pianeta è noto come Pianeta Rosso?|Marte|Venere|Giove|Mercurio|Mars
+Quale oceano è il più grande della Terra?|Pacifico|Atlantico|Indiano|Artico|Pacific_Ocean
+Chi dipinse la Gioconda?|Leonardo da Vinci|Michelangelo|Raffaello|Donatello|Leonardo_da_Vinci
+In quale paese si trova Machu Picchu?|Perù|Cile|Messico|Bolivia|Machu_Picchu
+Qual è l elemento chimico con simbolo O?|Ossigeno|Oro|Osmio|Olmio|Oxygen
+Chi scrisse la Divina Commedia?|Dante Alighieri|Petrarca|Boccaccio|Ariosto|Dante_Alighieri
+Quale animale è il più grande del mondo?|Balenottera azzurra|Elefante africano|Squalo balena|Giraffa|Blue_whale
+Quale continente ha più stati sovrani?|Africa|Europa|Asia|America del Sud|Africa
+Quale strumento misura i terremoti?|Sismografo|Barometro|Termometro|Anemometro|Seismometer
+Quale lingua si parla principalmente in Brasile?|Portoghese|Spagnolo|Inglese|Francese|Portuguese_language
+Quale gas respirano principalmente gli esseri umani?|Ossigeno|Azoto|Anidride carbonica|Elio|Oxygen
+Quale città ospita la Torre Eiffel?|Parigi|Lione|Marsiglia|Nizza|Eiffel_Tower
+Chi formulò la teoria della relatività?|Albert Einstein|Isaac Newton|Galileo Galilei|Nikola Tesla|Albert_Einstein
+Quale metallo prezioso ha simbolo Au?|Oro|Argento|Rame|Platino|Gold
+Quale mare bagna Venezia?|Mare Adriatico|Mar Tirreno|Mar Ionio|Mar Ligure|Adriatic_Sea
+Quale organo del corpo umano pompa il sangue?|Cuore|Fegato|Polmone|Rene|Heart
+Quale paese è famoso per le piramidi di Giza?|Egitto|Marocco|Tunisia|Giordania|Giza_pyramid_complex
+Quanti giorni ha un anno bisestile?|366|365|364|367|Leap_year
+Quale pianeta ha gli anelli più evidenti?|Saturno|Urano|Giove|Nettuno|Saturn
+Chi scrisse Romeo e Giulietta?|William Shakespeare|Charles Dickens|Jane Austen|Oscar Wilde|William_Shakespeare
+Qual è il fiume più lungo del mondo secondo la classificazione più diffusa?|Nilo|Amazzoni|Mississippi|Danubio|Nile
+Quale città è la capitale della Spagna?|Madrid|Barcellona|Valencia|Siviglia|Madrid
+Quale scienza studia gli esseri viventi?|Biologia|Geologia|Astronomia|Fisica|Biology
+Quale colore si ottiene mescolando blu e giallo?|Verde|Viola|Arancione|Marrone|Green
+Quale pianeta è il più vicino al Sole?|Mercurio|Venere|Terra|Marte|Mercury_(planet)
+Chi scolpì il David conservato a Firenze?|Michelangelo|Bernini|Canova|Donatello|David_(Michelangelo)
+Quale montagna è la più alta del mondo sul livello del mare?|Everest|K2|Kangchenjunga|Monte Bianco|Mount_Everest
+Quale apparato del corpo consente la respirazione?|Apparato respiratorio|Apparato digerente|Sistema nervoso|Apparato urinario|Respiratory_system
+Quale paese usa lo yen come moneta?|Giappone|Cina|Corea del Sud|Thailandia|Japanese_yen
+Quale città italiana è attraversata dal fiume Arno?|Firenze|Roma|Milano|Torino|Arno
+Chi scoprì la penicillina?|Alexander Fleming|Louis Pasteur|Robert Koch|Marie Curie|Alexander_Fleming
+Quale stella è al centro del nostro sistema solare?|Sole|Sirio|Polare|Betelgeuse|Sun
+Quale strumento serve a orientarsi indicando il nord magnetico?|Bussola|Sestante|Altimetro|Cronometro|Compass
+Quale mammifero è noto per avere una proboscide?|Elefante|Rinoceronte|Ippopotamo|Tapiro|Elephant
+Quale città è la capitale della Germania?|Berlino|Monaco|Amburgo|Colonia|Berlin
+Quale parte della pianta assorbe soprattutto acqua e sali minerali?|Radice|Foglia|Fiore|Frutto|Root
+Quale compositore scrisse Le quattro stagioni?|Antonio Vivaldi|Mozart|Verdi|Beethoven|Antonio_Vivaldi
+Quale deserto è il più grande caldo del mondo?|Sahara|Gobi|Kalahari|Arabico|Sahara
+Quale materiale produce la seta?|Baco da seta|Ape|Ragno|Pecora|Bombyx_mori
+Quale città è la capitale dell Argentina?|Buenos Aires|Cordoba|Rosario|Mendoza|Buenos_Aires
+Quale pianeta è chiamato il gigante gassoso più grande?|Giove|Saturno|Urano|Nettuno|Jupiter
+Quale scrittrice creò il personaggio di Harry Potter?|J. K. Rowling|Suzanne Collins|Stephenie Meyer|Agatha Christie|J._K._Rowling
+Quale mare separa Italia e Grecia?|Mar Ionio|Mar Ligure|Mar Nero|Mar Baltico|Ionian_Sea
+Quale vitamina si produce soprattutto con l esposizione al sole?|Vitamina D|Vitamina C|Vitamina A|Vitamina K|Vitamin_D
+Quale popolo costruì il Colosseo?|Romani|Greci|Egizi|Fenici|Colosseum
+Quale città è la capitale del Portogallo?|Lisbona|Porto|Braga|Coimbra|Lisbon
+Quale strato atmosferico contiene la maggior parte dell ozono?|Stratosfera|Troposfera|Mesosfera|Termosfera|Stratosphere
+Quale animale è simbolo dell Australia insieme al canguro?|Koala|Panda|Lama|Bisonte|Koala
+Chi dipinse La notte stellata?|Vincent van Gogh|Claude Monet|Paul Cézanne|Edgar Degas|The_Starry_Night
+Quale fiume attraversa Budapest?|Danubio|Senna|Tamigi|Po|Danube
+Quale paese è noto per i tulipani e i mulini a vento?|Paesi Bassi|Belgio|Danimarca|Svezia|Netherlands
+Quale organo produce l insulina?|Pancreas|Fegato|Milza|Rene|Pancreas
+Quale invenzione è associata a Johannes Gutenberg?|Stampa a caratteri mobili|Telefono|Lampadina|Radio|Johannes_Gutenberg
+Quale città è la capitale della Grecia?|Atene|Salonicco|Patrasso|Candia|Athens
+Quale fenomeno ottico forma l arcobaleno?|Rifrazione della luce|Diffusione sonora|Induzione magnetica|Evaporazione|Rainbow
+Quale animale depone le uova ma è un mammifero?|Ornitorinco|Delfino|Pipistrello|Koala|Platypus
+Quale filosofo fu maestro di Alessandro Magno?|Aristotele|Socrate|Platone|Epicuro|Aristotle
+Quale città è la capitale della Svezia?|Stoccolma|Goteborg|Malmo|Uppsala|Stockholm
+Quale metallo è liquido a temperatura ambiente?|Mercurio|Ferro|Alluminio|Piombo|Mercury_(element)
+Quale nave portò Charles Darwin nel viaggio che ispirò molte sue osservazioni?|Beagle|Endeavour|Bounty|Victoria|HMS_Beagle
+Quale paese è famoso per i fiordi?|Norvegia|Finlandia|Islanda|Irlanda|Norway
+Quale gas costituisce la maggior parte dell atmosfera terrestre?|Azoto|Ossigeno|Argon|Anidride carbonica|Nitrogen
+Chi compose la Nona Sinfonia?|Ludwig van Beethoven|Chopin|Bach|Haydn|Symphony_No._9_(Beethoven)
+Quale città è la capitale del Belgio?|Bruxelles|Anversa|Bruges|Liegi|Brussels
+Quale animale è il più veloce sulla terraferma?|Ghepardo|Leone|Antilope|Cavallo|Cheetah
+Quale scienza studia i minerali e le rocce?|Geologia|Zoologia|Botanica|Meteorologia|Geology
+Quale paese ha la forma di uno stivale sulla mappa?|Italia|Grecia|Cile|Messico|Italy
+Quale pittore è noto per Guernica?|Pablo Picasso|Salvador Dali|Joan Miro|Goya|Guernica_(Picasso)
+Quale città è la capitale dell Austria?|Vienna|Salisburgo|Graz|Innsbruck|Vienna
+Quale parte del corpo umano contiene il cristallino?|Occhio|Orecchio|Cuore|Polmone|Eye
+Quale isola è la più grande del Mar Mediterraneo?|Sicilia|Sardegna|Corsica|Creta|Sicily
+Chi fu il primo uomo a camminare sulla Luna?|Neil Armstrong|Buzz Aldrin|Yuri Gagarin|Michael Collins|Neil_Armstrong
+Quale popolo antico costruì Stonehenge secondo il nome del monumento?|Preistorici britannici|Romani|Vichinghi|Normanni|Stonehenge
+Quale città è la capitale della Turchia?|Ankara|Istanbul|Smirne|Bursa|Ankara
+Quale strumento astronomico osserva corpi celesti lontani?|Telescopio|Microscopio|Barometro|Densimetro|Telescope
+Quale animale è noto per cambiare colore per mimetizzarsi?|Camaleonte|Iguana|Cobra|Lontra|Chameleon
+Quale scrittore italiano scrisse I promessi sposi?|Alessandro Manzoni|Italo Calvino|Umberto Eco|Luigi Pirandello|Alessandro_Manzoni
+Quale città è la capitale della Finlandia?|Helsinki|Turku|Tampere|Oulu|Helsinki
+Quale fenomeno naturale si misura con la scala Richter o magnitudo momento?|Terremoto|Uragano|Tornado|Maremoto|Earthquake
+Quale osso è il più lungo del corpo umano?|Femore|Tibia|Omero|Radio|Femur
+Quale stretto separa Europa e Africa tra Spagna e Marocco?|Stretto di Gibilterra|Bosforo|Dardanelli|Bering|Strait_of_Gibraltar
+Chi dipinse L ultima cena?|Leonardo da Vinci|Tintoretto|Caravaggio|Giotto|The_Last_Supper_(Leonardo)
+Quale città è la capitale dell Irlanda?|Dublino|Cork|Galway|Limerick|Dublin
+Quale unità misura la corrente elettrica?|Ampere|Volt|Watt|Ohm|Ampere
+Quale animale è il simbolo tradizionale della saggezza?|Gufo|Aquila|Cigno|Volpe|Owl
+Quale scienziata vinse due premi Nobel in discipline diverse?|Marie Curie|Rosalind Franklin|Ada Lovelace|Rita Levi-Montalcini|Marie_Curie
+Quale città è la capitale della Danimarca?|Copenaghen|Aarhus|Odense|Aalborg|Copenhagen
+Quale parte della cellula contiene il DNA nelle cellule eucariotiche?|Nucleo|Membrana|Citoplasma|Mitocondrio|Cell_nucleus
+Quale paese è attraversato dal fiume Nilo fino al Mediterraneo?|Egitto|Sudan|Etiopia|Uganda|Nile
+Quale autore scrisse Il piccolo principe?|Antoine de Saint-Exupery|Victor Hugo|Jules Verne|Albert Camus|The_Little_Prince
+Quale città è la capitale della Polonia?|Varsavia|Cracovia|Danzica|Lodz|Warsaw
+Quale pianeta ha una grande macchia rossa osservabile da secoli?|Giove|Marte|Saturno|Nettuno|Great_Red_Spot
+Quale materiale naturale producono le api?|Miele|Latte|Seta|Cera d albero|Honey
+Quale città ospita il Cremlino?|Mosca|San Pietroburgo|Kiev|Minsk|Moscow_Kremlin
+Chi compose l opera La Traviata?|Giuseppe Verdi|Gioachino Rossini|Giacomo Puccini|Gaetano Donizetti|La_traviata
+Quale apparato del corpo trasporta il sangue?|Apparato circolatorio|Apparato respiratorio|Apparato digerente|Sistema endocrino|Circulatory_system
+Quale città è la capitale della Svizzera?|Berna|Zurigo|Ginevra|Losanna|Bern
+Quale fenomeno fa apparire il cielo azzurro di giorno?|Diffusione della luce|Riflessione magnetica|Rifrazione dell acqua|Condensazione|Rayleigh_scattering

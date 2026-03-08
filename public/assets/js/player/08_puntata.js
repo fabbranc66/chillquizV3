@@ -74,10 +74,15 @@
     setPuntata(capitaleAttuale());
   }
 
+  function prepareScreen() {
+    setPuntata('');
+  }
+
   Player.puntata = {
     handlePuntata,
     increasePuntata,
     decreasePuntata,
     setAllIn,
+    prepareScreen,
   };
 })();

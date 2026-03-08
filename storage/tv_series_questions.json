@@ -1,0 +1,2202 @@
+[
+    {
+        "text":  "Quale serie fantasy HBO segue le lotte per il Trono di Spade?",
+        "image_term":  "Game_of_Thrones",
+        "options":  [
+                        {
+                            "text":  "Game of Thrones",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "The Witcher",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Vikings",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "House of the Dragon",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale attore interpreta Walter White in Breaking Bad?",
+        "image_term":  "Bryan_Cranston",
+        "options":  [
+                        {
+                            "text":  "Bryan Cranston",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Aaron Paul",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bob Odenkirk",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Dean Norris",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie Netflix racconta il colpo alla Zecca di Stato spagnola?",
+        "image_term":  "Money_Heist",
+        "options":  [
+                        {
+                            "text":  "La casa di carta",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Elite",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Narcos",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Lupin",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale personaggio guida il team di medici nella serie Dr. House?",
+        "image_term":  "House_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Gregory House",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "James Wilson",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Eric Foreman",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Robert Chase",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale sitcom è ambientata soprattutto nel bar Central Perk?",
+        "image_term":  "Friends",
+        "options":  [
+                        {
+                            "text":  "Friends",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "How I Met Your Mother",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "New Girl",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Seinfeld",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue le vicende della famiglia Shelby a Birmingham?",
+        "image_term":  "Peaky_Blinders_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Peaky Blinders",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Taboo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Boardwalk Empire",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Sons of Anarchy",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale attrice interpreta Undici in Stranger Things?",
+        "image_term":  "Millie_Bobby_Brown",
+        "options":  [
+                        {
+                            "text":  "Millie Bobby Brown",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Sadie Sink",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Winona Ryder",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Maya Hawke",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie racconta la vita della famiglia reale britannica in epoca moderna?",
+        "image_term":  "The_Crown_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "The Crown",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Victoria",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bridgerton",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Downton Abbey",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale detective protagonista appare nella serie Sherlock della BBC?",
+        "image_term":  "Sherlock_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Sherlock Holmes",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "John Watson",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mycroft Holmes",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Lestrade",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie italiana ruota attorno al clan Savastano?",
+        "image_term":  "Gomorrah_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Gomorra",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Suburra",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Romanzo criminale",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mare fuori",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie Disney+ segue le avventure di un cacciatore di taglie nell universo Star Wars?",
+        "image_term":  "The_Mandalorian",
+        "options":  [
+                        {
+                            "text":  "The Mandalorian",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Ahsoka",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Andor",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Obi-Wan Kenobi",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie ha per protagonista il serial killer Dexter Morgan?",
+        "image_term":  "Dexter_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Dexter",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "You",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mindhunter",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Hannibal",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale liceo spagnolo fa da sfondo principale alla serie Elite?",
+        "image_term":  "Elite_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Las Encinas",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "San Esteban",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "La Marina",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Monterrey High",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue il gruppo di sopravvissuti dopo un apocalisse zombie?",
+        "image_term":  "The_Walking_Dead_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "The Walking Dead",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Fear the Walking Dead",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Lost",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "From",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie comedy segue la vita d ufficio alla filiale Dunder Mifflin di Scranton?",
+        "image_term":  "The_Office_(American_TV_series)",
+        "options":  [
+                        {
+                            "text":  "The Office",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Parks and Recreation",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Brooklyn Nine-Nine",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Superstore",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale spin-off di Breaking Bad segue l avvocato Saul Goodman?",
+        "image_term":  "Better_Call_Saul",
+        "options":  [
+                        {
+                            "text":  "Better Call Saul",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "El Camino",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Ozark",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Lincoln Lawyer",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie Netflix francese ha come protagonista il ladro Assane Diop?",
+        "image_term":  "Lupin_(French_TV_series)",
+        "options":  [
+                        {
+                            "text":  "Lupin",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Marseille",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Plan Coeur",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Hook Up Plan",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie racconta il viaggio di un gruppo di passeggeri del volo Montego Air 828?",
+        "image_term":  "Manifest_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Manifest",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Lost",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The 100",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Into the Night",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie medica di lunga durata è ambientata al Grey Sloan Memorial Hospital?",
+        "image_term":  "Grey\u0027s_Anatomy",
+        "options":  [
+                        {
+                            "text":  "Grey\u0027s Anatomy",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "ER",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Good Doctor",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Chicago Med",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie antologica di fantascienza esplora lati oscuri della tecnologia?",
+        "image_term":  "Black_Mirror",
+        "options":  [
+                        {
+                            "text":  "Black Mirror",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Westworld",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Dark",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Severance",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale protagonista maschile racconta gli eventi in How I Met Your Mother?",
+        "image_term":  "How_I_Met_Your_Mother",
+        "options":  [
+                        {
+                            "text":  "Ted Mosby",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Barney Stinson",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Marshall Eriksen",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Robin Scherbatsky",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie tedesca di Netflix intreccia viaggi nel tempo a Winden?",
+        "image_term":  "Dark_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Dark",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "1899",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Biohackers",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Tribes of Europa",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue le vicende del carcere minorile di Napoli?",
+        "image_term":  "The_Sea_Beyond",
+        "options":  [
+                        {
+                            "text":  "Mare fuori",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Gomorra",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Prisma",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "SKAM Italia",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie vede un gruppo di ragazzi competere in giochi mortali per denaro?",
+        "image_term":  "Squid_Game",
+        "options":  [
+                        {
+                            "text":  "Squid Game",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Alice in Borderland",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "All of Us Are Dead",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Sweet Home",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale attore interpreta Michael Scott nella versione USA di The Office?",
+        "image_term":  "Steve_Carell",
+        "options":  [
+                        {
+                            "text":  "Steve Carell",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "John Krasinski",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Rainn Wilson",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Ed Helms",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie Marvel Disney+ segue Loki dopo gli eventi di Avengers Endgame?",
+        "image_term":  "Loki_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Loki",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Moon Knight",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Hawkeye",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "WandaVision",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue il professor di filosofia Chidi e altri defunti nell aldilà?",
+        "image_term":  "The_Good_Place",
+        "options":  [
+                        {
+                            "text":  "The Good Place",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Upload",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Dead Like Me",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Pushing Daisies",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie HBO racconta il parco a tema popolato da androidi?",
+        "image_term":  "Westworld_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Westworld",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Raised by Wolves",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Peripheral",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Foundation",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie comedy poliziesca ha per protagonista Jake Peralta?",
+        "image_term":  "Brooklyn_Nine-Nine",
+        "options":  [
+                        {
+                            "text":  "Brooklyn Nine-Nine",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Castle",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Psych",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Monk",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie Netflix segue la regina degli scacchi Beth Harmon?",
+        "image_term":  "The_Queen\u0027s_Gambit_(miniseries)",
+        "options":  [
+                        {
+                            "text":  "The Queen\u0027s Gambit",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Queen Charlotte",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Alias Grace",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Maid",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie italiana Netflix è ambientata nella Roma criminale e politica?",
+        "image_term":  "Suburra:_Blood_on_Rome",
+        "options":  [
+                        {
+                            "text":  "Suburra",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Gomorra",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Rocco Schiavone",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Romanzo criminale",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue Don Draper nel mondo pubblicitario degli anni Sessanta?",
+        "image_term":  "Mad_Men",
+        "options":  [
+                        {
+                            "text":  "Mad Men",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "The Deuce",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Masters of Sex",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Succession",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue i Roy e il controllo del gruppo Waystar Royco?",
+        "image_term":  "Succession_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Succession",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Billions",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Industry",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Empire",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie fantasy prequel di Game of Thrones è ambientata tra i Targaryen?",
+        "image_term":  "House_of_the_Dragon",
+        "options":  [
+                        {
+                            "text":  "House of the Dragon",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "The Rings of Power",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Witcher",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Shogun",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie teen di Netflix segue la vita di Otis Milburn e della clinica del sesso?",
+        "image_term":  "Sex_Education_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Sex Education",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Heartstopper",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Skins",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Elite",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie racconta il disastro nucleare del 1986 in Unione Sovietica?",
+        "image_term":  "Chernobyl_(miniseries)",
+        "options":  [
+                        {
+                            "text":  "Chernobyl",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "The Days",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Chernobyl 1986",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Years and Years",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie Apple TV+ segue impiegati con ricordi separati tra lavoro e vita privata?",
+        "image_term":  "Severance_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Severance",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Silo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Foundation",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "For All Mankind",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie di fantascienza Apple TV+ è tratta dai romanzi di Isaac Asimov?",
+        "image_term":  "Foundation_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Foundation",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Invasion",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Beacon 23",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "See",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie Netflix segue Emily Cooper trasferita a Parigi per lavoro?",
+        "image_term":  "Emily_in_Paris",
+        "options":  [
+                        {
+                            "text":  "Emily in Paris",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "The Bold Type",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Younger",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Valeria",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie mystery segue un gruppo di sopravvissuti su un isola dopo un incidente aereo?",
+        "image_term":  "Lost_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Lost",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Manifest",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Yellowjackets",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "From",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie mostra il rapporto tra un padre biologico e tre figlie cloni in Orphan Black?",
+        "image_term":  "Orphan_Black",
+        "options":  [
+                        {
+                            "text":  "Orphan Black",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Black Mirror",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Alias Grace",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Sense8",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie racconta la vita dell ex galeotto Piper Chapman in carcere?",
+        "image_term":  "Orange_Is_the_New_Black",
+        "options":  [
+                        {
+                            "text":  "Orange Is the New Black",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Wentworth",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Locked Up",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mare fuori",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie di Star Wars segue Diego Luna nei panni di Cassian Andor?",
+        "image_term":  "Andor_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Andor",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "The Mandalorian",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Ahsoka",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Acolyte",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie fantasy Netflix è basata sui libri di Andrzej Sapkowski?",
+        "image_term":  "The_Witcher_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "The Witcher",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Shadow and Bone",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Cursed",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Vikings Valhalla",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale sitcom segue Sheldon Cooper e amici scienziati a Pasadena?",
+        "image_term":  "The_Big_Bang_Theory",
+        "options":  [
+                        {
+                            "text":  "The Big Bang Theory",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Young Sheldon",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Community",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Frasier",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie racconta le vicende del motel dei Rose dopo il fallimento?",
+        "image_term":  "Schitt\u0027s_Creek",
+        "options":  [
+                        {
+                            "text":  "Schitt\u0027s Creek",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Kim\u0027s Convenience",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Superstore",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Modern Family",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie crime segue i profiler dell FBI Holden Ford e Bill Tench?",
+        "image_term":  "Mindhunter",
+        "options":  [
+                        {
+                            "text":  "Mindhunter",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Criminal Minds",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "True Detective",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Sinner",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie d animazione satirica segue la famiglia Griffin?",
+        "image_term":  "Family_Guy",
+        "options":  [
+                        {
+                            "text":  "Family Guy",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "American Dad!",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Simpsons",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bob\u0027s Burgers",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie HBO adolescente è nota per il personaggio di Rue Bennett?",
+        "image_term":  "Euphoria_(American_TV_series)",
+        "options":  [
+                        {
+                            "text":  "Euphoria",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Skins",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Elite",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Generation",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue il dio del tuono in animazione Marvel su Disney+?",
+        "image_term":  "What_If...%3F_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "What If...?",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "X-Men \u002797",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Moon Girl",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Hit-Monkey",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie crime australiana Netflix ha per protagonista l avvocato Mickey Haller?",
+        "image_term":  "The_Lincoln_Lawyer_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "The Lincoln Lawyer",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Clickbait",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Safe",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bodyguard",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie italiana Rai ha per protagonista il vicequestore Rocco Schiavone?",
+        "image_term":  "Rocco_Schiavone_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Rocco Schiavone",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Imma Tataranni",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Montalbano",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Nero a metà",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie animata presenta il genio Rick e il nipote Morty?",
+        "image_term":  "Rick_and_Morty",
+        "options":  [
+                        {
+                            "text":  "Rick and Morty",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Solar Opposites",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Futurama",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Disenchantment",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie HBO tratta dal videogioco omonimo ha per protagonisti Joel ed Ellie?",
+        "image_term":  "The_Last_of_Us_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "The Last of Us",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Fallout",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Twisted Metal",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Arcane",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie Prime Video adatta i personaggi di League of Legends in animazione?",
+        "image_term":  "Arcane_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Arcane",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Invincible",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Dota: Dragon\u0027s Blood",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Castlevania",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie supereroistica animata ha per protagonista Mark Grayson?",
+        "image_term":  "Invincible_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Invincible",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "The Boys Presents: Diabolical",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Young Justice",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Harley Quinn",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue il giovane Sheldon da bambino in Texas?",
+        "image_term":  "Young_Sheldon",
+        "options":  [
+                        {
+                            "text":  "Young Sheldon",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Malcolm in the Middle",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Fresh Off the Boat",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Middle",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie spagnola di Netflix racconta una tempesta che costringe a un rifugio sotterraneo di lusso?",
+        "image_term":  "Welcome_to_Eden",
+        "options":  [
+                        {
+                            "text":  "Welcome to Eden",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Berlin",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Rain",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Sky Rojo",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue Wednesday Addams alla Nevermore Academy?",
+        "image_term":  "Wednesday_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Wednesday",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Chilling Adventures of Sabrina",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Fate: The Winx Saga",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Riverdale",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue i giocatori di football del liceo Dillon in Texas?",
+        "image_term":  "Friday_Night_Lights_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Friday Night Lights",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "All American",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "One Tree Hill",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Blue Mountain State",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie politica segue Frank Underwood verso la Casa Bianca?",
+        "image_term":  "House_of_Cards_(American_TV_series)",
+        "options":  [
+                        {
+                            "text":  "House of Cards",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Scandal",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The West Wing",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Madam Secretary",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue gli insegnanti di una scuola pubblica di Philadelphia?",
+        "image_term":  "Abbott_Elementary",
+        "options":  [
+                        {
+                            "text":  "Abbott Elementary",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "AP Bio",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Community",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Teachers",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie racconta la rinascita della Jedi Ahsoka Tano in live action?",
+        "image_term":  "Ahsoka_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Ahsoka",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Obi-Wan Kenobi",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Andor",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Book of Boba Fett",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue un gruppo di donne che lavorano in una squadra di baseball durante la guerra?",
+        "image_term":  "A_League_of_Their_Own_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "A League of Their Own",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Glow",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Dead to Me",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Good Girls Revolt",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie comedy mockumentary segue i dipendenti del municipio di Pawnee?",
+        "image_term":  "Parks_and_Recreation",
+        "options":  [
+                        {
+                            "text":  "Parks and Recreation",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "The Office",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Veep",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Superstore",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue un gruppo di naufraghi in un misterioso paese da cui non si esce?",
+        "image_term":  "From_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "From",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Lost",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Yellowjackets",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Manifest",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie sudcoreana Netflix segue studenti assediati da zombie a scuola?",
+        "image_term":  "All_of_Us_Are_Dead",
+        "options":  [
+                        {
+                            "text":  "All of Us Are Dead",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Kingdom",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Sweet Home",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Happiness",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie italiana adolescenziale è il remake locale di SKAM?",
+        "image_term":  "Skam_Italia",
+        "options":  [
+                        {
+                            "text":  "SKAM Italia",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Prisma",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Baby",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mare fuori",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie Prime Video segue l universo satirico dei supereroi corrotti con Homelander?",
+        "image_term":  "The_Boys_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "The Boys",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Gen V",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Doom Patrol",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Peacemaker",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale spin-off di The Boys è ambientato in una università di supereroi?",
+        "image_term":  "Gen_V",
+        "options":  [
+                        {
+                            "text":  "Gen V",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Invincible",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Doom Patrol",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Titans",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie Marvel Disney+ segue Wanda Maximoff e Visione in sitcom reality?",
+        "image_term":  "WandaVision",
+        "options":  [
+                        {
+                            "text":  "WandaVision",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Agatha All Along",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Loki",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Ms. Marvel",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue un insegnante che diventa cuoco di metanfetamine ad Albuquerque?",
+        "image_term":  "Breaking_Bad",
+        "options":  [
+                        {
+                            "text":  "Breaking Bad",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Ozark",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Weeds",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Narcos",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie criminale segue Marty Byrde e il riciclaggio di denaro nel Missouri?",
+        "image_term":  "Ozark_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Ozark",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Narcos",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bloodline",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Fargo",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie comica segue il sindaco di New York immaginario Michael Flaherty?",
+        "image_term":  "Spin_City",
+        "options":  [
+                        {
+                            "text":  "Spin City",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "30 Rock",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Veep",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Parks and Recreation",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue il clown Pennywise terrorizzando una cittadina del Maine?",
+        "image_term":  "It_(miniseries)",
+        "options":  [
+                        {
+                            "text":  "It",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Castle Rock",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Chapelwaite",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Outsider",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie tedesca fantasy Netflix segue una squadra di giovani ladri soprannaturali?",
+        "image_term":  "The_Grimm_Reality",
+        "options":  [
+                        {
+                            "text":  "The Grimm Reality",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Dark",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "1899",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Imperfects",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale miniserie Netflix segue il truffatore inventore di Anna Delvey?",
+        "image_term":  "Inventing_Anna",
+        "options":  [
+                        {
+                            "text":  "Inventing Anna",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "The Dropout",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Maid",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Halston",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie biografica racconta l ascesa e la caduta di Uber?",
+        "image_term":  "Super_Pumped",
+        "options":  [
+                        {
+                            "text":  "Super Pumped",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "WeCrashed",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Dropout",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Dopesick",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue il crollo dell azienda Theranos e di Elizabeth Holmes?",
+        "image_term":  "The_Dropout",
+        "options":  [
+                        {
+                            "text":  "The Dropout",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Inventing Anna",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Super Pumped",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Bad Sisters",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie mostra un futuro con punteggi sociali e tecnologie invasive in episodi autonomi?",
+        "image_term":  "Black_Mirror",
+        "options":  [
+                        {
+                            "text":  "Black Mirror",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Years and Years",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Upload",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Electric Dreams",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie britannica segue il Dottore e i viaggi nel TARDIS?",
+        "image_term":  "Doctor_Who",
+        "options":  [
+                        {
+                            "text":  "Doctor Who",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Torchwood",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Misfits",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Primeval",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue un gruppo di adolescenti in un mondo senza adulti chiamato The Society?",
+        "image_term":  "The_Society_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "The Society",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Between",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The 100",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Wilds",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue i sopravvissuti adolescenti di un incidente aereo in Yellowjackets?",
+        "image_term":  "Yellowjackets_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Yellowjackets",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Lost",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "From",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Wilds",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie Marvel Disney+ segue il giovane eroe Kamala Khan?",
+        "image_term":  "Ms._Marvel_(miniseries)",
+        "options":  [
+                        {
+                            "text":  "Ms. Marvel",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "She-Hulk",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Echo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Hawkeye",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue il dio del trickster nell autorità TVA?",
+        "image_term":  "Loki_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Loki",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Moon Knight",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "WandaVision",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Legion",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie comica segue la vita di una famiglia numerosa con Jay Pritchett e i Dunphy?",
+        "image_term":  "Modern_Family",
+        "options":  [
+                        {
+                            "text":  "Modern Family",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Parenthood",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Middle",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "This Is Us",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie Prime Video fantasy adatta i romanzi di Robert Jordan?",
+        "image_term":  "The_Wheel_of_Time_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "The Wheel of Time",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "The Witcher",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Shadow and Bone",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Rings of Power",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie fantasy Prime Video è ambientata nella Seconda Era della Terra di Mezzo?",
+        "image_term":  "The_Lord_of_the_Rings:_The_Rings_of_Power",
+        "options":  [
+                        {
+                            "text":  "The Lord of the Rings: The Rings of Power",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "The Wheel of Time",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "House of the Dragon",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Witcher",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie Apple TV+ racconta un futuro in cui l umanità vive in un silo sotterraneo?",
+        "image_term":  "Silo_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Silo",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Severance",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Invasion",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Expanse",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue un gruppo di passeggeri di lusso su un resort con satira sociale?",
+        "image_term":  "The_White_Lotus",
+        "options":  [
+                        {
+                            "text":  "The White Lotus",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Nine Perfect Strangers",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Succession",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Big Little Lies",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie antologica crime HBO ha avuto detective come Rust Cohle e Marty Hart?",
+        "image_term":  "True_Detective",
+        "options":  [
+                        {
+                            "text":  "True Detective",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Mare of Easttown",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Fargo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Mindhunter",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie italiana Netflix segue tre ragazze romane coinvolte in una doppia vita?",
+        "image_term":  "Baby_(Italian_TV_series)",
+        "options":  [
+                        {
+                            "text":  "Baby",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Skam Italia",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Summertime",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Suburra",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie fantasy di Neil Gaiman segue Sogno degli Eterni?",
+        "image_term":  "The_Sandman_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "The Sandman",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "American Gods",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Good Omens",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Lucifer",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue gli inquilini di un palazzo che indagano su un omicidio in podcast?",
+        "image_term":  "Only_Murders_in_the_Building",
+        "options":  [
+                        {
+                            "text":  "Only Murders in the Building",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Search Party",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "The Afterparty",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Deadloch",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie Disney+ segue Clint Barton durante il periodo natalizio a New York?",
+        "image_term":  "Hawkeye_(miniseries)",
+        "options":  [
+                        {
+                            "text":  "Hawkeye",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Echo",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Loki",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Secret Invasion",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie comedy segue una comunità universitaria a Greendale?",
+        "image_term":  "Community_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Community",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "New Girl",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Scrubs",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Superstore",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie legale segue Harvey Specter e Mike Ross in uno studio di New York?",
+        "image_term":  "Suits_(American_TV_series)",
+        "options":  [
+                        {
+                            "text":  "Suits",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "The Good Wife",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Billions",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "How to Get Away with Murder",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie italiana Rai segue il commissario Salvo Montalbano?",
+        "image_term":  "Inspector_Montalbano",
+        "options":  [
+                        {
+                            "text":  "Il commissario Montalbano",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Rocco Schiavone",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Blanca",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Don Matteo",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie segue due fratelli cacciatori di demoni chiamati Sam e Dean Winchester?",
+        "image_term":  "Supernatural_(American_TV_series)",
+        "options":  [
+                        {
+                            "text":  "Supernatural",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Grimm",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Lucifer",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Teen Wolf",
+                            "corretta":  false
+                        }
+                    ]
+    },
+    {
+        "text":  "Quale serie d animazione Netflix segue i Belmont contro Dracula?",
+        "image_term":  "Castlevania_(TV_series)",
+        "options":  [
+                        {
+                            "text":  "Castlevania",
+                            "corretta":  true
+                        },
+                        {
+                            "text":  "Blood of Zeus",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "Trese",
+                            "corretta":  false
+                        },
+                        {
+                            "text":  "DOTA: Dragon\u0027s Blood",
+                            "corretta":  false
+                        }
+                    ]
+    }
+]

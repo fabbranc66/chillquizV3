@@ -1,0 +1,1102 @@
+[
+    {
+        "testo":  "Quale film di James Cameron del 1997 e ambientato sul celebre transatlantico affondato?",
+        "opzioni":  [
+                        "Titanic",
+                        "Avatar",
+                        "Aliens",
+                        "Terminator"
+                    ],
+        "corretta":  0,
+        "image_page":  "Titanic_(1997_film)"
+    },
+    {
+        "testo":  "Chi ha diretto Pulp Fiction?",
+        "opzioni":  [
+                        "Quentin Tarantino",
+                        "Martin Scorsese",
+                        "David Fincher",
+                        "Ridley Scott"
+                    ],
+        "corretta":  0,
+        "image_page":  "Quentin_Tarantino"
+    },
+    {
+        "testo":  "Quale film vinse l Oscar come miglior film nel 2020 raccontando una famiglia coreana in America?",
+        "opzioni":  [
+                        "Minari",
+                        "Nomadland",
+                        "Parasite",
+                        "1917"
+                    ],
+        "corretta":  0,
+        "image_page":  "Minari_(film)"
+    },
+    {
+        "testo":  "Quale attore interpreta Tony Stark nel Marvel Cinematic Universe?",
+        "opzioni":  [
+                        "Robert Downey Jr.",
+                        "Chris Evans",
+                        "Mark Ruffalo",
+                        "Jeremy Renner"
+                    ],
+        "corretta":  0,
+        "image_page":  "Robert_Downey_Jr."
+    },
+    {
+        "testo":  "Quale film di Steven Spielberg del 1993 parla di un parco di dinosauri clonati?",
+        "opzioni":  [
+                        "Jurassic Park",
+                        "E.T.",
+                        "Jaws",
+                        "Hook"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jurassic_Park_(film)"
+    },
+    {
+        "testo":  "Chi interpreta il Joker ne Il cavaliere oscuro del 2008?",
+        "opzioni":  [
+                        "Heath Ledger",
+                        "Joaquin Phoenix",
+                        "Jared Leto",
+                        "Jack Nicholson"
+                    ],
+        "corretta":  0,
+        "image_page":  "Heath_Ledger"
+    },
+    {
+        "testo":  "Quale film di Peter Jackson concluse la trilogia del Signore degli Anelli?",
+        "opzioni":  [
+                        "Il ritorno del re",
+                        "Le due torri",
+                        "La compagnia dell anello",
+                        "Lo Hobbit"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Lord_of_the_Rings:_The_Return_of_the_King"
+    },
+    {
+        "testo":  "Quale regista ha firmato Inception?",
+        "opzioni":  [
+                        "Christopher Nolan",
+                        "Denis Villeneuve",
+                        "Darren Aronofsky",
+                        "Wes Anderson"
+                    ],
+        "corretta":  0,
+        "image_page":  "Christopher_Nolan"
+    },
+    {
+        "testo":  "Quale attrice interpreta Hermione Granger nella saga di Harry Potter?",
+        "opzioni":  [
+                        "Emma Watson",
+                        "Keira Knightley",
+                        "Saoirse Ronan",
+                        "Natalie Portman"
+                    ],
+        "corretta":  0,
+        "image_page":  "Emma_Watson"
+    },
+    {
+        "testo":  "Quale film coreano del 2019 di Bong Joon-ho vinse l Oscar come miglior film?",
+        "opzioni":  [
+                        "Parasite",
+                        "Burning",
+                        "Oldboy",
+                        "Memories of Murder"
+                    ],
+        "corretta":  0,
+        "image_page":  "Parasite_(2019_film)"
+    },
+    {
+        "testo":  "Quale attore interpreta Neo nella saga Matrix?",
+        "opzioni":  [
+                        "Keanu Reeves",
+                        "Brad Pitt",
+                        "Tom Cruise",
+                        "Matt Damon"
+                    ],
+        "corretta":  0,
+        "image_page":  "Keanu_Reeves"
+    },
+    {
+        "testo":  "Quale film d animazione Pixar racconta la storia di un robot che pulisce la Terra abbandonata?",
+        "opzioni":  [
+                        "WALL-E",
+                        "Cars",
+                        "Ratatouille",
+                        "Up"
+                    ],
+        "corretta":  0,
+        "image_page":  "WALL-E"
+    },
+    {
+        "testo":  "Chi ha diretto La La Land?",
+        "opzioni":  [
+                        "Damien Chazelle",
+                        "Baz Luhrmann",
+                        "Todd Phillips",
+                        "Sam Mendes"
+                    ],
+        "corretta":  0,
+        "image_page":  "Damien_Chazelle"
+    },
+    {
+        "testo":  "Quale film del 1972 di Coppola e il primo capitolo della saga dei Corleone?",
+        "opzioni":  [
+                        "Il padrino",
+                        "Apocalypse Now",
+                        "Il padrino - Parte II",
+                        "Gli intoccabili"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Godfather"
+    },
+    {
+        "testo":  "Quale attrice interpreta Katniss Everdeen in Hunger Games?",
+        "opzioni":  [
+                        "Jennifer Lawrence",
+                        "Emma Stone",
+                        "Shailene Woodley",
+                        "Brie Larson"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jennifer_Lawrence"
+    },
+    {
+        "testo":  "Quale film di Ridley Scott del 2000 e ambientato nell antica Roma?",
+        "opzioni":  [
+                        "Il gladiatore",
+                        "Kingdom of Heaven",
+                        "Alien",
+                        "Thelma \u0026 Louise"
+                    ],
+        "corretta":  0,
+        "image_page":  "Gladiator_(2000_film)"
+    },
+    {
+        "testo":  "Quale attore interpreta Jack Dawson in Titanic?",
+        "opzioni":  [
+                        "Leonardo DiCaprio",
+                        "Brad Pitt",
+                        "Matt Damon",
+                        "Christian Bale"
+                    ],
+        "corretta":  0,
+        "image_page":  "Leonardo_DiCaprio"
+    },
+    {
+        "testo":  "Quale film di David Fincher del 1999 vede protagonisti Edward Norton e Brad Pitt?",
+        "opzioni":  [
+                        "Fight Club",
+                        "Se7en",
+                        "Zodiac",
+                        "Gone Girl"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fight_Club"
+    },
+    {
+        "testo":  "Chi ha diretto il film Barbie del 2023?",
+        "opzioni":  [
+                        "Greta Gerwig",
+                        "Patty Jenkins",
+                        "Sofia Coppola",
+                        "Chloe Zhao"
+                    ],
+        "corretta":  0,
+        "image_page":  "Greta_Gerwig"
+    },
+    {
+        "testo":  "Quale film di Denis Villeneuve del 2021 adatta il romanzo di Frank Herbert?",
+        "opzioni":  [
+                        "Dune",
+                        "Arrival",
+                        "Blade Runner 2049",
+                        "Prisoners"
+                    ],
+        "corretta":  0,
+        "image_page":  "Dune_(2021_film)"
+    },
+    {
+        "testo":  "Quale attore interpreta Captain Jack Sparrow nella saga Pirati dei Caraibi?",
+        "opzioni":  [
+                        "Johnny Depp",
+                        "Orlando Bloom",
+                        "Geoffrey Rush",
+                        "Javier Bardem"
+                    ],
+        "corretta":  0,
+        "image_page":  "Johnny_Depp"
+    },
+    {
+        "testo":  "Quale film di Scorsese del 1990 racconta la vita di Henry Hill?",
+        "opzioni":  [
+                        "Goodfellas",
+                        "Casino",
+                        "The Irishman",
+                        "Taxi Driver"
+                    ],
+        "corretta":  0,
+        "image_page":  "Goodfellas"
+    },
+    {
+        "testo":  "Quale attrice interpreta Evelyn Wang in Everything Everywhere All at Once?",
+        "opzioni":  [
+                        "Michelle Yeoh",
+                        "Sandra Oh",
+                        "Lucy Liu",
+                        "Maggie Cheung"
+                    ],
+        "corretta":  0,
+        "image_page":  "Michelle_Yeoh"
+    },
+    {
+        "testo":  "Quale film del 2014 di Christopher Nolan esplora viaggi spaziali e buchi neri?",
+        "opzioni":  [
+                        "Interstellar",
+                        "Gravity",
+                        "The Martian",
+                        "Ad Astra"
+                    ],
+        "corretta":  0,
+        "image_page":  "Interstellar_(film)"
+    },
+    {
+        "testo":  "Chi interpreta Forrest Gump nel film di Robert Zemeckis?",
+        "opzioni":  [
+                        "Tom Hanks",
+                        "Robin Williams",
+                        "Kevin Costner",
+                        "Tom Cruise"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tom_Hanks"
+    },
+    {
+        "testo":  "Quale film di culto del 1982 di Ridley Scott e ambientato in una Los Angeles futuristica?",
+        "opzioni":  [
+                        "Blade Runner",
+                        "Alien",
+                        "Legend",
+                        "Black Hawk Down"
+                    ],
+        "corretta":  0,
+        "image_page":  "Blade_Runner"
+    },
+    {
+        "testo":  "Quale attrice interpreta Elle Woods in La rivincita delle bionde?",
+        "opzioni":  [
+                        "Reese Witherspoon",
+                        "Cameron Diaz",
+                        "Anne Hathaway",
+                        "Julia Roberts"
+                    ],
+        "corretta":  0,
+        "image_page":  "Reese_Witherspoon"
+    },
+    {
+        "testo":  "Quale film di Pixar segue emozioni come Gioia e Tristezza nella mente di una ragazza?",
+        "opzioni":  [
+                        "Inside Out",
+                        "Soul",
+                        "Coco",
+                        "Elemental"
+                    ],
+        "corretta":  0,
+        "image_page":  "Inside_Out_(2015_film)"
+    },
+    {
+        "testo":  "Chi ha diretto Il favoloso mondo di Amelie?",
+        "opzioni":  [
+                        "Jean-Pierre Jeunet",
+                        "Luc Besson",
+                        "François Ozon",
+                        "Leos Carax"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jean-Pierre_Jeunet"
+    },
+    {
+        "testo":  "Quale attore interpreta Maximus nel Gladiatore?",
+        "opzioni":  [
+                        "Russell Crowe",
+                        "Gerard Butler",
+                        "Joaquin Phoenix",
+                        "Hugh Jackman"
+                    ],
+        "corretta":  0,
+        "image_page":  "Russell_Crowe"
+    },
+    {
+        "testo":  "Quale film del 2009 di James Cameron e ambientato sul pianeta Pandora?",
+        "opzioni":  [
+                        "Avatar",
+                        "Titanic",
+                        "The Abyss",
+                        "Aliens"
+                    ],
+        "corretta":  0,
+        "image_page":  "Avatar_(2009_film)"
+    },
+    {
+        "testo":  "Quale attrice interpreta Rose in Titanic?",
+        "opzioni":  [
+                        "Kate Winslet",
+                        "Nicole Kidman",
+                        "Charlize Theron",
+                        "Rachel Weisz"
+                    ],
+        "corretta":  0,
+        "image_page":  "Kate_Winslet"
+    },
+    {
+        "testo":  "Quale film del 1994 di Frank Darabont e ambientato nel carcere di Shawshank?",
+        "opzioni":  [
+                        "Le ali della libertà",
+                        "Il miglio verde",
+                        "Mystic River",
+                        "Sleepers"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Shawshank_Redemption"
+    },
+    {
+        "testo":  "Chi ha diretto Il silenzio degli innocenti?",
+        "opzioni":  [
+                        "Jonathan Demme",
+                        "Brian De Palma",
+                        "David Lynch",
+                        "Michael Mann"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jonathan_Demme"
+    },
+    {
+        "testo":  "Quale attore interpreta il professor Indiana Jones?",
+        "opzioni":  [
+                        "Harrison Ford",
+                        "Mel Gibson",
+                        "Liam Neeson",
+                        "Bruce Willis"
+                    ],
+        "corretta":  0,
+        "image_page":  "Harrison_Ford"
+    },
+    {
+        "testo":  "Quale film di Pixar racconta uno chef topo a Parigi?",
+        "opzioni":  [
+                        "Ratatouille",
+                        "Cars",
+                        "Up",
+                        "Toy Story"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ratatouille_(film)"
+    },
+    {
+        "testo":  "Quale attrice interpreta Black Widow nel MCU?",
+        "opzioni":  [
+                        "Scarlett Johansson",
+                        "Elizabeth Olsen",
+                        "Emily Blunt",
+                        "Gal Gadot"
+                    ],
+        "corretta":  0,
+        "image_page":  "Scarlett_Johansson"
+    },
+    {
+        "testo":  "Quale film del 1980 di Kubrick e tratto da Stephen King?",
+        "opzioni":  [
+                        "Shining",
+                        "Full Metal Jacket",
+                        "2001: Odissea nello spazio",
+                        "Eyes Wide Shut"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Shining_(film)"
+    },
+    {
+        "testo":  "Chi ha diretto The Grand Budapest Hotel?",
+        "opzioni":  [
+                        "Wes Anderson",
+                        "Noah Baumbach",
+                        "Spike Jonze",
+                        "Paul Thomas Anderson"
+                    ],
+        "corretta":  0,
+        "image_page":  "Wes_Anderson"
+    },
+    {
+        "testo":  "Quale attore interpreta Maverick in Top Gun?",
+        "opzioni":  [
+                        "Tom Cruise",
+                        "Val Kilmer",
+                        "Miles Teller",
+                        "George Clooney"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tom_Cruise"
+    },
+    {
+        "testo":  "Quale film del 2023 di Christopher Nolan racconta la vita di J. Robert Oppenheimer?",
+        "opzioni":  [
+                        "Oppenheimer",
+                        "Tenet",
+                        "Dunkirk",
+                        "Memento"
+                    ],
+        "corretta":  0,
+        "image_page":  "Oppenheimer_(film)"
+    },
+    {
+        "testo":  "Quale attrice interpreta Mia in La La Land?",
+        "opzioni":  [
+                        "Emma Stone",
+                        "Margot Robbie",
+                        "Lily Collins",
+                        "Anne Hathaway"
+                    ],
+        "corretta":  0,
+        "image_page":  "Emma_Stone"
+    },
+    {
+        "testo":  "Quale film di Francis Ford Coppola del 1979 e ambientato durante la guerra del Vietnam?",
+        "opzioni":  [
+                        "Apocalypse Now",
+                        "Platoon",
+                        "Full Metal Jacket",
+                        "The Deer Hunter"
+                    ],
+        "corretta":  0,
+        "image_page":  "Apocalypse_Now"
+    },
+    {
+        "testo":  "Quale attore interpreta Batman nella trilogia del Cavaliere Oscuro di Nolan?",
+        "opzioni":  [
+                        "Christian Bale",
+                        "Ben Affleck",
+                        "Michael Keaton",
+                        "George Clooney"
+                    ],
+        "corretta":  0,
+        "image_page":  "Christian_Bale"
+    },
+    {
+        "testo":  "Quale film di animazione Disney del 2013 e noto per la canzone Let It Go?",
+        "opzioni":  [
+                        "Frozen",
+                        "Tangled",
+                        "Moana",
+                        "Brave"
+                    ],
+        "corretta":  0,
+        "image_page":  "Frozen_(2013_film)"
+    },
+    {
+        "testo":  "Chi ha diretto Il labirinto del fauno?",
+        "opzioni":  [
+                        "Guillermo del Toro",
+                        "Alejandro Iñárritu",
+                        "Alfonso Cuarón",
+                        "Pedro Almodóvar"
+                    ],
+        "corretta":  0,
+        "image_page":  "Guillermo_del_Toro"
+    },
+    {
+        "testo":  "Quale attrice interpreta Lara Croft nel film del 2001 piu noto?",
+        "opzioni":  [
+                        "Angelina Jolie",
+                        "Milla Jovovich",
+                        "Charlize Theron",
+                        "Uma Thurman"
+                    ],
+        "corretta":  0,
+        "image_page":  "Angelina_Jolie"
+    },
+    {
+        "testo":  "Quale film del 1999 con Bruce Willis si conclude con la rivelazione I see dead people?",
+        "opzioni":  [
+                        "Il sesto senso",
+                        "Unbreakable",
+                        "Signs",
+                        "Split"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Sixth_Sense"
+    },
+    {
+        "testo":  "Quale attore interpreta il protagonista di Il lupo di Wall Street?",
+        "opzioni":  [
+                        "Leonardo DiCaprio",
+                        "Matthew McConaughey",
+                        "Bradley Cooper",
+                        "Ryan Gosling"
+                    ],
+        "corretta":  0,
+        "image_page":  "Leonardo_DiCaprio"
+    },
+    {
+        "testo":  "Quale film del 2008 Pixar racconta le avventure del vecchio Carl con la casa volante?",
+        "opzioni":  [
+                        "Up",
+                        "Soul",
+                        "Toy Story 3",
+                        "Monsters University"
+                    ],
+        "corretta":  0,
+        "image_page":  "Up_(2009_film)"
+    },
+    {
+        "testo":  "Quale regista ha firmato il thriller Zodiac?",
+        "opzioni":  [
+                        "David Fincher",
+                        "Michael Mann",
+                        "David Cronenberg",
+                        "Peter Weir"
+                    ],
+        "corretta":  0,
+        "image_page":  "David_Fincher"
+    },
+    {
+        "testo":  "Quale attrice interpreta Harley Quinn in Suicide Squad e Birds of Prey?",
+        "opzioni":  [
+                        "Margot Robbie",
+                        "Cara Delevingne",
+                        "Emma Roberts",
+                        "Anya Taylor-Joy"
+                    ],
+        "corretta":  0,
+        "image_page":  "Margot_Robbie"
+    },
+    {
+        "testo":  "Quale film di George Miller del 2015 rilancio la saga di Mad Max?",
+        "opzioni":  [
+                        "Fury Road",
+                        "Road Warrior",
+                        "Thunderdome",
+                        "Furiosa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mad_Max:_Fury_Road"
+    },
+    {
+        "testo":  "Quale attore interpreta James Bond in Casino Royale del 2006?",
+        "opzioni":  [
+                        "Daniel Craig",
+                        "Pierce Brosnan",
+                        "Timothy Dalton",
+                        "Sean Connery"
+                    ],
+        "corretta":  0,
+        "image_page":  "Daniel_Craig"
+    },
+    {
+        "testo":  "Quale film d animazione del 2001 presenta l orco Shrek?",
+        "opzioni":  [
+                        "Shrek",
+                        "Ice Age",
+                        "Lilo \u0026 Stitch",
+                        "Bolt"
+                    ],
+        "corretta":  0,
+        "image_page":  "Shrek"
+    },
+    {
+        "testo":  "Chi ha diretto Kill Bill: Volume 1?",
+        "opzioni":  [
+                        "Quentin Tarantino",
+                        "Guy Ritchie",
+                        "Robert Rodriguez",
+                        "Edgar Wright"
+                    ],
+        "corretta":  0,
+        "image_page":  "Kill_Bill:_Volume_1"
+    },
+    {
+        "testo":  "Quale attrice interpreta Wonder Woman nel film del 2017?",
+        "opzioni":  [
+                        "Gal Gadot",
+                        "Brie Larson",
+                        "Rachel McAdams",
+                        "Emily Blunt"
+                    ],
+        "corretta":  0,
+        "image_page":  "Gal_Gadot"
+    },
+    {
+        "testo":  "Quale film del 2016 racconta il primo contatto con alieni usando il linguaggio come chiave?",
+        "opzioni":  [
+                        "Arrival",
+                        "Contact",
+                        "Annihilation",
+                        "Nope"
+                    ],
+        "corretta":  0,
+        "image_page":  "Arrival_(film)"
+    },
+    {
+        "testo":  "Quale attore interpreta il Joker nel film Joker del 2019?",
+        "opzioni":  [
+                        "Joaquin Phoenix",
+                        "Heath Ledger",
+                        "Willem Dafoe",
+                        "Jared Leto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Joaquin_Phoenix"
+    },
+    {
+        "testo":  "Quale film di Martin McDonagh del 2022 vede Colin Farrell e Brendan Gleeson su un isola irlandese?",
+        "opzioni":  [
+                        "Gli spiriti dell isola",
+                        "In Bruges",
+                        "Seven Psychopaths",
+                        "Calvary"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Banshees_of_Inisherin"
+    },
+    {
+        "testo":  "Quale attrice interpreta Furiosa in Mad Max: Fury Road?",
+        "opzioni":  [
+                        "Charlize Theron",
+                        "Anya Taylor-Joy",
+                        "Jodie Comer",
+                        "Rosamund Pike"
+                    ],
+        "corretta":  0,
+        "image_page":  "Charlize_Theron"
+    },
+    {
+        "testo":  "Quale film di Alfonso Cuarón del 2013 e ambientato nello spazio?",
+        "opzioni":  [
+                        "Gravity",
+                        "Roma",
+                        "Children of Men",
+                        "Y tu mamá también"
+                    ],
+        "corretta":  0,
+        "image_page":  "Gravity_(2013_film)"
+    },
+    {
+        "testo":  "Quale attore interpreta Wolverine nella saga X-Men piu nota?",
+        "opzioni":  [
+                        "Hugh Jackman",
+                        "James Marsden",
+                        "Patrick Stewart",
+                        "Ryan Reynolds"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hugh_Jackman"
+    },
+    {
+        "testo":  "Quale film del 2007 dei fratelli Coen vinse l Oscar come miglior film con Javier Bardem antagonista?",
+        "opzioni":  [
+                        "Non è un paese per vecchi",
+                        "Fargo",
+                        "True Grit",
+                        "A Serious Man"
+                    ],
+        "corretta":  0,
+        "image_page":  "No_Country_for_Old_Men_(film)"
+    },
+    {
+        "testo":  "Quale attrice interpreta Lydia Tár nel film Tár?",
+        "opzioni":  [
+                        "Cate Blanchett",
+                        "Nicole Kidman",
+                        "Tilda Swinton",
+                        "Julianne Moore"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cate_Blanchett"
+    },
+    {
+        "testo":  "Chi ha diretto Whiplash?",
+        "opzioni":  [
+                        "Damien Chazelle",
+                        "David O. Russell",
+                        "Tom Hooper",
+                        "Sam Taylor-Johnson"
+                    ],
+        "corretta":  0,
+        "image_page":  "Whiplash_(2014_film)"
+    },
+    {
+        "testo":  "Quale film del 1985 di Robert Zemeckis racconta il viaggio nel tempo di Marty McFly?",
+        "opzioni":  [
+                        "Ritorno al futuro",
+                        "Forrest Gump",
+                        "Chi ha incastrato Roger Rabbit",
+                        "Cast Away"
+                    ],
+        "corretta":  0,
+        "image_page":  "Back_to_the_Future"
+    },
+    {
+        "testo":  "Quale attore interpreta Han Solo nella trilogia originale di Star Wars?",
+        "opzioni":  [
+                        "Harrison Ford",
+                        "Mark Hamill",
+                        "Alec Guinness",
+                        "Ewan McGregor"
+                    ],
+        "corretta":  0,
+        "image_page":  "Harrison_Ford"
+    },
+    {
+        "testo":  "Quale film del 2006 di Guillermo del Toro e ambientato nella Spagna franchista?",
+        "opzioni":  [
+                        "Il labirinto del fauno",
+                        "Hellboy",
+                        "Pacific Rim",
+                        "Crimson Peak"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pan%27s_Labyrinth"
+    },
+    {
+        "testo":  "Quale attrice interpreta Bella Swan nella saga Twilight?",
+        "opzioni":  [
+                        "Kristen Stewart",
+                        "Dakota Fanning",
+                        "Anna Kendrick",
+                        "Emma Roberts"
+                    ],
+        "corretta":  0,
+        "image_page":  "Kristen_Stewart"
+    },
+    {
+        "testo":  "Quale film del 2014 con Eddie Redmayne racconta la vita di Stephen Hawking?",
+        "opzioni":  [
+                        "La teoria del tutto",
+                        "The Imitation Game",
+                        "Darkest Hour",
+                        "A Beautiful Mind"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Theory_of_Everything_(2014_film)"
+    },
+    {
+        "testo":  "Quale attore interpreta il protagonista di Drive diretto da Nicolas Winding Refn?",
+        "opzioni":  [
+                        "Ryan Gosling",
+                        "Jake Gyllenhaal",
+                        "Bradley Cooper",
+                        "Oscar Isaac"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ryan_Gosling"
+    },
+    {
+        "testo":  "Quale film di Jordan Peele del 2017 e un horror satirico sul razzismo? ",
+        "opzioni":  [
+                        "Get Out",
+                        "Us",
+                        "Nope",
+                        "Candyman"
+                    ],
+        "corretta":  0,
+        "image_page":  "Get_Out"
+    },
+    {
+        "testo":  "Chi ha diretto Lost in Translation?",
+        "opzioni":  [
+                        "Sofia Coppola",
+                        "Nancy Meyers",
+                        "Kathryn Bigelow",
+                        "Mira Nair"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sofia_Coppola"
+    },
+    {
+        "testo":  "Quale attrice interpreta la protagonista de Il diavolo veste Prada?",
+        "opzioni":  [
+                        "Anne Hathaway",
+                        "Meryl Streep",
+                        "Emily Blunt",
+                        "Amy Adams"
+                    ],
+        "corretta":  0,
+        "image_page":  "Anne_Hathaway"
+    },
+    {
+        "testo":  "Quale film di culto del 1998 dei fratelli Coen vede protagonista Jeffrey Lebowski?",
+        "opzioni":  [
+                        "Il grande Lebowski",
+                        "Fargo",
+                        "Barton Fink",
+                        "Burn After Reading"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Big_Lebowski"
+    },
+    {
+        "testo":  "Quale attore interpreta Jack in Shining di Kubrick?",
+        "opzioni":  [
+                        "Jack Nicholson",
+                        "Al Pacino",
+                        "Robert De Niro",
+                        "Gene Hackman"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jack_Nicholson"
+    },
+    {
+        "testo":  "Quale film di animazione del 2017 Pixar e ambientato nel Día de los Muertos?",
+        "opzioni":  [
+                        "Coco",
+                        "Luca",
+                        "Soul",
+                        "Onward"
+                    ],
+        "corretta":  0,
+        "image_page":  "Coco_(2017_film)"
+    },
+    {
+        "testo":  "Chi ha diretto Dunkirk?",
+        "opzioni":  [
+                        "Christopher Nolan",
+                        "Sam Mendes",
+                        "Joe Wright",
+                        "Ridley Scott"
+                    ],
+        "corretta":  0,
+        "image_page":  "Dunkirk_(2017_film)"
+    },
+    {
+        "testo":  "Quale attrice interpreta da adulta la protagonista di Poor Things?",
+        "opzioni":  [
+                        "Emma Stone",
+                        "Olivia Colman",
+                        "Margot Robbie",
+                        "Florence Pugh"
+                    ],
+        "corretta":  0,
+        "image_page":  "Poor_Things_(film)"
+    },
+    {
+        "testo":  "Quale film del 2010 di David Fincher racconta la nascita di Facebook?",
+        "opzioni":  [
+                        "The Social Network",
+                        "Steve Jobs",
+                        "BlackBerry",
+                        "Tetris"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Social_Network"
+    },
+    {
+        "testo":  "Quale attore interpreta il detective Benoit Blanc in Knives Out?",
+        "opzioni":  [
+                        "Daniel Craig",
+                        "Chris Evans",
+                        "Rian Johnson",
+                        "Hugh Grant"
+                    ],
+        "corretta":  0,
+        "image_page":  "Daniel_Craig"
+    },
+    {
+        "testo":  "Quale film del 2001 di Hayao Miyazaki vinse l Oscar per il miglior film d animazione?",
+        "opzioni":  [
+                        "La città incantata",
+                        "Il castello errante di Howl",
+                        "Ponyo",
+                        "Porco Rosso"
+                    ],
+        "corretta":  0,
+        "image_page":  "Spirited_Away"
+    },
+    {
+        "testo":  "Quale attrice interpreta Sarah Connor nei primi due Terminator?",
+        "opzioni":  [
+                        "Linda Hamilton",
+                        "Sigourney Weaver",
+                        "Jamie Lee Curtis",
+                        "Geena Davis"
+                    ],
+        "corretta":  0,
+        "image_page":  "Linda_Hamilton"
+    },
+    {
+        "testo":  "Quale film del 1995 di Michael Mann vede insieme Al Pacino e Robert De Niro?",
+        "opzioni":  [
+                        "Heat",
+                        "Collateral",
+                        "The Insider",
+                        "Public Enemies"
+                    ],
+        "corretta":  0,
+        "image_page":  "Heat_(1995_film)"
+    },
+    {
+        "testo":  "Chi ha diretto Mulholland Drive?",
+        "opzioni":  [
+                        "David Lynch",
+                        "Brian De Palma",
+                        "Terry Gilliam",
+                        "Roman Polanski"
+                    ],
+        "corretta":  0,
+        "image_page":  "David_Lynch"
+    },
+    {
+        "testo":  "Quale attore interpreta il protagonista in Cast Away?",
+        "opzioni":  [
+                        "Tom Hanks",
+                        "Kevin Costner",
+                        "Nicolas Cage",
+                        "Mel Gibson"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tom_Hanks"
+    },
+    {
+        "testo":  "Quale film del 1991 di Kathryn Bigelow vede Keanu Reeves contro rapinatori surfisti?",
+        "opzioni":  [
+                        "Point Break",
+                        "Speed",
+                        "Johnny Mnemonic",
+                        "Street Kings"
+                    ],
+        "corretta":  0,
+        "image_page":  "Point_Break"
+    },
+    {
+        "testo":  "Quale attrice interpreta Mia Wallace in Pulp Fiction?",
+        "opzioni":  [
+                        "Uma Thurman",
+                        "Rosanna Arquette",
+                        "Patricia Arquette",
+                        "Meg Ryan"
+                    ],
+        "corretta":  0,
+        "image_page":  "Uma_Thurman"
+    },
+    {
+        "testo":  "Quale film del 1986 di James Cameron vede Ellen Ripley tornare contro gli xenomorfi?",
+        "opzioni":  [
+                        "Aliens",
+                        "Alien 3",
+                        "Prometheus",
+                        "Avatar"
+                    ],
+        "corretta":  0,
+        "image_page":  "Aliens_(film)"
+    },
+    {
+        "testo":  "Quale attore interpreta il T-800 nella saga Terminator?",
+        "opzioni":  [
+                        "Arnold Schwarzenegger",
+                        "Sylvester Stallone",
+                        "Dolph Lundgren",
+                        "Jean-Claude Van Damme"
+                    ],
+        "corretta":  0,
+        "image_page":  "Arnold_Schwarzenegger"
+    },
+    {
+        "testo":  "Quale film del 2004 di Michel Gondry parla di memoria cancellata e amore?",
+        "opzioni":  [
+                        "Se mi lasci ti cancello",
+                        "Her",
+                        "Blue Valentine",
+                        "Closer"
+                    ],
+        "corretta":  0,
+        "image_page":  "Eternal_Sunshine_of_the_Spotless_Mind"
+    },
+    {
+        "testo":  "Chi ha diretto Manchester by the Sea?",
+        "opzioni":  [
+                        "Kenneth Lonergan",
+                        "Todd Field",
+                        "David O. Russell",
+                        "Kenneth Branagh"
+                    ],
+        "corretta":  0,
+        "image_page":  "Kenneth_Lonergan"
+    },
+    {
+        "testo":  "Quale attrice interpreta Neytiri in Avatar?",
+        "opzioni":  [
+                        "Zoe Saldaña",
+                        "Thandie Newton",
+                        "Michelle Rodriguez",
+                        "Karen Gillan"
+                    ],
+        "corretta":  0,
+        "image_page":  "Zoe_Saldana"
+    },
+    {
+        "testo":  "Quale film del 1997 di Curtis Hanson e ambientato nella Los Angeles degli anni cinquanta?",
+        "opzioni":  [
+                        "L.A. Confidential",
+                        "Chinatown",
+                        "Heat",
+                        "Crash"
+                    ],
+        "corretta":  0,
+        "image_page":  "L.A._Confidential_(film)"
+    },
+    {
+        "testo":  "Quale attore interpreta il protagonista di The Martian?",
+        "opzioni":  [
+                        "Matt Damon",
+                        "Mark Wahlberg",
+                        "Matt Dillon",
+                        "Jake Gyllenhaal"
+                    ],
+        "corretta":  0,
+        "image_page":  "Matt_Damon"
+    },
+    {
+        "testo":  "Quale film del 2015 di Tom McCarthy racconta l inchiesta giornalistica sugli abusi nella Chiesa?",
+        "opzioni":  [
+                        "Spotlight",
+                        "The Post",
+                        "All the President\u0027s Men",
+                        "Dark Waters"
+                    ],
+        "corretta":  0,
+        "image_page":  "Spotlight_(film)"
+    },
+    {
+        "testo":  "Quale attrice interpreta Jo March in Piccole donne del 2019?",
+        "opzioni":  [
+                        "Saoirse Ronan",
+                        "Florence Pugh",
+                        "Emma Watson",
+                        "Eliza Scanlen"
+                    ],
+        "corretta":  0,
+        "image_page":  "Saoirse_Ronan"
+    },
+    {
+        "testo":  "Quale film del 1988 di Giuseppe Tornatore celebra la magia della sala cinematografica?",
+        "opzioni":  [
+                        "Nuovo Cinema Paradiso",
+                        "La leggenda del pianista sull oceano",
+                        "Malèna",
+                        "Baarìa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cinema_Paradiso"
+    },
+    {
+        "testo":  "Chi ha diretto The Shape of Water?",
+        "opzioni":  [
+                        "Guillermo del Toro",
+                        "Alejandro Iñárritu",
+                        "Pedro Almodóvar",
+                        "Jean-Pierre Jeunet"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Shape_of_Water"
+    }
+]

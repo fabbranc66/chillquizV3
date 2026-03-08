@@ -1,0 +1,1124 @@
+[
+    {
+        "testo":  "Quale nazione ha vinto i Mondiali FIFA 2006?",
+        "opzioni":  [
+                        "Italia",
+                        "Francia",
+                        "Brasile",
+                        "Germania"
+                    ],
+        "corretta":  0,
+        "image_page":  "2006_FIFA_World_Cup_final"
+    },
+    {
+        "testo":  "Chi e noto come il Re della terra rossa nel tennis?",
+        "opzioni":  [
+                        "Rafael Nadal",
+                        "Roger Federer",
+                        "Novak Djokovic",
+                        "Carlos Alcaraz"
+                    ],
+        "corretta":  0,
+        "image_page":  "Rafael_Nadal"
+    },
+    {
+        "testo":  "In quale sport si assegna il trofeo Larry OBrien?",
+        "opzioni":  [
+                        "Basket NBA",
+                        "Baseball MLB",
+                        "Hockey NHL",
+                        "Football NFL"
+                    ],
+        "corretta":  0,
+        "image_page":  "Larry_O%27Brien_Championship_Trophy"
+    },
+    {
+        "testo":  "Quale squadra di calcio gioca al Camp Nou?",
+        "opzioni":  [
+                        "Barcellona",
+                        "Real Madrid",
+                        "Atletico Madrid",
+                        "Valencia"
+                    ],
+        "corretta":  0,
+        "image_page":  "FC_Barcelona"
+    },
+    {
+        "testo":  "Quanti giocatori per squadra sono in campo nel volley indoor?",
+        "opzioni":  [
+                        "6",
+                        "5",
+                        "7",
+                        "8"
+                    ],
+        "corretta":  0,
+        "image_page":  "Volleyball"
+    },
+    {
+        "testo":  "Quale pilota ha vinto il suo primo titolo F1 con la Red Bull nel 2021?",
+        "opzioni":  [
+                        "Max Verstappen",
+                        "Lewis Hamilton",
+                        "Sebastian Vettel",
+                        "Fernando Alonso"
+                    ],
+        "corretta":  0,
+        "image_page":  "Max_Verstappen"
+    },
+    {
+        "testo":  "Chi ha segnato il famoso gol di mano de Dios ai Mondiali 1986?",
+        "opzioni":  [
+                        "Diego Maradona",
+                        "Jorge Valdano",
+                        "Mario Kempes",
+                        "Gabriel Batistuta"
+                    ],
+        "corretta":  0,
+        "image_page":  "Diego_Maradona"
+    },
+    {
+        "testo":  "In quale sport si usa il termine birdie?",
+        "opzioni":  [
+                        "Golf",
+                        "Tennis",
+                        "Baseball",
+                        "Pallanuoto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Golf"
+    },
+    {
+        "testo":  "Quale e la distanza ufficiale della maratona?",
+        "opzioni":  [
+                        "42,195 km",
+                        "40 km",
+                        "41,5 km",
+                        "50 km"
+                    ],
+        "corretta":  0,
+        "image_page":  "Marathon"
+    },
+    {
+        "testo":  "Quale franchigia NBA ha sede a Los Angeles insieme ai Lakers?",
+        "opzioni":  [
+                        "Clippers",
+                        "Kings",
+                        "Dodgers",
+                        "Galaxy"
+                    ],
+        "corretta":  0,
+        "image_page":  "Los_Angeles_Clippers"
+    },
+    {
+        "testo":  "Quale tennista ha vinto piu titoli del Grande Slam in singolare maschile al 2026?",
+        "opzioni":  [
+                        "Novak Djokovic",
+                        "Rafael Nadal",
+                        "Roger Federer",
+                        "Pete Sampras"
+                    ],
+        "corretta":  0,
+        "image_page":  "Novak_Djokovic"
+    },
+    {
+        "testo":  "Chi ha vinto il Pallone d Oro 2023?",
+        "opzioni":  [
+                        "Lionel Messi",
+                        "Erling Haaland",
+                        "Kylian Mbappe",
+                        "Kevin De Bruyne"
+                    ],
+        "corretta":  0,
+        "image_page":  "2023_Ballon_d%27Or"
+    },
+    {
+        "testo":  "In quale sport si corre il Tour de France?",
+        "opzioni":  [
+                        "Ciclismo",
+                        "Motociclismo",
+                        "Triathlon",
+                        "Atletica"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tour_de_France"
+    },
+    {
+        "testo":  "Quale squadra NFL ha vinto il Super Bowl LVIII?",
+        "opzioni":  [
+                        "Kansas City Chiefs",
+                        "San Francisco 49ers",
+                        "Philadelphia Eagles",
+                        "Buffalo Bills"
+                    ],
+        "corretta":  0,
+        "image_page":  "Super_Bowl_LVIII"
+    },
+    {
+        "testo":  "Quale atleta giamaicano e detentore del record mondiale dei 100 metri maschili?",
+        "opzioni":  [
+                        "Usain Bolt",
+                        "Yohan Blake",
+                        "Asafa Powell",
+                        "Justin Gatlin"
+                    ],
+        "corretta":  0,
+        "image_page":  "Usain_Bolt"
+    },
+    {
+        "testo":  "Quale torneo di tennis si gioca sull erba a Londra?",
+        "opzioni":  [
+                        "Wimbledon",
+                        "Roland Garros",
+                        "US Open",
+                        "Australian Open"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Championships,_Wimbledon"
+    },
+    {
+        "testo":  "Quale club ha vinto la Champions League 2023-24?",
+        "opzioni":  [
+                        "Real Madrid",
+                        "Manchester City",
+                        "Inter",
+                        "Borussia Dortmund"
+                    ],
+        "corretta":  0,
+        "image_page":  "2024_UEFA_Champions_League_final"
+    },
+    {
+        "testo":  "Chi indossa tradizionalmente la maglia gialla al Tour de France?",
+        "opzioni":  [
+                        "Leader classifica generale",
+                        "Miglior scalatore",
+                        "Miglior giovane",
+                        "Vincitore tappa"
+                    ],
+        "corretta":  0,
+        "image_page":  "General_classification_in_the_Tour_de_France"
+    },
+    {
+        "testo":  "In quale sport competono i New York Yankees?",
+        "opzioni":  [
+                        "Baseball",
+                        "Basket",
+                        "Hockey",
+                        "Football americano"
+                    ],
+        "corretta":  0,
+        "image_page":  "New_York_Yankees"
+    },
+    {
+        "testo":  "Quale campione svizzero e soprannominato King Roger?",
+        "opzioni":  [
+                        "Roger Federer",
+                        "Stan Wawrinka",
+                        "Martina Hingis",
+                        "Marco Chiudinelli"
+                    ],
+        "corretta":  0,
+        "image_page":  "Roger_Federer"
+    },
+    {
+        "testo":  "Quale nazionale vinse Euro 2020 disputato nel 2021?",
+        "opzioni":  [
+                        "Italia",
+                        "Inghilterra",
+                        "Spagna",
+                        "Francia"
+                    ],
+        "corretta":  0,
+        "image_page":  "UEFA_Euro_2020_final"
+    },
+    {
+        "testo":  "Quale sport usa mazze e wicket?",
+        "opzioni":  [
+                        "Cricket",
+                        "Baseball",
+                        "Lacrosse",
+                        "Polo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cricket"
+    },
+    {
+        "testo":  "Chi ha vinto il mondiale MotoGP 2023?",
+        "opzioni":  [
+                        "Francesco Bagnaia",
+                        "Jorge Martin",
+                        "Marc Marquez",
+                        "Fabio Quartararo"
+                    ],
+        "corretta":  0,
+        "image_page":  "2023_MotoGP_World_Championship"
+    },
+    {
+        "testo":  "Quale squadra di basket gioca le gare interne al TD Garden di Boston?",
+        "opzioni":  [
+                        "Celtics",
+                        "Bruins",
+                        "Knicks",
+                        "Nets"
+                    ],
+        "corretta":  0,
+        "image_page":  "Boston_Celtics"
+    },
+    {
+        "testo":  "Quale atleta statunitense ha dominato il nuoto olimpico con 23 ori olimpici?",
+        "opzioni":  [
+                        "Michael Phelps",
+                        "Ryan Lochte",
+                        "Mark Spitz",
+                        "Caeleb Dressel"
+                    ],
+        "corretta":  0,
+        "image_page":  "Michael_Phelps"
+    },
+    {
+        "testo":  "Quale ciclista sloveno ha vinto il Tour de France 2024?",
+        "opzioni":  [
+                        "Tadej Pogacar",
+                        "Primoz Roglic",
+                        "Jonas Vingegaard",
+                        "Remco Evenepoel"
+                    ],
+        "corretta":  0,
+        "image_page":  "2024_Tour_de_France"
+    },
+    {
+        "testo":  "In quale sport si assegna la Stanley Cup?",
+        "opzioni":  [
+                        "Hockey su ghiaccio",
+                        "Basket",
+                        "Baseball",
+                        "Football americano"
+                    ],
+        "corretta":  0,
+        "image_page":  "Stanley_Cup"
+    },
+    {
+        "testo":  "Quale squadra inglese gioca ad Anfield?",
+        "opzioni":  [
+                        "Liverpool",
+                        "Everton",
+                        "Arsenal",
+                        "Chelsea"
+                    ],
+        "corretta":  0,
+        "image_page":  "Liverpool_F.C."
+    },
+    {
+        "testo":  "Quale disciplina comprende floor exercise e parallele asimmetriche?",
+        "opzioni":  [
+                        "Ginnastica artistica",
+                        "Tuffi",
+                        "Scherma",
+                        "Pentathlon"
+                    ],
+        "corretta":  0,
+        "image_page":  "Artistic_gymnastics"
+    },
+    {
+        "testo":  "Chi ha vinto l oro olimpico nei 100 metri a Tokyo 2020?",
+        "opzioni":  [
+                        "Marcell Jacobs",
+                        "Fred Kerley",
+                        "Andre De Grasse",
+                        "Trayvon Bromell"
+                    ],
+        "corretta":  0,
+        "image_page":  "Lamont_Marcell_Jacobs"
+    },
+    {
+        "testo":  "Quale portiere ha vinto il Pallone d Oro nel 1963?",
+        "opzioni":  [
+                        "Lev Yashin",
+                        "Gianluigi Buffon",
+                        "Dino Zoff",
+                        "Sepp Maier"
+                    ],
+        "corretta":  0,
+        "image_page":  "Lev_Yashin"
+    },
+    {
+        "testo":  "Quale squadra di Formula 1 ha sede storica a Maranello?",
+        "opzioni":  [
+                        "Ferrari",
+                        "McLaren",
+                        "Mercedes",
+                        "Alpine"
+                    ],
+        "corretta":  0,
+        "image_page":  "Scuderia_Ferrari"
+    },
+    {
+        "testo":  "In quale sport si usa il termine ace per un servizio vincente?",
+        "opzioni":  [
+                        "Tennis",
+                        "Pallamano",
+                        "Rugby",
+                        "Basket"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tennis"
+    },
+    {
+        "testo":  "Quale leggenda del basket e nota come His Airness?",
+        "opzioni":  [
+                        "Michael Jordan",
+                        "Kobe Bryant",
+                        "LeBron James",
+                        "Magic Johnson"
+                    ],
+        "corretta":  0,
+        "image_page":  "Michael_Jordan"
+    },
+    {
+        "testo":  "Quale nazione ha ospitato i Giochi Olimpici estivi del 2016?",
+        "opzioni":  [
+                        "Brasile",
+                        "Cina",
+                        "Giappone",
+                        "Regno Unito"
+                    ],
+        "corretta":  0,
+        "image_page":  "2016_Summer_Olympics"
+    },
+    {
+        "testo":  "Quale club spagnolo e soprannominato Blancos?",
+        "opzioni":  [
+                        "Real Madrid",
+                        "Sevilla",
+                        "Villarreal",
+                        "Betis"
+                    ],
+        "corretta":  0,
+        "image_page":  "Real_Madrid_CF"
+    },
+    {
+        "testo":  "Chi ha vinto il Sei Nazioni 2024 di rugby?",
+        "opzioni":  [
+                        "Irlanda",
+                        "Francia",
+                        "Inghilterra",
+                        "Scozia"
+                    ],
+        "corretta":  0,
+        "image_page":  "2024_Six_Nations_Championship"
+    },
+    {
+        "testo":  "Quale sport utilizza una pista di 400 metri per le gare outdoor standard?",
+        "opzioni":  [
+                        "Atletica leggera",
+                        "Ciclismo su pista",
+                        "Speed skating",
+                        "Motocross"
+                    ],
+        "corretta":  0,
+        "image_page":  "Track_and_field"
+    },
+    {
+        "testo":  "Quale squadra MLB gioca al Fenway Park?",
+        "opzioni":  [
+                        "Boston Red Sox",
+                        "Chicago Cubs",
+                        "New York Mets",
+                        "Atlanta Braves"
+                    ],
+        "corretta":  0,
+        "image_page":  "Boston_Red_Sox"
+    },
+    {
+        "testo":  "Quale tennista polacca ha vinto piu Roland Garros nel 2020-2024?",
+        "opzioni":  [
+                        "Iga Swiatek",
+                        "Aryna Sabalenka",
+                        "Coco Gauff",
+                        "Ons Jabeur"
+                    ],
+        "corretta":  0,
+        "image_page":  "Iga_Swiatek"
+    },
+    {
+        "testo":  "Quale paese ha vinto il Mondiale di rugby 2023?",
+        "opzioni":  [
+                        "Sudafrica",
+                        "Nuova Zelanda",
+                        "Inghilterra",
+                        "Francia"
+                    ],
+        "corretta":  0,
+        "image_page":  "2023_Rugby_World_Cup_final"
+    },
+    {
+        "testo":  "In quale sport gareggia la squadra italiana Luna Rossa?",
+        "opzioni":  [
+                        "Vela",
+                        "Canottaggio",
+                        "Nuoto",
+                        "Pallanuoto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Luna_Rossa_Prada_Pirelli"
+    },
+    {
+        "testo":  "Chi e stato il capitano dell Argentina campione del mondo 2022?",
+        "opzioni":  [
+                        "Lionel Messi",
+                        "Angel Di Maria",
+                        "Nicolas Otamendi",
+                        "Emiliano Martinez"
+                    ],
+        "corretta":  0,
+        "image_page":  "2022_FIFA_World_Cup_final"
+    },
+    {
+        "testo":  "Quale torneo di tennis si gioca a Melbourne Park?",
+        "opzioni":  [
+                        "Australian Open",
+                        "US Open",
+                        "Wimbledon",
+                        "ATP Finals"
+                    ],
+        "corretta":  0,
+        "image_page":  "Australian_Open"
+    },
+    {
+        "testo":  "Quale campione serbo e noto per il soprannome Nole?",
+        "opzioni":  [
+                        "Novak Djokovic",
+                        "Viktor Troicki",
+                        "Janko Tipsarevic",
+                        "Miomir Kecmanovic"
+                    ],
+        "corretta":  0,
+        "image_page":  "Novak_Djokovic"
+    },
+    {
+        "testo":  "Quale federazione organizza la Champions League di calcio?",
+        "opzioni":  [
+                        "UEFA",
+                        "FIFA",
+                        "CONMEBOL",
+                        "FIGC"
+                    ],
+        "corretta":  0,
+        "image_page":  "UEFA"
+    },
+    {
+        "testo":  "In quale sport si utilizza il tatami?",
+        "opzioni":  [
+                        "Judo",
+                        "Scherma",
+                        "Hockey prato",
+                        "Badminton"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tatami"
+    },
+    {
+        "testo":  "Chi ha vinto il Giro d Italia 2024?",
+        "opzioni":  [
+                        "Tadej Pogacar",
+                        "Daniel Martinez",
+                        "Geraint Thomas",
+                        "Antonio Tiberi"
+                    ],
+        "corretta":  0,
+        "image_page":  "2024_Giro_d%27Italia"
+    },
+    {
+        "testo":  "Quale golfista statunitense ha vinto 15 major maschili?",
+        "opzioni":  [
+                        "Tiger Woods",
+                        "Phil Mickelson",
+                        "Brooks Koepka",
+                        "Jordan Spieth"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tiger_Woods"
+    },
+    {
+        "testo":  "Quale squadra NBA ha selezionato Victor Wembanyama nel draft 2023?",
+        "opzioni":  [
+                        "San Antonio Spurs",
+                        "Charlotte Hornets",
+                        "Detroit Pistons",
+                        "Houston Rockets"
+                    ],
+        "corretta":  0,
+        "image_page":  "Victor_Wembanyama"
+    },
+    {
+        "testo":  "Quale sportivo portoghese e il recordman di gol nelle nazionali maschili?",
+        "opzioni":  [
+                        "Cristiano Ronaldo",
+                        "Eusebio",
+                        "Luis Figo",
+                        "Bruno Fernandes"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cristiano_Ronaldo"
+    },
+    {
+        "testo":  "Quale squadra italiana di calcio gioca allo stadio Diego Armando Maradona?",
+        "opzioni":  [
+                        "Napoli",
+                        "Roma",
+                        "Lazio",
+                        "Fiorentina"
+                    ],
+        "corretta":  0,
+        "image_page":  "S.S.C._Napoli"
+    },
+    {
+        "testo":  "In quale sport si disputa la Ryder Cup?",
+        "opzioni":  [
+                        "Golf",
+                        "Tennis",
+                        "Polo",
+                        "Cricket"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ryder_Cup"
+    },
+    {
+        "testo":  "Chi ha vinto il campionato mondiale di scacchi 2024?",
+        "opzioni":  [
+                        "Gukesh Dommaraju",
+                        "Ding Liren",
+                        "Magnus Carlsen",
+                        "Fabiano Caruana"
+                    ],
+        "corretta":  0,
+        "image_page":  "Gukesh_Dommaraju"
+    },
+    {
+        "testo":  "Quale atleta italiana ha vinto l oro olimpico nel salto in alto a Tokyo 2020?",
+        "opzioni":  [
+                        "Gianmarco Tamberi",
+                        "Mutaz Barshim",
+                        "Stefano Sottile",
+                        "Marco Fassinotti"
+                    ],
+        "corretta":  0,
+        "image_page":  "Gianmarco_Tamberi"
+    },
+    {
+        "testo":  "Quale squadra di hockey NHL ha sede a Montreal?",
+        "opzioni":  [
+                        "Canadiens",
+                        "Maple Leafs",
+                        "Senators",
+                        "Jets"
+                    ],
+        "corretta":  0,
+        "image_page":  "Montreal_Canadiens"
+    },
+    {
+        "testo":  "Quale campione di Formula 1 tedesco ha vinto sette titoli mondiali prima di Hamilton?",
+        "opzioni":  [
+                        "Michael Schumacher",
+                        "Sebastian Vettel",
+                        "Nico Rosberg",
+                        "Mika Hakkinen"
+                    ],
+        "corretta":  0,
+        "image_page":  "Michael_Schumacher"
+    },
+    {
+        "testo":  "Quale tennista spagnolo ha vinto Wimbledon 2024? ",
+        "opzioni":  [
+                        "Carlos Alcaraz",
+                        "Rafael Nadal",
+                        "Daniil Medvedev",
+                        "Jannik Sinner"
+                    ],
+        "corretta":  0,
+        "image_page":  "2024_Wimbledon_Championships_%E2%80%93_Men%27s_singles_final"
+    },
+    {
+        "testo":  "Quale nazionale ha vinto il Mondiale femminile di calcio 2023?",
+        "opzioni":  [
+                        "Spagna",
+                        "Inghilterra",
+                        "Svezia",
+                        "USA"
+                    ],
+        "corretta":  0,
+        "image_page":  "2023_FIFA_Women%27s_World_Cup_final"
+    },
+    {
+        "testo":  "In quale sport si usa il termine touchdown?",
+        "opzioni":  [
+                        "Football americano",
+                        "Rugby",
+                        "Baseball",
+                        "Lacrosse"
+                    ],
+        "corretta":  0,
+        "image_page":  "Touchdown"
+    },
+    {
+        "testo":  "Quale squadra di basket italiana ha vinto l Eurolega nel 1987-88?",
+        "opzioni":  [
+                        "Olimpia Milano",
+                        "Virtus Bologna",
+                        "Benetton Treviso",
+                        "Mens Sana Siena"
+                    ],
+        "corretta":  0,
+        "image_page":  "1987%E2%80%9388_FIBA_European_Champions_Cup"
+    },
+    {
+        "testo":  "Chi ha vinto la Coppa Davis 2024?",
+        "opzioni":  [
+                        "Italia",
+                        "Australia",
+                        "Canada",
+                        "Spagna"
+                    ],
+        "corretta":  0,
+        "image_page":  "2024_Davis_Cup"
+    },
+    {
+        "testo":  "Quale disciplina prevede stoccata, fioretto, sciabola e spada?",
+        "opzioni":  [
+                        "Scherma",
+                        "Pugilato",
+                        "Lotta",
+                        "Taekwondo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fencing"
+    },
+    {
+        "testo":  "Quale squadra di calcio tedesca gioca all Allianz Arena?",
+        "opzioni":  [
+                        "Bayern Monaco",
+                        "Borussia Dortmund",
+                        "RB Leipzig",
+                        "Bayer Leverkusen"
+                    ],
+        "corretta":  0,
+        "image_page":  "FC_Bayern_Munich"
+    },
+    {
+        "testo":  "Quale campione argentino e noto come La Pulce?",
+        "opzioni":  [
+                        "Lionel Messi",
+                        "Sergio Aguero",
+                        "Paulo Dybala",
+                        "Javier Mascherano"
+                    ],
+        "corretta":  0,
+        "image_page":  "Lionel_Messi"
+    },
+    {
+        "testo":  "Quale sport si pratica nel velodromo?",
+        "opzioni":  [
+                        "Ciclismo su pista",
+                        "BMX freestyle",
+                        "Motociclismo",
+                        "Pattinaggio artistico"
+                    ],
+        "corretta":  0,
+        "image_page":  "Track_cycling"
+    },
+    {
+        "testo":  "Chi ha vinto il campionato di Serie A 2023-24?",
+        "opzioni":  [
+                        "Inter",
+                        "Milan",
+                        "Juventus",
+                        "Napoli"
+                    ],
+        "corretta":  0,
+        "image_page":  "2023%E2%80%9324_Serie_A"
+    },
+    {
+        "testo":  "Quale torneo conclude la stagione ATP con gli otto migliori giocatori?",
+        "opzioni":  [
+                        "ATP Finals",
+                        "Masters 1000 di Roma",
+                        "Laver Cup",
+                        "Next Gen Finals"
+                    ],
+        "corretta":  0,
+        "image_page":  "ATP_Finals"
+    },
+    {
+        "testo":  "Quale squadra di baseball gioca al Dodger Stadium?",
+        "opzioni":  [
+                        "Los Angeles Dodgers",
+                        "San Diego Padres",
+                        "San Francisco Giants",
+                        "Chicago White Sox"
+                    ],
+        "corretta":  0,
+        "image_page":  "Los_Angeles_Dodgers"
+    },
+    {
+        "testo":  "Quale atleta svedese detiene il record mondiale del salto con l asta maschile al 2026?",
+        "opzioni":  [
+                        "Armand Duplantis",
+                        "Renaud Lavillenie",
+                        "Sam Kendricks",
+                        "Thiago Braz"
+                    ],
+        "corretta":  0,
+        "image_page":  "Armand_Duplantis"
+    },
+    {
+        "testo":  "Quale trofeo viene assegnato al vincitore del campionato mondiale di Formula 1 piloti?",
+        "opzioni":  [
+                        "Campionato piloti F1",
+                        "Coppa Davis",
+                        "Stanley Cup",
+                        "Aglea Bowl"
+                    ],
+        "corretta":  0,
+        "image_page":  "Formula_One_World_Championship"
+    },
+    {
+        "testo":  "In quale sport competono i fratelli Ingebrigtsen?",
+        "opzioni":  [
+                        "Atletica mezzofondo",
+                        "Sci alpino",
+                        "Biathlon",
+                        "Ciclismo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ingebrigtsen_family"
+    },
+    {
+        "testo":  "Quale nazionale europea vinse il Mondiale di basket FIBA 2019?",
+        "opzioni":  [
+                        "Spagna",
+                        "Serbia",
+                        "Francia",
+                        "Germania"
+                    ],
+        "corretta":  0,
+        "image_page":  "2019_FIBA_Basketball_World_Cup_Final"
+    },
+    {
+        "testo":  "Quale disciplina dello sci alpino si disputa su tracciati con porte piu distanziate dello slalom speciale?",
+        "opzioni":  [
+                        "Slalom gigante",
+                        "Discesa libera",
+                        "Super-G",
+                        "Combinata nordica"
+                    ],
+        "corretta":  0,
+        "image_page":  "Giant_slalom"
+    },
+    {
+        "testo":  "Quale squadra inglese di rugby league ha sede a Wigan?",
+        "opzioni":  [
+                        "Wigan Warriors",
+                        "Leeds Rhinos",
+                        "St Helens",
+                        "Warrington Wolves"
+                    ],
+        "corretta":  0,
+        "image_page":  "Wigan_Warriors"
+    },
+    {
+        "testo":  "Quale campionessa statunitense ha vinto 23 titoli Slam in singolare femminile?",
+        "opzioni":  [
+                        "Serena Williams",
+                        "Venus Williams",
+                        "Steffi Graf",
+                        "Martina Navratilova"
+                    ],
+        "corretta":  0,
+        "image_page":  "Serena_Williams"
+    },
+    {
+        "testo":  "Quale squadra di calcio francese gioca al Parc des Princes?",
+        "opzioni":  [
+                        "Paris Saint-Germain",
+                        "Olympique Marsiglia",
+                        "Lione",
+                        "Monaco"
+                    ],
+        "corretta":  0,
+        "image_page":  "Paris_Saint-Germain_F.C."
+    },
+    {
+        "testo":  "In quale sport si usa il cronometro dei 24 secondi?",
+        "opzioni":  [
+                        "Basket",
+                        "Pallamano",
+                        "Hockey",
+                        "Futsal"
+                    ],
+        "corretta":  0,
+        "image_page":  "Shot_clock"
+    },
+    {
+        "testo":  "Chi ha vinto il mondiale di F1 2022?",
+        "opzioni":  [
+                        "Max Verstappen",
+                        "Charles Leclerc",
+                        "Lewis Hamilton",
+                        "George Russell"
+                    ],
+        "corretta":  0,
+        "image_page":  "2022_Formula_One_World_Championship"
+    },
+    {
+        "testo":  "Quale torneo di golf e uno dei quattro major e si gioca ad Augusta?",
+        "opzioni":  [
+                        "Masters Tournament",
+                        "The Players",
+                        "Ryder Cup",
+                        "FedEx Cup"
+                    ],
+        "corretta":  0,
+        "image_page":  "Masters_Tournament"
+    },
+    {
+        "testo":  "Quale sport vede sfidarsi barche in regate come l America s Cup?",
+        "opzioni":  [
+                        "Vela",
+                        "Canottaggio",
+                        "Canoa slalom",
+                        "Motonautica"
+                    ],
+        "corretta":  0,
+        "image_page":  "America%27s_Cup"
+    },
+    {
+        "testo":  "Quale club italiano e soprannominato la Vecchia Signora?",
+        "opzioni":  [
+                        "Juventus",
+                        "Inter",
+                        "Milan",
+                        "Torino"
+                    ],
+        "corretta":  0,
+        "image_page":  "Juventus_FC"
+    },
+    {
+        "testo":  "Quale atleta norvegese ha vinto titoli olimpici ed europei nel mezzofondo recente?",
+        "opzioni":  [
+                        "Jakob Ingebrigtsen",
+                        "Karsten Warholm",
+                        "Johannes Klaebo",
+                        "Filip Ingebrigtsen"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jakob_Ingebrigtsen"
+    },
+    {
+        "testo":  "Quale disciplina olimpica combina scherma nuoto equitazione tiro e corsa?",
+        "opzioni":  [
+                        "Pentathlon moderno",
+                        "Triathlon",
+                        "Eptathlon",
+                        "Decathlon"
+                    ],
+        "corretta":  0,
+        "image_page":  "Modern_pentathlon"
+    },
+    {
+        "testo":  "Quale squadra NBA gioca al Madison Square Garden?",
+        "opzioni":  [
+                        "New York Knicks",
+                        "Brooklyn Nets",
+                        "Boston Celtics",
+                        "Philadelphia 76ers"
+                    ],
+        "corretta":  0,
+        "image_page":  "New_York_Knicks"
+    },
+    {
+        "testo":  "Chi ha vinto l Europeo maschile di volley 2021?",
+        "opzioni":  [
+                        "Italia",
+                        "Slovenia",
+                        "Polonia",
+                        "Francia"
+                    ],
+        "corretta":  0,
+        "image_page":  "2021_Men%27s_European_Volleyball_Championship"
+    },
+    {
+        "testo":  "Quale campione sloveno ha vinto il Giro d Italia 2023?",
+        "opzioni":  [
+                        "Primoz Roglic",
+                        "Tadej Pogacar",
+                        "Matej Mohoric",
+                        "Jan Tratnik"
+                    ],
+        "corretta":  0,
+        "image_page":  "2023_Giro_d%27Italia"
+    },
+    {
+        "testo":  "Quale sport usa un anello e un tappeto nelle gare di ginnastica maschile?",
+        "opzioni":  [
+                        "Ginnastica artistica",
+                        "Lotta greco-romana",
+                        "Boxe",
+                        "Judo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Artistic_gymnastics"
+    },
+    {
+        "testo":  "Quale squadra di calcio olandese gioca alla Johan Cruijff Arena?",
+        "opzioni":  [
+                        "Ajax",
+                        "PSV",
+                        "Feyenoord",
+                        "AZ Alkmaar"
+                    ],
+        "corretta":  0,
+        "image_page":  "AFC_Ajax"
+    },
+    {
+        "testo":  "Quale campione belga del ciclismo e soprannominato il Cannibale?",
+        "opzioni":  [
+                        "Eddy Merckx",
+                        "Fausto Coppi",
+                        "Marco Pantani",
+                        "Miguel Indurain"
+                    ],
+        "corretta":  0,
+        "image_page":  "Eddy_Merckx"
+    },
+    {
+        "testo":  "In quale sport gareggiano le monoposto IndyCar?",
+        "opzioni":  [
+                        "Automobilismo",
+                        "Motonautica",
+                        "Motocross",
+                        "Karting rental"
+                    ],
+        "corretta":  0,
+        "image_page":  "IndyCar_Series"
+    },
+    {
+        "testo":  "Quale nazionale ha vinto il Mondiale di pallacanestro FIBA 2023?",
+        "opzioni":  [
+                        "Germania",
+                        "Serbia",
+                        "USA",
+                        "Canada"
+                    ],
+        "corretta":  0,
+        "image_page":  "2023_FIBA_Basketball_World_Cup_Final"
+    },
+    {
+        "testo":  "Quale disciplina del pattinaggio si disputa su pista corta indoor?",
+        "opzioni":  [
+                        "Short track",
+                        "Speed skating su lunga pista",
+                        "Pattinaggio artistico",
+                        "Roller derby"
+                    ],
+        "corretta":  0,
+        "image_page":  "Short_track_speed_skating"
+    },
+    {
+        "testo":  "Quale squadra MLB ha sede a Chicago e gioca al Wrigley Field?",
+        "opzioni":  [
+                        "Chicago Cubs",
+                        "Chicago White Sox",
+                        "Milwaukee Brewers",
+                        "Cincinnati Reds"
+                    ],
+        "corretta":  0,
+        "image_page":  "Chicago_Cubs"
+    },
+    {
+        "testo":  "Quale atleta italiana ha vinto l oro olimpico nella 20 km di marcia a Tokyo 2020?",
+        "opzioni":  [
+                        "Antonella Palmisano",
+                        "Eleonora Giorgi",
+                        "Valentina Trapletti",
+                        "Elisa Rigaudo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Antonella_Palmisano"
+    },
+    {
+        "testo":  "Chi ha vinto l NBA Finals MVP 2023 con i Denver Nuggets?",
+        "opzioni":  [
+                        "Nikola Jokic",
+                        "Jamal Murray",
+                        "Jimmy Butler",
+                        "LeBron James"
+                    ],
+        "corretta":  0,
+        "image_page":  "2023_NBA_Finals"
+    },
+    {
+        "testo":  "Quale sport usa il tavolo con sei buche e stecche per imbucare bilie colorate?",
+        "opzioni":  [
+                        "Snooker",
+                        "Carambola",
+                        "Bowling",
+                        "Curling"
+                    ],
+        "corretta":  0,
+        "image_page":  "Snooker"
+    },
+    {
+        "testo":  "Quale squadra di calcio portoghese gioca all Estádio da Luz?",
+        "opzioni":  [
+                        "Benfica",
+                        "Porto",
+                        "Sporting CP",
+                        "Braga"
+                    ],
+        "corretta":  0,
+        "image_page":  "S.L._Benfica"
+    },
+    {
+        "testo":  "Quale campione croato ha vinto il Pallone d Oro 2018?",
+        "opzioni":  [
+                        "Luka Modric",
+                        "Ivan Rakitic",
+                        "Mario Mandzukic",
+                        "Davor Suker"
+                    ],
+        "corretta":  0,
+        "image_page":  "Luka_Modric"
+    },
+    {
+        "testo":  "Quale disciplina comprende il tiro con l arco con bersaglio concentrici?",
+        "opzioni":  [
+                        "Tiro con l arco",
+                        "Biathlon",
+                        "Tiro a segno",
+                        "Softball"
+                    ],
+        "corretta":  0,
+        "image_page":  "Archery"
+    },
+    {
+        "testo":  "Quale squadra ha vinto la Champions League femminile 2023-24?",
+        "opzioni":  [
+                        "Barcellona",
+                        "Lione",
+                        "Chelsea",
+                        "PSG"
+                    ],
+        "corretta":  0,
+        "image_page":  "2024_UEFA_Women%27s_Champions_League_final"
+    },
+    {
+        "testo":  "Quale tennista italiana ha raggiunto la finale di Wimbledon 2024 in singolare femminile?",
+        "opzioni":  [
+                        "Jasmine Paolini",
+                        "Elisabetta Cocciaretto",
+                        "Lucia Bronzetti",
+                        "Martina Trevisan"
+                    ],
+        "corretta":  0,
+        "image_page":  "2024_Wimbledon_Championships_%E2%80%93_Women%27s_singles_final"
+    }
+]

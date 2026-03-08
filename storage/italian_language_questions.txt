@@ -1,0 +1,100 @@
+Quale parte del discorso indica persone animali cose o idee?|Nome|Verbo|Avverbio|Preposizione|Noun
+Quale parte del discorso esprime un azione o uno stato?|Verbo|Aggettivo|Articolo|Congiunzione|Verb
+Quale parte del discorso accompagna il nome qualificandolo?|Aggettivo|Pronome|Avverbio|Interiezione|Adjective
+Quale parte del discorso sostituisce un nome?|Pronome|Articolo|Avverbio|Congiunzione|Pronoun
+Quale parte del discorso modifica un verbo un aggettivo o un altro avverbio?|Avverbio|Nome|Verbo|Interiezione|Adverb
+Quale parte del discorso introduce un nome collegandolo ad altri elementi?|Preposizione|Congiunzione|Articolo|Pronome|Preposition_and_postposition
+Quale parte del discorso unisce parole o frasi?|Congiunzione|Articolo|Nome|Interiezione|Conjunction_(grammar)
+Quale parte del discorso accompagna il nome determinandolo?|Articolo|Aggettivo|Pronome|Verbo|Article_(grammar)
+Quale parte del discorso esprime emozioni o esclamazioni?|Interiezione|Avverbio|Congiunzione|Preposizione|Interjection
+In italiano quale genere grammaticale ha il nome casa?|Femminile|Maschile|Comune|Neutro|Grammatical_gender
+Quale numero grammaticale indica piu di un elemento?|Plurale|Singolare|Duale|Collettivo|Grammatical_number
+Quale tempo verbale indica un azione contemporanea al momento in cui si parla?|Presente|Passato remoto|Trapassato|Futuro anteriore|Grammatical_tense
+Quale modo verbale esprime certezza e realtà?|Indicativo|Congiuntivo|Condizionale|Imperativo|Grammatical_mood
+Quale modo verbale esprime possibilità dubbio desiderio?|Congiuntivo|Indicativo|Gerundio|Participio|Subjunctive
+Quale modo verbale esprime una condizione o una possibilità subordinata?|Condizionale|Indicativo|Imperativo|Infinito|Conditional_mood
+Quale modo verbale si usa per dare ordini o esortazioni?|Imperativo|Congiuntivo|Condizionale|Participio|Imperative_mood
+Quale forma verbale e invariabile e termina spesso in -are -ere -ire?|Infinito|Gerundio|Participio|Indicativo|Infinitive
+Quale forma verbale invariabile italiana termina spesso in -ando o -endo?|Gerundio|Participio|Infinito|Imperativo|Gerund
+Quale forma verbale invariabile può funzionare anche come aggettivo?|Participio|Gerundio|Infinito|Congiuntivo|Participle
+Quale persona verbale corrisponde a io parlo?|Prima persona singolare|Seconda persona singolare|Terza persona singolare|Prima persona plurale|Grammatical_person
+Quale persona verbale corrisponde a voi cantate?|Seconda persona plurale|Prima persona plurale|Terza persona plurale|Seconda persona singolare|Grammatical_person
+Nella frase Il gatto dorme quale e il soggetto?|Il gatto|dorme|Il|gatto dorme|Subject_(grammar)
+Nella frase Luca mangia una mela quale e il predicato verbale?|mangia|Luca|una mela|Luca mangia|Predicate_(grammar)
+Quale complemento risponde alla domanda chi? che cosa? senza preposizione?|Complemento oggetto|Complemento di termine|Complemento di causa|Complemento di mezzo|Object_(grammar)
+Quale complemento risponde alla domanda a chi? a che cosa?|Complemento di termine|Complemento oggetto|Complemento di compagnia|Complemento di agente|Dative_case
+Nella frase Esco con Marco quale complemento e con Marco?|Complemento di compagnia|Complemento di modo|Complemento di mezzo|Complemento di luogo|Comitative_case
+Nella frase Vado a Roma quale complemento e a Roma?|Complemento di moto a luogo|Complemento di stato in luogo|Complemento di origine|Complemento di specificazione|Locative_case
+Nella frase Abito a Milano quale complemento e a Milano?|Complemento di stato in luogo|Complemento di moto a luogo|Complemento di moto da luogo|Complemento di tempo|Locative_case
+Quale complemento indica il materiale di cui e fatta una cosa?|Complemento di materia|Complemento di mezzo|Complemento di modo|Complemento di causa|Material_case
+Quale complemento indica il possesso o la relazione con di?|Complemento di specificazione|Complemento di termine|Complemento oggetto|Complemento di qualità|Genitive_case
+Quale proposizione subordinata svolge la funzione di soggetto della principale?|Subordinata soggettiva|Subordinata oggettiva|Subordinata causale|Subordinata finale|Subordinate_clause
+Quale proposizione subordinata completa il significato di un verbo come oggetto?|Subordinata oggettiva|Subordinata soggettiva|Subordinata temporale|Subordinata relativa|Subordinate_clause
+Quale subordinata indica la causa di quanto espresso nella principale?|Causale|Consecutiva|Finale|Concessiva|Causal_clause
+Quale subordinata indica il fine o lo scopo?|Finale|Causale|Temporale|Comparativa|Final_clause
+Quale subordinata indica il tempo in cui avviene l azione?|Temporale|Modale|Concessiva|Interrogativa indiretta|Temporal_clause
+Quale subordinata esprime una concessione introdotta spesso da benché?|Concessiva|Condizionale|Finale|Dichiarativa|Concessive_clause
+Quale subordinata esprime una condizione introdotta spesso da se?|Condizionale|Concessiva|Temporale|Causale|Conditional_sentence
+Quale subordinata introduce un paragone?|Comparativa|Finale|Esclusiva|Limitativa|Comparison_(grammar)
+Quale subordinata e introdotta da un pronome relativo come che o cui?|Relativa|Causale|Condizionale|Interrogativa indiretta|Relative_clause
+In italiano che cos e un dittongo?|L unione di due vocali nella stessa sillaba|Una consonante doppia|Un accento tonico|Una pausa forte|Diphthong
+In italiano che cos e uno iato?|L incontro di due vocali pronunciate in sillabe diverse|Una doppia consonante|Una vocale muta|Una sillaba tonica|Hiatus_(linguistics)
+Quale segno grafico indica una pausa breve all interno della frase?|Virgola|Punto e virgola|Due punti|Punto interrogativo|Comma
+Quale segno grafico chiude una frase affermativa compiuta?|Punto fermo|Virgola|Due punti|Trattino|Full_stop
+Quale segno grafico introduce spesso un elenco o una spiegazione?|Due punti|Virgola|Punto e virgola|Parentesi|Colon_(punctuation)
+Quale segno grafico indica una domanda diretta?|Punto interrogativo|Punto esclamativo|Virgola|Slash|Question_mark
+Quale segno grafico esprime esclamazione sorpresa o ordine forte?|Punto esclamativo|Punto interrogativo|Virgola|Punto e virgola|Exclamation_mark
+Quale accento si usa in perché sulla e finale?|Accento acuto|Accento grave|Trema|Apostrofo|Acute_accent
+Quale accento compare in cioè sulla e finale?|Accento grave|Accento acuto|Circonflesso|Apostrofo|Grave_accent
+Quale segno si usa in l amico per indicare la caduta di una vocale?|Apostrofo|Accento|Trattino|Virgoletta|Apostrophe
+Quando si scrive un po con apostrofo quale vocale e caduta?|co finale di poco|a iniziale di poco|o finale di po|u iniziale di un po|Elision
+Quale fenomeno e la caduta della vocale finale davanti a parola iniziante per vocale?|Elisione|Troncamento|Apocope|Aferesi|Elision
+Quale figura retorica consiste nella ripetizione di uno stesso suono consonantico?|Allitterazione|Metafora|Iperbole|Anastrofe|Alliteration
+Quale figura retorica consiste nel trasferire un significato per somiglianza?|Metafora|Metonimia|Anafora|Litote|Metaphor
+Quale figura retorica sostituisce un termine con un altro per contiguità logica?|Metonimia|Metafora|Sinestesia|Ironia|Metonymy
+Quale figura retorica consiste nell esagerazione evidente?|Iperbole|Litote|Climax|Eufemismo|Hyperbole
+Quale figura retorica consiste nella ripetizione di una parola all inizio di più versi o frasi?|Anafora|Epifora|Chiasmo|Anacoluto|Anaphora_(rhetoric)
+Quale figura retorica attenua un concetto affermando il contrario del suo opposto?|Litote|Iperbole|Metafora|Pleonasmo|Litotes
+Quale figura retorica combina percezioni sensoriali diverse come un suono dolce?|Sinestesia|Onomatopea|Antitesi|Ossimoro|Synesthesia_(rhetoric)
+Quale figura retorica accosta termini di significato opposto come silenzio assordante?|Ossimoro|Antitesi|Iperbole|Metonimia|Oxymoron
+Quale figura retorica e una domanda che non richiede risposta?|Interrogazione retorica|Perifrasi|Climax|Apostrofe|Rhetorical_question
+Quale figura retorica consiste nel rivolgersi direttamente a qualcuno o qualcosa assente?|Apostrofe|Ellissi|Anafora|Anastrofe|Apostrophe_(rhetoric)
+Quale parola si scrive con q in italiano standard?|acqua|cuore|scuola|cuoio|Q_(letter)
+Che cos e un contrario o antonimo?|Una parola di significato opposto|Una parola di significato uguale|Una parola straniera|Una forma dialettale|Antonym
+Che cos e un omonimo?|Una parola uguale nella forma ma con significati diversi|Una parola contraria|Una parola derivata|Una parola composta|Homonym
+Che cos e un derivato?|Una parola formata da un altra mediante prefisso o suffisso|Una parola straniera|Una parola abbreviata|Un sinonimo|Derivation_(linguistics)
+Che cos e un alterato in italiano?|Una parola modificata con suffissi come -ino -one -accio|Una parola straniera|Una parola composta con due radici|Un verbo servile|Diminutive
+Quale tra queste e una parola composta?|Portacenere|Casa|Andare|Bello|Compound_(linguistics)
+Quale prefisso esprime negazione in parole come impossibile?|im-|ri-|pre-|sopra-|Prefix
+Quale suffisso trasforma spesso un nome in diminutivo?| -ino| -one| -accio| -esco|Diminutive
+Quale suffisso esprime spesso un accrescitivo?| -one| -ino| -etto| -uccio|Augmentative
+Quale suffisso esprime spesso un peggiorativo?| -accio| -ino| -one| -etto|Pejorative
+Che cosa studia la morfologia?|La forma delle parole|La pronuncia dei suoni|L ordine delle parole nella frase|La storia dei testi|Morphology_(linguistics)
+Che cosa studia la sintassi?|Il modo in cui le parole si combinano nelle frasi|Il significato dei vocaboli|La scrittura corretta delle lettere|L origine delle parole|Syntax
+Che cosa studia la semantica?|Il significato delle parole e delle frasi|La punteggiatura|La fonetica|La metrica|Semantics
+Che cosa studia la fonetica?|I suoni del linguaggio|Il significato dei vocaboli|L ordine delle frasi|Le figure retoriche|Phonetics
+Che cosa studia l ortografia?|Le regole della corretta scrittura|La pronuncia regionale|Le origini etimologiche|L analisi del periodo|Orthography
+Quale funzione ha il dizionario monolingue?|Spiega significato uso e informazioni grammaticali di una parola|Traduce in un altra lingua|Conta le sillabe|Riassume un racconto|Dictionary
+Quale forma e corretta tra ce n è e ce ne?|ce n è|ce ne|c è nè|ce né|Italian_grammar
+Quale forma e corretta tra qual è e quale?|qual è|qual e|qual'è|quale è|Italian_grammar
+Quale parola si scrive con gli davanti a vocale?|gli amici|li amici|i amici|gl amici|Italian_grammar
+Quale forma verbale e corretta al passato prossimo del verbo vedere con io?|ho visto|ebbi visto|vedevo|avrò visto|Present_perfect
+Quale forma verbale e corretta all imperfetto di essere con noi?|eravamo|fummo|saremmo|siamo|Imperfect
+Quale forma verbale e corretta al futuro semplice di andare con voi?|andrete|andaste|andavate|andiate|Future_tense
+Quale e il participio passato del verbo scrivere?|scritto|scrivuto|scrivato|scrivente|Past_participle
+Quale verbo e ausiliare nella forma ho mangiato?|avere|essere|dovere|potere|Auxiliary_verb
+Quale verbo regge spesso l ausiliare essere nel passato prossimo?|andare|mangiare|leggere|comprare|Auxiliary_verb
+Quale pronome personale soggetto corrisponde a terza persona plurale?|essi|noi|voi|tu|Italian_pronouns
+Quale pronome personale complemento corrisponde a me in forma atona?|mi|ti|gli|vi|Clitic
+Quale articolo indeterminativo si usa davanti a parola femminile iniziante per consonante?|una|un|uno|la|Article_(grammar)
+Quale articolo determinativo si usa davanti a zaino?|lo|il|la|gli|Article_(grammar)
+Quale articolo determinativo si usa davanti a amici?|gli|i|le|lo|Article_(grammar)
+Quale e un aggettivo qualificativo?|bello|questo|mio|quale|Italian_grammar
+Quale e un aggettivo possessivo?|mio|bello|grande|alcuni|Italian_grammar
+Quale e un aggettivo dimostrativo?|questo|alto|nostro|gentile|Demonstrative
+Quale e un pronome relativo?|cui|questo|nessuno|chiunque? no|Relative_pronoun
+Quale e una congiunzione subordinante?|perché|e|ma|oppure|Conjunction_(grammar)
+Quale e una preposizione articolata?|del|che|però|quindi|Preposition_and_postposition
+Quale forma e corretta tra ce n è e ce ne?|ce n è|ce ne è|cè nè|ce ne|Italian_grammar
+Quale forma e corretta tra qual è e qual e?|qual è|qual è? duplicated no|qual'e|quale|Italian_grammar
+Come si chiama l insieme di soggetto e predicato in una frase minima?|Proposizione|Periodo|Sintagma nominale|Complemento|Clause

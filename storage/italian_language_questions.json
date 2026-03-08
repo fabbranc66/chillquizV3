@@ -1,0 +1,1102 @@
+[
+    {
+        "testo":  "Quale parte del discorso indica persone animali cose o idee?",
+        "opzioni":  [
+                        "Nome",
+                        "Verbo",
+                        "Avverbio",
+                        "Preposizione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Noun"
+    },
+    {
+        "testo":  "Quale parte del discorso esprime un azione o uno stato?",
+        "opzioni":  [
+                        "Verbo",
+                        "Aggettivo",
+                        "Articolo",
+                        "Congiunzione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Verb"
+    },
+    {
+        "testo":  "Quale parte del discorso accompagna il nome qualificandolo?",
+        "opzioni":  [
+                        "Aggettivo",
+                        "Pronome",
+                        "Avverbio",
+                        "Interiezione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Adjective"
+    },
+    {
+        "testo":  "Quale parte del discorso sostituisce un nome?",
+        "opzioni":  [
+                        "Pronome",
+                        "Articolo",
+                        "Avverbio",
+                        "Congiunzione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pronoun"
+    },
+    {
+        "testo":  "Quale parte del discorso modifica un verbo un aggettivo o un altro avverbio?",
+        "opzioni":  [
+                        "Avverbio",
+                        "Nome",
+                        "Verbo",
+                        "Interiezione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Adverb"
+    },
+    {
+        "testo":  "Quale parte del discorso introduce un nome collegandolo ad altri elementi?",
+        "opzioni":  [
+                        "Preposizione",
+                        "Congiunzione",
+                        "Articolo",
+                        "Pronome"
+                    ],
+        "corretta":  0,
+        "image_page":  "Preposition_and_postposition"
+    },
+    {
+        "testo":  "Quale parte del discorso unisce parole o frasi?",
+        "opzioni":  [
+                        "Congiunzione",
+                        "Articolo",
+                        "Nome",
+                        "Interiezione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Conjunction_(grammar)"
+    },
+    {
+        "testo":  "Quale parte del discorso accompagna il nome determinandolo?",
+        "opzioni":  [
+                        "Articolo",
+                        "Aggettivo",
+                        "Pronome",
+                        "Verbo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Article_(grammar)"
+    },
+    {
+        "testo":  "Quale parte del discorso esprime emozioni o esclamazioni?",
+        "opzioni":  [
+                        "Interiezione",
+                        "Avverbio",
+                        "Congiunzione",
+                        "Preposizione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Interjection"
+    },
+    {
+        "testo":  "In italiano quale genere grammaticale ha il nome casa?",
+        "opzioni":  [
+                        "Femminile",
+                        "Maschile",
+                        "Comune",
+                        "Neutro"
+                    ],
+        "corretta":  0,
+        "image_page":  "Grammatical_gender"
+    },
+    {
+        "testo":  "Quale numero grammaticale indica piu di un elemento?",
+        "opzioni":  [
+                        "Plurale",
+                        "Singolare",
+                        "Duale",
+                        "Collettivo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Grammatical_number"
+    },
+    {
+        "testo":  "Quale tempo verbale indica un azione contemporanea al momento in cui si parla?",
+        "opzioni":  [
+                        "Presente",
+                        "Passato remoto",
+                        "Trapassato",
+                        "Futuro anteriore"
+                    ],
+        "corretta":  0,
+        "image_page":  "Grammatical_tense"
+    },
+    {
+        "testo":  "Quale modo verbale esprime certezza e realtà?",
+        "opzioni":  [
+                        "Indicativo",
+                        "Congiuntivo",
+                        "Condizionale",
+                        "Imperativo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Grammatical_mood"
+    },
+    {
+        "testo":  "Quale modo verbale esprime possibilità dubbio desiderio?",
+        "opzioni":  [
+                        "Congiuntivo",
+                        "Indicativo",
+                        "Gerundio",
+                        "Participio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Subjunctive"
+    },
+    {
+        "testo":  "Quale modo verbale esprime una condizione o una possibilità subordinata?",
+        "opzioni":  [
+                        "Condizionale",
+                        "Indicativo",
+                        "Imperativo",
+                        "Infinito"
+                    ],
+        "corretta":  0,
+        "image_page":  "Conditional_mood"
+    },
+    {
+        "testo":  "Quale modo verbale si usa per dare ordini o esortazioni?",
+        "opzioni":  [
+                        "Imperativo",
+                        "Congiuntivo",
+                        "Condizionale",
+                        "Participio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Imperative_mood"
+    },
+    {
+        "testo":  "Quale forma verbale e invariabile e termina spesso in -are -ere -ire?",
+        "opzioni":  [
+                        "Infinito",
+                        "Gerundio",
+                        "Participio",
+                        "Indicativo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Infinitive"
+    },
+    {
+        "testo":  "Quale forma verbale invariabile italiana termina spesso in -ando o -endo?",
+        "opzioni":  [
+                        "Gerundio",
+                        "Participio",
+                        "Infinito",
+                        "Imperativo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Gerund"
+    },
+    {
+        "testo":  "Quale forma verbale invariabile può funzionare anche come aggettivo?",
+        "opzioni":  [
+                        "Participio",
+                        "Gerundio",
+                        "Infinito",
+                        "Congiuntivo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Participle"
+    },
+    {
+        "testo":  "Quale persona verbale corrisponde a io parlo?",
+        "opzioni":  [
+                        "Prima persona singolare",
+                        "Seconda persona singolare",
+                        "Terza persona singolare",
+                        "Prima persona plurale"
+                    ],
+        "corretta":  0,
+        "image_page":  "Grammatical_person"
+    },
+    {
+        "testo":  "Quale persona verbale corrisponde a voi cantate?",
+        "opzioni":  [
+                        "Seconda persona plurale",
+                        "Prima persona plurale",
+                        "Terza persona plurale",
+                        "Seconda persona singolare"
+                    ],
+        "corretta":  0,
+        "image_page":  "Grammatical_person"
+    },
+    {
+        "testo":  "Nella frase Il gatto dorme quale e il soggetto?",
+        "opzioni":  [
+                        "Il gatto",
+                        "dorme",
+                        "Il",
+                        "gatto dorme"
+                    ],
+        "corretta":  0,
+        "image_page":  "Subject_(grammar)"
+    },
+    {
+        "testo":  "Nella frase Luca mangia una mela quale e il predicato verbale?",
+        "opzioni":  [
+                        "mangia",
+                        "Luca",
+                        "una mela",
+                        "Luca mangia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Predicate_(grammar)"
+    },
+    {
+        "testo":  "Quale complemento risponde alla domanda chi? che cosa? senza preposizione?",
+        "opzioni":  [
+                        "Complemento oggetto",
+                        "Complemento di termine",
+                        "Complemento di causa",
+                        "Complemento di mezzo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Object_(grammar)"
+    },
+    {
+        "testo":  "Quale complemento risponde alla domanda a chi? a che cosa?",
+        "opzioni":  [
+                        "Complemento di termine",
+                        "Complemento oggetto",
+                        "Complemento di compagnia",
+                        "Complemento di agente"
+                    ],
+        "corretta":  0,
+        "image_page":  "Dative_case"
+    },
+    {
+        "testo":  "Nella frase Esco con Marco quale complemento e con Marco?",
+        "opzioni":  [
+                        "Complemento di compagnia",
+                        "Complemento di modo",
+                        "Complemento di mezzo",
+                        "Complemento di luogo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Comitative_case"
+    },
+    {
+        "testo":  "Nella frase Vado a Roma quale complemento e a Roma?",
+        "opzioni":  [
+                        "Complemento di moto a luogo",
+                        "Complemento di stato in luogo",
+                        "Complemento di origine",
+                        "Complemento di specificazione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Locative_case"
+    },
+    {
+        "testo":  "Nella frase Abito a Milano quale complemento e a Milano?",
+        "opzioni":  [
+                        "Complemento di stato in luogo",
+                        "Complemento di moto a luogo",
+                        "Complemento di moto da luogo",
+                        "Complemento di tempo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Locative_case"
+    },
+    {
+        "testo":  "Quale complemento indica il materiale di cui e fatta una cosa?",
+        "opzioni":  [
+                        "Complemento di materia",
+                        "Complemento di mezzo",
+                        "Complemento di modo",
+                        "Complemento di causa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Material_case"
+    },
+    {
+        "testo":  "Quale complemento indica il possesso o la relazione con di?",
+        "opzioni":  [
+                        "Complemento di specificazione",
+                        "Complemento di termine",
+                        "Complemento oggetto",
+                        "Complemento di qualità"
+                    ],
+        "corretta":  0,
+        "image_page":  "Genitive_case"
+    },
+    {
+        "testo":  "Quale proposizione subordinata svolge la funzione di soggetto della principale?",
+        "opzioni":  [
+                        "Subordinata soggettiva",
+                        "Subordinata oggettiva",
+                        "Subordinata causale",
+                        "Subordinata finale"
+                    ],
+        "corretta":  0,
+        "image_page":  "Subordinate_clause"
+    },
+    {
+        "testo":  "Quale proposizione subordinata completa il significato di un verbo come oggetto?",
+        "opzioni":  [
+                        "Subordinata oggettiva",
+                        "Subordinata soggettiva",
+                        "Subordinata temporale",
+                        "Subordinata relativa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Subordinate_clause"
+    },
+    {
+        "testo":  "Quale subordinata indica la causa di quanto espresso nella principale?",
+        "opzioni":  [
+                        "Causale",
+                        "Consecutiva",
+                        "Finale",
+                        "Concessiva"
+                    ],
+        "corretta":  0,
+        "image_page":  "Causal_clause"
+    },
+    {
+        "testo":  "Quale subordinata indica il fine o lo scopo?",
+        "opzioni":  [
+                        "Finale",
+                        "Causale",
+                        "Temporale",
+                        "Comparativa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Final_clause"
+    },
+    {
+        "testo":  "Quale subordinata indica il tempo in cui avviene l azione?",
+        "opzioni":  [
+                        "Temporale",
+                        "Modale",
+                        "Concessiva",
+                        "Interrogativa indiretta"
+                    ],
+        "corretta":  0,
+        "image_page":  "Temporal_clause"
+    },
+    {
+        "testo":  "Quale subordinata esprime una concessione introdotta spesso da benché?",
+        "opzioni":  [
+                        "Concessiva",
+                        "Condizionale",
+                        "Finale",
+                        "Dichiarativa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Concessive_clause"
+    },
+    {
+        "testo":  "Quale subordinata esprime una condizione introdotta spesso da se?",
+        "opzioni":  [
+                        "Condizionale",
+                        "Concessiva",
+                        "Temporale",
+                        "Causale"
+                    ],
+        "corretta":  0,
+        "image_page":  "Conditional_sentence"
+    },
+    {
+        "testo":  "Quale subordinata introduce un paragone?",
+        "opzioni":  [
+                        "Comparativa",
+                        "Finale",
+                        "Esclusiva",
+                        "Limitativa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Comparison_(grammar)"
+    },
+    {
+        "testo":  "Quale subordinata e introdotta da un pronome relativo come che o cui?",
+        "opzioni":  [
+                        "Relativa",
+                        "Causale",
+                        "Condizionale",
+                        "Interrogativa indiretta"
+                    ],
+        "corretta":  0,
+        "image_page":  "Relative_clause"
+    },
+    {
+        "testo":  "In italiano che cos e un dittongo?",
+        "opzioni":  [
+                        "L unione di due vocali nella stessa sillaba",
+                        "Una consonante doppia",
+                        "Un accento tonico",
+                        "Una pausa forte"
+                    ],
+        "corretta":  0,
+        "image_page":  "Diphthong"
+    },
+    {
+        "testo":  "In italiano che cos e uno iato?",
+        "opzioni":  [
+                        "L incontro di due vocali pronunciate in sillabe diverse",
+                        "Una doppia consonante",
+                        "Una vocale muta",
+                        "Una sillaba tonica"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hiatus_(linguistics)"
+    },
+    {
+        "testo":  "Quale segno grafico indica una pausa breve all interno della frase?",
+        "opzioni":  [
+                        "Virgola",
+                        "Punto e virgola",
+                        "Due punti",
+                        "Punto interrogativo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Comma"
+    },
+    {
+        "testo":  "Quale segno grafico chiude una frase affermativa compiuta?",
+        "opzioni":  [
+                        "Punto fermo",
+                        "Virgola",
+                        "Due punti",
+                        "Trattino"
+                    ],
+        "corretta":  0,
+        "image_page":  "Full_stop"
+    },
+    {
+        "testo":  "Quale segno grafico introduce spesso un elenco o una spiegazione?",
+        "opzioni":  [
+                        "Due punti",
+                        "Virgola",
+                        "Punto e virgola",
+                        "Parentesi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Colon_(punctuation)"
+    },
+    {
+        "testo":  "Quale segno grafico indica una domanda diretta?",
+        "opzioni":  [
+                        "Punto interrogativo",
+                        "Punto esclamativo",
+                        "Virgola",
+                        "Slash"
+                    ],
+        "corretta":  0,
+        "image_page":  "Question_mark"
+    },
+    {
+        "testo":  "Quale segno grafico esprime esclamazione sorpresa o ordine forte?",
+        "opzioni":  [
+                        "Punto esclamativo",
+                        "Punto interrogativo",
+                        "Virgola",
+                        "Punto e virgola"
+                    ],
+        "corretta":  0,
+        "image_page":  "Exclamation_mark"
+    },
+    {
+        "testo":  "Quale accento si usa in perché sulla e finale?",
+        "opzioni":  [
+                        "Accento acuto",
+                        "Accento grave",
+                        "Trema",
+                        "Apostrofo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Acute_accent"
+    },
+    {
+        "testo":  "Quale accento compare in cioè sulla e finale?",
+        "opzioni":  [
+                        "Accento grave",
+                        "Accento acuto",
+                        "Circonflesso",
+                        "Apostrofo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Grave_accent"
+    },
+    {
+        "testo":  "Quale segno si usa in l amico per indicare la caduta di una vocale?",
+        "opzioni":  [
+                        "Apostrofo",
+                        "Accento",
+                        "Trattino",
+                        "Virgoletta"
+                    ],
+        "corretta":  0,
+        "image_page":  "Apostrophe"
+    },
+    {
+        "testo":  "Quando si scrive un po con apostrofo quale vocale e caduta?",
+        "opzioni":  [
+                        "co finale di poco",
+                        "a iniziale di poco",
+                        "o finale di po",
+                        "u iniziale di un po"
+                    ],
+        "corretta":  0,
+        "image_page":  "Elision"
+    },
+    {
+        "testo":  "Quale fenomeno e la caduta della vocale finale davanti a parola iniziante per vocale?",
+        "opzioni":  [
+                        "Elisione",
+                        "Troncamento",
+                        "Apocope",
+                        "Aferesi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Elision"
+    },
+    {
+        "testo":  "Quale figura retorica consiste nella ripetizione di uno stesso suono consonantico?",
+        "opzioni":  [
+                        "Allitterazione",
+                        "Metafora",
+                        "Iperbole",
+                        "Anastrofe"
+                    ],
+        "corretta":  0,
+        "image_page":  "Alliteration"
+    },
+    {
+        "testo":  "Quale figura retorica consiste nel trasferire un significato per somiglianza?",
+        "opzioni":  [
+                        "Metafora",
+                        "Metonimia",
+                        "Anafora",
+                        "Litote"
+                    ],
+        "corretta":  0,
+        "image_page":  "Metaphor"
+    },
+    {
+        "testo":  "Quale figura retorica sostituisce un termine con un altro per contiguità logica?",
+        "opzioni":  [
+                        "Metonimia",
+                        "Metafora",
+                        "Sinestesia",
+                        "Ironia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Metonymy"
+    },
+    {
+        "testo":  "Quale figura retorica consiste nell esagerazione evidente?",
+        "opzioni":  [
+                        "Iperbole",
+                        "Litote",
+                        "Climax",
+                        "Eufemismo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hyperbole"
+    },
+    {
+        "testo":  "Quale figura retorica consiste nella ripetizione di una parola all inizio di più versi o frasi?",
+        "opzioni":  [
+                        "Anafora",
+                        "Epifora",
+                        "Chiasmo",
+                        "Anacoluto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Anaphora_(rhetoric)"
+    },
+    {
+        "testo":  "Quale figura retorica attenua un concetto affermando il contrario del suo opposto?",
+        "opzioni":  [
+                        "Litote",
+                        "Iperbole",
+                        "Metafora",
+                        "Pleonasmo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Litotes"
+    },
+    {
+        "testo":  "Quale figura retorica combina percezioni sensoriali diverse come un suono dolce?",
+        "opzioni":  [
+                        "Sinestesia",
+                        "Onomatopea",
+                        "Antitesi",
+                        "Ossimoro"
+                    ],
+        "corretta":  0,
+        "image_page":  "Synesthesia_(rhetoric)"
+    },
+    {
+        "testo":  "Quale figura retorica accosta termini di significato opposto come silenzio assordante?",
+        "opzioni":  [
+                        "Ossimoro",
+                        "Antitesi",
+                        "Iperbole",
+                        "Metonimia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Oxymoron"
+    },
+    {
+        "testo":  "Quale figura retorica e una domanda che non richiede risposta?",
+        "opzioni":  [
+                        "Interrogazione retorica",
+                        "Perifrasi",
+                        "Climax",
+                        "Apostrofe"
+                    ],
+        "corretta":  0,
+        "image_page":  "Rhetorical_question"
+    },
+    {
+        "testo":  "Quale figura retorica consiste nel rivolgersi direttamente a qualcuno o qualcosa assente?",
+        "opzioni":  [
+                        "Apostrofe",
+                        "Ellissi",
+                        "Anafora",
+                        "Anastrofe"
+                    ],
+        "corretta":  0,
+        "image_page":  "Apostrophe_(rhetoric)"
+    },
+    {
+        "testo":  "Quale parola si scrive con q in italiano standard?",
+        "opzioni":  [
+                        "acqua",
+                        "cuore",
+                        "scuola",
+                        "cuoio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Q_(letter)"
+    },
+    {
+        "testo":  "Che cos e un contrario o antonimo?",
+        "opzioni":  [
+                        "Una parola di significato opposto",
+                        "Una parola di significato uguale",
+                        "Una parola straniera",
+                        "Una forma dialettale"
+                    ],
+        "corretta":  0,
+        "image_page":  "Antonym"
+    },
+    {
+        "testo":  "Che cos e un omonimo?",
+        "opzioni":  [
+                        "Una parola uguale nella forma ma con significati diversi",
+                        "Una parola contraria",
+                        "Una parola derivata",
+                        "Una parola composta"
+                    ],
+        "corretta":  0,
+        "image_page":  "Homonym"
+    },
+    {
+        "testo":  "Che cos e un derivato?",
+        "opzioni":  [
+                        "Una parola formata da un altra mediante prefisso o suffisso",
+                        "Una parola straniera",
+                        "Una parola abbreviata",
+                        "Un sinonimo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Derivation_(linguistics)"
+    },
+    {
+        "testo":  "Che cos e un alterato in italiano?",
+        "opzioni":  [
+                        "Una parola modificata con suffissi come -ino -one -accio",
+                        "Una parola straniera",
+                        "Una parola composta con due radici",
+                        "Un verbo servile"
+                    ],
+        "corretta":  0,
+        "image_page":  "Diminutive"
+    },
+    {
+        "testo":  "Quale tra queste e una parola composta?",
+        "opzioni":  [
+                        "Portacenere",
+                        "Casa",
+                        "Andare",
+                        "Bello"
+                    ],
+        "corretta":  0,
+        "image_page":  "Compound_(linguistics)"
+    },
+    {
+        "testo":  "Quale prefisso esprime negazione in parole come impossibile?",
+        "opzioni":  [
+                        "im-",
+                        "ri-",
+                        "pre-",
+                        "sopra-"
+                    ],
+        "corretta":  0,
+        "image_page":  "Prefix"
+    },
+    {
+        "testo":  "Quale suffisso trasforma spesso un nome in diminutivo?",
+        "opzioni":  [
+                        " -ino",
+                        " -one",
+                        " -accio",
+                        " -esco"
+                    ],
+        "corretta":  0,
+        "image_page":  "Diminutive"
+    },
+    {
+        "testo":  "Quale suffisso esprime spesso un accrescitivo?",
+        "opzioni":  [
+                        " -one",
+                        " -ino",
+                        " -etto",
+                        " -uccio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Augmentative"
+    },
+    {
+        "testo":  "Quale suffisso esprime spesso un peggiorativo?",
+        "opzioni":  [
+                        " -accio",
+                        " -ino",
+                        " -one",
+                        " -etto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pejorative"
+    },
+    {
+        "testo":  "Che cosa studia la morfologia?",
+        "opzioni":  [
+                        "La forma delle parole",
+                        "La pronuncia dei suoni",
+                        "L ordine delle parole nella frase",
+                        "La storia dei testi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Morphology_(linguistics)"
+    },
+    {
+        "testo":  "Che cosa studia la sintassi?",
+        "opzioni":  [
+                        "Il modo in cui le parole si combinano nelle frasi",
+                        "Il significato dei vocaboli",
+                        "La scrittura corretta delle lettere",
+                        "L origine delle parole"
+                    ],
+        "corretta":  0,
+        "image_page":  "Syntax"
+    },
+    {
+        "testo":  "Che cosa studia la semantica?",
+        "opzioni":  [
+                        "Il significato delle parole e delle frasi",
+                        "La punteggiatura",
+                        "La fonetica",
+                        "La metrica"
+                    ],
+        "corretta":  0,
+        "image_page":  "Semantics"
+    },
+    {
+        "testo":  "Che cosa studia la fonetica?",
+        "opzioni":  [
+                        "I suoni del linguaggio",
+                        "Il significato dei vocaboli",
+                        "L ordine delle frasi",
+                        "Le figure retoriche"
+                    ],
+        "corretta":  0,
+        "image_page":  "Phonetics"
+    },
+    {
+        "testo":  "Che cosa studia l ortografia?",
+        "opzioni":  [
+                        "Le regole della corretta scrittura",
+                        "La pronuncia regionale",
+                        "Le origini etimologiche",
+                        "L analisi del periodo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Orthography"
+    },
+    {
+        "testo":  "Quale funzione ha il dizionario monolingue?",
+        "opzioni":  [
+                        "Spiega significato uso e informazioni grammaticali di una parola",
+                        "Traduce in un altra lingua",
+                        "Conta le sillabe",
+                        "Riassume un racconto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Dictionary"
+    },
+    {
+        "testo":  "Quale forma e corretta tra ce n è e ce ne?",
+        "opzioni":  [
+                        "ce n è",
+                        "ce ne",
+                        "c è nè",
+                        "ce né"
+                    ],
+        "corretta":  0,
+        "image_page":  "Italian_grammar"
+    },
+    {
+        "testo":  "Quale forma e corretta tra qual è e quale?",
+        "opzioni":  [
+                        "qual è",
+                        "qual e",
+                        "qual\u0027è",
+                        "quale è"
+                    ],
+        "corretta":  0,
+        "image_page":  "Italian_grammar"
+    },
+    {
+        "testo":  "Quale parola si scrive con gli davanti a vocale?",
+        "opzioni":  [
+                        "gli amici",
+                        "li amici",
+                        "i amici",
+                        "gl amici"
+                    ],
+        "corretta":  0,
+        "image_page":  "Italian_grammar"
+    },
+    {
+        "testo":  "Quale forma verbale e corretta al passato prossimo del verbo vedere con io?",
+        "opzioni":  [
+                        "ho visto",
+                        "ebbi visto",
+                        "vedevo",
+                        "avrò visto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Present_perfect"
+    },
+    {
+        "testo":  "Quale forma verbale e corretta all imperfetto di essere con noi?",
+        "opzioni":  [
+                        "eravamo",
+                        "fummo",
+                        "saremmo",
+                        "siamo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Imperfect"
+    },
+    {
+        "testo":  "Quale forma verbale e corretta al futuro semplice di andare con voi?",
+        "opzioni":  [
+                        "andrete",
+                        "andaste",
+                        "andavate",
+                        "andiate"
+                    ],
+        "corretta":  0,
+        "image_page":  "Future_tense"
+    },
+    {
+        "testo":  "Quale e il participio passato del verbo scrivere?",
+        "opzioni":  [
+                        "scritto",
+                        "scrivuto",
+                        "scrivato",
+                        "scrivente"
+                    ],
+        "corretta":  0,
+        "image_page":  "Past_participle"
+    },
+    {
+        "testo":  "Quale verbo e ausiliare nella forma ho mangiato?",
+        "opzioni":  [
+                        "avere",
+                        "essere",
+                        "dovere",
+                        "potere"
+                    ],
+        "corretta":  0,
+        "image_page":  "Auxiliary_verb"
+    },
+    {
+        "testo":  "Quale verbo regge spesso l ausiliare essere nel passato prossimo?",
+        "opzioni":  [
+                        "andare",
+                        "mangiare",
+                        "leggere",
+                        "comprare"
+                    ],
+        "corretta":  0,
+        "image_page":  "Auxiliary_verb"
+    },
+    {
+        "testo":  "Quale pronome personale soggetto corrisponde a terza persona plurale?",
+        "opzioni":  [
+                        "essi",
+                        "noi",
+                        "voi",
+                        "tu"
+                    ],
+        "corretta":  0,
+        "image_page":  "Italian_pronouns"
+    },
+    {
+        "testo":  "Quale pronome personale complemento corrisponde a me in forma atona?",
+        "opzioni":  [
+                        "mi",
+                        "ti",
+                        "gli",
+                        "vi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Clitic"
+    },
+    {
+        "testo":  "Quale articolo indeterminativo si usa davanti a parola femminile iniziante per consonante?",
+        "opzioni":  [
+                        "una",
+                        "un",
+                        "uno",
+                        "la"
+                    ],
+        "corretta":  0,
+        "image_page":  "Article_(grammar)"
+    },
+    {
+        "testo":  "Quale articolo determinativo si usa davanti a zaino?",
+        "opzioni":  [
+                        "lo",
+                        "il",
+                        "la",
+                        "gli"
+                    ],
+        "corretta":  0,
+        "image_page":  "Article_(grammar)"
+    },
+    {
+        "testo":  "Quale articolo determinativo si usa davanti a amici?",
+        "opzioni":  [
+                        "gli",
+                        "i",
+                        "le",
+                        "lo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Article_(grammar)"
+    },
+    {
+        "testo":  "Quale e un aggettivo qualificativo?",
+        "opzioni":  [
+                        "bello",
+                        "questo",
+                        "mio",
+                        "quale"
+                    ],
+        "corretta":  0,
+        "image_page":  "Italian_grammar"
+    },
+    {
+        "testo":  "Quale e un aggettivo possessivo?",
+        "opzioni":  [
+                        "mio",
+                        "bello",
+                        "grande",
+                        "alcuni"
+                    ],
+        "corretta":  0,
+        "image_page":  "Italian_grammar"
+    },
+    {
+        "testo":  "Quale e un aggettivo dimostrativo?",
+        "opzioni":  [
+                        "questo",
+                        "alto",
+                        "nostro",
+                        "gentile"
+                    ],
+        "corretta":  0,
+        "image_page":  "Demonstrative"
+    },
+    {
+        "testo":  "Quale e un pronome relativo?",
+        "opzioni":  [
+                        "cui",
+                        "questo",
+                        "nessuno",
+                        "chiunque? no"
+                    ],
+        "corretta":  0,
+        "image_page":  "Relative_pronoun"
+    },
+    {
+        "testo":  "Quale e una congiunzione subordinante?",
+        "opzioni":  [
+                        "perché",
+                        "e",
+                        "ma",
+                        "oppure"
+                    ],
+        "corretta":  0,
+        "image_page":  "Conjunction_(grammar)"
+    },
+    {
+        "testo":  "Quale e una preposizione articolata?",
+        "opzioni":  [
+                        "del",
+                        "che",
+                        "però",
+                        "quindi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Preposition_and_postposition"
+    },
+    {
+        "testo":  "Quale forma e corretta tra ce n è e ce ne?",
+        "opzioni":  [
+                        "ce n è",
+                        "ce ne è",
+                        "cè nè",
+                        "ce ne"
+                    ],
+        "corretta":  0,
+        "image_page":  "Italian_grammar"
+    },
+    {
+        "testo":  "Quale forma e corretta tra qual è e qual e?",
+        "opzioni":  [
+                        "qual è",
+                        "qual è? duplicated no",
+                        "qual\u0027e",
+                        "quale"
+                    ],
+        "corretta":  0,
+        "image_page":  "Italian_grammar"
+    },
+    {
+        "testo":  "Come si chiama l insieme di soggetto e predicato in una frase minima?",
+        "opzioni":  [
+                        "Proposizione",
+                        "Periodo",
+                        "Sintagma nominale",
+                        "Complemento"
+                    ],
+        "corretta":  0,
+        "image_page":  "Clause"
+    }
+]

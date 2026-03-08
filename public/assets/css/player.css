@@ -85,6 +85,19 @@ body {
     animation: screenIn .2s ease;
 }
 
+#screen-puntata {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    padding: 14px;
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0) 34%),
+        linear-gradient(180deg, rgba(18, 42, 19, 0.94), rgba(44, 84, 34, 0.88));
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+}
+
 #screen-accesso {
     background: transparent;
     border: 0;
@@ -238,6 +251,29 @@ input {
     aspect-ratio: 1 / 1;
     object-fit: contain;
     filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.28));
+}
+
+.puntata-placeholder {
+    display: grid;
+    gap: 10px;
+    justify-items: center;
+    margin-bottom: 4px;
+}
+
+.puntata-placeholder-image {
+    width: min(64vw, 190px);
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.22));
+}
+
+.puntata-placeholder-copy {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.84);
 }
 
 .domanda-media-wrap {

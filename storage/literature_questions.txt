@@ -1,0 +1,100 @@
+Chi ha scritto Il nome della rosa?|Umberto Eco|Italo Calvino|Primo Levi|Elsa Morante|Umberto_Eco
+Quale autore ha creato il commissario Montalbano?|Andrea Camilleri|Leonardo Sciascia|Massimo Carlotto|Gianrico Carofiglio|Andrea_Camilleri
+Chi ha scritto I promessi sposi?|Alessandro Manzoni|Ugo Foscolo|Giacomo Leopardi|Gabriele D Annunzio|Alessandro_Manzoni
+Quale scrittrice ha pubblicato L amica geniale?|Elena Ferrante|Dacia Maraini|Elsa Morante|Natalia Ginzburg|Elena_Ferrante
+Chi e l autore della Divina Commedia?|Dante Alighieri|Francesco Petrarca|Giovanni Boccaccio|Ludovico Ariosto|Dante_Alighieri
+Quale autore ha scritto Se questo e un uomo?|Primo Levi|Cesare Pavese|Beppe Fenoglio|Curzio Malaparte|Primo_Levi
+Chi ha scritto Il Gattopardo?|Giuseppe Tomasi di Lampedusa|Alberto Moravia|Italo Svevo|Leonardo Sciascia|Giuseppe_Tomasi_di_Lampedusa
+Quale autore ha creato il personaggio di Pinocchio?|Carlo Collodi|Edmondo De Amicis|Gianni Rodari|Luigi Capuana|Carlo_Collodi
+Chi ha scritto Uno nessuno e centomila?|Luigi Pirandello|Italo Svevo|Federigo Tozzi|Alberto Moravia|Luigi_Pirandello
+Quale poeta e autore de L infinito?|Giacomo Leopardi|Ugo Foscolo|Giovanni Pascoli|Giosuè Carducci|Giacomo_Leopardi
+Chi ha scritto Il barone rampante?|Italo Calvino|Cesare Pavese|Dino Buzzati|Vasco Pratolini|Italo_Calvino
+Quale autore ha scritto La coscienza di Zeno?|Italo Svevo|Luigi Pirandello|Alberto Moravia|Elio Vittorini|Italo_Svevo
+Chi ha scritto Il deserto dei Tartari?|Dino Buzzati|Beppe Fenoglio|Tommaso Landolfi|Carlo Emilio Gadda|Dino_Buzzati
+Quale autore ha scritto Ragazzi di vita?|Pier Paolo Pasolini|Alberto Moravia|Ennio Flaiano|Vittorio Sereni|Pier_Paolo_Pasolini
+Chi ha scritto Il sentiero dei nidi di ragno?|Italo Calvino|Beppe Fenoglio|Cesare Pavese|Primo Levi|Italo_Calvino
+Quale scrittrice ha scritto L isola di Arturo?|Elsa Morante|Natalia Ginzburg|Anna Maria Ortese|Dacia Maraini|Elsa_Morante
+Chi ha scritto Le avventure di Tom Sawyer?|Mark Twain|Charles Dickens|Robert Louis Stevenson|Jack London|Mark_Twain
+Quale autore ha scritto 1984?|George Orwell|Aldous Huxley|Ray Bradbury|Arthur Koestler|George_Orwell
+Chi ha scritto Orgoglio e pregiudizio?|Jane Austen|Emily Brontë|Charlotte Brontë|George Eliot|Jane_Austen
+Quale autore ha scritto Delitto e castigo?|Fëdor Dostoevskij|Lev Tolstoj|Ivan Turgenev|Nikolaj Gogol|Fyodor_Dostoevsky
+Chi ha scritto I fratelli Karamazov?|Fëdor Dostoevskij|Lev Tolstoj|Anton Čechov|Maksim Gor kij|Fyodor_Dostoevsky
+Quale autore ha scritto Guerra e pace?|Lev Tolstoj|Fëdor Dostoevskij|Ivan Turgenev|Boris Pasternak|Leo_Tolstoy
+Chi ha scritto Anna Karenina?|Lev Tolstoj|Ivan Turgenev|Fëdor Dostoevskij|Nikolaj Leskov|Leo_Tolstoy
+Quale autore ha scritto Il processo?|Franz Kafka|Thomas Mann|Robert Musil|Hermann Hesse|Franz_Kafka
+Chi ha scritto La metamorfosi?|Franz Kafka|Albert Camus|Jean-Paul Sartre|Thomas Mann|Franz_Kafka
+Quale autore ha scritto Il piccolo principe?|Antoine de Saint-Exupéry|Jules Verne|Marcel Pagnol|Albert Camus|Antoine_de_Saint-Exupéry
+Chi ha scritto Madame Bovary?|Gustave Flaubert|Honoré de Balzac|Émile Zola|Guy de Maupassant|Gustave_Flaubert
+Quale autore ha scritto I miserabili?|Victor Hugo|Alexandre Dumas|Émile Zola|Stendhal|Victor_Hugo
+Chi ha scritto Il rosso e il nero?|Stendhal|Honoré de Balzac|Victor Hugo|Gustave Flaubert|Stendhal
+Quale autore ha scritto Alla ricerca del tempo perduto?|Marcel Proust|André Gide|Albert Camus|Louis-Ferdinand Céline|Marcel_Proust
+Chi ha scritto Lo straniero?|Albert Camus|Jean-Paul Sartre|André Malraux|Marcel Proust|Albert_Camus
+Quale autore ha scritto La nausea?|Jean-Paul Sartre|Albert Camus|Simone de Beauvoir|André Gide|Jean-Paul_Sartre
+Chi ha scritto Don Chisciotte della Mancia?|Miguel de Cervantes|Lope de Vega|Calderón de la Barca|Benito Pérez Galdós|Miguel_de_Cervantes
+Quale autore ha scritto Cent anni di solitudine?|Gabriel García Márquez|Mario Vargas Llosa|Julio Cortázar|Carlos Fuentes|Gabriel_García_Márquez
+Chi ha scritto L amore ai tempi del colera?|Gabriel García Márquez|Isabel Allende|Mario Vargas Llosa|Jorge Luis Borges|Gabriel_García_Márquez
+Quale autore ha scritto La casa degli spiriti?|Isabel Allende|Laura Esquivel|Elena Poniatowska|Gioconda Belli|Isabel_Allende
+Chi ha scritto Il vecchio e il mare?|Ernest Hemingway|John Steinbeck|William Faulkner|Jack London|Ernest_Hemingway
+Quale autore ha scritto Per chi suona la campana?|Ernest Hemingway|John Dos Passos|Francis Scott Fitzgerald|John Steinbeck|Ernest_Hemingway
+Chi ha scritto Furore?|John Steinbeck|Ernest Hemingway|William Faulkner|Upton Sinclair|John_Steinbeck
+Quale autore ha scritto Moby Dick?|Herman Melville|Nathaniel Hawthorne|Walt Whitman|Mark Twain|Herman_Melville
+Chi ha scritto Il grande Gatsby?|F. Scott Fitzgerald|Ernest Hemingway|John Steinbeck|Sinclair Lewis|F._Scott_Fitzgerald
+Quale autore ha scritto Ulysses?|James Joyce|Virginia Woolf|Samuel Beckett|W. B. Yeats|James_Joyce
+Chi ha scritto Dubliners?|James Joyce|Samuel Beckett|Seamus Heaney|Oscar Wilde|James_Joyce
+Quale scrittrice ha scritto Mrs Dalloway?|Virginia Woolf|Dorothy Richardson|Katherine Mansfield|Jean Rhys|Virginia_Woolf
+Chi ha scritto Cime tempestose?|Emily Brontë|Charlotte Brontë|Jane Austen|George Eliot|Emily_Brontë
+Quale autrice ha scritto Jane Eyre?|Charlotte Brontë|Emily Brontë|Elizabeth Gaskell|George Eliot|Charlotte_Brontë
+Chi ha scritto Oliver Twist?|Charles Dickens|William Thackeray|Thomas Hardy|Anthony Trollope|Charles_Dickens
+Quale autore ha scritto David Copperfield?|Charles Dickens|Thomas Hardy|George Eliot|William Thackeray|Charles_Dickens
+Chi ha scritto Robinson Crusoe?|Daniel Defoe|Jonathan Swift|Henry Fielding|Samuel Richardson|Daniel_Defoe
+Quale autore ha scritto I viaggi di Gulliver?|Jonathan Swift|Daniel Defoe|Laurence Sterne|Henry Fielding|Jonathan_Swift
+Chi ha scritto Dracula?|Bram Stoker|Mary Shelley|Robert Louis Stevenson|Sheridan Le Fanu|Bram_Stoker
+Quale autrice ha scritto Frankenstein?|Mary Shelley|Ann Radcliffe|Emily Brontë|George Eliot|Mary_Shelley
+Chi ha scritto L isola del tesoro?|Robert Louis Stevenson|Jack London|Daniel Defoe|Jules Verne|Robert_Louis_Stevenson
+Quale autore ha scritto Ventimila leghe sotto i mari?|Jules Verne|H. G. Wells|Edgar Rice Burroughs|Arthur Conan Doyle|Jules_Verne
+Chi ha scritto Il giro del mondo in ottanta giorni?|Jules Verne|H. G. Wells|Alexandre Dumas|Robert Louis Stevenson|Jules_Verne
+Quale autore ha creato Sherlock Holmes?|Arthur Conan Doyle|Agatha Christie|Edgar Allan Poe|Wilkie Collins|Arthur_Conan_Doyle
+Chi ha scritto Dieci piccoli indiani?|Agatha Christie|Dorothy L. Sayers|Ngaio Marsh|Patricia Highsmith|Agatha_Christie
+Quale autrice ha creato Hercule Poirot?|Agatha Christie|P. D. James|Ngaio Marsh|Patricia Wentworth|Agatha_Christie
+Chi ha scritto Il ritratto di Dorian Gray?|Oscar Wilde|Bram Stoker|Thomas Hardy|William Butler Yeats|Oscar_Wilde
+Quale autore ha scritto Il fu Mattia Pascal?|Luigi Pirandello|Italo Svevo|Federigo Tozzi|Alberto Moravia|Luigi_Pirandello
+Chi ha scritto Il giorno della civetta?|Leonardo Sciascia|Andrea Camilleri|Gesualdo Bufalino|Sebastiano Vassalli|Leonardo_Sciascia
+Quale autore ha scritto Fontamara?|Ignazio Silone|Carlo Levi|Elio Vittorini|Cesare Pavese|Ignazio_Silone
+Chi ha scritto Cristo si e fermato a Eboli?|Carlo Levi|Ignazio Silone|Alberto Moravia|Elio Vittorini|Carlo_Levi
+Quale autore ha scritto Conversazione in Sicilia?|Elio Vittorini|Cesare Pavese|Beppe Fenoglio|Primo Levi|Elio_Vittorini
+Chi ha scritto La luna e i falo?|Cesare Pavese|Beppe Fenoglio|Elio Vittorini|Primo Levi|Cesare_Pavese
+Quale autore ha scritto Una questione privata?|Beppe Fenoglio|Cesare Pavese|Elio Vittorini|Renata Viganò|Beppe_Fenoglio
+Chi ha scritto Quer pasticciaccio brutto de via Merulana?|Carlo Emilio Gadda|Alberto Moravia|Tommaso Landolfi|Dino Buzzati|Carlo_Emilio_Gadda
+Quale autore ha scritto Gli indifferenti?|Alberto Moravia|Elsa Morante|Elio Vittorini|Cesare Pavese|Alberto_Moravia
+Chi ha scritto Canne al vento?|Grazia Deledda|Matilde Serao|Sibilla Aleramo|Neera|Grazia_Deledda
+Quale autore ha scritto Cuore?|Edmondo De Amicis|Carlo Collodi|Giovanni Verga|Luigi Capuana|Edmondo_De_Amicis
+Chi ha scritto I Malavoglia?|Giovanni Verga|Luigi Capuana|Federico De Roberto|Matilde Serao|Giovanni_Verga
+Quale autore ha scritto Mastro-don Gesualdo?|Giovanni Verga|Luigi Capuana|Federico De Roberto|Gabriele D Annunzio|Giovanni_Verga
+Chi ha scritto Il piacere?|Gabriele D Annunzio|Antonio Fogazzaro|Federico De Roberto|Giovanni Verga|Gabriele_D'Annunzio
+Quale autore ha scritto Il visconte dimezzato?|Italo Calvino|Gianni Rodari|Dino Buzzati|Tommaso Landolfi|Italo_Calvino
+Chi ha scritto Marcovaldo?|Italo Calvino|Gianni Rodari|Dino Buzzati|Cesare Zavattini|Italo_Calvino
+Quale autore ha scritto Il cavaliere inesistente?|Italo Calvino|Ludovico Ariosto|Tommaso Landolfi|Gianni Rodari|Italo_Calvino
+Chi ha scritto Novecento?|Alessandro Baricco|Stefano Benni|Niccolò Ammaniti|Erri De Luca|Alessandro_Baricco
+Quale autore ha scritto Seta?|Alessandro Baricco|Paolo Giordano|Niccolò Ammaniti|Erri De Luca|Alessandro_Baricco
+Chi ha scritto Io non ho paura?|Niccolò Ammaniti|Paolo Giordano|Alessandro Baricco|Domenico Starnone|Niccolò_Ammaniti
+Quale autore ha scritto La solitudine dei numeri primi?|Paolo Giordano|Niccolò Ammaniti|Alessandro Piperno|Walter Siti|Paolo_Giordano
+Chi ha scritto Tre metri sopra il cielo?|Federico Moccia|Fabio Volo|Enrico Brizzi|Andrea De Carlo|Federico_Moccia
+Quale autore ha scritto Jack Frusciante e uscito dal gruppo?|Enrico Brizzi|Niccolò Ammaniti|Pier Vittorio Tondelli|Fabio Volo|Enrico_Brizzi
+Chi ha scritto Acciaio?|Silvia Avallone|Michela Murgia|Elena Stancanelli|Valeria Parrella|Silvia_Avallone
+Quale autrice ha scritto Accabadora?|Michela Murgia|Dacia Maraini|Milena Agus|Melania G. Mazzucco|Michela_Murgia
+Chi ha scritto Non ti muovere?|Margaret Mazzantini|Susanna Tamaro|Dacia Maraini|Elena Ferrante|Margaret_Mazzantini
+Quale autore ha scritto Oceano mare?|Alessandro Baricco|Erri De Luca|Sandro Veronesi|Paolo Giordano|Alessandro_Baricco
+Chi ha scritto Il giovane Holden?|J. D. Salinger|John Updike|Saul Bellow|Philip Roth|J._D._Salinger
+Quale autore ha scritto Fahrenheit 451?|Ray Bradbury|George Orwell|Aldous Huxley|Kurt Vonnegut|Ray_Bradbury
+Chi ha scritto Brave New World?|Aldous Huxley|George Orwell|Ray Bradbury|H. G. Wells|Aldous_Huxley
+Quale autore ha scritto Il signore delle mosche?|William Golding|Graham Greene|George Orwell|Anthony Burgess|William_Golding
+Chi ha scritto Il signore degli anelli?|J. R. R. Tolkien|C. S. Lewis|Terry Brooks|Ursula K. Le Guin|J._R._R._Tolkien
+Quale autore ha scritto Lo Hobbit?|J. R. R. Tolkien|C. S. Lewis|Philip Pullman|Terry Pratchett|J._R._R._Tolkien
+Chi ha creato il personaggio di Harry Potter?|J. K. Rowling|Philip Pullman|C. S. Lewis|Cornelia Funke|J._K._Rowling
+Quale autore ha scritto Il leone la strega e l armadio?|C. S. Lewis|J. R. R. Tolkien|Philip Pullman|Neil Gaiman|C._S._Lewis
+Chi ha scritto Il codice Da Vinci?|Dan Brown|Ken Follett|Michael Crichton|John Grisham|Dan_Brown
+Quale autore ha scritto I pilastri della Terra?|Ken Follett|Wilbur Smith|Jeffrey Archer|Edward Rutherfurd|Ken_Follett
+Chi ha scritto Il cacciatore di aquiloni?|Khaled Hosseini|Amir Aczel|Orhan Pamuk|Elif Shafak|Khaled_Hosseini
+Quale autore ha scritto Norwegian Wood?|Haruki Murakami|Kenzaburō Ōe|Yukio Mishima|Banana Yoshimoto|Haruki_Murakami
+Chi ha scritto Kafka sulla spiaggia?|Haruki Murakami|Yukio Mishima|Kazuo Ishiguro|Kenzaburō Ōe|Haruki_Murakami
+Quale autore ha scritto Cecità?|José Saramago|Antonio Lobo Antunes|Fernando Pessoa|José Cardoso Pires|José_Saramago

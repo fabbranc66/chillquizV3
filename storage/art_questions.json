@@ -1,0 +1,1102 @@
+[
+    {
+        "testo":  "Chi ha dipinto la Gioconda?",
+        "opzioni":  [
+                        "Leonardo da Vinci",
+                        "Raffaello",
+                        "Michelangelo",
+                        "Caravaggio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mona_Lisa"
+    },
+    {
+        "testo":  "In quale museo si trova la Gioconda?",
+        "opzioni":  [
+                        "Louvre",
+                        "Prado",
+                        "Uffizi",
+                        "Metropolitan Museum of Art"
+                    ],
+        "corretta":  0,
+        "image_page":  "Louvre"
+    },
+    {
+        "testo":  "Quale artista scolpi il David conservato a Firenze?",
+        "opzioni":  [
+                        "Michelangelo",
+                        "Donatello",
+                        "Bernini",
+                        "Canova"
+                    ],
+        "corretta":  0,
+        "image_page":  "David_(Michelangelo)"
+    },
+    {
+        "testo":  "Chi dipinse La notte stellata?",
+        "opzioni":  [
+                        "Vincent van Gogh",
+                        "Claude Monet",
+                        "Paul Gauguin",
+                        "Edvard Munch"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Starry_Night"
+    },
+    {
+        "testo":  "Quale pittore e associato principalmente al cubismo insieme a Georges Braque?",
+        "opzioni":  [
+                        "Pablo Picasso",
+                        "Salvador Dalí",
+                        "Henri Matisse",
+                        "Paul Cézanne"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pablo_Picasso"
+    },
+    {
+        "testo":  "Quale opera di Edvard Munch mostra una figura urlante sotto un cielo acceso?",
+        "opzioni":  [
+                        "L Urlo",
+                        "La Danza della vita",
+                        "Madonna",
+                        "Vampiro"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Scream"
+    },
+    {
+        "testo":  "Chi dipinse Guernica?",
+        "opzioni":  [
+                        "Pablo Picasso",
+                        "Joan Miró",
+                        "Francisco Goya",
+                        "Diego Velázquez"
+                    ],
+        "corretta":  0,
+        "image_page":  "Guernica_(Picasso)"
+    },
+    {
+        "testo":  "Quale artista barocco dipinse la Vocazione di San Matteo?",
+        "opzioni":  [
+                        "Caravaggio",
+                        "Tintoretto",
+                        "Tiziano",
+                        "Guido Reni"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Calling_of_Saint_Matthew_(Caravaggio)"
+    },
+    {
+        "testo":  "Quale scultore realizzo Apollo e Dafne?",
+        "opzioni":  [
+                        "Gian Lorenzo Bernini",
+                        "Antonio Canova",
+                        "Donatello",
+                        "Cellini"
+                    ],
+        "corretta":  0,
+        "image_page":  "Apollo_and_Daphne_(Bernini)"
+    },
+    {
+        "testo":  "Chi dipinse Le ninfee?",
+        "opzioni":  [
+                        "Claude Monet",
+                        "Edgar Degas",
+                        "Pierre-Auguste Renoir",
+                        "Camille Pissarro"
+                    ],
+        "corretta":  0,
+        "image_page":  "Water_Lilies_(Monet_series)"
+    },
+    {
+        "testo":  "Quale artista e noto per gli orologi molli della Persistenza della memoria?",
+        "opzioni":  [
+                        "Salvador Dalí",
+                        "René Magritte",
+                        "Max Ernst",
+                        "Joan Miró"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Persistence_of_Memory"
+    },
+    {
+        "testo":  "Chi affresco la volta della Cappella Sistina?",
+        "opzioni":  [
+                        "Michelangelo",
+                        "Raffaello",
+                        "Botticelli",
+                        "Perugino"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sistine_Chapel_ceiling"
+    },
+    {
+        "testo":  "Quale pittore spagnolo realizzo Las Meninas?",
+        "opzioni":  [
+                        "Diego Velázquez",
+                        "El Greco",
+                        "Francisco Goya",
+                        "Joaquín Sorolla"
+                    ],
+        "corretta":  0,
+        "image_page":  "Las_Meninas"
+    },
+    {
+        "testo":  "Chi e l autore de Il Bacio in foglia d oro del 1907-08?",
+        "opzioni":  [
+                        "Gustav Klimt",
+                        "Egon Schiele",
+                        "Alfons Mucha",
+                        "Oskar Kokoschka"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Kiss_(Klimt)"
+    },
+    {
+        "testo":  "Quale movimento e associato a Monet Renoir e Degas?",
+        "opzioni":  [
+                        "Impressionismo",
+                        "Espressionismo",
+                        "Fauvismo",
+                        "Cubismo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Impressionism"
+    },
+    {
+        "testo":  "Chi dipinse La nascita di Venere?",
+        "opzioni":  [
+                        "Sandro Botticelli",
+                        "Filippo Lippi",
+                        "Leonardo da Vinci",
+                        "Tiziano"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Birth_of_Venus"
+    },
+    {
+        "testo":  "Quale artista messicano dipinse molti autoritratti ed e simbolo dell arte del Novecento?",
+        "opzioni":  [
+                        "Frida Kahlo",
+                        "Remedios Varo",
+                        "Leonora Carrington",
+                        "María Izquierdo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Frida_Kahlo"
+    },
+    {
+        "testo":  "Chi realizzo la scultura Il Pensatore?",
+        "opzioni":  [
+                        "Auguste Rodin",
+                        "Aristide Maillol",
+                        "Camille Claudel",
+                        "Henry Moore"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Thinker"
+    },
+    {
+        "testo":  "Quale pittore olandese del Seicento dipinse La ragazza con l orecchino di perla?",
+        "opzioni":  [
+                        "Johannes Vermeer",
+                        "Rembrandt",
+                        "Frans Hals",
+                        "Jan Steen"
+                    ],
+        "corretta":  0,
+        "image_page":  "Girl_with_a_Pearl_Earring"
+    },
+    {
+        "testo":  "Quale opera di Grant Wood ritrae due figure davanti a una casa rurale?",
+        "opzioni":  [
+                        "American Gothic",
+                        "Nighthawks",
+                        "Christina\u0027s World",
+                        "The Gleaners"
+                    ],
+        "corretta":  0,
+        "image_page":  "American_Gothic"
+    },
+    {
+        "testo":  "Chi dipinse La zattera della Medusa?",
+        "opzioni":  [
+                        "Théodore Géricault",
+                        "Eugène Delacroix",
+                        "Jacques-Louis David",
+                        "Ingres"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Raft_of_the_Medusa"
+    },
+    {
+        "testo":  "Quale artista pop e autore del dittico Marilyn Diptych?",
+        "opzioni":  [
+                        "Andy Warhol",
+                        "Roy Lichtenstein",
+                        "Keith Haring",
+                        "Robert Rauschenberg"
+                    ],
+        "corretta":  0,
+        "image_page":  "Marilyn_Diptych"
+    },
+    {
+        "testo":  "Chi dipinse La libertà che guida il popolo?",
+        "opzioni":  [
+                        "Eugène Delacroix",
+                        "Jacques-Louis David",
+                        "Ingres",
+                        "Géricault"
+                    ],
+        "corretta":  0,
+        "image_page":  "Liberty_Leading_the_People"
+    },
+    {
+        "testo":  "Quale artista italiano e noto per le nature morte con bottiglie e vasi semplificati?",
+        "opzioni":  [
+                        "Giorgio Morandi",
+                        "Giorgio de Chirico",
+                        "Mario Sironi",
+                        "Felice Casorati"
+                    ],
+        "corretta":  0,
+        "image_page":  "Giorgio_Morandi"
+    },
+    {
+        "testo":  "Quale museo romano ospita in gran parte la Cappella Contarelli con opere di Caravaggio?",
+        "opzioni":  [
+                        "San Luigi dei Francesi",
+                        "Musei Vaticani",
+                        "Galleria Borghese",
+                        "MAXXI"
+                    ],
+        "corretta":  0,
+        "image_page":  "San_Luigi_dei_Francesi"
+    },
+    {
+        "testo":  "Quale architetto progetto la Sagrada Família a Barcellona?",
+        "opzioni":  [
+                        "Antoni Gaudí",
+                        "Santiago Calatrava",
+                        "Lluís Domènech i Montaner",
+                        "Le Corbusier"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sagrada_Fam%C3%ADlia"
+    },
+    {
+        "testo":  "Chi dipinse Il giuramento degli Orazi?",
+        "opzioni":  [
+                        "Jacques-Louis David",
+                        "Ingres",
+                        "Delacroix",
+                        "Fragonard"
+                    ],
+        "corretta":  0,
+        "image_page":  "Oath_of_the_Horatii"
+    },
+    {
+        "testo":  "Quale artista e famoso per i tagli sulle tele?",
+        "opzioni":  [
+                        "Lucio Fontana",
+                        "Alberto Burri",
+                        "Piero Manzoni",
+                        "Enrico Castellani"
+                    ],
+        "corretta":  0,
+        "image_page":  "Lucio_Fontana"
+    },
+    {
+        "testo":  "Chi realizzo la Venere di Urbino?",
+        "opzioni":  [
+                        "Tiziano",
+                        "Tintoretto",
+                        "Veronese",
+                        "Giorgione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Venus_of_Urbino"
+    },
+    {
+        "testo":  "Quale pittore belga surrealista dipinse Ceci n est pas une pipe?",
+        "opzioni":  [
+                        "René Magritte",
+                        "Salvador Dalí",
+                        "Paul Delvaux",
+                        "Max Ernst"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Treachery_of_Images"
+    },
+    {
+        "testo":  "Chi dipinse Impressione levar del sole?",
+        "opzioni":  [
+                        "Claude Monet",
+                        "Camille Pissarro",
+                        "Alfred Sisley",
+                        "Berthe Morisot"
+                    ],
+        "corretta":  0,
+        "image_page":  "Impression,_Sunrise"
+    },
+    {
+        "testo":  "Quale artista americano e noto per i drip paintings?",
+        "opzioni":  [
+                        "Jackson Pollock",
+                        "Mark Rothko",
+                        "Willem de Kooning",
+                        "Barnett Newman"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jackson_Pollock"
+    },
+    {
+        "testo":  "Chi e l autore del dipinto La ronda di notte?",
+        "opzioni":  [
+                        "Rembrandt",
+                        "Vermeer",
+                        "Frans Hals",
+                        "Pieter de Hooch"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Night_Watch"
+    },
+    {
+        "testo":  "Quale scultore neoclassico realizzo Amore e Psiche?",
+        "opzioni":  [
+                        "Antonio Canova",
+                        "Bernini",
+                        "Thorvaldsen",
+                        "Houdon"
+                    ],
+        "corretta":  0,
+        "image_page":  "Psyche_Revived_by_Cupid%27s_Kiss"
+    },
+    {
+        "testo":  "Chi dipinse Il figlio dell uomo con la mela davanti al volto?",
+        "opzioni":  [
+                        "René Magritte",
+                        "Paul Delvaux",
+                        "Giorgio de Chirico",
+                        "Max Ernst"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Son_of_Man"
+    },
+    {
+        "testo":  "Quale artista francese e celebre per le ballerine dell Opera di Parigi?",
+        "opzioni":  [
+                        "Edgar Degas",
+                        "Édouard Manet",
+                        "Toulouse-Lautrec",
+                        "Pierre Bonnard"
+                    ],
+        "corretta":  0,
+        "image_page":  "Edgar_Degas"
+    },
+    {
+        "testo":  "Chi dipinse Campo di grano con volo di corvi?",
+        "opzioni":  [
+                        "Vincent van Gogh",
+                        "Paul Gauguin",
+                        "Georges Seurat",
+                        "Paul Signac"
+                    ],
+        "corretta":  0,
+        "image_page":  "Wheatfield_with_Crows"
+    },
+    {
+        "testo":  "Quale corrente italiana del primo Novecento e legata a Boccioni e Balla?",
+        "opzioni":  [
+                        "Futurismo",
+                        "Metafisica",
+                        "Novecento Italiano",
+                        "Arte Povera"
+                    ],
+        "corretta":  0,
+        "image_page":  "Futurism"
+    },
+    {
+        "testo":  "Chi dipinse L Olympia del 1863?",
+        "opzioni":  [
+                        "Édouard Manet",
+                        "Claude Monet",
+                        "Edgar Degas",
+                        "Ingres"
+                    ],
+        "corretta":  0,
+        "image_page":  "Olympia_(Manet)"
+    },
+    {
+        "testo":  "Quale artista spagnolo e autore delle incisioni de I disastri della guerra?",
+        "opzioni":  [
+                        "Francisco Goya",
+                        "Pablo Picasso",
+                        "El Greco",
+                        "Velázquez"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Disasters_of_War"
+    },
+    {
+        "testo":  "Chi realizzo Balloon Dog tra le sculture contemporanee piu celebri?",
+        "opzioni":  [
+                        "Jeff Koons",
+                        "Damien Hirst",
+                        "Takashi Murakami",
+                        "Anish Kapoor"
+                    ],
+        "corretta":  0,
+        "image_page":  "Balloon_Dog"
+    },
+    {
+        "testo":  "Quale pittore statunitense dipinse Nighthawks?",
+        "opzioni":  [
+                        "Edward Hopper",
+                        "Grant Wood",
+                        "Thomas Hart Benton",
+                        "Georgia O Keeffe"
+                    ],
+        "corretta":  0,
+        "image_page":  "Nighthawks"
+    },
+    {
+        "testo":  "Chi dipinse La scuola di Atene?",
+        "opzioni":  [
+                        "Raffaello",
+                        "Leonardo da Vinci",
+                        "Michelangelo",
+                        "Perugino"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_School_of_Athens"
+    },
+    {
+        "testo":  "Quale artista e noto per i monocromi blu IKB?",
+        "opzioni":  [
+                        "Yves Klein",
+                        "Pierre Soulages",
+                        "Jean Dubuffet",
+                        "Niki de Saint Phalle"
+                    ],
+        "corretta":  0,
+        "image_page":  "Yves_Klein"
+    },
+    {
+        "testo":  "Chi dipinse Il quarto stato?",
+        "opzioni":  [
+                        "Giuseppe Pellizza da Volpedo",
+                        "Carlo Carrà",
+                        "Gino Severini",
+                        "Gaetano Previati"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Fourth_Estate"
+    },
+    {
+        "testo":  "Quale artista contemporaneo ha creato The Physical Impossibility of Death in the Mind of Someone Living?",
+        "opzioni":  [
+                        "Damien Hirst",
+                        "Jeff Koons",
+                        "Banksy",
+                        "Tracey Emin"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Physical_Impossibility_of_Death_in_the_Mind_of_Someone_Living"
+    },
+    {
+        "testo":  "Chi dipinse Il bacio tra due amanti sotto un cielo dorato in stile divisionista italiano? ",
+        "opzioni":  [
+                        "Francesco Hayez",
+                        "Giovanni Segantini",
+                        "Gaetano Previati",
+                        "Giovanni Fattori"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Kiss_(Hayez)"
+    },
+    {
+        "testo":  "Quale artista francese dipinse Le bagnanti in grandi composizioni tardive?",
+        "opzioni":  [
+                        "Paul Cézanne",
+                        "Pierre Bonnard",
+                        "Georges Seurat",
+                        "Gustave Courbet"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Large_Bathers"
+    },
+    {
+        "testo":  "Chi realizzo il celebre autoritratto con collana di spine e colibrì?",
+        "opzioni":  [
+                        "Frida Kahlo",
+                        "Georgia O Keeffe",
+                        "Tamara de Lempicka",
+                        "Louise Bourgeois"
+                    ],
+        "corretta":  0,
+        "image_page":  "Self-Portrait_with_Thorn_Necklace_and_Hummingbird"
+    },
+    {
+        "testo":  "Quale museo di Madrid custodisce Las Meninas e molte opere di Goya?",
+        "opzioni":  [
+                        "Museo del Prado",
+                        "Reina Sofía",
+                        "Thyssen-Bornemisza",
+                        "Guggenheim Bilbao"
+                    ],
+        "corretta":  0,
+        "image_page":  "Museo_del_Prado"
+    },
+    {
+        "testo":  "Quale artista svizzero-tedesco e noto per Senecio e Angelus Novus?",
+        "opzioni":  [
+                        "Paul Klee",
+                        "Wassily Kandinsky",
+                        "Franz Marc",
+                        "Oskar Schlemmer"
+                    ],
+        "corretta":  0,
+        "image_page":  "Paul_Klee"
+    },
+    {
+        "testo":  "Chi dipinse Le déjeuner sur l herbe?",
+        "opzioni":  [
+                        "Édouard Manet",
+                        "Claude Monet",
+                        "Gustave Courbet",
+                        "Pierre-Auguste Renoir"
+                    ],
+        "corretta":  0,
+        "image_page":  "Le_D%C3%A9jeuner_sur_l%27herbe"
+    },
+    {
+        "testo":  "Quale artista russo e considerato un pioniere dell astrattismo con Composizione VIII?",
+        "opzioni":  [
+                        "Wassily Kandinsky",
+                        "Kazimir Malevič",
+                        "El Lissitzky",
+                        "Marc Chagall"
+                    ],
+        "corretta":  0,
+        "image_page":  "Composition_VIII"
+    },
+    {
+        "testo":  "Chi realizzo Maman la grande scultura-ragno?",
+        "opzioni":  [
+                        "Louise Bourgeois",
+                        "Niki de Saint Phalle",
+                        "Barbara Hepworth",
+                        "Rachel Whiteread"
+                    ],
+        "corretta":  0,
+        "image_page":  "Maman_(sculpture)"
+    },
+    {
+        "testo":  "Quale artista britannico e noto per gli spot paintings e gli animali in formaldeide?",
+        "opzioni":  [
+                        "Damien Hirst",
+                        "Tracey Emin",
+                        "Antony Gormley",
+                        "David Hockney"
+                    ],
+        "corretta":  0,
+        "image_page":  "Damien_Hirst"
+    },
+    {
+        "testo":  "Chi dipinse La Danza con le figure circolari di Matisse?",
+        "opzioni":  [
+                        "Henri Matisse",
+                        "André Derain",
+                        "Raoul Dufy",
+                        "Paul Signac"
+                    ],
+        "corretta":  0,
+        "image_page":  "Dance_(Matisse)"
+    },
+    {
+        "testo":  "Quale pittore divisionista dipinse Le due madri?",
+        "opzioni":  [
+                        "Giovanni Segantini",
+                        "Gaetano Previati",
+                        "Pellizza da Volpedo",
+                        "Angelo Morbelli"
+                    ],
+        "corretta":  0,
+        "image_page":  "Le_due_madri"
+    },
+    {
+        "testo":  "Chi e l autore del murale Guernica destinato al padiglione spagnolo del 1937?",
+        "opzioni":  [
+                        "Pablo Picasso",
+                        "Joan Miró",
+                        "Antoni Tàpies",
+                        "Juan Gris"
+                    ],
+        "corretta":  0,
+        "image_page":  "Guernica_(Picasso)"
+    },
+    {
+        "testo":  "Quale movimento artistico e associato a Breton Dalí Magritte e Ernst?",
+        "opzioni":  [
+                        "Surrealismo",
+                        "Cubismo",
+                        "Suprematismo",
+                        "Realismo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Surrealism"
+    },
+    {
+        "testo":  "Chi dipinse Christina\u0027s World?",
+        "opzioni":  [
+                        "Andrew Wyeth",
+                        "Grant Wood",
+                        "Edward Hopper",
+                        "Norman Rockwell"
+                    ],
+        "corretta":  0,
+        "image_page":  "Christina%27s_World"
+    },
+    {
+        "testo":  "Quale artista statunitense ha creato le LOVE sculptures?",
+        "opzioni":  [
+                        "Robert Indiana",
+                        "Jeff Koons",
+                        "Claes Oldenburg",
+                        "Jasper Johns"
+                    ],
+        "corretta":  0,
+        "image_page":  "LOVE_(sculpture)"
+    },
+    {
+        "testo":  "Chi dipinse La Grande Odalisca?",
+        "opzioni":  [
+                        "Ingres",
+                        "Delacroix",
+                        "David",
+                        "Géricault"
+                    ],
+        "corretta":  0,
+        "image_page":  "Grande_Odalisque"
+    },
+    {
+        "testo":  "Quale artista e noto per i Campbell\u0027s Soup Cans?",
+        "opzioni":  [
+                        "Andy Warhol",
+                        "Roy Lichtenstein",
+                        "Keith Haring",
+                        "James Rosenquist"
+                    ],
+        "corretta":  0,
+        "image_page":  "Campbell%27s_Soup_Cans"
+    },
+    {
+        "testo":  "Chi realizzo l estasi di Santa Teresa nella cappella Cornaro?",
+        "opzioni":  [
+                        "Gian Lorenzo Bernini",
+                        "Algardi",
+                        "Borromini",
+                        "Canova"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ecstasy_of_Saint_Teresa"
+    },
+    {
+        "testo":  "Quale pittore francese e celebre per i puntini del pointillisme in Una domenica pomeriggio all isola della Grande Jatte?",
+        "opzioni":  [
+                        "Georges Seurat",
+                        "Paul Signac",
+                        "Camille Pissarro",
+                        "Henri Rousseau"
+                    ],
+        "corretta":  0,
+        "image_page":  "A_Sunday_Afternoon_on_the_Island_of_La_Grande_Jatte"
+    },
+    {
+        "testo":  "Chi dipinse l Annunciazione agli Uffizi insieme a Leonardo ma in giovinezza?",
+        "opzioni":  [
+                        "Leonardo da Vinci",
+                        "Botticelli",
+                        "Filippino Lippi",
+                        "Andrea del Verrocchio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Annunciation_(Leonardo)"
+    },
+    {
+        "testo":  "Quale artista tedesco e noto per i collage Merz?",
+        "opzioni":  [
+                        "Kurt Schwitters",
+                        "Max Beckmann",
+                        "Otto Dix",
+                        "George Grosz"
+                    ],
+        "corretta":  0,
+        "image_page":  "Kurt_Schwitters"
+    },
+    {
+        "testo":  "Chi dipinse il trittico Il giardino delle delizie?",
+        "opzioni":  [
+                        "Hieronymus Bosch",
+                        "Pieter Bruegel il Vecchio",
+                        "Jan van Eyck",
+                        "Rogier van der Weyden"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Garden_of_Earthly_Delights"
+    },
+    {
+        "testo":  "Quale artista italiano e legato alla pittura metafisica con piazze silenziose e manichini?",
+        "opzioni":  [
+                        "Giorgio de Chirico",
+                        "Carlo Carrà",
+                        "Giorgio Morandi",
+                        "Mario Sironi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Giorgio_de_Chirico"
+    },
+    {
+        "testo":  "Chi realizzo Spiral Jetty nel Great Salt Lake?",
+        "opzioni":  [
+                        "Robert Smithson",
+                        "Michael Heizer",
+                        "Walter De Maria",
+                        "Nancy Holt"
+                    ],
+        "corretta":  0,
+        "image_page":  "Spiral_Jetty"
+    },
+    {
+        "testo":  "Quale artista francese e celebre per le scene del Moulin Rouge?",
+        "opzioni":  [
+                        "Henri de Toulouse-Lautrec",
+                        "Degas",
+                        "Renoir",
+                        "Vuillard"
+                    ],
+        "corretta":  0,
+        "image_page":  "Henri_de_Toulouse-Lautrec"
+    },
+    {
+        "testo":  "Quale affresco palermitano del Quattrocento e noto come Il trionfo della morte?",
+        "opzioni":  [
+                        "Il trionfo della morte",
+                        "Guernica",
+                        "L Urlo",
+                        "La zattera della Medusa"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Triumph_of_Death_(Palermo)"
+    },
+    {
+        "testo":  "Quale artista britannico ha dipinto A Bigger Splash?",
+        "opzioni":  [
+                        "David Hockney",
+                        "Francis Bacon",
+                        "Lucian Freud",
+                        "Peter Blake"
+                    ],
+        "corretta":  0,
+        "image_page":  "A_Bigger_Splash"
+    },
+    {
+        "testo":  "Chi realizzo i mobiles sospesi dalle forme astratte?",
+        "opzioni":  [
+                        "Alexander Calder",
+                        "Jean Arp",
+                        "Brancusi",
+                        "Naum Gabo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Alexander_Calder"
+    },
+    {
+        "testo":  "Quale artista americana e nota per grandi fiori e paesaggi del New Mexico?",
+        "opzioni":  [
+                        "Georgia O Keeffe",
+                        "Lee Krasner",
+                        "Helen Frankenthaler",
+                        "Joan Mitchell"
+                    ],
+        "corretta":  0,
+        "image_page":  "Georgia_O%27Keeffe"
+    },
+    {
+        "testo":  "Quale pittore norvegese e autore di Madonna e Vampiro oltre all Urlo?",
+        "opzioni":  [
+                        "Edvard Munch",
+                        "Gustav Vigeland",
+                        "Christian Krohg",
+                        "Vilhelm Hammershøi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Edvard_Munch"
+    },
+    {
+        "testo":  "Chi dipinse La Primavera, grande allegoria mitologica rinascimentale?",
+        "opzioni":  [
+                        "Sandro Botticelli",
+                        "Leonardo da Vinci",
+                        "Fra Angelico",
+                        "Andrea Mantegna"
+                    ],
+        "corretta":  0,
+        "image_page":  "Primavera_(Botticelli)"
+    },
+    {
+        "testo":  "Quale artista giapponese realizzo la xilografia La grande onda di Kanagawa?",
+        "opzioni":  [
+                        "Hokusai",
+                        "Hiroshige",
+                        "Utamaro",
+                        "Kuniyoshi"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Great_Wave_off_Kanagawa"
+    },
+    {
+        "testo":  "Chi e l autore di I mangiatori di patate?",
+        "opzioni":  [
+                        "Vincent van Gogh",
+                        "Jean-François Millet",
+                        "Gustave Courbet",
+                        "Paul Gauguin"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Potato_Eaters"
+    },
+    {
+        "testo":  "Quale architetto svizzero-francese e associato a Villa Savoye?",
+        "opzioni":  [
+                        "Le Corbusier",
+                        "Mies van der Rohe",
+                        "Walter Gropius",
+                        "Alvar Aalto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Villa_Savoye"
+    },
+    {
+        "testo":  "Chi dipinse Saturno che divora i suoi figli?",
+        "opzioni":  [
+                        "Francisco Goya",
+                        "El Greco",
+                        "Velázquez",
+                        "Zurbarán"
+                    ],
+        "corretta":  0,
+        "image_page":  "Saturn_Devouring_His_Son"
+    },
+    {
+        "testo":  "Quale artista pop americano e noto per i fumetti ingranditi con punti Ben-Day?",
+        "opzioni":  [
+                        "Roy Lichtenstein",
+                        "Andy Warhol",
+                        "Robert Indiana",
+                        "Keith Haring"
+                    ],
+        "corretta":  0,
+        "image_page":  "Roy_Lichtenstein"
+    },
+    {
+        "testo":  "Chi realizzo il monumento equestre al Gattamelata a Padova?",
+        "opzioni":  [
+                        "Donatello",
+                        "Verrocchio",
+                        "Bernini",
+                        "Cellini"
+                    ],
+        "corretta":  0,
+        "image_page":  "Gattamelata_(Donatello)"
+    },
+    {
+        "testo":  "Quale pittrice barocca italiana dipinse spesso eroine bibliche come Giuditta?",
+        "opzioni":  [
+                        "Artemisia Gentileschi",
+                        "Sofonisba Anguissola",
+                        "Lavinia Fontana",
+                        "Elisabetta Sirani"
+                    ],
+        "corretta":  0,
+        "image_page":  "Artemisia_Gentileschi"
+    },
+    {
+        "testo":  "Chi dipinse Le spigolatrici?",
+        "opzioni":  [
+                        "Jean-François Millet",
+                        "Gustave Courbet",
+                        "Camille Corot",
+                        "Honoré Daumier"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Gleaners"
+    },
+    {
+        "testo":  "Quale artista e noto per i tagli e i concetti spaziali su tele monocrome?",
+        "opzioni":  [
+                        "Lucio Fontana",
+                        "Alberto Burri",
+                        "Piero Dorazio",
+                        "Afro Basaldella"
+                    ],
+        "corretta":  0,
+        "image_page":  "Concetto_spaziale"
+    },
+    {
+        "testo":  "Chi realizzo il monumento Cloud Gate a Chicago?",
+        "opzioni":  [
+                        "Anish Kapoor",
+                        "Richard Serra",
+                        "Jeff Koons",
+                        "Olafur Eliasson"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cloud_Gate"
+    },
+    {
+        "testo":  "Quale artista francese del Rococò dipinse L altalena?",
+        "opzioni":  [
+                        "Jean-Honoré Fragonard",
+                        "François Boucher",
+                        "Watteau",
+                        "Chardin"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Swing_(Fragonard)"
+    },
+    {
+        "testo":  "Chi dipinse il San Girolamo incompiuto dei Musei Vaticani?",
+        "opzioni":  [
+                        "Leonardo da Vinci",
+                        "Michelangelo",
+                        "Raffaello",
+                        "Perugino"
+                    ],
+        "corretta":  0,
+        "image_page":  "Saint_Jerome_in_the_Wilderness_(Leonardo)"
+    },
+    {
+        "testo":  "Quale artista e associato al suprematismo con il Quadrato nero?",
+        "opzioni":  [
+                        "Kazimir Malevič",
+                        "El Lissitzky",
+                        "Kandinsky",
+                        "Tatlin"
+                    ],
+        "corretta":  0,
+        "image_page":  "Black_Square_(painting)"
+    },
+    {
+        "testo":  "Chi realizzo il monumentale murale Detroit Industry?",
+        "opzioni":  [
+                        "Diego Rivera",
+                        "José Clemente Orozco",
+                        "David Alfaro Siqueiros",
+                        "Juan O Gorman"
+                    ],
+        "corretta":  0,
+        "image_page":  "Detroit_Industry_Murals"
+    },
+    {
+        "testo":  "Quale artista francese dipinse Il bar delle Folies-Bergère?",
+        "opzioni":  [
+                        "Édouard Manet",
+                        "Edgar Degas",
+                        "Henri Fantin-Latour",
+                        "Berthe Morisot"
+                    ],
+        "corretta":  0,
+        "image_page":  "A_Bar_at_the_Folies-Berg%C3%A8re"
+    },
+    {
+        "testo":  "Chi ha realizzato in eta moderna la versione monumentale del Cavallo di Leonardo?",
+        "opzioni":  [
+                        "Nina Akamu",
+                        "Leonardo da Vinci",
+                        "Pietro Tacca",
+                        "Marino Marini"
+                    ],
+        "corretta":  0,
+        "image_page":  "Leonardo%27s_horse"
+    },
+    {
+        "testo":  "Quale artista americano e noto per i combine paintings?",
+        "opzioni":  [
+                        "Robert Rauschenberg",
+                        "Jasper Johns",
+                        "Cy Twombly",
+                        "Ellsworth Kelly"
+                    ],
+        "corretta":  0,
+        "image_page":  "Robert_Rauschenberg"
+    },
+    {
+        "testo":  "Chi dipinse L educazione della Vergine e altre opere del primo Rinascimento senese?",
+        "opzioni":  [
+                        "Sassetta",
+                        "Duccio",
+                        "Simone Martini",
+                        "Pietro Lorenzetti"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sassetta"
+    },
+    {
+        "testo":  "Quale artista cinese contemporaneo e noto per i semi di girasole in porcellana alla Tate?",
+        "opzioni":  [
+                        "Ai Weiwei",
+                        "Cai Guo-Qiang",
+                        "Yue Minjun",
+                        "Zhang Xiaogang"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ai_Weiwei"
+    },
+    {
+        "testo":  "Chi dipinse Le bagnanti di Renoir con figure femminili morbide e luminose?",
+        "opzioni":  [
+                        "Pierre-Auguste Renoir",
+                        "Paul Cézanne",
+                        "Claude Monet",
+                        "Edgar Degas"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Large_Bathers_(Renoir)"
+    },
+    {
+        "testo":  "Quale artista colombiano e noto per figure voluminose chiamate talvolta boterismo?",
+        "opzioni":  [
+                        "Fernando Botero",
+                        "Wifredo Lam",
+                        "Diego Rivera",
+                        "José Bedia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fernando_Botero"
+    },
+    {
+        "testo":  "Chi realizzo i celebri tag sui muri e i radianti babies della street art newyorkese?",
+        "opzioni":  [
+                        "Keith Haring",
+                        "Jean-Michel Basquiat",
+                        "Banksy",
+                        "Futura 2000"
+                    ],
+        "corretta":  0,
+        "image_page":  "Keith_Haring"
+    },
+    {
+        "testo":  "Quale artista inglese anonimo e noto per stencil ironici in spazi pubblici?",
+        "opzioni":  [
+                        "Banksy",
+                        "JR",
+                        "Invader",
+                        "Shepard Fairey"
+                    ],
+        "corretta":  0,
+        "image_page":  "Banksy"
+    }
+]

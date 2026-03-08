@@ -1,0 +1,108 @@
+﻿Quale città ha ospitato i Giochi Olimpici estivi del 2024?|Parigi|Los Angeles|Tokyo|Brisbane|Paris
+Quale nazionale ha vinto UEFA Euro 2024?|Spagna|Inghilterra|Francia|Germania|UEFA_Euro_2024
+Quale nazionale ha vinto la Copa América 2024?|Argentina|Colombia|Brasile|Uruguay|2024_Copa_América
+Quale club ha vinto la UEFA Champions League 2024?|Real Madrid|Borussia Dortmund|Manchester City|Inter|2024_UEFA_Champions_League_final
+Quale squadra ha vinto le NBA Finals 2024?|Boston Celtics|Dallas Mavericks|Denver Nuggets|Miami Heat|2024_NBA_Finals
+Quale azienda ha sviluppato ChatGPT?|OpenAI|Google|Anthropic|Meta|OpenAI
+Quale azienda sviluppa il modello Gemini?|Google|OpenAI|Microsoft|Amazon|Google
+Quale azienda sviluppa l assistente Copilot?|Microsoft|Apple|Meta|Anthropic|Microsoft
+Quale azienda ha lanciato il visore Vision Pro?|Apple|Meta|Sony|Microsoft|Apple_Inc.
+Quale social network di Meta è stato lanciato come rivale di X/Twitter?|Threads|Instagram|WhatsApp|Messenger|Threads_(social_network)
+Quale azienda possiede TikTok?|ByteDance|Tencent|Alibaba|Baidu|ByteDance
+Quale azienda ha creato la piattaforma streaming Disney+?|Disney|Netflix|Warner Bros. Discovery|Paramount|Disney+
+Quale compagnia spaziale ha sviluppato Starship?|SpaceX|Blue Origin|Rocket Lab|ULA|SpaceX_Starship
+Quale missione NASA sarà il primo volo con equipaggio del programma Artemis?|Artemis II|Artemis I|Artemis III|Artemis IV|Artemis_program
+Quale agenzia spaziale europea ha lanciato il razzo Ariane 6?|ESA|NASA|Roscosmos|JAXA|European_Space_Agency
+Quale telescopio spaziale opera in infrarosso profondo dal 2022?|James Webb Space Telescope|Hubble Space Telescope|Gaia|Euclid_(spacecraft)|James_Webb_Space_Telescope
+Quale missione NASA ha riportato campioni dell asteroide Bennu sulla Terra?|OSIRIS-REx|Hayabusa2|DART|Lucy|OSIRIS-REx
+Quale paese ha ospitato la COP28 sul clima nel 2023?|Emirati Arabi Uniti|Egitto|Azerbaigian|Brasile|2023_United_Nations_Climate_Change_Conference
+Quale città ha ospitato la COP29 nel 2024?|Baku|Dubai|Rio de Janeiro|Sharm el-Sheikh|2024_United_Nations_Climate_Change_Conference
+Come si chiama l accordo climatico globale del 2015 che punta a limitare il riscaldamento globale?|Accordo di Parigi|Protocollo di Kyoto|Green Deal europeo|Agenda 2030|Paris_Agreement
+Quale istituzione ha approvato l AI Act dell Unione europea?|Unione europea|NATO|ONU|Consiglio d Europa|European_Union
+Quale città ospita la sede centrale della NATO?|Bruxelles|Strasburgo|Lussemburgo|Ginevra|NATO
+Quale città ospita la sede centrale delle Nazioni Unite?|New York|Ginevra|L Aia|Washington|Headquarters_of_the_United_Nations
+Quale città ospita la sede centrale dell OMS?|Ginevra|Vienna|Bruxelles|Parigi|World_Health_Organization
+Quanti sono gli Stati membri dell OMS?|194|193|195|192|World_Health_Organization
+Quale istituzione europea ha sede a Francoforte e gestisce l euro?|Banca centrale europea|Commissione europea|Eurogruppo|Banca europea per gli investimenti|European_Central_Bank
+Quale moneta è usata dai paesi dell Eurozona?|Euro|Dollaro|Franco svizzero|Sterlina|Euro
+Quale paese ha presieduto il G20 nel 2024?|Brasile|India|Italia|Sudafrica|G20
+Quale città ha ospitato il vertice G20 del 2024?|Rio de Janeiro|Nuova Delhi|Roma|Johannesburg|2024_G20_Rio_de_Janeiro_summit
+Quale gruppo internazionale include Brasile Russia India Cina e Sudafrica?|BRICS|G7|NATO|ASEAN|BRICS
+Quale paese è entrato nei BRICS dal 2024 insieme ad altri nuovi membri?|Egitto|Spagna|Canada|Norvegia|BRICS
+Quale paese ha ospitato Expo 2025?|Giappone|Cina|Italia|Corea del Sud|Expo_2025
+Quale città ospita Expo 2025?|Osaka|Tokyo|Nagoya|Kyoto|Expo_2025
+Quale piattaforma di streaming è nota per la serie Squid Game?|Netflix|Disney+|Prime Video|Apple TV+|Netflix
+Quale piattaforma è proprietaria della serie The Boys?|Prime Video|Netflix|Disney+|Max|Amazon_Prime_Video
+Quale azienda è proprietaria di YouTube?|Google|Meta|Microsoft|Apple|YouTube
+Quale azienda è proprietaria di Instagram?|Meta|Snap|Google|ByteDance|Instagram
+Quale azienda è proprietaria di WhatsApp?|Meta|Telegram|Google|Apple|WhatsApp
+Quale azienda ha rinominato Twitter in X?|xAI|Meta|OpenAI|Snap|X_Corp.
+Quale azienda ha sviluppato Claude?|Anthropic|OpenAI|Google DeepMind|Meta|Anthropic
+Quale azienda è nota per il chatbot Grok?|xAI|Anthropic|OpenAI|Perplexity|xAI
+Quale motore di ricerca basato su AI ha reso popolare il brand Perplexity?|Perplexity|Bing|DuckDuckGo|Brave|Perplexity_AI
+Quale azienda ha lanciato il chatbot Le Chat nel 2024?|Mistral AI|Anthropic|Cohere|Meta|Mistral_AI
+Quale paese ha vinto l Eurovision Song Contest 2024?|Svizzera|Croazia|Ucraina|Italia|Eurovision_Song_Contest_2024
+Quale paese ha vinto il Junior Eurovision 2024? |Georgia|Francia|Spagna|Armenia|Junior_Eurovision_Song_Contest_2024
+Quale cantautrice ha concluso nel 2024 il tour mondiale The Eras Tour?|Taylor Swift|Beyoncé|Adele|Dua Lipa|The_Eras_Tour
+Quale film ha vinto l Oscar 2024 come miglior film?|Oppenheimer|Poor Things|Barbie|Killers of the Flower Moon|96th_Academy_Awards
+Quale regista ha firmato il film Oppenheimer?|Christopher Nolan|Denis Villeneuve|Martin Scorsese|Greta Gerwig|Christopher_Nolan
+Quale film d animazione Disney/Pixar del 2024 ha come titolo Inside Out 2 in italiano?|Inside Out 2|Elemental 2|Soul 2|Toy Story 5|Inside_Out_2
+Quale gioco del 2025 di Rockstar è stato annunciato con il ritorno a Vice City?|Grand Theft Auto VI|Red Dead Redemption 3|Bully 2|Max Payne 4|Grand_Theft_Auto_VI
+Quale società produce le GPU GeForce RTX?|Nvidia|AMD|Intel|Qualcomm|Nvidia
+Quale azienda sviluppa i processori Ryzen?|AMD|Intel|Apple|Qualcomm|Advanced_Micro_Devices
+Quale azienda ha realizzato i chip M1 M2 e M3?|Apple|Intel|AMD|Nvidia|Apple_silicon
+Quale servizio di streaming musicale è il più noto per Wrapped annuale?|Spotify|Apple Music|YouTube Music|Deezer|Spotify
+Quale piattaforma video breve è nota per i Reels?|Instagram|Twitch|LinkedIn|Reddit|Instagram
+Quale servizio di messaggistica è stato fondato da Pavel Durov?|Telegram|Signal|Discord|WeChat|Telegram_(software)
+Quale piattaforma è nota per i server vocali e chat usati dai gamer?|Discord|Slack|Teams|Signal|Discord
+Quale compagnia automobilistica produce la Model 3?|Tesla|BYD|Volkswagen|Toyota|Tesla,_Inc.
+Quale azienda cinese è diventata un grande produttore globale di auto elettriche?|BYD|NIO|Xpeng|Geely|BYD_Auto
+Quale casa automobilistica ha lanciato il marchio elettrico ID in Europa?|Volkswagen|Renault|Fiat|Honda|Volkswagen
+Quale città ospiterà i Giochi Olimpici invernali del 2026 insieme a Cortina?|Milano|Torino|Roma|Venezia|2026_Winter_Olympics
+Quale club ha vinto la Serie A 2023-24?|Inter|Milan|Juventus|Napoli|2023–24_Serie_A
+Quale tennista ha vinto il Roland Garros maschile 2024?|Carlos Alcaraz|Jannik Sinner|Novak Djokovic|Alexander Zverev|2024_French_Open
+Quale tennista ha vinto gli Australian Open maschili 2024?|Jannik Sinner|Daniil Medvedev|Novak Djokovic|Carlos Alcaraz|2024_Australian_Open
+Quale tennista italiana ha vinto la medaglia d oro olimpica a Parigi 2024 in doppio con Sara Errani?|Jasmine Paolini|Elisabetta Cocciaretto|Lucia Bronzetti|Martina Trevisan|Jasmine_Paolini
+Quale paese ha ospitato gli Europei di calcio del 2024?|Germania|Francia|Qatar|Inghilterra|UEFA_Euro_2024
+Quale città ha ospitato la finale di Euro 2024?|Berlino|Monaco di Baviera|Amburgo|Colonia|UEFA_Euro_2024_final
+Quale app di messaggistica usa il logo con cornetta bianca su sfondo verde?|WhatsApp|Telegram|Signal|Line|WhatsApp
+Quale browser sviluppato da Google domina il mercato desktop globale?|Chrome|Firefox|Edge|Safari|Google_Chrome
+Quale browser è sviluppato da Mozilla?|Firefox|Chrome|Edge|Opera GX|Firefox
+Quale azienda sviluppa il sistema operativo Windows?|Microsoft|Apple|Google|Linux Foundation|Microsoft_Windows
+Quale sistema operativo mobile è sviluppato da Google?|Android|iOS|HarmonyOS|Windows Phone|Android_(operating_system)
+Quale sistema operativo mobile è sviluppato da Apple?|iOS|Android|KaiOS|HarmonyOS|IOS
+Quale piattaforma di videochiamate di gruppo è integrata in Microsoft 365?|Teams|Zoom|Meet|Webex|Microsoft_Teams
+Quale servizio di videoconferenza usa spesso il verbo zoomare colloquialmente?|Zoom|Meet|Teams|Skype|Zoom_(software)
+Quale piattaforma di cloud storage è sviluppata da Google?|Google Drive|OneDrive|iCloud Drive|Dropbox|Google_Drive
+Quale piattaforma di cloud storage è sviluppata da Microsoft?|OneDrive|Google Drive|Dropbox|Box|OneDrive
+Quale piattaforma di cloud storage è sviluppata da Apple?|iCloud|Google Drive|Box|OneDrive|ICloud
+Quale social professionale è di proprietà di Microsoft?|LinkedIn|Xing|Indeed|Glassdoor|LinkedIn
+Quale azienda ha acquistato Activision Blizzard nel 2023-2024?|Microsoft|Sony|Tencent|EA|Activision_Blizzard
+Quale console portatile/ibrida di Valve compete con Switch nel gaming PC?|Steam Deck|ROG Ally|Legion Go|Playdate|Steam_Deck
+Quale azienda produce la console portatile ROG Ally?|Asus|Lenovo|MSI|Acer|Asus
+Quale piattaforma di streaming è nata da HBO Max e Max?|Max|Paramount+|Peacock|Hulu|Max_(streaming_service)
+Quale piattaforma di streaming è di proprietà di Warner Bros. Discovery?|Max|Netflix|Prime Video|Disney+|Warner_Bros._Discovery
+Quale piattaforma di streaming è di proprietà di Paramount Global?|Paramount+|Max|Netflix|Peacock|Paramount+
+Quale piattaforma di streaming è di proprietà di Comcast/NBCUniversal?|Peacock|Hulu|Disney+|Apple TV+|Peacock_(streaming_service)
+Quale motore di ricerca è sviluppato da Microsoft?|Bing|Google|Yahoo!|DuckDuckGo|Microsoft_Bing
+Quale città ospita la sede centrale di Apple?|Cupertino|Seattle|Mountain View|Austin|Apple_Park
+Quale città ospita la sede centrale di Microsoft?|Redmond|San Jose|Cupertino|Austin|Microsoft
+Quale città ospita la sede centrale di Google?|Mountain View|Palo Alto|Cupertino|San Francisco|Googleplex
+Quale città ospita la sede principale di Meta?|Menlo Park|San Jose|Seattle|Austin|Meta_Platforms
+Quale azienda produce le console PlayStation?|Sony|Microsoft|Nintendo|Sega|PlayStation
+Quale azienda produce le console Nintendo Switch?|Nintendo|Sony|Atari|Sega|Nintendo
+Quale piattaforma di streaming live è dominata dai creator gaming?|Twitch|Kick|YouTube Live|Facebook Live|Twitch_(service)
+Quale azienda possiede Twitch?|Amazon|Google|Microsoft|Meta|Twitch_(service)
+Quale società è il principale operatore di Starlink?|SpaceX|Amazon|OneWeb|SES|Starlink
+Quale progetto Amazon compete con Starlink nel satellite internet?|Project Kuiper|Blue Moon|Prime Air|Alexa Satellite|Project_Kuiper
+Quale missione europea del 2023-2024 studia l universo oscuro con un telescopio spaziale?|Euclid|Gaia|Ariel|JUICE|Euclid_(spacecraft)
+Quale missione ESA è diretta verso le lune ghiacciate di Giove?|JUICE|Rosetta|Gaia|BepiColombo|Jupiter_Icy_Moons_Explorer
+Quale missione indiana del 2023 ha studiato il polo sud lunare?|Chandrayaan-3|Mangalyaan|Aditya-L1|Gaganyaan|Chandrayaan-3
+Quale paese ha lanciato la missione Chandrayaan-3?|India|Cina|Giappone|Russia|Chandrayaan-3
+Quale marchio di smartphone è prodotto da Samsung Electronics?|Galaxy|Xperia|Pixel|Mate|Samsung_Galaxy
+Quale marchio di smartphone è prodotto da Google?|Pixel|Galaxy|Xiaomi|Redmi|Google_Pixel
+Quale azienda sviluppa HarmonyOS?|Huawei|Xiaomi|Oppo|Vivo|HarmonyOS
+Quale regione del mondo è al centro del conflitto tra Israele e Hamas dal 2023?|Striscia di Gaza|Cisgiordania soltanto|Sinai|Golan|Gaza_Strip
+Quale mare collega il Canale di Suez al Mar Rosso e al Mediterraneo?|Mediterraneo|Mar Nero|Mare del Nord|Mar Caspio|Suez_Canal
+Quale nazione ospiterà il Mondiale FIFA 2026 insieme ad altre due?|Stati Uniti|Qatar|Brasile|Germania|2026_FIFA_World_Cup
+Quale paese co-ospita il Mondiale FIFA 2026 con Stati Uniti e Messico?|Canada|Argentina|Spagna|Giappone|2026_FIFA_World_Cup

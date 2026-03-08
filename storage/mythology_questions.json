@@ -1,0 +1,1102 @@
+[
+    {
+        "testo":  "Chi e il re degli dei nella mitologia greca?",
+        "opzioni":  [
+                        "Zeus",
+                        "Poseidone",
+                        "Ade",
+                        "Apollo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Zeus"
+    },
+    {
+        "testo":  "Quale dio greco governa il mare?",
+        "opzioni":  [
+                        "Poseidone",
+                        "Zeus",
+                        "Ares",
+                        "Ermes"
+                    ],
+        "corretta":  0,
+        "image_page":  "Poseidon"
+    },
+    {
+        "testo":  "Chi e il dio degli inferi nella mitologia greca?",
+        "opzioni":  [
+                        "Ade",
+                        "Zeus",
+                        "Apollo",
+                        "Efesto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hades"
+    },
+    {
+        "testo":  "Quale dea greca e associata alla saggezza e alla guerra strategica?",
+        "opzioni":  [
+                        "Atena",
+                        "Artemide",
+                        "Era",
+                        "Afrodite"
+                    ],
+        "corretta":  0,
+        "image_page":  "Athena"
+    },
+    {
+        "testo":  "Chi e la dea dell amore nella mitologia greca?",
+        "opzioni":  [
+                        "Afrodite",
+                        "Era",
+                        "Demetra",
+                        "Persefone"
+                    ],
+        "corretta":  0,
+        "image_page":  "Aphrodite"
+    },
+    {
+        "testo":  "Quale dio greco e messaggero degli dei?",
+        "opzioni":  [
+                        "Ermes",
+                        "Apollo",
+                        "Ares",
+                        "Dioniso"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hermes"
+    },
+    {
+        "testo":  "Chi e il dio greco del sole e della musica?",
+        "opzioni":  [
+                        "Apollo",
+                        "Ermes",
+                        "Poseidone",
+                        "Efesto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Apollo"
+    },
+    {
+        "testo":  "Quale dea greca e associata alla caccia e alla luna?",
+        "opzioni":  [
+                        "Artemide",
+                        "Atena",
+                        "Hestia",
+                        "Afrodite"
+                    ],
+        "corretta":  0,
+        "image_page":  "Artemis"
+    },
+    {
+        "testo":  "Chi e il dio greco della guerra brutale?",
+        "opzioni":  [
+                        "Ares",
+                        "Apollo",
+                        "Zeus",
+                        "Ermes"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ares"
+    },
+    {
+        "testo":  "Quale dio greco fabbro forgia armi e fulmini?",
+        "opzioni":  [
+                        "Efesto",
+                        "Ares",
+                        "Ade",
+                        "Pan"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hephaestus"
+    },
+    {
+        "testo":  "Chi e la regina degli dei nella mitologia greca?",
+        "opzioni":  [
+                        "Era",
+                        "Atena",
+                        "Afrodite",
+                        "Demetra"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hera"
+    },
+    {
+        "testo":  "Quale dea greca e legata ai raccolti e alle messi?",
+        "opzioni":  [
+                        "Demetra",
+                        "Persefone",
+                        "Estia",
+                        "Era"
+                    ],
+        "corretta":  0,
+        "image_page":  "Demeter"
+    },
+    {
+        "testo":  "Chi e la figlia di Demetra rapita da Ade?",
+        "opzioni":  [
+                        "Persefone",
+                        "Artemide",
+                        "Arianna",
+                        "Elena"
+                    ],
+        "corretta":  0,
+        "image_page":  "Persephone"
+    },
+    {
+        "testo":  "Quale eroe greco uccise il Minotauro?",
+        "opzioni":  [
+                        "Teseo",
+                        "Eracle",
+                        "Giasone",
+                        "Perseo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Theseus"
+    },
+    {
+        "testo":  "Chi taglio la testa di Medusa?",
+        "opzioni":  [
+                        "Perseo",
+                        "Eracle",
+                        "Bellerofonte",
+                        "Cadmo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Perseus"
+    },
+    {
+        "testo":  "Quale eroe greco compì dodici celebri fatiche?",
+        "opzioni":  [
+                        "Eracle",
+                        "Achille",
+                        "Ulisse",
+                        "Teseo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Heracles"
+    },
+    {
+        "testo":  "Chi guidò gli Argonauti alla ricerca del Vello d oro?",
+        "opzioni":  [
+                        "Giasone",
+                        "Orfeo",
+                        "Teseo",
+                        "Cadmo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jason"
+    },
+    {
+        "testo":  "Quale eroe greco era vulnerabile solo al tallone?",
+        "opzioni":  [
+                        "Achille",
+                        "Perseo",
+                        "Eracle",
+                        "Aiace"
+                    ],
+        "corretta":  0,
+        "image_page":  "Achilles"
+    },
+    {
+        "testo":  "Chi e l eroe dell Odissea che torna a Itaca?",
+        "opzioni":  [
+                        "Ulisse",
+                        "Achille",
+                        "Agamennone",
+                        "Nestore"
+                    ],
+        "corretta":  0,
+        "image_page":  "Odysseus"
+    },
+    {
+        "testo":  "Quale mostro mezzo uomo e mezzo toro viveva nel Labirinto?",
+        "opzioni":  [
+                        "Minotauro",
+                        "Centauro",
+                        "Ciclope",
+                        "Satyr"
+                    ],
+        "corretta":  0,
+        "image_page":  "Minotaur"
+    },
+    {
+        "testo":  "Chi costruì il Labirinto di Creta?",
+        "opzioni":  [
+                        "Dedalo",
+                        "Teseo",
+                        "Minosse",
+                        "Talos"
+                    ],
+        "corretta":  0,
+        "image_page":  "Daedalus"
+    },
+    {
+        "testo":  "Quale creatura con testa di donna e corpo di leone proponeva enigmi?",
+        "opzioni":  [
+                        "Sfinge",
+                        "Chimera",
+                        "Arpia",
+                        "Gorgone"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sphinx"
+    },
+    {
+        "testo":  "Quale mostro aveva corpo di leone testa di capra e coda di serpente?",
+        "opzioni":  [
+                        "Chimera",
+                        "Cerbero",
+                        "Idra",
+                        "Medusa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Chimera_(mythology)"
+    },
+    {
+        "testo":  "Quale cane a tre teste custodiva l ingresso degli inferi?",
+        "opzioni":  [
+                        "Cerbero",
+                        "Ortros",
+                        "Fenrir",
+                        "Anubi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cerberus"
+    },
+    {
+        "testo":  "Quale mostro acquatico affrontò Eracle in una delle sue fatiche?",
+        "opzioni":  [
+                        "Idra di Lerna",
+                        "Scilla",
+                        "Cariddi",
+                        "Ketos"
+                    ],
+        "corretta":  0,
+        "image_page":  "Lernaean_Hydra"
+    },
+    {
+        "testo":  "Quale re cretese era associato al Minotauro?",
+        "opzioni":  [
+                        "Minosse",
+                        "Priamo",
+                        "Agamennone",
+                        "Laerte"
+                    ],
+        "corretta":  0,
+        "image_page":  "Minos"
+    },
+    {
+        "testo":  "Chi rubò il fuoco agli dei per donarlo agli uomini?",
+        "opzioni":  [
+                        "Prometeo",
+                        "Epimeteo",
+                        "Ermes",
+                        "Crono"
+                    ],
+        "corretta":  0,
+        "image_page":  "Prometheus"
+    },
+    {
+        "testo":  "Quale titano divora i propri figli per timore di essere spodestato?",
+        "opzioni":  [
+                        "Crono",
+                        "Atlante",
+                        "Prometeo",
+                        "Oceano"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cronus"
+    },
+    {
+        "testo":  "Chi sostiene il cielo sulle spalle nella mitologia greca?",
+        "opzioni":  [
+                        "Atlante",
+                        "Crono",
+                        "Eracle",
+                        "Talos"
+                    ],
+        "corretta":  0,
+        "image_page":  "Atlas_(mythology)"
+    },
+    {
+        "testo":  "Quale musa e tradizionalmente associata alla poesia epica?",
+        "opzioni":  [
+                        "Calliope",
+                        "Clio",
+                        "Erato",
+                        "Talia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Calliope"
+    },
+    {
+        "testo":  "Quale dio greco del vino e dell ebbrezza e noto anche come Bacco in ambito romano?",
+        "opzioni":  [
+                        "Dioniso",
+                        "Apollo",
+                        "Ares",
+                        "Pan"
+                    ],
+        "corretta":  0,
+        "image_page":  "Dionysus"
+    },
+    {
+        "testo":  "Quale dio minore greco e associato ai boschi e al flauto?",
+        "opzioni":  [
+                        "Pan",
+                        "Ermes",
+                        "Dioniso",
+                        "Ares"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pan_(god)"
+    },
+    {
+        "testo":  "Chi si innamorò del proprio riflesso secondo il mito?",
+        "opzioni":  [
+                        "Narciso",
+                        "Adone",
+                        "Orfeo",
+                        "Icaro"
+                    ],
+        "corretta":  0,
+        "image_page":  "Narcissus_(mythology)"
+    },
+    {
+        "testo":  "Quale musicista mitico discese negli inferi per Euridice?",
+        "opzioni":  [
+                        "Orfeo",
+                        "Apollo",
+                        "Anfione",
+                        "Museo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Orpheus"
+    },
+    {
+        "testo":  "Chi volò troppo vicino al Sole con ali di cera?",
+        "opzioni":  [
+                        "Icaro",
+                        "Dedalo",
+                        "Perseo",
+                        "Bellerofonte"
+                    ],
+        "corretta":  0,
+        "image_page":  "Icarus"
+    },
+    {
+        "testo":  "Quale cavallo alato aiuta Bellerofonte?",
+        "opzioni":  [
+                        "Pegaso",
+                        "Arione",
+                        "Sleipnir",
+                        "Bucefalo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pegasus"
+    },
+    {
+        "testo":  "Chi fondò Tebe dopo aver seminato i denti del drago?",
+        "opzioni":  [
+                        "Cadmo",
+                        "Anfione",
+                        "Laio",
+                        "Penteo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cadmus"
+    },
+    {
+        "testo":  "Quale veggente cieco compare in molti miti greci?",
+        "opzioni":  [
+                        "Tiresia",
+                        "Calcante",
+                        "Cassandra",
+                        "Fineo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tiresias"
+    },
+    {
+        "testo":  "Chi era la sacerdotessa troiana capace di profetizzare ma non creduta?",
+        "opzioni":  [
+                        "Cassandra",
+                        "Elena",
+                        "Andromaca",
+                        "Ecuba"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cassandra"
+    },
+    {
+        "testo":  "Quale eroe greco affrontò il cinghiale di Calidone con Atalanta?",
+        "opzioni":  [
+                        "Meleagro",
+                        "Perseo",
+                        "Giasone",
+                        "Aiace"
+                    ],
+        "corretta":  0,
+        "image_page":  "Meleager"
+    },
+    {
+        "testo":  "Quale cacciatrice è celebre per la sua velocità nella mitologia greca?",
+        "opzioni":  [
+                        "Atalanta",
+                        "Artemide",
+                        "Penelope",
+                        "Antigone"
+                    ],
+        "corretta":  0,
+        "image_page":  "Atalanta"
+    },
+    {
+        "testo":  "Chi regnava su Troia durante la guerra raccontata nell Iliade?",
+        "opzioni":  [
+                        "Priamo",
+                        "Laerte",
+                        "Agamennone",
+                        "Menelao"
+                    ],
+        "corretta":  0,
+        "image_page":  "Priam"
+    },
+    {
+        "testo":  "Quale spartano era marito di Elena?",
+        "opzioni":  [
+                        "Menelao",
+                        "Agamennone",
+                        "Paride",
+                        "Achille"
+                    ],
+        "corretta":  0,
+        "image_page":  "Menelaus"
+    },
+    {
+        "testo":  "Chi rapì Elena dando inizio alla guerra di Troia secondo il mito?",
+        "opzioni":  [
+                        "Paride",
+                        "Ettore",
+                        "Enea",
+                        "Deifobo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Paris_(mythology)"
+    },
+    {
+        "testo":  "Quale troiano e il principale difensore di Ilio nell Iliade?",
+        "opzioni":  [
+                        "Ettore",
+                        "Paride",
+                        "Enea",
+                        "Sarpedonte"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hector"
+    },
+    {
+        "testo":  "Quale eroe troiano fugge da Troia e giunge nel Lazio secondo Virgilio?",
+        "opzioni":  [
+                        "Enea",
+                        "Paride",
+                        "Ettore",
+                        "Ascanio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Aeneas"
+    },
+    {
+        "testo":  "Quale dea romana corrisponde ad Afrodite?",
+        "opzioni":  [
+                        "Venere",
+                        "Minerva",
+                        "Giunone",
+                        "Diana"
+                    ],
+        "corretta":  0,
+        "image_page":  "Venus_(mythology)"
+    },
+    {
+        "testo":  "Quale dio romano corrisponde a Zeus?",
+        "opzioni":  [
+                        "Giove",
+                        "Nettuno",
+                        "Marte",
+                        "Mercurio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jupiter_(mythology)"
+    },
+    {
+        "testo":  "Quale dio romano corrisponde a Poseidone?",
+        "opzioni":  [
+                        "Nettuno",
+                        "Giove",
+                        "Marte",
+                        "Vulcano"
+                    ],
+        "corretta":  0,
+        "image_page":  "Neptune_(mythology)"
+    },
+    {
+        "testo":  "Quale dea romana corrisponde ad Atena?",
+        "opzioni":  [
+                        "Minerva",
+                        "Venere",
+                        "Giunone",
+                        "Vesta"
+                    ],
+        "corretta":  0,
+        "image_page":  "Minerva"
+    },
+    {
+        "testo":  "Quale dio romano e associato alla guerra ed e padre di Romolo e Remo?",
+        "opzioni":  [
+                        "Marte",
+                        "Giove",
+                        "Apollo",
+                        "Mercurio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mars_(mythology)"
+    },
+    {
+        "testo":  "Quale messaggero romano degli dei corrisponde a Ermes?",
+        "opzioni":  [
+                        "Mercurio",
+                        "Vulcano",
+                        "Bacco",
+                        "Giano"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mercury_(mythology)"
+    },
+    {
+        "testo":  "Quale dea romana del focolare corrisponde a Estia?",
+        "opzioni":  [
+                        "Vesta",
+                        "Cerere",
+                        "Diana",
+                        "Venere"
+                    ],
+        "corretta":  0,
+        "image_page":  "Vesta_(mythology)"
+    },
+    {
+        "testo":  "Quale dea romana della caccia corrisponde ad Artemide?",
+        "opzioni":  [
+                        "Diana",
+                        "Minerva",
+                        "Giunone",
+                        "Cerere"
+                    ],
+        "corretta":  0,
+        "image_page":  "Diana_(mythology)"
+    },
+    {
+        "testo":  "Quale dio romano del vino corrisponde a Dioniso?",
+        "opzioni":  [
+                        "Bacco",
+                        "Marte",
+                        "Saturno",
+                        "Giano"
+                    ],
+        "corretta":  0,
+        "image_page":  "Bacchus"
+    },
+    {
+        "testo":  "Quale dio romano bifronte e legato ai passaggi e agli inizi?",
+        "opzioni":  [
+                        "Giano",
+                        "Mercurio",
+                        "Saturno",
+                        "Quirino"
+                    ],
+        "corretta":  0,
+        "image_page":  "Janus"
+    },
+    {
+        "testo":  "Chi sono i gemelli fondatori di Roma allattati da una lupa?",
+        "opzioni":  [
+                        "Romolo e Remo",
+                        "Castore e Polluce",
+                        "Anfione e Zeto",
+                        "Enea e Ascanio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Romulus_and_Remus"
+    },
+    {
+        "testo":  "Quale dio nordico brandisce il martello Mjöllnir?",
+        "opzioni":  [
+                        "Thor",
+                        "Odino",
+                        "Loki",
+                        "Tyr"
+                    ],
+        "corretta":  0,
+        "image_page":  "Thor"
+    },
+    {
+        "testo":  "Chi e il padre degli dei nella mitologia norrena?",
+        "opzioni":  [
+                        "Odino",
+                        "Thor",
+                        "Baldr",
+                        "Freyr"
+                    ],
+        "corretta":  0,
+        "image_page":  "Odin"
+    },
+    {
+        "testo":  "Quale dio norreno dell inganno e spesso ambiguo tra alleato e nemico?",
+        "opzioni":  [
+                        "Loki",
+                        "Thor",
+                        "Heimdall",
+                        "Tyr"
+                    ],
+        "corretta":  0,
+        "image_page":  "Loki"
+    },
+    {
+        "testo":  "Quale lupo mostruoso della mitologia nordica affronta Odino al Ragnarök?",
+        "opzioni":  [
+                        "Fenrir",
+                        "Sköll",
+                        "Garmr",
+                        "Jörmungandr"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fenrir"
+    },
+    {
+        "testo":  "Quale serpente marino circonda il mondo nella mitologia norrena?",
+        "opzioni":  [
+                        "Jörmungandr",
+                        "Níðhöggr",
+                        "Fafnir",
+                        "Fenrir"
+                    ],
+        "corretta":  0,
+        "image_page":  "Jörmungandr"
+    },
+    {
+        "testo":  "Quale albero cosmico collega i mondi nella mitologia norrena?",
+        "opzioni":  [
+                        "Yggdrasill",
+                        "Mimir",
+                        "Bifröst",
+                        "Valhalla"
+                    ],
+        "corretta":  0,
+        "image_page":  "Yggdrasil"
+    },
+    {
+        "testo":  "Quale luogo accoglie i guerrieri caduti scelti dalle Valchirie?",
+        "opzioni":  [
+                        "Valhalla",
+                        "Asgard",
+                        "Helheim",
+                        "Vanaheimr"
+                    ],
+        "corretta":  0,
+        "image_page":  "Valhalla"
+    },
+    {
+        "testo":  "Quale ponte arcobaleno collega Midgard e Asgard?",
+        "opzioni":  [
+                        "Bifröst",
+                        "Gjallarbrú",
+                        "Yggdrasill",
+                        "Mimirsbrunnr"
+                    ],
+        "corretta":  0,
+        "image_page":  "Bifröst"
+    },
+    {
+        "testo":  "Quale dio norreno perde una mano incatenando Fenrir?",
+        "opzioni":  [
+                        "Tyr",
+                        "Thor",
+                        "Baldr",
+                        "Heimdall"
+                    ],
+        "corretta":  0,
+        "image_page":  "Týr"
+    },
+    {
+        "testo":  "Quale dea nordica governa i morti che non cadono in battaglia?",
+        "opzioni":  [
+                        "Hel",
+                        "Frigg",
+                        "Freyja",
+                        "Skadi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hel_(being)"
+    },
+    {
+        "testo":  "Quale dio egizio ha testa di falco ed è legato al cielo e alla regalità?",
+        "opzioni":  [
+                        "Horus",
+                        "Anubi",
+                        "Seth",
+                        "Thot"
+                    ],
+        "corretta":  0,
+        "image_page":  "Horus"
+    },
+    {
+        "testo":  "Quale dio egizio dei morti e rappresentato con testa di sciacallo?",
+        "opzioni":  [
+                        "Anubi",
+                        "Osiride",
+                        "Horus",
+                        "Ra"
+                    ],
+        "corretta":  0,
+        "image_page":  "Anubis"
+    },
+    {
+        "testo":  "Quale dio egizio del Sole attraversa il cielo sulla barca solare?",
+        "opzioni":  [
+                        "Ra",
+                        "Osiride",
+                        "Amon",
+                        "Thot"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ra"
+    },
+    {
+        "testo":  "Chi e il dio egizio dei morti e della rinascita, sposo di Iside?",
+        "opzioni":  [
+                        "Osiride",
+                        "Seth",
+                        "Horus",
+                        "Ptah"
+                    ],
+        "corretta":  0,
+        "image_page":  "Osiris"
+    },
+    {
+        "testo":  "Quale dea egizia e associata alla magia e alla maternità, sposa di Osiride?",
+        "opzioni":  [
+                        "Iside",
+                        "Hathor",
+                        "Maat",
+                        "Nefti"
+                    ],
+        "corretta":  0,
+        "image_page":  "Isis"
+    },
+    {
+        "testo":  "Quale dio egizio del caos e del deserto uccide Osiride?",
+        "opzioni":  [
+                        "Seth",
+                        "Anubi",
+                        "Sobek",
+                        "Thot"
+                    ],
+        "corretta":  0,
+        "image_page":  "Set_(deity)"
+    },
+    {
+        "testo":  "Quale dea egizia della verità e dell ordine ha una piuma come simbolo?",
+        "opzioni":  [
+                        "Maat",
+                        "Iside",
+                        "Sekhmet",
+                        "Bastet"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ma\u0027at"
+    },
+    {
+        "testo":  "Quale dio egizio della scrittura e della sapienza ha spesso testa di ibis?",
+        "opzioni":  [
+                        "Thot",
+                        "Ptah",
+                        "Khnum",
+                        "Sobek"
+                    ],
+        "corretta":  0,
+        "image_page":  "Thoth"
+    },
+    {
+        "testo":  "Quale dea egizia felina e protettrice della casa?",
+        "opzioni":  [
+                        "Bastet",
+                        "Sekhmet",
+                        "Hathor",
+                        "Neit"
+                    ],
+        "corretta":  0,
+        "image_page":  "Bastet"
+    },
+    {
+        "testo":  "Quale dea leonessa egizia è associata alla guerra e alle pestilenze?",
+        "opzioni":  [
+                        "Sekhmet",
+                        "Bastet",
+                        "Maat",
+                        "Iside"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sekhmet"
+    },
+    {
+        "testo":  "Quale essere egizio divora il cuore dei morti impuri nel giudizio?",
+        "opzioni":  [
+                        "Ammit",
+                        "Anubi",
+                        "Apopi",
+                        "Seth"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ammit"
+    },
+    {
+        "testo":  "Quale dio egizio coccodrillo e legato al Nilo e alla fertilità?",
+        "opzioni":  [
+                        "Sobek",
+                        "Anubi",
+                        "Khnum",
+                        "Ptah"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sobek"
+    },
+    {
+        "testo":  "Quale mostro della mitologia greca era composto da donne-uccello che attiravano i marinai?",
+        "opzioni":  [
+                        "Sirene",
+                        "Arpie",
+                        "Gorgoni",
+                        "Moirai"
+                    ],
+        "corretta":  0,
+        "image_page":  "Siren_(mythology)"
+    },
+    {
+        "testo":  "Chi erano le tre dee del destino nella mitologia greca?",
+        "opzioni":  [
+                        "Moirai",
+                        "Erinni",
+                        "Grazie",
+                        "Ore"
+                    ],
+        "corretta":  0,
+        "image_page":  "Moirai"
+    },
+    {
+        "testo":  "Quali sorelle vendicatrici inseguivano i colpevoli di delitti di sangue?",
+        "opzioni":  [
+                        "Erinni",
+                        "Moirai",
+                        "Grazie",
+                        "Gorgoni"
+                    ],
+        "corretta":  0,
+        "image_page":  "Erinyes"
+    },
+    {
+        "testo":  "Quale figura mitica custodiva il vello d oro in Colchide?",
+        "opzioni":  [
+                        "Drago di Colchide",
+                        "Idra",
+                        "Cerbero",
+                        "Talos"
+                    ],
+        "corretta":  0,
+        "image_page":  "Colchis_Dragon"
+    },
+    {
+        "testo":  "Quale gigante di bronzo proteggeva Creta nel mito greco?",
+        "opzioni":  [
+                        "Talos",
+                        "Atlante",
+                        "Polifemo",
+                        "Tifone"
+                    ],
+        "corretta":  0,
+        "image_page":  "Talos"
+    },
+    {
+        "testo":  "Quale ciclope acceca Ulisse nell Odissea?",
+        "opzioni":  [
+                        "Polifemo",
+                        "Briareo",
+                        "Argo",
+                        "Penteo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Polyphemus"
+    },
+    {
+        "testo":  "Quale eroe greco uccise la Chimera cavalcando Pegaso?",
+        "opzioni":  [
+                        "Bellerofonte",
+                        "Perseo",
+                        "Giasone",
+                        "Eracle"
+                    ],
+        "corretta":  0,
+        "image_page":  "Bellerophon"
+    },
+    {
+        "testo":  "Chi e il dio greco del sonno, fratello di Thanatos?",
+        "opzioni":  [
+                        "Hypnos",
+                        "Morfeo",
+                        "Pan",
+                        "Asclepio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hypnos"
+    },
+    {
+        "testo":  "Quale dio greco della medicina porta un bastone con serpente?",
+        "opzioni":  [
+                        "Asclepio",
+                        "Hermes",
+                        "Apollo",
+                        "Panacea"
+                    ],
+        "corretta":  0,
+        "image_page":  "Asclepius"
+    },
+    {
+        "testo":  "Quale dea greca personifica l alba?",
+        "opzioni":  [
+                        "Eos",
+                        "Selene",
+                        "Nyx",
+                        "Iride"
+                    ],
+        "corretta":  0,
+        "image_page":  "Eos"
+    },
+    {
+        "testo":  "Quale dea o titanide personifica la notte nella mitologia greca?",
+        "opzioni":  [
+                        "Nyx",
+                        "Eos",
+                        "Hemera",
+                        "Hecate"
+                    ],
+        "corretta":  0,
+        "image_page":  "Nyx"
+    },
+    {
+        "testo":  "Quale dea lunare greca guida il carro della luna nel cielo notturno?",
+        "opzioni":  [
+                        "Selene",
+                        "Artemide",
+                        "Eos",
+                        "Persefone"
+                    ],
+        "corretta":  0,
+        "image_page":  "Selene"
+    },
+    {
+        "testo":  "Quale dea greca della magia e dei crocicchi compare spesso con torce?",
+        "opzioni":  [
+                        "Ecate",
+                        "Circe",
+                        "Medea",
+                        "Nyx"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hecate"
+    },
+    {
+        "testo":  "Quale maga della Colchide aiuta Giasone e poi fugge con lui?",
+        "opzioni":  [
+                        "Medea",
+                        "Circe",
+                        "Penelope",
+                        "Calipso"
+                    ],
+        "corretta":  0,
+        "image_page":  "Medea"
+    },
+    {
+        "testo":  "Quale ninfa trattiene Ulisse per anni sulla sua isola?",
+        "opzioni":  [
+                        "Calipso",
+                        "Circe",
+                        "Nausicaa",
+                        "Atena"
+                    ],
+        "corretta":  0,
+        "image_page":  "Calypso_(mythology)"
+    },
+    {
+        "testo":  "Quale maga trasforma in porci i compagni di Ulisse?",
+        "opzioni":  [
+                        "Circe",
+                        "Medea",
+                        "Calipso",
+                        "Ecate"
+                    ],
+        "corretta":  0,
+        "image_page":  "Circe"
+    },
+    {
+        "testo":  "Quale fanciulla spartana contesa provoca la guerra di Troia?",
+        "opzioni":  [
+                        "Elena",
+                        "Cassandra",
+                        "Andromaca",
+                        "Clitennestra"
+                    ],
+        "corretta":  0,
+        "image_page":  "Helen_of_Troy"
+    },
+    {
+        "testo":  "Chi fu punito a spingere eternamente un masso in salita?",
+        "opzioni":  [
+                        "Sisifo",
+                        "Tantalo",
+                        "Issione",
+                        "Prometeo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sisyphus"
+    },
+    {
+        "testo":  "Quale personaggio mitico soffre fame e sete eterne tra frutti e acqua irraggiungibili?",
+        "opzioni":  [
+                        "Tantalo",
+                        "Sisifo",
+                        "Prometeo",
+                        "Atlante"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tantalus"
+    },
+    {
+        "testo":  "Chi fu legato a una ruota infuocata per aver offeso gli dei?",
+        "opzioni":  [
+                        "Issione",
+                        "Sisifo",
+                        "Tantalo",
+                        "Capaneo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ixion"
+    },
+    {
+        "testo":  "Quale eroe greco era invulnerabile tranne che in un punto del corpo?",
+        "opzioni":  [
+                        "Achille",
+                        "Aiace",
+                        "Diomede",
+                        "Patroclo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Achilles"
+    }
+]

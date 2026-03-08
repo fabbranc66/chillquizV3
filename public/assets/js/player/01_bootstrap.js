@@ -23,6 +23,7 @@
 
     partecipazioneId: null,
     currentState: null,
+    activeScreenId: null,
 
     pollingInterval: null,
     joinRequestPolling: null,

@@ -39,9 +39,191 @@
     const normalized = normalizePath(path);
     if (!normalized) return '';
     if (/^https?:\/\//i.test(normalized) || normalized.startsWith('data:')) return normalized;
-    const publicBasePath = String(window.location.pathname || '').replace(/index\.php.*$/i, '');
+    const publicBasePath = String(S.PUBLIC_BASE_URL || '/');
     const normalizedBase = publicBasePath.endsWith('/') ? publicBasePath : `${publicBasePath}/`;
     return `${window.location.origin}${normalizedBase}${normalized.replace(/^\/+/, '')}`;
+  }
+
+  function buildSearchUrl(baseUrl, query) {
+    const q = String(query || '').trim();
+    if (!q) return '';
+    return `${baseUrl}${encodeURIComponent(q)}`;
+  }
+
+  function buildPexelsSearchUrl(query) {
+    const q = String(query || '').trim();
+    if (!q) return '';
+    return `https://www.pexels.com/search/${encodeURIComponent(q)}/`;
+  }
+
+  async function copyTextToClipboard(value) {
+    const text = String(value || '');
+    if (!text) return false;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    } catch (e) {
+      console.warn(e);
+    }
+
+    const area = document.createElement('textarea');
+    area.value = text;
+    area.setAttribute('readonly', 'readonly');
+    area.style.position = 'fixed';
+    area.style.opacity = '0';
+    document.body.appendChild(area);
+    area.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(area);
+    return !!ok;
+  }
+
+  function buildRiskLabel(risk) {
+    const value = String(risk || '').trim().toLowerCase();
+    if (value === 'high') return 'rischio spoiler alto';
+    if (value === 'medium') return 'da rivedere';
+    return 'ok';
+  }
+
+  function buildStatusLabel(status) {
+    const value = String(status || '').trim().toLowerCase();
+    if (value === 'missing') return 'immagine mancante';
+    if (value === 'generic') return 'placeholder generico';
+    if (value === 'spoiler') return 'nome file spoiler';
+    if (value === 'vector') return 'immagine vettoriale';
+    return 'immagine presente';
+  }
+
+  function syncSessionImageSearchButton() {
+    if (!D.btnSearchSessionImages) return;
+    const visible = !!D.sessionImageSearchReport && D.sessionImageSearchReport.style.display !== 'none';
+    D.btnSearchSessionImages.textContent = visible ? 'Chiudi ricerca immagini' : 'Ricerca immagini sessione';
+    D.btnSearchSessionImages.classList.toggle('enabled', visible);
+    D.btnSearchSessionImages.classList.toggle('disabled', !visible);
+  }
+
+  function setSessionImageSearchVisibility(visible) {
+    if (!D.sessionImageSearchReport) return;
+    D.sessionImageSearchReport.style.display = visible ? 'block' : 'none';
+    syncSessionImageSearchButton();
+  }
+
+  function renderSessionImageSearchReport(report) {
+    if (!D.sessionImageSearchReport || !D.sessionImageSearchSummary || !D.sessionImageSearchList) return;
+
+    const items = Array.isArray(report?.items) ? report.items : [];
+    const summary = report?.summary || {};
+    const sessionName = escapeHtml(String(report?.sessione_nome || `Sessione ${Number(report?.sessione_id || 0)}`));
+
+    setSessionImageSearchVisibility(true);
+    D.sessionImageSearchSummary.innerHTML = `
+      <strong>${sessionName}</strong> · totale=${Number(summary.total || 0)} · da rivedere=${Number(summary.needs_attention || 0)} ·
+      placeholder/mancanti=${Number(summary.generic_or_missing || 0)} · spoiler alto=${Number(summary.spoiler_risk_high || 0)}
+    `;
+
+    if (items.length === 0) {
+      D.sessionImageSearchList.innerHTML = '<div class="qa-search-empty">Nessuna domanda trovata nella sessione.</div>';
+      return;
+    }
+
+    D.sessionImageSearchList.innerHTML = items.map((item) => {
+      const imagePath = normalizePath(item.media_image_path || '');
+      const imageUrl = imagePath ? resolveMediaUrl(imagePath) : '';
+      const targetFilename = String(item.target_filename || '').trim();
+      const targetFolder = String(item.target_folder || '').trim();
+      const targetAbsolute = String(item.target_absolute_path || '').trim();
+      const googleUrl = buildSearchUrl('https://www.google.com/search?tbm=isch&q=', item.search_query || '');
+      const pexelsUrl = buildPexelsSearchUrl(item.search_query || '');
+      const wikimediaUrl = buildSearchUrl('https://commons.wikimedia.org/w/index.php?search=', item.search_query_backup || item.search_query || '');
+      const thumbHtml = imageUrl
+        ? `<img class="qa-search-thumb" src="${escapeHtml(imageUrl)}" alt="Anteprima domanda ${Number(item.domanda_id || 0)}" loading="lazy">`
+        : `<div class="qa-search-thumb qa-search-thumb-empty">NO IMG</div>`;
+
+      return `
+        <div class="qa-search-item">
+          <div class="qa-search-media">${thumbHtml}</div>
+          <div class="qa-search-content">
+            <div class="qa-search-head">
+              <strong>#${Number(item.posizione || 0)} · [${Number(item.domanda_id || 0)}]</strong>
+              <span class="qa-search-pill">${escapeHtml(buildStatusLabel(item.status))}</span>
+              <span class="qa-search-pill qa-search-pill-risk">${escapeHtml(buildRiskLabel(item.spoiler_risk))}</span>
+            </div>
+            <div class="qa-search-question">${escapeHtml(String(item.testo || ''))}</div>
+            <div class="qa-search-meta">
+              argomento=${escapeHtml(String(item.argomento || '-'))} · risposta=${escapeHtml(String(item.risposta_corretta || '-'))}
+            </div>
+            <div class="qa-search-meta">
+              attuale=${escapeHtml(imagePath || '(vuoto)')} · motivo=${escapeHtml(String(item.analysis_reason || ''))}
+            </div>
+            <div class="qa-search-query">
+              query foto: <code>${escapeHtml(String(item.search_query || ''))}</code>
+            </div>
+            <div class="qa-search-query">
+              backup: <code>${escapeHtml(String(item.search_query_backup || ''))}</code>
+            </div>
+            <div class="qa-search-targets">
+              <div class="qa-search-target-line">
+                salva in: <code>${escapeHtml(targetFolder)}</code>
+                <button type="button" class="qa-mini-btn" data-copy-text="${escapeHtml(targetFolder)}" data-copy-label="cartella">Copia cartella</button>
+              </div>
+              <div class="qa-search-target-line">
+                nome file: <code>${escapeHtml(targetFilename)}</code>
+                <button type="button" class="qa-mini-btn" data-copy-text="${escapeHtml(targetFilename)}" data-copy-label="nome file">Copia nome</button>
+              </div>
+              <div class="qa-search-target-line">
+                path completo: <code>${escapeHtml(targetAbsolute)}</code>
+                <button type="button" class="qa-mini-btn" data-copy-text="${escapeHtml(targetAbsolute)}" data-copy-label="path completo">Copia path</button>
+              </div>
+            </div>
+            <div class="qa-search-links">
+              <button type="button" class="qa-mini-btn" data-open-url="${escapeHtml(googleUrl)}" data-open-label="Google Immagini">Google Immagini</button>
+              <button type="button" class="qa-mini-btn" data-open-url="${escapeHtml(pexelsUrl)}" data-open-label="Pexels">Pexels</button>
+              <button type="button" class="qa-mini-btn" data-open-url="${escapeHtml(wikimediaUrl)}" data-open-label="Wikimedia">Wikimedia</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    D.sessionImageSearchList.querySelectorAll('[data-copy-text]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const text = String(button.getAttribute('data-copy-text') || '');
+        const label = String(button.getAttribute('data-copy-label') || 'testo');
+        const ok = await copyTextToClipboard(text);
+        addLog({
+          ok,
+          title: 'clipboard',
+          message: ok ? `${label} copiato` : `Impossibile copiare ${label}`,
+          data: ok ? { value: text } : { attempted: text },
+        });
+      });
+    });
+
+    D.sessionImageSearchList.querySelectorAll('[data-open-url]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const url = String(button.getAttribute('data-open-url') || '').trim();
+        const label = String(button.getAttribute('data-open-label') || 'ricerca');
+        if (!url) {
+          addLog({
+            ok: false,
+            title: 'ricerca-immagini',
+            message: `URL non valido per ${label}`,
+            data: {},
+          });
+          return;
+        }
+
+        window.open(url, '_blank', 'noopener,noreferrer');
+        addLog({
+          ok: true,
+          title: 'ricerca-immagini',
+          message: `${label} aperto con query dedicata`,
+          data: { url },
+        });
+      });
+    });
   }
 
   function ensureDefaultMediaPreviewValue() {
@@ -981,7 +1163,12 @@
         const testo = escapeHtml(String(d.testo || ''));
         const tipo = escapeHtml(String(d.tipo_domanda || 'CLASSIC'));
         const fase = escapeHtml(String(d.fase_domanda || 'domanda'));
-        const hasMedia = String(d.media_image_path || '').trim() !== '' || String(d.media_audio_path || '').trim() !== '';
+        const imagePath = normalizePath(d.media_image_path || '');
+        const imageUrl = imagePath ? resolveMediaUrl(imagePath) : '';
+        const hasMedia = imagePath !== '' || String(d.media_audio_path || '').trim() !== '';
+        const thumbHtml = imageUrl
+          ? `<div class="qa-item-thumb-wrap"><img class="qa-item-thumb" src="${escapeHtml(imageUrl)}" alt="Anteprima domanda ${id}" loading="lazy" onerror="this.parentNode.classList.add('qa-item-thumb-fallback'); this.remove();"></div>`
+          : '';
 
         return `<div
           data-edit-domanda-id="${id}"
@@ -989,7 +1176,8 @@
           tabindex="0"
           class="qa-item"
         >
-          <div style="min-width:0;">
+          ${thumbHtml}
+          <div class="qa-item-content">
             <div class="qa-item-main">#${posizione} · [${id}] ${testo}</div>
             <div class="qa-item-meta">
               codice=${codice} · tipo=${tipo} · fase=${fase} · media=${hasMedia ? 'si' : 'no'}
@@ -1011,6 +1199,77 @@
           }
         };
       });
+    },
+
+    async cercaImmaginiSessioneCorrente() {
+      const targetSessioneId = Number(D.sessioneSelect?.value || S.SESSIONE_ID || 0);
+      const isVisible = !!D.sessionImageSearchReport && D.sessionImageSearchReport.style.display !== 'none';
+
+      if (isVisible) {
+        setSessionImageSearchVisibility(false);
+        return;
+      }
+
+      if (Number(S.sessionImageSearchSessionId || 0) === targetSessioneId && D.sessionImageSearchList?.innerHTML) {
+        setSessionImageSearchVisibility(true);
+        return;
+      }
+
+      if (S.sessionImageSearchInFlight) {
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('sessione_id', String(targetSessioneId));
+
+      try {
+        S.sessionImageSearchInFlight = true;
+        const res = await fetch(`${S.API_BASE}/admin/sessione-image-search/0`, {
+          method: 'POST',
+          headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
+          body: formData,
+        });
+
+        const data = await res.json();
+        if (!data.success || !data.report) {
+          addLog({
+            ok: false,
+            title: 'sessione-image-search',
+            message: data.error || 'Errore analisi immagini sessione',
+            data,
+          });
+          return;
+        }
+
+        renderSessionImageSearchReport(data.report);
+        S.sessionImageSearchSessionId = Number(data.sessione_id || targetSessioneId || 0);
+        addLog({
+          ok: true,
+          title: 'sessione-image-search',
+          message: `Analisi immagini pronta per sessione ${Number(data.sessione_id || targetSessioneId)}`,
+          data: data.report.summary || {},
+        });
+      } catch (e) {
+        addLog({
+          ok: false,
+          title: 'sessione-image-search',
+          message: 'Errore rete durante l\'analisi immagini',
+          data: { error: String(e?.message || e) },
+        });
+      } finally {
+        S.sessionImageSearchInFlight = false;
+      }
+    },
+
+    resetSessionImageSearchReport() {
+      S.sessionImageSearchSessionId = 0;
+      if (D.sessionImageSearchSummary) {
+        D.sessionImageSearchSummary.textContent = 'Nessuna analisi eseguita';
+      }
+      if (D.sessionImageSearchList) {
+        D.sessionImageSearchList.innerHTML = '';
+      }
+      setSessionImageSearchVisibility(false);
     },
 
     toggleDomandeSessione() {

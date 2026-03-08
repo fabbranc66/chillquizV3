@@ -1,0 +1,1102 @@
+[
+    {
+        "testo":  "Quanto fa 7 x 8?",
+        "opzioni":  [
+                        "56",
+                        "54",
+                        "48",
+                        "64"
+                    ],
+        "corretta":  0,
+        "image_page":  "Multiplication"
+    },
+    {
+        "testo":  "Quanto fa 144 diviso 12?",
+        "opzioni":  [
+                        "12",
+                        "11",
+                        "14",
+                        "16"
+                    ],
+        "corretta":  0,
+        "image_page":  "Division_(mathematics)"
+    },
+    {
+        "testo":  "Quale numero è il quadrato di 9?",
+        "opzioni":  [
+                        "81",
+                        "72",
+                        "99",
+                        "18"
+                    ],
+        "corretta":  0,
+        "image_page":  "Square_number"
+    },
+    {
+        "testo":  "Quanto vale 3 al cubo?",
+        "opzioni":  [
+                        "27",
+                        "9",
+                        "18",
+                        "81"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cube_(algebra)"
+    },
+    {
+        "testo":  "Quale numero primo e pari?",
+        "opzioni":  [
+                        "2",
+                        "3",
+                        "5",
+                        "7"
+                    ],
+        "corretta":  0,
+        "image_page":  "Prime_number"
+    },
+    {
+        "testo":  "Quanto fa 15 + 27?",
+        "opzioni":  [
+                        "42",
+                        "40",
+                        "43",
+                        "44"
+                    ],
+        "corretta":  0,
+        "image_page":  "Addition"
+    },
+    {
+        "testo":  "Quanto fa 90 - 37?",
+        "opzioni":  [
+                        "53",
+                        "57",
+                        "47",
+                        "63"
+                    ],
+        "corretta":  0,
+        "image_page":  "Subtraction"
+    },
+    {
+        "testo":  "Quale frazione e equivalente a un mezzo?",
+        "opzioni":  [
+                        "2/4",
+                        "3/5",
+                        "1/3",
+                        "4/5"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fraction_(mathematics)"
+    },
+    {
+        "testo":  "Quanto vale il 25% di 200?",
+        "opzioni":  [
+                        "50",
+                        "25",
+                        "40",
+                        "75"
+                    ],
+        "corretta":  0,
+        "image_page":  "Percentage"
+    },
+    {
+        "testo":  "Quale numero rappresenta il doppio di 18?",
+        "opzioni":  [
+                        "36",
+                        "28",
+                        "27",
+                        "32"
+                    ],
+        "corretta":  0,
+        "image_page":  "Multiplication"
+    },
+    {
+        "testo":  "Quanto fa 11 x 11?",
+        "opzioni":  [
+                        "121",
+                        "111",
+                        "101",
+                        "132"
+                    ],
+        "corretta":  0,
+        "image_page":  "Multiplication"
+    },
+    {
+        "testo":  "Quanto vale la radice quadrata di 64?",
+        "opzioni":  [
+                        "8",
+                        "6",
+                        "7",
+                        "9"
+                    ],
+        "corretta":  0,
+        "image_page":  "Square_root"
+    },
+    {
+        "testo":  "Quale numero e divisibile per 3?",
+        "opzioni":  [
+                        "27",
+                        "28",
+                        "25",
+                        "22"
+                    ],
+        "corretta":  0,
+        "image_page":  "Divisibility_rule"
+    },
+    {
+        "testo":  "Quanto fa 5/10 semplificato?",
+        "opzioni":  [
+                        "1/2",
+                        "1/5",
+                        "2/5",
+                        "5/2"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fraction_(mathematics)"
+    },
+    {
+        "testo":  "Quale risultato si ottiene sommando 1/4 e 1/4?",
+        "opzioni":  [
+                        "1/2",
+                        "1/4",
+                        "2/3",
+                        "3/4"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fraction_(mathematics)"
+    },
+    {
+        "testo":  "Quanto fa 6 x 7 - 5?",
+        "opzioni":  [
+                        "37",
+                        "42",
+                        "35",
+                        "47"
+                    ],
+        "corretta":  0,
+        "image_page":  "Order_of_operations"
+    },
+    {
+        "testo":  "Quale numero e multiplo di 9?",
+        "opzioni":  [
+                        "81",
+                        "82",
+                        "83",
+                        "85"
+                    ],
+        "corretta":  0,
+        "image_page":  "Multiple_(mathematics)"
+    },
+    {
+        "testo":  "Quanto fa 1000 - 475?",
+        "opzioni":  [
+                        "525",
+                        "575",
+                        "625",
+                        "425"
+                    ],
+        "corretta":  0,
+        "image_page":  "Subtraction"
+    },
+    {
+        "testo":  "Quale numero romano corrisponde a 50?",
+        "opzioni":  [
+                        "L",
+                        "X",
+                        "C",
+                        "V"
+                    ],
+        "corretta":  0,
+        "image_page":  "Roman_numerals"
+    },
+    {
+        "testo":  "Quanto fa 2,5 + 1,5?",
+        "opzioni":  [
+                        "4",
+                        "3",
+                        "3,5",
+                        "5"
+                    ],
+        "corretta":  0,
+        "image_page":  "Decimal"
+    },
+    {
+        "testo":  "Quale angolo misura 90 gradi?",
+        "opzioni":  [
+                        "Angolo retto",
+                        "Angolo acuto",
+                        "Angolo ottuso",
+                        "Angolo giro"
+                    ],
+        "corretta":  0,
+        "image_page":  "Right_angle"
+    },
+    {
+        "testo":  "Quale figura geometrica ha tre lati?",
+        "opzioni":  [
+                        "Triangolo",
+                        "Quadrato",
+                        "Cerchio",
+                        "Pentagono"
+                    ],
+        "corretta":  0,
+        "image_page":  "Triangle"
+    },
+    {
+        "testo":  "Quanti lati ha un esagono?",
+        "opzioni":  [
+                        "6",
+                        "5",
+                        "7",
+                        "8"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hexagon"
+    },
+    {
+        "testo":  "Quale figura ha tutti i punti equidistanti dal centro?",
+        "opzioni":  [
+                        "Cerchio",
+                        "Rettangolo",
+                        "Rombo",
+                        "Trapezio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Circle"
+    },
+    {
+        "testo":  "Come si chiama un triangolo con tutti i lati uguali?",
+        "opzioni":  [
+                        "Equilatero",
+                        "Scaleno",
+                        "Isoscele",
+                        "Rettangolo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Equilateral_triangle"
+    },
+    {
+        "testo":  "Come si chiama un quadrilatero con quattro lati uguali e quattro angoli retti?",
+        "opzioni":  [
+                        "Quadrato",
+                        "Rombo",
+                        "Rettangolo",
+                        "Trapezio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Square"
+    },
+    {
+        "testo":  "Quale poligono ha otto lati?",
+        "opzioni":  [
+                        "Ottagono",
+                        "Ettagono",
+                        "Esagono",
+                        "Decagono"
+                    ],
+        "corretta":  0,
+        "image_page":  "Octagon"
+    },
+    {
+        "testo":  "Quanti gradi misura un angolo piatto?",
+        "opzioni":  [
+                        "180",
+                        "90",
+                        "270",
+                        "360"
+                    ],
+        "corretta":  0,
+        "image_page":  "Straight_angle"
+    },
+    {
+        "testo":  "Quanti gradi misura un angolo giro?",
+        "opzioni":  [
+                        "360",
+                        "180",
+                        "90",
+                        "270"
+                    ],
+        "corretta":  0,
+        "image_page":  "Full_circle"
+    },
+    {
+        "testo":  "Quale e la formula dell area del rettangolo?",
+        "opzioni":  [
+                        "base x altezza",
+                        "lato x lato",
+                        "base x altezza diviso 2",
+                        "2 x base + 2 x altezza"
+                    ],
+        "corretta":  0,
+        "image_page":  "Rectangle"
+    },
+    {
+        "testo":  "Quale e la formula dell area del triangolo?",
+        "opzioni":  [
+                        "base x altezza diviso 2",
+                        "lato x lato",
+                        "base x altezza",
+                        "2 x base + 2 x altezza"
+                    ],
+        "corretta":  0,
+        "image_page":  "Triangle"
+    },
+    {
+        "testo":  "Quale e la formula del perimetro del quadrato?",
+        "opzioni":  [
+                        "4 x lato",
+                        "2 x lato",
+                        "lato x lato",
+                        "2 x base + 2 x altezza"
+                    ],
+        "corretta":  0,
+        "image_page":  "Square"
+    },
+    {
+        "testo":  "Quale e la formula del perimetro del rettangolo?",
+        "opzioni":  [
+                        "2 x base + 2 x altezza",
+                        "base x altezza",
+                        "4 x lato",
+                        "base + altezza"
+                    ],
+        "corretta":  0,
+        "image_page":  "Rectangle"
+    },
+    {
+        "testo":  "Come si chiama il segmento che unisce il centro del cerchio a un punto della circonferenza?",
+        "opzioni":  [
+                        "Raggio",
+                        "Diametro",
+                        "Corda",
+                        "Tangente"
+                    ],
+        "corretta":  0,
+        "image_page":  "Radius"
+    },
+    {
+        "testo":  "Come si chiama il segmento che passa per il centro e unisce due punti della circonferenza?",
+        "opzioni":  [
+                        "Diametro",
+                        "Raggio",
+                        "Apotema",
+                        "Corda"
+                    ],
+        "corretta":  0,
+        "image_page":  "Diameter"
+    },
+    {
+        "testo":  "Quante facce ha un cubo?",
+        "opzioni":  [
+                        "6",
+                        "4",
+                        "8",
+                        "12"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cube"
+    },
+    {
+        "testo":  "Quanti spigoli ha un cubo?",
+        "opzioni":  [
+                        "12",
+                        "8",
+                        "6",
+                        "10"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cube"
+    },
+    {
+        "testo":  "Come si chiama un solido con base circolare e vertice?",
+        "opzioni":  [
+                        "Cono",
+                        "Cilindro",
+                        "Prisma",
+                        "Cubo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cone"
+    },
+    {
+        "testo":  "Quale solido ha sei facce rettangolari congruenti a due a due?",
+        "opzioni":  [
+                        "Parallelepipedo rettangolo",
+                        "Cono",
+                        "Sfera",
+                        "Piramide"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cuboid"
+    },
+    {
+        "testo":  "Quale solido non ha spigoli né vertici?",
+        "opzioni":  [
+                        "Sfera",
+                        "Cubo",
+                        "Cono",
+                        "Prisma"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sphere"
+    },
+    {
+        "testo":  "Come si chiama il valore che appare più volte in una raccolta di dati?",
+        "opzioni":  [
+                        "Moda",
+                        "Media",
+                        "Mediana",
+                        "Varianza"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mode_(statistics)"
+    },
+    {
+        "testo":  "Come si chiama la somma dei valori divisa per il loro numero?",
+        "opzioni":  [
+                        "Media aritmetica",
+                        "Moda",
+                        "Mediana",
+                        "Scarto medio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Arithmetic_mean"
+    },
+    {
+        "testo":  "Come si chiama il valore centrale in una serie ordinata di dati?",
+        "opzioni":  [
+                        "Mediana",
+                        "Media",
+                        "Moda",
+                        "Percentile"
+                    ],
+        "corretta":  0,
+        "image_page":  "Median"
+    },
+    {
+        "testo":  "Se lanci una moneta equa qual è la probabilità di testa?",
+        "opzioni":  [
+                        "1/2",
+                        "1/3",
+                        "1/4",
+                        "2/3"
+                    ],
+        "corretta":  0,
+        "image_page":  "Probability"
+    },
+    {
+        "testo":  "Quanti risultati possibili ci sono lanciando un dado standard?",
+        "opzioni":  [
+                        "6",
+                        "5",
+                        "8",
+                        "10"
+                    ],
+        "corretta":  0,
+        "image_page":  "Dice"
+    },
+    {
+        "testo":  "Quale probabilità e impossibile da superare?",
+        "opzioni":  [
+                        "1",
+                        "0",
+                        "2",
+                        "1,5"
+                    ],
+        "corretta":  0,
+        "image_page":  "Probability_axioms"
+    },
+    {
+        "testo":  "Come si chiama il grafico a forma di cerchio diviso in settori?",
+        "opzioni":  [
+                        "Grafico a torta",
+                        "Istogramma",
+                        "Diagramma cartesiano",
+                        "Poligono delle frequenze"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pie_chart"
+    },
+    {
+        "testo":  "Quanto fa 2 + 2 x 3 rispettando le priorità delle operazioni?",
+        "opzioni":  [
+                        "8",
+                        "12",
+                        "10",
+                        "6"
+                    ],
+        "corretta":  0,
+        "image_page":  "Order_of_operations"
+    },
+    {
+        "testo":  "Quanto fa (2 + 2) x 3?",
+        "opzioni":  [
+                        "12",
+                        "8",
+                        "10",
+                        "6"
+                    ],
+        "corretta":  0,
+        "image_page":  "Order_of_operations"
+    },
+    {
+        "testo":  "Quanto fa 49 diviso 7?",
+        "opzioni":  [
+                        "7",
+                        "6",
+                        "8",
+                        "9"
+                    ],
+        "corretta":  0,
+        "image_page":  "Division_(mathematics)"
+    },
+    {
+        "testo":  "Qual è il minimo comune multiplo di 4 e 6?",
+        "opzioni":  [
+                        "12",
+                        "24",
+                        "8",
+                        "10"
+                    ],
+        "corretta":  0,
+        "image_page":  "Least_common_multiple"
+    },
+    {
+        "testo":  "Qual è il massimo comune divisore di 18 e 24?",
+        "opzioni":  [
+                        "6",
+                        "3",
+                        "12",
+                        "9"
+                    ],
+        "corretta":  0,
+        "image_page":  "Greatest_common_divisor"
+    },
+    {
+        "testo":  "Quale numero e il successivo di -3 sulla retta dei numeri?",
+        "opzioni":  [
+                        " -2",
+                        " -4",
+                        "2",
+                        "3"
+                    ],
+        "corretta":  0,
+        "image_page":  "Integer"
+    },
+    {
+        "testo":  "Quale numero e l opposto di 7?",
+        "opzioni":  [
+                        " -7",
+                        "7",
+                        "1/7",
+                        "0"
+                    ],
+        "corretta":  0,
+        "image_page":  "Additive_inverse"
+    },
+    {
+        "testo":  "Quale numero e il valore assoluto di -9?",
+        "opzioni":  [
+                        "9",
+                        " -9",
+                        "0",
+                        "1"
+                    ],
+        "corretta":  0,
+        "image_page":  "Absolute_value"
+    },
+    {
+        "testo":  "Come si chiama un equazione con una sola incognita al primo grado?",
+        "opzioni":  [
+                        "Equazione lineare",
+                        "Equazione quadratica",
+                        "Disequazione",
+                        "Sistema impossibile"
+                    ],
+        "corretta":  0,
+        "image_page":  "Linear_equation"
+    },
+    {
+        "testo":  "Nell equazione x + 5 = 9 quanto vale x?",
+        "opzioni":  [
+                        "4",
+                        "5",
+                        "9",
+                        "14"
+                    ],
+        "corretta":  0,
+        "image_page":  "Linear_equation"
+    },
+    {
+        "testo":  "Nell equazione 2x = 14 quanto vale x?",
+        "opzioni":  [
+                        "7",
+                        "6",
+                        "12",
+                        "28"
+                    ],
+        "corretta":  0,
+        "image_page":  "Linear_equation"
+    },
+    {
+        "testo":  "Nell equazione x - 3 = 10 quanto vale x?",
+        "opzioni":  [
+                        "13",
+                        "7",
+                        "10",
+                        "3"
+                    ],
+        "corretta":  0,
+        "image_page":  "Linear_equation"
+    },
+    {
+        "testo":  "Nell equazione 3x = 21 quanto vale x?",
+        "opzioni":  [
+                        "7",
+                        "6",
+                        "8",
+                        "9"
+                    ],
+        "corretta":  0,
+        "image_page":  "Linear_equation"
+    },
+    {
+        "testo":  "Come si chiama una scrittura del tipo 3x + 2?",
+        "opzioni":  [
+                        "Espressione algebrica",
+                        "Numero primo",
+                        "Potenza",
+                        "Frazione impropria"
+                    ],
+        "corretta":  0,
+        "image_page":  "Algebraic_expression"
+    },
+    {
+        "testo":  "Quale e il coefficiente di x in 5x + 2?",
+        "opzioni":  [
+                        "5",
+                        "2",
+                        "7",
+                        "x"
+                    ],
+        "corretta":  0,
+        "image_page":  "Coefficient"
+    },
+    {
+        "testo":  "Come si chiama la lettera usata al posto di un numero sconosciuto?",
+        "opzioni":  [
+                        "Incognita",
+                        "Radice",
+                        "Costante",
+                        "Base"
+                    ],
+        "corretta":  0,
+        "image_page":  "Variable_(mathematics)"
+    },
+    {
+        "testo":  "Quanto fa x se x/4 = 5?",
+        "opzioni":  [
+                        "20",
+                        "9",
+                        "1,25",
+                        "10"
+                    ],
+        "corretta":  0,
+        "image_page":  "Linear_equation"
+    },
+    {
+        "testo":  "Quanto fa 10 elevato alla seconda?",
+        "opzioni":  [
+                        "100",
+                        "20",
+                        "1000",
+                        "12"
+                    ],
+        "corretta":  0,
+        "image_page":  "Exponentiation"
+    },
+    {
+        "testo":  "Quanto fa 2 elevato alla quinta?",
+        "opzioni":  [
+                        "32",
+                        "16",
+                        "25",
+                        "64"
+                    ],
+        "corretta":  0,
+        "image_page":  "Exponentiation"
+    },
+    {
+        "testo":  "Quale proprietà dice che a + b = b + a?",
+        "opzioni":  [
+                        "Commutativa",
+                        "Associativa",
+                        "Distributiva",
+                        "Transitiva"
+                    ],
+        "corretta":  0,
+        "image_page":  "Commutative_property"
+    },
+    {
+        "testo":  "Quale proprietà dice che a x (b + c) = a x b + a x c?",
+        "opzioni":  [
+                        "Distributiva",
+                        "Associativa",
+                        "Commutativa",
+                        "Riflessiva"
+                    ],
+        "corretta":  0,
+        "image_page":  "Distributive_property"
+    },
+    {
+        "testo":  "Quale proprietà dice che (a + b) + c = a + (b + c)?",
+        "opzioni":  [
+                        "Associativa",
+                        "Commutativa",
+                        "Distributiva",
+                        "Inversa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Associative_property"
+    },
+    {
+        "testo":  "Come si chiama un numero con la virgola?",
+        "opzioni":  [
+                        "Numero decimale",
+                        "Numero primo",
+                        "Numero intero",
+                        "Numero irrazionale"
+                    ],
+        "corretta":  0,
+        "image_page":  "Decimal"
+    },
+    {
+        "testo":  "Quale numero e minore di zero?",
+        "opzioni":  [
+                        "Numero negativo",
+                        "Numero naturale",
+                        "Numero primo",
+                        "Numero pari"
+                    ],
+        "corretta":  0,
+        "image_page":  "Negative_number"
+    },
+    {
+        "testo":  "Quale insieme contiene 1 2 3 4 ...?",
+        "opzioni":  [
+                        "Numeri naturali",
+                        "Numeri irrazionali",
+                        "Numeri complessi",
+                        "Numeri negativi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Natural_number"
+    },
+    {
+        "testo":  "Quale insieme contiene anche i numeri negativi e lo zero?",
+        "opzioni":  [
+                        "Numeri interi",
+                        "Numeri naturali",
+                        "Numeri irrazionali",
+                        "Numeri primi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Integer"
+    },
+    {
+        "testo":  "Come si chiama un numero che si può scrivere come frazione?",
+        "opzioni":  [
+                        "Numero razionale",
+                        "Numero irrazionale",
+                        "Numero primo",
+                        "Numero perfetto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Rational_number"
+    },
+    {
+        "testo":  "Pi greco e un numero...?",
+        "opzioni":  [
+                        "Irrazionale",
+                        "Primo",
+                        "Naturale",
+                        "Intero"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pi"
+    },
+    {
+        "testo":  "Quale e una stima di π comunemente usata?",
+        "opzioni":  [
+                        "3,14",
+                        "2,17",
+                        "1,41",
+                        "4,13"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pi"
+    },
+    {
+        "testo":  "Come si chiama il rapporto tra circonferenza e diametro?",
+        "opzioni":  [
+                        "Pi greco",
+                        "Radiante",
+                        "Tangente",
+                        "Pendenza"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pi"
+    },
+    {
+        "testo":  "Quanto misura la somma degli angoli interni di un triangolo?",
+        "opzioni":  [
+                        "180 gradi",
+                        "90 gradi",
+                        "270 gradi",
+                        "360 gradi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Triangle"
+    },
+    {
+        "testo":  "Come si chiama il lato opposto all angolo retto in un triangolo rettangolo?",
+        "opzioni":  [
+                        "Ipotenusa",
+                        "Cateto",
+                        "Apotema",
+                        "Diagonale"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hypotenuse"
+    },
+    {
+        "testo":  "Quale teorema lega i lati di un triangolo rettangolo?",
+        "opzioni":  [
+                        "Teorema di Pitagora",
+                        "Teorema di Talete",
+                        "Teorema di Euclide",
+                        "Teorema di Fermat"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pythagorean_theorem"
+    },
+    {
+        "testo":  "In un triangolo rettangolo con cateti 3 e 4 quanto misura l ipotenusa?",
+        "opzioni":  [
+                        "5",
+                        "6",
+                        "7",
+                        "8"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pythagorean_theorem"
+    },
+    {
+        "testo":  "Quale unità si usa per misurare gli angoli nel sistema più comune scolastico?",
+        "opzioni":  [
+                        "Gradi",
+                        "Metri",
+                        "Secondi",
+                        "Joule"
+                    ],
+        "corretta":  0,
+        "image_page":  "Degree_(angle)"
+    },
+    {
+        "testo":  "Come si chiama una linea che non finisce mai da entrambi i lati?",
+        "opzioni":  [
+                        "Retta",
+                        "Segmento",
+                        "Semiretta",
+                        "Corda"
+                    ],
+        "corretta":  0,
+        "image_page":  "Line_(geometry)"
+    },
+    {
+        "testo":  "Come si chiama una parte di retta delimitata da due estremi?",
+        "opzioni":  [
+                        "Segmento",
+                        "Retta",
+                        "Semiretta",
+                        "Tangente"
+                    ],
+        "corretta":  0,
+        "image_page":  "Line_segment"
+    },
+    {
+        "testo":  "Come si chiama una parte di retta con un origine e una sola direzione infinita?",
+        "opzioni":  [
+                        "Semiretta",
+                        "Segmento",
+                        "Corda",
+                        "Diametro"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ray_(geometry)"
+    },
+    {
+        "testo":  "Quale figura piana ha quattro lati con una sola coppia di lati paralleli?",
+        "opzioni":  [
+                        "Trapezio",
+                        "Rettangolo",
+                        "Quadrato",
+                        "Rombo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Trapezoid"
+    },
+    {
+        "testo":  "Come si chiama un quadrilatero con lati opposti paralleli e angoli obliqui o retti?",
+        "opzioni":  [
+                        "Parallelogramma",
+                        "Trapezio",
+                        "Pentagono",
+                        "Cerchio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Parallelogram"
+    },
+    {
+        "testo":  "Come si chiama un quadrilatero con tutti i lati uguali ma angoli non tutti retti?",
+        "opzioni":  [
+                        "Rombo",
+                        "Quadrato",
+                        "Rettangolo",
+                        "Trapezio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Rhombus"
+    },
+    {
+        "testo":  "Quale numero e divisibile solo per 1 e per se stesso?",
+        "opzioni":  [
+                        "Numero primo",
+                        "Numero pari",
+                        "Numero decimale",
+                        "Numero multiplo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Prime_number"
+    },
+    {
+        "testo":  "Quale dei seguenti numeri e primo?",
+        "opzioni":  [
+                        "13",
+                        "15",
+                        "21",
+                        "27"
+                    ],
+        "corretta":  0,
+        "image_page":  "Prime_number"
+    },
+    {
+        "testo":  "Quale dei seguenti numeri e composto?",
+        "opzioni":  [
+                        "21",
+                        "13",
+                        "17",
+                        "19"
+                    ],
+        "corretta":  0,
+        "image_page":  "Composite_number"
+    },
+    {
+        "testo":  "Quanto fa 1/3 di 12?",
+        "opzioni":  [
+                        "4",
+                        "3",
+                        "6",
+                        "9"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fraction_(mathematics)"
+    },
+    {
+        "testo":  "Quanto fa 3/4 di 20?",
+        "opzioni":  [
+                        "15",
+                        "10",
+                        "12",
+                        "18"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fraction_(mathematics)"
+    },
+    {
+        "testo":  "Quanto fa 0,5 di 18?",
+        "opzioni":  [
+                        "9",
+                        "8",
+                        "6",
+                        "12"
+                    ],
+        "corretta":  0,
+        "image_page":  "Decimal"
+    },
+    {
+        "testo":  "Quale e il 10% di 350?",
+        "opzioni":  [
+                        "35",
+                        "30",
+                        "25",
+                        "45"
+                    ],
+        "corretta":  0,
+        "image_page":  "Percentage"
+    },
+    {
+        "testo":  "Se un prezzo passa da 50 a 60 euro di quanto aumenta in percentuale?",
+        "opzioni":  [
+                        "20%",
+                        "10%",
+                        "15%",
+                        "25%"
+                    ],
+        "corretta":  0,
+        "image_page":  "Percentage"
+    },
+    {
+        "testo":  "Quale numero e il risultato di 2(3 + 4)?",
+        "opzioni":  [
+                        "14",
+                        "11",
+                        "9",
+                        "16"
+                    ],
+        "corretta":  0,
+        "image_page":  "Order_of_operations"
+    },
+    {
+        "testo":  "Quanto fa 5 + 5 x 5?",
+        "opzioni":  [
+                        "30",
+                        "50",
+                        "25",
+                        "15"
+                    ],
+        "corretta":  0,
+        "image_page":  "Order_of_operations"
+    },
+    {
+        "testo":  "Quale simbolo indica la radice quadrata?",
+        "opzioni":  [
+                        "√",
+                        "π",
+                        "%",
+                        "="
+                    ],
+        "corretta":  0,
+        "image_page":  "Square_root"
+    },
+    {
+        "testo":  "Come si chiama una tabella che mette in corrispondenza due insiemi di valori x e y?",
+        "opzioni":  [
+                        "Tabella di funzione",
+                        "Grafico a torta",
+                        "Istogramma",
+                        "Matrice identica"
+                    ],
+        "corretta":  0,
+        "image_page":  "Function_(mathematics)"
+    }
+]

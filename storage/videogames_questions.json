@@ -1,0 +1,1102 @@
+[
+    {
+        "testo":  "Quale azienda ha creato la serie Super Mario?",
+        "opzioni":  [
+                        "Nintendo",
+                        "Sega",
+                        "Sony",
+                        "Capcom"
+                    ],
+        "corretta":  0,
+        "image_page":  "Nintendo"
+    },
+    {
+        "testo":  "Quale personaggio indossa un cappello verde ed e fratello di Mario?",
+        "opzioni":  [
+                        "Luigi",
+                        "Wario",
+                        "Yoshi",
+                        "Toad"
+                    ],
+        "corretta":  0,
+        "image_page":  "Luigi"
+    },
+    {
+        "testo":  "In quale serie compare il personaggio Master Chief?",
+        "opzioni":  [
+                        "Halo",
+                        "Gears of War",
+                        "Mass Effect",
+                        "Destiny"
+                    ],
+        "corretta":  0,
+        "image_page":  "Halo_(franchise)"
+    },
+    {
+        "testo":  "Quale gioco sandbox di Mojang permette di costruire con blocchi?",
+        "opzioni":  [
+                        "Minecraft",
+                        "Terraria",
+                        "Roblox",
+                        "Fortnite"
+                    ],
+        "corretta":  0,
+        "image_page":  "Minecraft"
+    },
+    {
+        "testo":  "Quale console ha introdotto il controller DualSense?",
+        "opzioni":  [
+                        "PlayStation 5",
+                        "PlayStation 4",
+                        "Xbox Series X",
+                        "Nintendo Switch"
+                    ],
+        "corretta":  0,
+        "image_page":  "PlayStation_5"
+    },
+    {
+        "testo":  "Quale serie di giochi sportivi calcistici era nota come FIFA fino al 2023?",
+        "opzioni":  [
+                        "EA Sports FC",
+                        "Pro Evolution Soccer",
+                        "Football Manager",
+                        "Virtua Striker"
+                    ],
+        "corretta":  0,
+        "image_page":  "EA_Sports_FC"
+    },
+    {
+        "testo":  "Quale personaggio e il protagonista silenzioso principale di The Legend of Zelda?",
+        "opzioni":  [
+                        "Link",
+                        "Zelda",
+                        "Ganondorf",
+                        "Impa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Link_(The_Legend_of_Zelda)"
+    },
+    {
+        "testo":  "Quale gioco battle royale di Epic Games ha reso famose le build in tempo reale?",
+        "opzioni":  [
+                        "Fortnite",
+                        "PUBG",
+                        "Apex Legends",
+                        "Warzone"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fortnite_Battle_Royale"
+    },
+    {
+        "testo":  "Quale azienda ha sviluppato The Witcher 3 Wild Hunt?",
+        "opzioni":  [
+                        "CD Projekt Red",
+                        "BioWare",
+                        "Ubisoft",
+                        "Bethesda"
+                    ],
+        "corretta":  0,
+        "image_page":  "CD_Projekt"
+    },
+    {
+        "testo":  "Quale gioco del 2017 di Nintendo e ambientato a Hyrule aperta?",
+        "opzioni":  [
+                        "Breath of the Wild",
+                        "Skyward Sword",
+                        "Twilight Princess",
+                        "Majora s Mask"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Legend_of_Zelda:_Breath_of_the_Wild"
+    },
+    {
+        "testo":  "Quale personaggio PlayStation brandisce le Lame del Caos?",
+        "opzioni":  [
+                        "Kratos",
+                        "Nathan Drake",
+                        "Aloy",
+                        "Jak"
+                    ],
+        "corretta":  0,
+        "image_page":  "Kratos_(God_of_War)"
+    },
+    {
+        "testo":  "Quale serie Ubisoft ruota attorno ad assassini e Templari?",
+        "opzioni":  [
+                        "Assassin s Creed",
+                        "Far Cry",
+                        "Watch Dogs",
+                        "Prince of Persia"
+                    ],
+        "corretta":  0,
+        "image_page":  "Assassin\u0027s_Creed"
+    },
+    {
+        "testo":  "Quale gioco competitivo di Riot Games si svolge su Summoner s Rift?",
+        "opzioni":  [
+                        "League of Legends",
+                        "Valorant",
+                        "Dota 2",
+                        "Smite"
+                    ],
+        "corretta":  0,
+        "image_page":  "League_of_Legends"
+    },
+    {
+        "testo":  "Quale franchise Nintendo usa creature tascabili da catturare e allenare?",
+        "opzioni":  [
+                        "Pokémon",
+                        "Digimon",
+                        "Yo-kai Watch",
+                        "Monster Rancher"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pokémon"
+    },
+    {
+        "testo":  "Quale azienda pubblica la console Xbox?",
+        "opzioni":  [
+                        "Microsoft",
+                        "Sony",
+                        "Nintendo",
+                        "Valve"
+                    ],
+        "corretta":  0,
+        "image_page":  "Xbox"
+    },
+    {
+        "testo":  "Quale gioco indie mette il giocatore in una valle da coltivare e vivere?",
+        "opzioni":  [
+                        "Stardew Valley",
+                        "Animal Crossing",
+                        "Harvest Moon",
+                        "Spiritfarer"
+                    ],
+        "corretta":  0,
+        "image_page":  "Stardew_Valley"
+    },
+    {
+        "testo":  "Quale serie di racing arcade include il festival Horizon?",
+        "opzioni":  [
+                        "Forza Horizon",
+                        "Gran Turismo",
+                        "Need for Speed",
+                        "Burnout"
+                    ],
+        "corretta":  0,
+        "image_page":  "Forza_Horizon"
+    },
+    {
+        "testo":  "Quale gioco di FromSoftware del 2022 e ambientato nelle Terre Intermedie?",
+        "opzioni":  [
+                        "Elden Ring",
+                        "Dark Souls III",
+                        "Sekiro",
+                        "Bloodborne"
+                    ],
+        "corretta":  0,
+        "image_page":  "Elden_Ring"
+    },
+    {
+        "testo":  "Quale personaggio Sega e un riccio blu supersonico?",
+        "opzioni":  [
+                        "Sonic",
+                        "Tails",
+                        "Knuckles",
+                        "Shadow"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sonic_the_Hedgehog"
+    },
+    {
+        "testo":  "Quale videogioco Valve del 2004 ha come protagonista Gordon Freeman?",
+        "opzioni":  [
+                        "Half-Life 2",
+                        "Portal",
+                        "Left 4 Dead",
+                        "Team Fortress 2"
+                    ],
+        "corretta":  0,
+        "image_page":  "Half-Life_2"
+    },
+    {
+        "testo":  "Quale battle royale di Respawn e ambientato nell universo di Titanfall?",
+        "opzioni":  [
+                        "Apex Legends",
+                        "Fortnite",
+                        "PUBG",
+                        "Splitgate"
+                    ],
+        "corretta":  0,
+        "image_page":  "Apex_Legends"
+    },
+    {
+        "testo":  "Quale saga Bethesda e ambientata in Skyrim, Morrowind e Tamriel?",
+        "opzioni":  [
+                        "The Elder Scrolls",
+                        "Fallout",
+                        "Dishonored",
+                        "Starfield"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Elder_Scrolls"
+    },
+    {
+        "testo":  "Quale titolo Rockstar del 2018 segue Arthur Morgan nel vecchio West?",
+        "opzioni":  [
+                        "Red Dead Redemption 2",
+                        "L.A. Noire",
+                        "Max Payne 3",
+                        "Bully"
+                    ],
+        "corretta":  0,
+        "image_page":  "Red_Dead_Redemption_2"
+    },
+    {
+        "testo":  "Quale piattaforma digitale PC di Valve e la più diffusa per i videogiochi?",
+        "opzioni":  [
+                        "Steam",
+                        "Epic Games Store",
+                        "GOG",
+                        "Battle.net"
+                    ],
+        "corretta":  0,
+        "image_page":  "Steam"
+    },
+    {
+        "testo":  "Quale gioco puzzle di Valve usa portali blu e arancioni?",
+        "opzioni":  [
+                        "Portal",
+                        "The Talos Principle",
+                        "Q.U.B.E.",
+                        "Antichamber"
+                    ],
+        "corretta":  0,
+        "image_page":  "Portal_(video_game)"
+    },
+    {
+        "testo":  "Quale compagnia ha sviluppato Overwatch?",
+        "opzioni":  [
+                        "Blizzard Entertainment",
+                        "Valve",
+                        "Riot Games",
+                        "Bungie"
+                    ],
+        "corretta":  0,
+        "image_page":  "Blizzard_Entertainment"
+    },
+    {
+        "testo":  "Quale protagonista femminile esplora rovine nella serie Tomb Raider?",
+        "opzioni":  [
+                        "Lara Croft",
+                        "Jill Valentine",
+                        "Samus Aran",
+                        "Chloe Frazer"
+                    ],
+        "corretta":  0,
+        "image_page":  "Lara_Croft"
+    },
+    {
+        "testo":  "Quale gioco Nintendo del 2020 ha rilanciato la vita isolana con un titolo New Horizons?",
+        "opzioni":  [
+                        "Animal Crossing",
+                        "Tomodachi Life",
+                        "Miitopia",
+                        "Pikmin"
+                    ],
+        "corretta":  0,
+        "image_page":  "Animal_Crossing:_New_Horizons"
+    },
+    {
+        "testo":  "Quale serie Capcom ha come eroe l avvocato Phoenix Wright?",
+        "opzioni":  [
+                        "Ace Attorney",
+                        "Professor Layton",
+                        "Danganronpa",
+                        "AI The Somnium Files"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ace_Attorney"
+    },
+    {
+        "testo":  "Quale gioco di carte digitale e ambientato nell universo Warcraft?",
+        "opzioni":  [
+                        "Hearthstone",
+                        "Magic Arena",
+                        "Legends of Runeterra",
+                        "Gwent"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hearthstone"
+    },
+    {
+        "testo":  "Quale personaggio Nintendo e una cacciatrice spaziale in armatura?",
+        "opzioni":  [
+                        "Samus Aran",
+                        "Bayonetta",
+                        "Palutena",
+                        "Rosalina"
+                    ],
+        "corretta":  0,
+        "image_page":  "Samus_Aran"
+    },
+    {
+        "testo":  "Quale serie survival horror di Capcom e nota in Giappone come Biohazard?",
+        "opzioni":  [
+                        "Resident Evil",
+                        "Silent Hill",
+                        "Dead Space",
+                        "The Evil Within"
+                    ],
+        "corretta":  0,
+        "image_page":  "Resident_Evil"
+    },
+    {
+        "testo":  "Quale gioco cooperativo del 2021 di Hazelight ha vinto molti premi con Cody e May?",
+        "opzioni":  [
+                        "It Takes Two",
+                        "A Way Out",
+                        "Unravel Two",
+                        "Moving Out"
+                    ],
+        "corretta":  0,
+        "image_page":  "It_Takes_Two"
+    },
+    {
+        "testo":  "Quale azienda ha creato la serie Souls prima di Elden Ring?",
+        "opzioni":  [
+                        "FromSoftware",
+                        "PlatinumGames",
+                        "Naughty Dog",
+                        "Insomniac Games"
+                    ],
+        "corretta":  0,
+        "image_page":  "FromSoftware"
+    },
+    {
+        "testo":  "Quale franchise Nintendo ha come mascot una stella rosa chiamata Kirby?",
+        "opzioni":  [
+                        "Kirby",
+                        "Yoshi",
+                        "Pikmin",
+                        "Chibi-Robo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Kirby_(series)"
+    },
+    {
+        "testo":  "Quale gioco del 2023 di Larian e basato su Dungeons \u0026 Dragons?",
+        "opzioni":  [
+                        "Baldur s Gate 3",
+                        "Divinity Original Sin 2",
+                        "Dragon Age Inquisition",
+                        "Solasta"
+                    ],
+        "corretta":  0,
+        "image_page":  "Baldur\u0027s_Gate_3"
+    },
+    {
+        "testo":  "Quale serie racing simulation di Sony include il termine Turismo nel titolo?",
+        "opzioni":  [
+                        "Gran Turismo",
+                        "Forza Motorsport",
+                        "Project CARS",
+                        "F1"
+                    ],
+        "corretta":  0,
+        "image_page":  "Gran_Turismo_(series)"
+    },
+    {
+        "testo":  "Quale personaggio affronta Robotnik nella saga Sonic?",
+        "opzioni":  [
+                        "Sonic",
+                        "Tails",
+                        "Knuckles",
+                        "Amy Rose"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sonic_the_Hedgehog"
+    },
+    {
+        "testo":  "Quale gioco di Blizzard ha eroi come Tracer e Reaper?",
+        "opzioni":  [
+                        "Overwatch",
+                        "Heroes of the Storm",
+                        "Diablo IV",
+                        "StarCraft II"
+                    ],
+        "corretta":  0,
+        "image_page":  "Overwatch"
+    },
+    {
+        "testo":  "Quale titolo Nintendo del 2023 ha permesso a Link di fondere oggetti e costruzioni?",
+        "opzioni":  [
+                        "Tears of the Kingdom",
+                        "Breath of the Wild",
+                        "Skyward Sword",
+                        "Hyrule Warriors"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Legend_of_Zelda:_Tears_of_the_Kingdom"
+    },
+    {
+        "testo":  "Quale serie di simulazione usa pacchetti di espansione sulla vita quotidiana?",
+        "opzioni":  [
+                        "The Sims",
+                        "SimCity",
+                        "Two Point Hospital",
+                        "Cities Skylines"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Sims"
+    },
+    {
+        "testo":  "Quale gioco Mojang ha come modalità principale sopravvivenza e creativa?",
+        "opzioni":  [
+                        "Minecraft",
+                        "Rust",
+                        "Terraria",
+                        "Roblox"
+                    ],
+        "corretta":  0,
+        "image_page":  "Minecraft"
+    },
+    {
+        "testo":  "Quale personaggio e il protagonista di God of War Ragnarök insieme ad Atreus?",
+        "opzioni":  [
+                        "Kratos",
+                        "Mimir",
+                        "Baldur",
+                        "Thor"
+                    ],
+        "corretta":  0,
+        "image_page":  "God_of_War_Ragnarök"
+    },
+    {
+        "testo":  "Quale azienda giapponese ha creato Pokémon insieme a Game Freak e Creatures come partner?",
+        "opzioni":  [
+                        "Nintendo",
+                        "Sega",
+                        "Capcom",
+                        "Bandai Namco"
+                    ],
+        "corretta":  0,
+        "image_page":  "Nintendo"
+    },
+    {
+        "testo":  "Quale battle royale ha introdotto il Gulag come meccanica di rientro?",
+        "opzioni":  [
+                        "Call of Duty Warzone",
+                        "Fortnite",
+                        "Apex Legends",
+                        "PUBG"
+                    ],
+        "corretta":  0,
+        "image_page":  "Call_of_Duty:_Warzone"
+    },
+    {
+        "testo":  "Quale franchise di corse arcade Sega include piste colorate e personaggi caricaturali?",
+        "opzioni":  [
+                        "Sonic \u0026 All-Stars Racing",
+                        "Out Run",
+                        "Daytona USA",
+                        "Initial D Arcade Stage"
+                    ],
+        "corretta":  0,
+        "image_page":  "Sonic_\u0026_All-Stars_Racing_Transformed"
+    },
+    {
+        "testo":  "Quale gioco del 2020 di Naughty Dog segue Ellie in una storia post-apocalittica?",
+        "opzioni":  [
+                        "The Last of Us Part II",
+                        "Days Gone",
+                        "Uncharted 4",
+                        "Death Stranding"
+                    ],
+        "corretta":  0,
+        "image_page":  "The_Last_of_Us_Part_II"
+    },
+    {
+        "testo":  "Quale studio ha creato Hades?",
+        "opzioni":  [
+                        "Supergiant Games",
+                        "Team Cherry",
+                        "Devolver Digital",
+                        "Motion Twin"
+                    ],
+        "corretta":  0,
+        "image_page":  "Supergiant_Games"
+    },
+    {
+        "testo":  "Quale personaggio mascherato e protagonista di Persona 5?",
+        "opzioni":  [
+                        "Joker",
+                        "Yu Narukami",
+                        "Makoto Yuki",
+                        "Teddie"
+                    ],
+        "corretta":  0,
+        "image_page":  "Joker_(Persona)"
+    },
+    {
+        "testo":  "Quale gioco di corse Mario include gusci banane e piste fantasiose?",
+        "opzioni":  [
+                        "Mario Kart",
+                        "Crash Team Racing",
+                        "F-Zero",
+                        "Sonic Riders"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mario_Kart"
+    },
+    {
+        "testo":  "Quale serie di Konami e ambientata nella città nebbiosa di Silent Hill?",
+        "opzioni":  [
+                        "Silent Hill",
+                        "Metal Gear",
+                        "Castlevania",
+                        "Suikoden"
+                    ],
+        "corretta":  0,
+        "image_page":  "Silent_Hill"
+    },
+    {
+        "testo":  "Quale titolo Valve del 2007 è un puzzle narrativo con GLaDOS?",
+        "opzioni":  [
+                        "Portal",
+                        "Half-Life 2 Episode Two",
+                        "Left 4 Dead",
+                        "Team Fortress 2"
+                    ],
+        "corretta":  0,
+        "image_page":  "Portal_(video_game)"
+    },
+    {
+        "testo":  "Quale gioco di guerriglia di Guerrilla Games ha per protagonista Aloy?",
+        "opzioni":  [
+                        "Horizon Zero Dawn",
+                        "Killzone Shadow Fall",
+                        "Days Gone",
+                        "Returnal"
+                    ],
+        "corretta":  0,
+        "image_page":  "Horizon_Zero_Dawn"
+    },
+    {
+        "testo":  "Quale personaggio e il rivale principale di Pac-Man?",
+        "opzioni":  [
+                        "Blinky",
+                        "Inky",
+                        "Clyde",
+                        "Pinky"
+                    ],
+        "corretta":  0,
+        "image_page":  "Blinky_(Pac-Man)"
+    },
+    {
+        "testo":  "Quale serie Square Enix usa cristalli, evocazioni e numeri romani?",
+        "opzioni":  [
+                        "Final Fantasy",
+                        "Dragon Quest",
+                        "Kingdom Hearts",
+                        "Chrono Trigger"
+                    ],
+        "corretta":  0,
+        "image_page":  "Final_Fantasy"
+    },
+    {
+        "testo":  "Quale MMORPG di Blizzard e ambientato ad Azeroth?",
+        "opzioni":  [
+                        "World of Warcraft",
+                        "Guild Wars 2",
+                        "Final Fantasy XIV",
+                        "The Elder Scrolls Online"
+                    ],
+        "corretta":  0,
+        "image_page":  "World_of_Warcraft"
+    },
+    {
+        "testo":  "Quale azienda ha creato la console Dreamcast?",
+        "opzioni":  [
+                        "Sega",
+                        "Nintendo",
+                        "Sony",
+                        "SNK"
+                    ],
+        "corretta":  0,
+        "image_page":  "Dreamcast"
+    },
+    {
+        "testo":  "Quale gioco puzzle cooperativo usa due personaggi fatti di filo di lana?",
+        "opzioni":  [
+                        "Unravel Two",
+                        "It Takes Two",
+                        "LittleBigPlanet",
+                        "Brothers A Tale of Two Sons"
+                    ],
+        "corretta":  0,
+        "image_page":  "Unravel_Two"
+    },
+    {
+        "testo":  "Quale serie di avventure Naughty Dog segue Nathan Drake?",
+        "opzioni":  [
+                        "Uncharted",
+                        "The Last of Us",
+                        "Jak and Daxter",
+                        "Crash Bandicoot"
+                    ],
+        "corretta":  0,
+        "image_page":  "Uncharted"
+    },
+    {
+        "testo":  "Quale gioco Nintendo usa creature vegetali chiamate Pikmin?",
+        "opzioni":  [
+                        "Pikmin",
+                        "Splatoon",
+                        "Kirby",
+                        "Star Fox"
+                    ],
+        "corretta":  0,
+        "image_page":  "Pikmin"
+    },
+    {
+        "testo":  "Quale studio polacco ha creato Cyberpunk 2077?",
+        "opzioni":  [
+                        "CD Projekt Red",
+                        "Techland",
+                        "People Can Fly",
+                        "11 bit studios"
+                    ],
+        "corretta":  0,
+        "image_page":  "CD_Projekt"
+    },
+    {
+        "testo":  "Quale protagonista di Metal Gear è conosciuto anche come Solid Snake?",
+        "opzioni":  [
+                        "Snake",
+                        "Raiden",
+                        "Big Boss",
+                        "Ocelot"
+                    ],
+        "corretta":  0,
+        "image_page":  "Solid_Snake"
+    },
+    {
+        "testo":  "Quale gioco del 2023 di Remedy riporta l agente dell FBI Saga Anderson con Alan Wake?",
+        "opzioni":  [
+                        "Alan Wake 2",
+                        "Control",
+                        "Quantum Break",
+                        "Max Payne 3"
+                    ],
+        "corretta":  0,
+        "image_page":  "Alan_Wake_2"
+    },
+    {
+        "testo":  "Quale serie EA e celebre per le simulazioni di football americano NFL?",
+        "opzioni":  [
+                        "Madden NFL",
+                        "NBA Live",
+                        "NHL",
+                        "EA Sports FC"
+                    ],
+        "corretta":  0,
+        "image_page":  "Madden_NFL"
+    },
+    {
+        "testo":  "Quale gioco indie in 2D di Team Cherry ha per protagonista il Cavaliere?",
+        "opzioni":  [
+                        "Hollow Knight",
+                        "Dead Cells",
+                        "Celeste",
+                        "Ori and the Blind Forest"
+                    ],
+        "corretta":  0,
+        "image_page":  "Hollow_Knight"
+    },
+    {
+        "testo":  "Quale piattaforma Nintendo ibrida si usa sia in dock che in portatile?",
+        "opzioni":  [
+                        "Nintendo Switch",
+                        "Wii U",
+                        "Nintendo DS",
+                        "GameCube"
+                    ],
+        "corretta":  0,
+        "image_page":  "Nintendo_Switch"
+    },
+    {
+        "testo":  "Quale serie di combattimento Bandai Namco include personaggi come Jin e Kazuya?",
+        "opzioni":  [
+                        "Tekken",
+                        "Soulcalibur",
+                        "Virtua Fighter",
+                        "Dead or Alive"
+                    ],
+        "corretta":  0,
+        "image_page":  "Tekken"
+    },
+    {
+        "testo":  "Quale gioco FromSoftware ha per ambientazione Yharnam e il sangue curativo?",
+        "opzioni":  [
+                        "Bloodborne",
+                        "Dark Souls III",
+                        "Elden Ring",
+                        "Sekiro"
+                    ],
+        "corretta":  0,
+        "image_page":  "Bloodborne"
+    },
+    {
+        "testo":  "Quale personaggio Nintendo lancia barili contro Jumpman nel suo esordio arcade?",
+        "opzioni":  [
+                        "Donkey Kong",
+                        "King K. Rool",
+                        "Diddy Kong",
+                        "Funky Kong"
+                    ],
+        "corretta":  0,
+        "image_page":  "Donkey_Kong"
+    },
+    {
+        "testo":  "Quale gioco del 2016 di Blizzard e un hero shooter a squadre?",
+        "opzioni":  [
+                        "Overwatch",
+                        "Paladins",
+                        "Team Fortress 2",
+                        "Valorant"
+                    ],
+        "corretta":  0,
+        "image_page":  "Overwatch"
+    },
+    {
+        "testo":  "Quale franchise di corse realistiche Microsoft include la parola Motorsport?",
+        "opzioni":  [
+                        "Forza Motorsport",
+                        "Gran Turismo",
+                        "Need for Speed",
+                        "Project Gotham Racing"
+                    ],
+        "corretta":  0,
+        "image_page":  "Forza_Motorsport"
+    },
+    {
+        "testo":  "Quale serie di sparatutto Bungie comprende i Guardiani e il Viaggiatore?",
+        "opzioni":  [
+                        "Destiny",
+                        "Halo",
+                        "Warframe",
+                        "Borderlands"
+                    ],
+        "corretta":  0,
+        "image_page":  "Destiny_(video_game)"
+    },
+    {
+        "testo":  "Quale gioco Nintendo mette gli Inkling a combattere con inchiostro colorato?",
+        "opzioni":  [
+                        "Splatoon",
+                        "ARMS",
+                        "Pikmin",
+                        "Mario Strikers"
+                    ],
+        "corretta":  0,
+        "image_page":  "Splatoon"
+    },
+    {
+        "testo":  "Quale personaggio e la protagonista di Metroid Dread?",
+        "opzioni":  [
+                        "Samus Aran",
+                        "Zelda",
+                        "Bayonetta",
+                        "Peach"
+                    ],
+        "corretta":  0,
+        "image_page":  "Metroid_Dread"
+    },
+    {
+        "testo":  "Quale serie Ubisoft ruota attorno a mondi aperti con avamposti e caos sandbox?",
+        "opzioni":  [
+                        "Far Cry",
+                        "Watch Dogs",
+                        "Assassin s Creed",
+                        "The Division"
+                    ],
+        "corretta":  0,
+        "image_page":  "Far_Cry"
+    },
+    {
+        "testo":  "Quale gioco di crafting e sopravvivenza in 2D e spesso accostato a Minecraft?",
+        "opzioni":  [
+                        "Terraria",
+                        "Stardew Valley",
+                        "RimWorld",
+                        "Factorio"
+                    ],
+        "corretta":  0,
+        "image_page":  "Terraria"
+    },
+    {
+        "testo":  "Quale personaggio e l antagonista principale di The Legend of Zelda in molte iterazioni?",
+        "opzioni":  [
+                        "Ganon",
+                        "Tingle",
+                        "Darunia",
+                        "Midna"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ganon"
+    },
+    {
+        "testo":  "Quale azienda possiede PlayStation Studios?",
+        "opzioni":  [
+                        "Sony",
+                        "Microsoft",
+                        "Nintendo",
+                        "Embracer Group"
+                    ],
+        "corretta":  0,
+        "image_page":  "PlayStation_Studios"
+    },
+    {
+        "testo":  "Quale gioco Riot e uno sparatutto tattico 5 contro 5?",
+        "opzioni":  [
+                        "Valorant",
+                        "League of Legends",
+                        "Teamfight Tactics",
+                        "Legends of Runeterra"
+                    ],
+        "corretta":  0,
+        "image_page":  "Valorant"
+    },
+    {
+        "testo":  "Quale gioco del 2024 di Atlus e un remake di Persona 3?",
+        "opzioni":  [
+                        "Persona 3 Reload",
+                        "Persona 5 Royal",
+                        "Metaphor ReFantazio",
+                        "Shin Megami Tensei V"
+                    ],
+        "corretta":  0,
+        "image_page":  "Persona_3_Reload"
+    },
+    {
+        "testo":  "Quale serie survival sandbox di Studio Wildcard include dinosauri addomesticabili?",
+        "opzioni":  [
+                        "ARK",
+                        "Rust",
+                        "Conan Exiles",
+                        "Palworld"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ark:_Survival_Evolved"
+    },
+    {
+        "testo":  "Quale personaggio e il protagonista mascherato di Assassin s Creed II?",
+        "opzioni":  [
+                        "Ezio Auditore",
+                        "Altaïr",
+                        "Connor",
+                        "Bayek"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ezio_Auditore_da_Firenze"
+    },
+    {
+        "testo":  "Quale gioco ha come detective l avvocato e medium Apollo Justice come protagonista di spin-off?",
+        "opzioni":  [
+                        "Ace Attorney",
+                        "Professor Layton",
+                        "Ghost Trick",
+                        "Danganronpa"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ace_Attorney"
+    },
+    {
+        "testo":  "Quale serie Blizzard e un action RPG con demoni e loot?",
+        "opzioni":  [
+                        "Diablo",
+                        "Torchlight",
+                        "Path of Exile",
+                        "Sacred"
+                    ],
+        "corretta":  0,
+        "image_page":  "Diablo_(series)"
+    },
+    {
+        "testo":  "Quale personaggio e la sorella di Mario che appare spesso nelle fan fiction ma non come canonico personaggio giocabile classico?",
+        "opzioni":  [
+                        "Nessuno dei precedenti",
+                        "Peach",
+                        "Daisy",
+                        "Rosalina"
+                    ],
+        "corretta":  0,
+        "image_page":  "Mario"
+    },
+    {
+        "testo":  "Quale gioco Bethesda del 2023 porta i giocatori nello spazio in chiave RPG?",
+        "opzioni":  [
+                        "Starfield",
+                        "No Man s Sky",
+                        "Outer Worlds",
+                        "Mass Effect Andromeda"
+                    ],
+        "corretta":  0,
+        "image_page":  "Starfield"
+    },
+    {
+        "testo":  "Quale serie Nintendo usa il professor Layton in enigmi e avventure? ",
+        "opzioni":  [
+                        "Professor Layton",
+                        "Ace Attorney",
+                        "Puzzle \u0026 Dragons",
+                        "Rhythm Paradise"
+                    ],
+        "corretta":  0,
+        "image_page":  "Professor_Layton"
+    },
+    {
+        "testo":  "Quale gioco ha reso popolare il genere auto battler nel client di League of Legends?",
+        "opzioni":  [
+                        "Teamfight Tactics",
+                        "Dota Auto Chess",
+                        "Battlegrounds",
+                        "Auto Chess"
+                    ],
+        "corretta":  0,
+        "image_page":  "Teamfight_Tactics"
+    },
+    {
+        "testo":  "Quale personaggio e il protagonista di Ghost of Tsushima?",
+        "opzioni":  [
+                        "Jin Sakai",
+                        "Yuna",
+                        "Ryuzo",
+                        "Khotun Khan"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ghost_of_Tsushima"
+    },
+    {
+        "testo":  "Quale studio ha creato Celeste?",
+        "opzioni":  [
+                        "Maddy Makes Games",
+                        "Super Meat Boy Team",
+                        "Team Cherry",
+                        "Playdead"
+                    ],
+        "corretta":  0,
+        "image_page":  "Celeste_(video_game)"
+    },
+    {
+        "testo":  "Quale serie di Konami ha protagonisti come Solid Snake e Big Boss?",
+        "opzioni":  [
+                        "Metal Gear",
+                        "Silent Hill",
+                        "Suikoden",
+                        "Castlevania"
+                    ],
+        "corretta":  0,
+        "image_page":  "Metal_Gear"
+    },
+    {
+        "testo":  "Quale gioco di Valve vede squadre Terrorist e Counter-Terrorist? ",
+        "opzioni":  [
+                        "Counter-Strike",
+                        "Half-Life",
+                        "Left 4 Dead",
+                        "Day of Defeat"
+                    ],
+        "corretta":  0,
+        "image_page":  "Counter-Strike"
+    },
+    {
+        "testo":  "Quale personaggio Sega vola grazie a due code nella saga Sonic?",
+        "opzioni":  [
+                        "Tails",
+                        "Knuckles",
+                        "Shadow",
+                        "Silver"
+                    ],
+        "corretta":  0,
+        "image_page":  "Miles_\"Tails\"_Prower"
+    },
+    {
+        "testo":  "Quale gioco roguelike di Motion Twin ha per protagonista il Prigioniero?",
+        "opzioni":  [
+                        "Dead Cells",
+                        "Hades",
+                        "Rogue Legacy",
+                        "Binding of Isaac"
+                    ],
+        "corretta":  0,
+        "image_page":  "Dead_Cells"
+    },
+    {
+        "testo":  "Quale console Nintendo ha preceduto direttamente Switch nel mercato domestico?",
+        "opzioni":  [
+                        "Wii U",
+                        "Wii",
+                        "GameCube",
+                        "Nintendo 3DS"
+                    ],
+        "corretta":  0,
+        "image_page":  "Wii_U"
+    },
+    {
+        "testo":  "Quale serie Rockstar permette di rubare auto e seminare il caos in città aperte?",
+        "opzioni":  [
+                        "Grand Theft Auto",
+                        "Max Payne",
+                        "Midnight Club",
+                        "Bully"
+                    ],
+        "corretta":  0,
+        "image_page":  "Grand_Theft_Auto"
+    },
+    {
+        "testo":  "Quale personaggio e il protagonista principale di Persona 4?",
+        "opzioni":  [
+                        "Yu Narukami",
+                        "Joker",
+                        "Makoto Yuki",
+                        "Ryuji Sakamoto"
+                    ],
+        "corretta":  0,
+        "image_page":  "Yu_Narukami"
+    },
+    {
+        "testo":  "Quale gioco cooperativo Valve e incentrato su orde di zombie e special infected?",
+        "opzioni":  [
+                        "Left 4 Dead",
+                        "Back 4 Blood",
+                        "Dead Island",
+                        "Dying Light"
+                    ],
+        "corretta":  0,
+        "image_page":  "Left_4_Dead"
+    },
+    {
+        "testo":  "Quale serie Capcom ha cacciatori che affrontano enormi creature con armi gigantesche?",
+        "opzioni":  [
+                        "Monster Hunter",
+                        "Dragon s Dogma",
+                        "Lost Planet",
+                        "Onimusha"
+                    ],
+        "corretta":  0,
+        "image_page":  "Monster_Hunter"
+    },
+    {
+        "testo":  "Quale gioco di Housemarque uscito su PS5 segue Selene su Atropos?",
+        "opzioni":  [
+                        "Returnal",
+                        "Control",
+                        "Death Stranding",
+                        "Prey"
+                    ],
+        "corretta":  0,
+        "image_page":  "Returnal"
+    }
+]

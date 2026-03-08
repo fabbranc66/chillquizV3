@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="169" viewBox="0 0 300 169" role="img" aria-label="Renaissance atelier">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#5f0f40"/>
+<stop offset="100%" stop-color="#9a031e"/>
+</linearGradient>
+</defs>
+<rect width="300" height="169" rx="22" fill="url(#bg)"/>
+<circle cx="34" cy="30" r="42" fill="#ffffff10"/>
+<circle cx="272" cy="144" r="54" fill="#ffffff10"/>
+<rect x="20" y="20" width="260" height="129" rx="18" fill="#ffffff10" stroke="#ffffff22"/>
+<rect x="70" y="42" width="98" height="84" rx="10" fill="#f3d5b5" stroke="#e6ccb2" stroke-width="5"/>
+<path d="M86 101 q22 -42 44 -10 t44 0" fill="none" stroke="#bc6c25" stroke-width="6" stroke-linecap="round"/>
+<circle cx="102" cy="66" r="8" fill="#dda15e"/>
+<circle cx="136" cy="58" r="8" fill="#e9edc9"/>
+<circle cx="148" cy="112" r="8" fill="#ccd5ae"/>
+<path d="M198 55 l22 56" stroke="#fefae0" stroke-width="8" stroke-linecap="round"/>
+<ellipse cx="230" cy="119" rx="18" ry="12" fill="#f4a261"/>
+<circle cx="222" cy="115" r="5" fill="#2a9d8f"/>
+<circle cx="232" cy="122" r="5" fill="#e76f51"/>
+<circle cx="239" cy="113" r="5" fill="#e9c46a"/>
+</svg>

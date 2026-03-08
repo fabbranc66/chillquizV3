@@ -6,8 +6,18 @@
 <div class="module-debug-tag">admin/question_action.php</div>
 
 <div id="domande-sessione-wrapper" class="qa-wrap qa-card">
-    <div class="qa-title">Domande selezionate sessione</div>
+    <div class="qa-toolbar">
+        <div class="qa-title">Domande selezionate sessione</div>
+        <div class="qa-toolbar-actions">
+            <button id="btnSearchSessionImages" type="button">Ricerca immagini sessione</button>
+        </div>
+    </div>
     <div id="domande-sessione-list" class="qa-list">Nessuna domanda caricata</div>
+    <div id="session-image-search-report" class="qa-search-report" style="display:none;">
+        <div class="qa-subtitle">Suggerimenti immagini sessione corrente</div>
+        <div id="session-image-search-summary" class="qa-search-summary">Nessuna analisi eseguita</div>
+        <div id="session-image-search-list" class="qa-search-list"></div>
+    </div>
 </div>
 
 <div id="domanda-editor-wrapper" class="qa-editor qa-card" style="display:none;">

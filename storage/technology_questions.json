@@ -1,0 +1,1113 @@
+[
+    {
+        "testo":  "Quale azienda ha sviluppato il sistema operativo Windows?",
+        "opzioni":  [
+                        "Microsoft",
+                        "Apple",
+                        "IBM",
+                        "Oracle"
+                    ],
+        "corretta":  0,
+        "image_page":  "Microsoft"
+    },
+    {
+        "testo":  "Quale sigla indica la memoria a stato solido usata al posto dei dischi meccanici?",
+        "opzioni":  [
+                        "SSD",
+                        "RAM",
+                        "CPU",
+                        "GPU"
+                    ],
+        "corretta":  0,
+        "image_page":  "Solid-state_drive"
+    },
+    {
+        "testo":  "Quale protocollo viene usato di base per trasferire pagine web?",
+        "opzioni":  [
+                        "HTTP",
+                        "FTP",
+                        "SMTP",
+                        "SSH"
+                    ],
+        "corretta":  0,
+        "image_page":  "HTTP"
+    },
+    {
+        "testo":  "Quale azienda ha progettato l iPhone originale?",
+        "opzioni":  [
+                        "Apple",
+                        "Nokia",
+                        "Samsung",
+                        "Motorola"
+                    ],
+        "corretta":  0,
+        "image_page":  "IPhone"
+    },
+    {
+        "testo":  "Quale linguaggio e tipicamente eseguito dai browser web nel frontend?",
+        "opzioni":  [
+                        "JavaScript",
+                        "Python",
+                        "C",
+                        "Go"
+                    ],
+        "corretta":  0,
+        "image_page":  "JavaScript"
+    },
+    {
+        "testo":  "Quale componente del computer esegue la maggior parte delle istruzioni generali?",
+        "opzioni":  [
+                        "CPU",
+                        "SSD",
+                        "Monitor",
+                        "Modem"
+                    ],
+        "corretta":  0,
+        "image_page":  "Central_processing_unit"
+    },
+    {
+        "testo":  "Quale termine indica la tecnologia per pagare avvicinando il telefono al lettore?",
+        "opzioni":  [
+                        "NFC",
+                        "VPN",
+                        "UPS",
+                        "BIOS"
+                    ],
+        "corretta":  0,
+        "image_page":  "Near-field_communication"
+    },
+    {
+        "testo":  "Quale motore di ricerca e stato creato da Larry Page e Sergey Brin?",
+        "opzioni":  [
+                        "Google",
+                        "Bing",
+                        "Yahoo",
+                        "DuckDuckGo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Google_Search"
+    },
+    {
+        "testo":  "Quale standard Wi Fi e noto commercialmente come Wi Fi 6?",
+        "opzioni":  [
+                        "802.11ax",
+                        "802.11n",
+                        "802.11g",
+                        "802.11ac"
+                    ],
+        "corretta":  0,
+        "image_page":  "IEEE_802.11ax"
+    },
+    {
+        "testo":  "Quale dispositivo converte i segnali digitali per il collegamento a una linea dati esterna?",
+        "opzioni":  [
+                        "Modem",
+                        "Mouse",
+                        "Case",
+                        "Scanner"
+                    ],
+        "corretta":  0,
+        "image_page":  "Modem"
+    },
+    {
+        "testo":  "Quale formato di immagine usa compressione con perdita ed e molto diffuso sul web?",
+        "opzioni":  [
+                        "JPEG",
+                        "PNG",
+                        "SVG",
+                        "BMP"
+                    ],
+        "corretta":  0,
+        "image_page":  "JPEG"
+    },
+    {
+        "testo":  "Quale linguaggio e tradizionalmente usato per strutturare il contenuto delle pagine web?",
+        "opzioni":  [
+                        "HTML",
+                        "SQL",
+                        "Rust",
+                        "Kotlin"
+                    ],
+        "corretta":  0,
+        "image_page":  "HTML"
+    },
+    {
+        "testo":  "Quale linguaggio definisce lo stile grafico delle pagine web?",
+        "opzioni":  [
+                        "CSS",
+                        "PHP",
+                        "Csharp",
+                        "Swift"
+                    ],
+        "corretta":  0,
+        "image_page":  "CSS"
+    },
+    {
+        "testo":  "Quale sigla identifica il sistema dei nomi di dominio su Internet?",
+        "opzioni":  [
+                        "DNS",
+                        "GPU",
+                        "OLED",
+                        "IDE"
+                    ],
+        "corretta":  0,
+        "image_page":  "Domain_Name_System"
+    },
+    {
+        "testo":  "Quale azienda produce i processori Ryzen?",
+        "opzioni":  [
+                        "AMD",
+                        "Intel",
+                        "Nvidia",
+                        "Qualcomm"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ryzen"
+    },
+    {
+        "testo":  "Quale azienda e nota per la linea di schede video GeForce?",
+        "opzioni":  [
+                        "Nvidia",
+                        "AMD",
+                        "Intel",
+                        "Broadcom"
+                    ],
+        "corretta":  0,
+        "image_page":  "GeForce"
+    },
+    {
+        "testo":  "Quale sistema operativo open source e basato sul kernel Linux ed e molto usato sui server?",
+        "opzioni":  [
+                        "Ubuntu",
+                        "Windows Server",
+                        "macOS",
+                        "iOS"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ubuntu"
+    },
+    {
+        "testo":  "Quale termine indica l autenticazione con due fattori?",
+        "opzioni":  [
+                        "2FA",
+                        "OCR",
+                        "NAT",
+                        "RAID"
+                    ],
+        "corretta":  0,
+        "image_page":  "Multi-factor_authentication"
+    },
+    {
+        "testo":  "Quale porta video digitale ha sostituito in molti casi la VGA?",
+        "opzioni":  [
+                        "HDMI",
+                        "PS2",
+                        "RJ11",
+                        "COM"
+                    ],
+        "corretta":  0,
+        "image_page":  "HDMI"
+    },
+    {
+        "testo":  "Quale azienda ha sviluppato Android?",
+        "opzioni":  [
+                        "Google",
+                        "Samsung",
+                        "Nokia",
+                        "Sony"
+                    ],
+        "corretta":  0,
+        "image_page":  "Android_(operating_system)"
+    },
+    {
+        "testo":  "Quale comando SQL viene usato per leggere dati da una tabella?",
+        "opzioni":  [
+                        "SELECT",
+                        "DELETE",
+                        "DROP",
+                        "GRANT"
+                    ],
+        "corretta":  0,
+        "image_page":  "SQL"
+    },
+    {
+        "testo":  "Quale software di controllo versione usa il comando clone per copiare repository remoti?",
+        "opzioni":  [
+                        "Git",
+                        "Subversion",
+                        "Mercurial",
+                        "Perforce"
+                    ],
+        "corretta":  0,
+        "image_page":  "Git"
+    },
+    {
+        "testo":  "Quale protocollo viene usato tipicamente per inviare email da un client a un server?",
+        "opzioni":  [
+                        "SMTP",
+                        "IMAP",
+                        "POP3",
+                        "Telnet"
+                    ],
+        "corretta":  0,
+        "image_page":  "Simple_Mail_Transfer_Protocol"
+    },
+    {
+        "testo":  "Quale protocollo viene usato per ricevere email mantenendole sincronizzate sul server?",
+        "opzioni":  [
+                        "IMAP",
+                        "SMTP",
+                        "SNMP",
+                        "RDP"
+                    ],
+        "corretta":  0,
+        "image_page":  "Internet_Message_Access_Protocol"
+    },
+    {
+        "testo":  "Quale sigla indica una rete privata virtuale?",
+        "opzioni":  [
+                        "VPN",
+                        "NAS",
+                        "SSD",
+                        "LCD"
+                    ],
+        "corretta":  0,
+        "image_page":  "Virtual_private_network"
+    },
+    {
+        "testo":  "Quale termine indica un archivio collegato in rete per file e backup domestici o aziendali?",
+        "opzioni":  [
+                        "NAS",
+                        "CPU",
+                        "ROM",
+                        "KVM"
+                    ],
+        "corretta":  0,
+        "image_page":  "Network-attached_storage"
+    },
+    {
+        "testo":  "Quale linguaggio ha come mascotte un serpente e punta sulla leggibilita?",
+        "opzioni":  [
+                        "Python",
+                        "Java",
+                        "Ruby",
+                        "Scala"
+                    ],
+        "corretta":  0,
+        "image_page":  "Python_(programming_language)"
+    },
+    {
+        "testo":  "Quale linguaggio compilato e stato creato da Bjarne Stroustrup?",
+        "opzioni":  [
+                        "C++",
+                        "Java",
+                        "Perl",
+                        "Lua"
+                    ],
+        "corretta":  0,
+        "image_page":  "C%2B%2B"
+    },
+    {
+        "testo":  "Quale azienda ha prodotto storicamente il Macintosh?",
+        "opzioni":  [
+                        "Apple",
+                        "Dell",
+                        "HP",
+                        "Acer"
+                    ],
+        "corretta":  0,
+        "image_page":  "Macintosh"
+    },
+    {
+        "testo":  "Quale tecnologia di pannello e comune nei televisori di fascia alta per il contrasto elevato?",
+        "opzioni":  [
+                        "OLED",
+                        "CRT",
+                        "Plasma",
+                        "VFD"
+                    ],
+        "corretta":  0,
+        "image_page":  "OLED"
+    },
+    {
+        "testo":  "Quale componente mantiene data e impostazioni di base del PC anche a computer spento grazie a una batteria?",
+        "opzioni":  [
+                        "CMOS",
+                        "GPU",
+                        "SSD",
+                        "Cache L3"
+                    ],
+        "corretta":  0,
+        "image_page":  "Complementary_metal_oxide_semiconductor"
+    },
+    {
+        "testo":  "Quale parola indica un programma malevolo che cifra i dati e chiede un riscatto?",
+        "opzioni":  [
+                        "Ransomware",
+                        "Firewall",
+                        "Driver",
+                        "Hypervisor"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ransomware"
+    },
+    {
+        "testo":  "Quale software di versionamento usa il comando clone per copiare repository remoti?",
+        "opzioni":  [
+                        "Git",
+                        "Excel",
+                        "Docker",
+                        "Photoshop"
+                    ],
+        "corretta":  0,
+        "image_page":  "Git"
+    },
+    {
+        "testo":  "Quale formato video e noto per lo streaming online e per i file .mp4?",
+        "opzioni":  [
+                        "MPEG-4",
+                        "GIF",
+                        "TIFF",
+                        "WAV"
+                    ],
+        "corretta":  0,
+        "image_page":  "MPEG-4_Part_14"
+    },
+    {
+        "testo":  "Quale standard di collegamento usa la sigla USB?",
+        "opzioni":  [
+                        "Universal Serial Bus",
+                        "Ultra System Bridge",
+                        "Unified Service Base",
+                        "Universal Signal Board"
+                    ],
+        "corretta":  0,
+        "image_page":  "USB"
+    },
+    {
+        "testo":  "Quale tecnologia permette di eseguire piu sistemi operativi virtuali sulla stessa macchina fisica?",
+        "opzioni":  [
+                        "Virtualizzazione",
+                        "Deframmentazione",
+                        "Rasterizzazione",
+                        "Compressione"
+                    ],
+        "corretta":  0,
+        "image_page":  "Virtualization"
+    },
+    {
+        "testo":  "Quale azienda sviluppa il browser Chrome?",
+        "opzioni":  [
+                        "Google",
+                        "Mozilla",
+                        "Microsoft",
+                        "Opera"
+                    ],
+        "corretta":  0,
+        "image_page":  "Google_Chrome"
+    },
+    {
+        "testo":  "Quale browser open source e sviluppato dalla Mozilla Foundation?",
+        "opzioni":  [
+                        "Firefox",
+                        "Safari",
+                        "Edge",
+                        "Brave"
+                    ],
+        "corretta":  0,
+        "image_page":  "Firefox"
+    },
+    {
+        "testo":  "Quale protocollo protegge il traffico web con cifratura ed e indicato dal lucchetto nel browser?",
+        "opzioni":  [
+                        "HTTPS",
+                        "HTTP",
+                        "FTP",
+                        "TFTP"
+                    ],
+        "corretta":  0,
+        "image_page":  "HTTPS"
+    },
+    {
+        "testo":  "Quale tecnologia di stampa 3D fonde filamento plastico depositandolo strato per strato?",
+        "opzioni":  [
+                        "FDM",
+                        "RAID",
+                        "OLED",
+                        "LTO"
+                    ],
+        "corretta":  0,
+        "image_page":  "Fused_filament_fabrication"
+    },
+    {
+        "testo":  "Quale linguaggio di interrogazione e usato nei database relazionali?",
+        "opzioni":  [
+                        "SQL",
+                        "XML",
+                        "JSON",
+                        "YAML"
+                    ],
+        "corretta":  0,
+        "image_page":  "SQL"
+    },
+    {
+        "testo":  "Quale dispositivo di rete inoltra pacchetti tra reti diverse?",
+        "opzioni":  [
+                        "Router",
+                        "Switch",
+                        "Hub",
+                        "Repeater"
+                    ],
+        "corretta":  0,
+        "image_page":  "Router_(computing)"
+    },
+    {
+        "testo":  "Quale dispositivo di rete opera tipicamente a livello 2 smistando frame in una LAN?",
+        "opzioni":  [
+                        "Switch",
+                        "Router",
+                        "Firewall",
+                        "Modem"
+                    ],
+        "corretta":  0,
+        "image_page":  "Network_switch"
+    },
+    {
+        "testo":  "Quale azienda ha creato il servizio AWS?",
+        "opzioni":  [
+                        "Amazon",
+                        "Google",
+                        "IBM",
+                        "Oracle"
+                    ],
+        "corretta":  0,
+        "image_page":  "Amazon_Web_Services"
+    },
+    {
+        "testo":  "Quale modello di servizio cloud offre macchine virtuali e infrastruttura di base?",
+        "opzioni":  [
+                        "IaaS",
+                        "SaaS",
+                        "PaaS",
+                        "DaaS"
+                    ],
+        "corretta":  0,
+        "image_page":  "Cloud_computing"
+    },
+    {
+        "testo":  "Quale acronimo indica un software distribuito come servizio via web?",
+        "opzioni":  [
+                        "SaaS",
+                        "BIOS",
+                        "PCIe",
+                        "CDN"
+                    ],
+        "corretta":  0,
+        "image_page":  "Software_as_a_service"
+    },
+    {
+        "testo":  "Quale memoria e volatile e perde i dati allo spegnimento?",
+        "opzioni":  [
+                        "RAM",
+                        "ROM",
+                        "SSD",
+                        "Flash"
+                    ],
+        "corretta":  0,
+        "image_page":  "Random-access_memory"
+    },
+    {
+        "testo":  "Quale memoria non volatile contiene spesso il firmware di avvio?",
+        "opzioni":  [
+                        "ROM",
+                        "RAM",
+                        "VRAM",
+                        "SRAM"
+                    ],
+        "corretta":  0,
+        "image_page":  "Read-only_memory"
+    },
+    {
+        "testo":  "Quale interfaccia viene usata comunemente per collegare SSD molto veloci sulla scheda madre moderna?",
+        "opzioni":  [
+                        "M.2",
+                        "PS2",
+                        "RJ45",
+                        "AGP"
+                    ],
+        "corretta":  0,
+        "image_page":  "M.2"
+    },
+    {
+        "testo":  "Quale standard di comunicazione mobile e comunemente associato alla quinta generazione?",
+        "opzioni":  [
+                        "5G",
+                        "3G",
+                        "LTE",
+                        "GPRS"
+                    ],
+        "corretta":  0,
+        "image_page":  "5G"
+    },
+    {
+        "testo":  "Quale archivio compressore open source usa spesso l estensione .7z?",
+        "opzioni":  [
+                        "7-Zip",
+                        "Winamp",
+                        "Notepad++",
+                        "VLC"
+                    ],
+        "corretta":  0,
+        "image_page":  "7-Zip"
+    },
+    {
+        "testo":  "Quale formato serve per rappresentare dati strutturati in coppie chiave valore nel web moderno?",
+        "opzioni":  [
+                        "JSON",
+                        "BMP",
+                        "AVI",
+                        "PSD"
+                    ],
+        "corretta":  0,
+        "image_page":  "JSON"
+    },
+    {
+        "testo":  "Quale formato basato su tag e stato molto usato per dati e configurazioni prima di JSON?",
+        "opzioni":  [
+                        "XML",
+                        "CSV",
+                        "DOC",
+                        "PNG"
+                    ],
+        "corretta":  0,
+        "image_page":  "XML"
+    },
+    {
+        "testo":  "Quale azienda ha sviluppato il formato PDF?",
+        "opzioni":  [
+                        "Adobe",
+                        "Corel",
+                        "Autodesk",
+                        "Xerox"
+                    ],
+        "corretta":  0,
+        "image_page":  "PDF"
+    },
+    {
+        "testo":  "Quale applicazione e molto usata per il versionamento del codice con repository remoti Git?",
+        "opzioni":  [
+                        "GitHub",
+                        "Figma",
+                        "Trello",
+                        "Slack"
+                    ],
+        "corretta":  0,
+        "image_page":  "GitHub"
+    },
+    {
+        "testo":  "Quale azienda e dietro al servizio GitLab?",
+        "opzioni":  [
+                        "GitLab Inc.",
+                        "Atlassian",
+                        "Meta",
+                        "SAP"
+                    ],
+        "corretta":  0,
+        "image_page":  "GitLab"
+    },
+    {
+        "testo":  "Quale termine indica un programma che media tra sistema operativo e periferica?",
+        "opzioni":  [
+                        "Driver",
+                        "Cookie",
+                        "Patch panel",
+                        "Daemon set"
+                    ],
+        "corretta":  0,
+        "image_page":  "Device_driver"
+    },
+    {
+        "testo":  "Quale azienda ha sviluppato il database open source MySQL?",
+        "opzioni":  [
+                        "MySQL AB",
+                        "IBM",
+                        "Netscape",
+                        "Cisco"
+                    ],
+        "corretta":  0,
+        "image_page":  "MySQL"
+    },
+    {
+        "testo":  "Quale database relazionale open source e noto per la sua estensibilita e robustezza?",
+        "opzioni":  [
+                        "PostgreSQL",
+                        "Access",
+                        "SQLite",
+                        "Redis"
+                    ],
+        "corretta":  0,
+        "image_page":  "PostgreSQL"
+    },
+    {
+        "testo":  "Quale database in memoria a chiave valore usa spesso il comando SET?",
+        "opzioni":  [
+                        "Redis",
+                        "MongoDB",
+                        "MariaDB",
+                        "Cassandra"
+                    ],
+        "corretta":  0,
+        "image_page":  "Redis"
+    },
+    {
+        "testo":  "Quale tecnologia viene spesso usata per containerizzare applicazioni?",
+        "opzioni":  [
+                        "Docker",
+                        "Vim",
+                        "Jira",
+                        "WinRAR"
+                    ],
+        "corretta":  0,
+        "image_page":  "Docker_(software)"
+    },
+    {
+        "testo":  "Quale piattaforma di orchestrazione container e nota per i pod?",
+        "opzioni":  [
+                        "Kubernetes",
+                        "OpenOffice",
+                        "FreeBSD",
+                        "Ansible"
+                    ],
+        "corretta":  0,
+        "image_page":  "Kubernetes"
+    },
+    {
+        "testo":  "Quale formato audio compresso con perdita e stato reso famoso dai lettori portatili digitali?",
+        "opzioni":  [
+                        "MP3",
+                        "FLAC",
+                        "WAV",
+                        "AIFF"
+                    ],
+        "corretta":  0,
+        "image_page":  "MP3"
+    },
+    {
+        "testo":  "Quale codec video e alla base di gran parte dei contenuti streaming in HD per anni?",
+        "opzioni":  [
+                        "H.264",
+                        "GIF",
+                        "PCM",
+                        "AAC"
+                    ],
+        "corretta":  0,
+        "image_page":  "Advanced_Video_Coding"
+    },
+    {
+        "testo":  "Quale tipo di cavo di rete usa il connettore RJ45 nelle LAN moderne?",
+        "opzioni":  [
+                        "Ethernet",
+                        "Coassiale TV",
+                        "Telefonico RJ11",
+                        "Fibra ottica SCART"
+                    ],
+        "corretta":  0,
+        "image_page":  "Ethernet"
+    },
+    {
+        "testo":  "Quale tecnologia di storage ridondante usa piu dischi e puo migliorare affidabilita o prestazioni?",
+        "opzioni":  [
+                        "RAID",
+                        "BIOS",
+                        "UEFI",
+                        "DPI"
+                    ],
+        "corretta":  0,
+        "image_page":  "RAID"
+    },
+    {
+        "testo":  "Quale acronimo indica un gruppo di continuita per proteggere da blackout brevi?",
+        "opzioni":  [
+                        "UPS",
+                        "CPU",
+                        "URL",
+                        "APK"
+                    ],
+        "corretta":  0,
+        "image_page":  "Uninterruptible_power_supply"
+    },
+    {
+        "testo":  "Quale tipo di schermo usa inchiostro elettronico ed e tipico degli e reader?",
+        "opzioni":  [
+                        "E Ink",
+                        "OLED",
+                        "Plasma",
+                        "LCD CCFL"
+                    ],
+        "corretta":  0,
+        "image_page":  "Electronic_paper"
+    },
+    {
+        "testo":  "Quale azienda ha sviluppato la console PlayStation?",
+        "opzioni":  [
+                        "Sony",
+                        "Nintendo",
+                        "Sega",
+                        "Atari"
+                    ],
+        "corretta":  0,
+        "image_page":  "PlayStation"
+    },
+    {
+        "testo":  "Quale azienda produce la console Xbox?",
+        "opzioni":  [
+                        "Microsoft",
+                        "Sony",
+                        "Valve",
+                        "Lenovo"
+                    ],
+        "corretta":  0,
+        "image_page":  "Xbox"
+    },
+    {
+        "testo":  "Quale piattaforma di gioco per PC ha reso popolare Valve per la distribuzione digitale?",
+        "opzioni":  [
+                        "Steam",
+                        "Origin",
+                        "Uplay",
+                        "GOG Galaxy"
+                    ],
+        "corretta":  0,
+        "image_page":  "Steam_(service)"
+    },
+    {
+        "testo":  "Quale azienda ha prodotto storicamente i processori Core?",
+        "opzioni":  [
+                        "Intel",
+                        "AMD",
+                        "Arm",
+                        "Texas Instruments"
+                    ],
+        "corretta":  0,
+        "image_page":  "Intel_Core"
+    },
+    {
+        "testo":  "Quale architettura di processori e molto diffusa negli smartphone moderni?",
+        "opzioni":  [
+                        "ARM",
+                        "x86",
+                        "PowerPC",
+                        "SPARC"
+                    ],
+        "corretta":  0,
+        "image_page":  "ARM_architecture_family"
+    },
+    {
+        "testo":  "Quale sistema di firmware moderno ha in gran parte sostituito il BIOS tradizionale?",
+        "opzioni":  [
+                        "UEFI",
+                        "DOS",
+                        "BASIC",
+                        "RAID"
+                    ],
+        "corretta":  0,
+        "image_page":  "UEFI"
+    },
+    {
+        "testo":  "Quale linguaggio viene usato spesso per sviluppare applicazioni Android native insieme a Java?",
+        "opzioni":  [
+                        "Kotlin",
+                        "Ruby",
+                        "Delphi",
+                        "Fortran"
+                    ],
+        "corretta":  0,
+        "image_page":  "Kotlin_(programming_language)"
+    },
+    {
+        "testo":  "Quale linguaggio di Apple e usato per app iOS moderne?",
+        "opzioni":  [
+                        "Swift",
+                        "PHP",
+                        "Assembly",
+                        "Pascal"
+                    ],
+        "corretta":  0,
+        "image_page":  "Swift_(programming_language)"
+    },
+    {
+        "testo":  "Quale tipo di attacco inganna l utente per rubare credenziali simulando siti o messaggi legittimi?",
+        "opzioni":  [
+                        "Phishing",
+                        "Hashing",
+                        "Caching",
+                        "Routing"
+                    ],
+        "corretta":  0,
+        "image_page":  "Phishing"
+    },
+    {
+        "testo":  "Quale componente software filtra traffico di rete in ingresso e uscita secondo regole?",
+        "opzioni":  [
+                        "Firewall",
+                        "Compiler",
+                        "Hyperlink",
+                        "Scheduler"
+                    ],
+        "corretta":  0,
+        "image_page":  "Firewall_(computing)"
+    },
+    {
+        "testo":  "Quale tecnologia blockchain e nota per la criptovaluta Bitcoin?",
+        "opzioni":  [
+                        "Blockchain",
+                        "Bluetooth",
+                        "NFC",
+                        "USB"
+                    ],
+        "corretta":  0,
+        "image_page":  "Blockchain"
+    },
+    {
+        "testo":  "Quale criptovaluta e stata proposta da Satoshi Nakamoto?",
+        "opzioni":  [
+                        "Bitcoin",
+                        "Ethereum",
+                        "Litecoin",
+                        "Monero"
+                    ],
+        "corretta":  0,
+        "image_page":  "Bitcoin"
+    },
+    {
+        "testo":  "Quale licenza open source e spesso associata al copyleft del software libero?",
+        "opzioni":  [
+                        "GPL",
+                        "MIT No Attribution",
+                        "EULA",
+                        "NDA"
+                    ],
+        "corretta":  0,
+        "image_page":  "GNU_General_Public_License"
+    },
+    {
+        "testo":  "Quale sistema operativo per smartphone era prodotto da BlackBerry Limited?",
+        "opzioni":  [
+                        "BlackBerry OS",
+                        "Symbian",
+                        "Palm OS",
+                        "HarmonyOS"
+                    ],
+        "corretta":  0,
+        "image_page":  "BlackBerry_OS"
+    },
+    {
+        "testo":  "Quale azienda ha creato il protocollo Bluetooth insieme a un consorzio industriale?",
+        "opzioni":  [
+                        "Ericsson",
+                        "Nokia",
+                        "IBM",
+                        "Philips"
+                    ],
+        "corretta":  0,
+        "image_page":  "Bluetooth"
+    },
+    {
+        "testo":  "Quale porta viene usata tipicamente per collegare una rete Ethernet cablata a un PC?",
+        "opzioni":  [
+                        "RJ45",
+                        "HDMI",
+                        "USB-C audio only",
+                        "3.5 mm"
+                    ],
+        "corretta":  0,
+        "image_page":  "Registered_jack"
+    },
+    {
+        "testo":  "Quale estensione di file eseguibile e tipica dei programmi Windows?",
+        "opzioni":  [
+                        ".exe",
+                        ".png",
+                        ".csv",
+                        ".html"
+                    ],
+        "corretta":  0,
+        "image_page":  "EXE"
+    },
+    {
+        "testo":  "Quale tipo di software consente di modificare immagini raster a livelli ed e reso famoso da Adobe?",
+        "opzioni":  [
+                        "Photoshop",
+                        "Premiere Pro",
+                        "Illustrator",
+                        "Audition"
+                    ],
+        "corretta":  0,
+        "image_page":  "Adobe_Photoshop"
+    },
+    {
+        "testo":  "Quale applicazione e nota per il montaggio video professionale di Adobe?",
+        "opzioni":  [
+                        "Premiere Pro",
+                        "Lightroom",
+                        "Acrobat",
+                        "Dreamweaver"
+                    ],
+        "corretta":  0,
+        "image_page":  "Adobe_Premiere_Pro"
+    },
+    {
+        "testo":  "Quale programma open source e molto diffuso per l editing di immagini raster come alternativa gratuita?",
+        "opzioni":  [
+                        "GIMP",
+                        "Inkscape",
+                        "OBS Studio",
+                        "Audacity"
+                    ],
+        "corretta":  0,
+        "image_page":  "GIMP"
+    },
+    {
+        "testo":  "Quale programma open source e usato spesso per registrazione e streaming video live?",
+        "opzioni":  [
+                        "OBS Studio",
+                        "Blender",
+                        "LibreOffice Calc",
+                        "Thunderbird"
+                    ],
+        "corretta":  0,
+        "image_page":  "OBS_Studio"
+    },
+    {
+        "testo":  "Quale programma open source e molto usato per editing audio multitraccia di base?",
+        "opzioni":  [
+                        "Audacity",
+                        "VLC",
+                        "HandBrake",
+                        "Kodi"
+                    ],
+        "corretta":  0,
+        "image_page":  "Audacity_(audio_editor)"
+    },
+    {
+        "testo":  "Quale software libero di modellazione 3D e animazione e noto anche per i corti open movie?",
+        "opzioni":  [
+                        "Blender",
+                        "Maya",
+                        "SolidWorks",
+                        "AutoCAD"
+                    ],
+        "corretta":  0,
+        "image_page":  "Blender_(software)"
+    },
+    {
+        "testo":  "Quale tecnologia permette di risolvere nomi tipo esempio.com in indirizzi IP?",
+        "opzioni":  [
+                        "DNS",
+                        "DHCP",
+                        "POP3",
+                        "MMS"
+                    ],
+        "corretta":  0,
+        "image_page":  "Domain_Name_System"
+    },
+    {
+        "testo":  "Quale protocollo assegna automaticamente indirizzi IP in molte reti locali?",
+        "opzioni":  [
+                        "DHCP",
+                        "DNS",
+                        "SSH",
+                        "NTP"
+                    ],
+        "corretta":  0,
+        "image_page":  "Dynamic_Host_Configuration_Protocol"
+    },
+    {
+        "testo":  "Quale protocollo viene usato per collegarsi in modo sicuro a una shell remota?",
+        "opzioni":  [
+                        "SSH",
+                        "FTP",
+                        "HTTP",
+                        "LDAP"
+                    ],
+        "corretta":  0,
+        "image_page":  "Secure_Shell"
+    },
+    {
+        "testo":  "Quale protocollo storico non cifrato veniva usato per terminali remoti prima di SSH?",
+        "opzioni":  [
+                        "Telnet",
+                        "HTTPS",
+                        "SCP",
+                        "SFTP"
+                    ],
+        "corretta":  0,
+        "image_page":  "Telnet"
+    },
+    {
+        "testo":  "Quale formato e usato per pacchettizzare applicazioni Android da installare manualmente?",
+        "opzioni":  [
+                        "APK",
+                        "DMG",
+                        "ISO",
+                        "DEB"
+                    ],
+        "corretta":  0,
+        "image_page":  "APK_(file_format)"
+    },
+    {
+        "testo":  "Quale formato e comune per immagini vettoriali sul web?",
+        "opzioni":  [
+                        "SVG",
+                        "JPEG",
+                        "BMP",
+                        "RAW"
+                    ],
+        "corretta":  0,
+        "image_page":  "SVG"
+    },
+    {
+        "testo":  "Quale piattaforma professionale di networking lavorativo appartiene a Microsoft?",
+        "opzioni":  [
+                        "LinkedIn",
+                        "Reddit",
+                        "Pinterest",
+                        "Snapchat"
+                    ],
+        "corretta":  0,
+        "image_page":  "LinkedIn"
+    },
+    {
+        "testo":  "Quale azienda ha acquistato Instagram nel 2012?",
+        "opzioni":  [
+                        "Meta",
+                        "Google",
+                        "X Corp",
+                        "Adobe"
+                    ],
+        "corretta":  0,
+        "image_page":  "Instagram"
+    },
+    {
+        "testo":  "Quale servizio di messaggistica di Meta usa la crittografia end to end di Signal per impostazione diffusa?",
+        "opzioni":  [
+                        "WhatsApp",
+                        "Messenger Rooms",
+                        "Workplace",
+                        "Threads"
+                    ],
+        "corretta":  0,
+        "image_page":  "WhatsApp"
+    },
+    {
+        "testo":  "Quale piattaforma video in streaming appartiene a Google?",
+        "opzioni":  [
+                        "YouTube",
+                        "Vimeo",
+                        "Twitch",
+                        "Dailymotion"
+                    ],
+        "corretta":  0,
+        "image_page":  "YouTube"
+    }
+]

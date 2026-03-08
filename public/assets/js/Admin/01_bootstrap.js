@@ -23,8 +23,10 @@
     domandaCorrente: null,
     audioPreviewDomandaId: 0,
     audioPreviewResetTimer: null,
+    sessionImageSearchSessionId: 0,
     statoRequestInFlight: false,
     joinRequestInFlight: false,
     domandaMetaRequestInFlight: false,
+    sessionImageSearchInFlight: false,
   };
 })();

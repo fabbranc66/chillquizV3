@@ -21,6 +21,10 @@
     btnToggleDomandeSessione: document.getElementById('btnToggleDomandeSessione'),
     domandeSessioneWrapper: document.getElementById('domande-sessione-wrapper'),
     domandeSessioneList: document.getElementById('domande-sessione-list'),
+    btnSearchSessionImages: document.getElementById('btnSearchSessionImages'),
+    sessionImageSearchReport: document.getElementById('session-image-search-report'),
+    sessionImageSearchSummary: document.getElementById('session-image-search-summary'),
+    sessionImageSearchList: document.getElementById('session-image-search-list'),
 
     domandaCorrenteMetaWrap: document.getElementById('domanda-corrente-meta'),
     domandaCorrenteMetaBody: document.getElementById('domanda-corrente-meta-body'),

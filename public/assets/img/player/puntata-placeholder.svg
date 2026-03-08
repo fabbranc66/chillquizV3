@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300" role="img" aria-label="Puntata">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#132a13"/>
+<stop offset="100%" stop-color="#31572c"/>
+</linearGradient>
+<linearGradient id="coin" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#ffd166"/>
+<stop offset="100%" stop-color="#ffb703"/>
+</linearGradient>
+</defs>
+<rect width="300" height="300" rx="36" fill="url(#bg)"/>
+<circle cx="78" cy="72" r="54" fill="#ffffff10"/>
+<circle cx="246" cy="238" r="66" fill="#ffffff10"/>
+<rect x="42" y="48" width="216" height="204" rx="28" fill="#ffffff12" stroke="#ffffff22"/>
+<circle cx="150" cy="126" r="58" fill="url(#coin)"/>
+<circle cx="150" cy="126" r="43" fill="none" stroke="#fff6d5" stroke-width="7"/>
+<path d="M128 119h19c10 0 18 6 18 16s-8 16-18 16h-19v18" fill="none" stroke="#173f1b" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/>
+<path d="M150 91v70" fill="none" stroke="#173f1b" stroke-linecap="round" stroke-width="12"/>
+<text x="150" y="225" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="1.5">PUNTATA</text>
+</svg>

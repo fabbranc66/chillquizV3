@@ -59,10 +59,15 @@
 
   if (D.btnToggleDomandeSessione) D.btnToggleDomandeSessione.onclick = () => Admin.actions.toggleDomandeSessione();
   if (D.btnToggleDomandaEditor) D.btnToggleDomandaEditor.onclick = () => Admin.actions.toggleDomandaEditor();
+  if (D.btnSearchSessionImages) D.btnSearchSessionImages.onclick = () => Admin.actions.cercaImmaginiSessioneCorrente();
+  if (Admin.actions.resetSessionImageSearchReport) Admin.actions.resetSessionImageSearchReport();
 
   if (D.sessioneSelect) {
     D.sessioneSelect.onchange = () => {
       Admin.actions.popolaFormSessioneDaSelect();
+      if (Admin.actions.resetSessionImageSearchReport) {
+        Admin.actions.resetSessionImageSearchReport();
+      }
 
       if (D.domandeSessioneWrapper && D.domandeSessioneWrapper.style.display !== 'none') {
         Admin.actions.caricaDomandeSessione(Number(D.sessioneSelect.value || 0));

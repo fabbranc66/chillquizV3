@@ -78,14 +78,17 @@
       const sessione = data.sessione;
       const stato = sessione.stato;
       S.domandaTimerStart = Number(sessione?.timer_start || 0);
+      const stateChanged = stato !== S.currentState;
 
-      if (stato !== S.currentState) {
+      if (stateChanged) {
         S.currentState = stato;
         S.rispostaInviata = false;
         S.puntataInviata = false;
       }
 
-      renderState(sessione);
+      if (!(stato === 'puntata' && !stateChanged)) {
+        renderState(sessione, stateChanged);
+      }
 
       if (stato === 'domanda') {
         Player.domanda.fetchDomanda();
@@ -97,10 +100,8 @@
     }
   }
 
-  function renderState(sessione) {
+  function renderState(sessione, stateChanged = false) {
     const stato = sessione?.stato;
-
-    Player.screens.hideAllScreens();
 
     if (!isDomandaAttiva(stato) && stato !== 'puntata') {
       S.domandaFetchNonce++;
@@ -110,30 +111,32 @@
 
     switch (stato) {
       case 'domanda':
-        Player.screens.show('screen-domanda');
+        Player.screens.showOnly('screen-domanda');
         renderTimer(sessione);
         break;
 
       case 'risultati':
       case 'conclusa':
-        Player.screens.show('screen-risultati');
+        Player.screens.showOnly('screen-risultati');
         Player.classifica.fetchClassifica();
         resetTimerUI();
         break;
 
       case 'attesa':
-        Player.screens.show('screen-lobby');
+        Player.screens.showOnly('screen-lobby');
         resetTimerUI();
         break;
 
       case 'puntata':
-        Player.screens.show('screen-puntata');
-        Player.domanda.fetchTipoDomandaBadge?.();
+        Player.screens.showOnly('screen-puntata');
+        if (stateChanged) {
+          Player.puntata.prepareScreen?.();
+        }
         resetTimerUI();
         break;
 
       default:
-        Player.screens.show('screen-lobby');
+        Player.screens.showOnly('screen-lobby');
         resetTimerUI();
         break;
     }
