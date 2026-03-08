@@ -4,6 +4,7 @@ namespace App\Services\Sessione\Traits;
 
 use App\Models\Sistema;
 use App\Services\Question\ImpostoreModeService;
+use App\Services\Question\MemeModeService;
 use App\Services\Question\QuestionModeResolver;
 
 trait ClassificaTrait
@@ -31,6 +32,7 @@ trait ClassificaTrait
         $domandaCorrenteRow = $this->loadDomandaCorrenteRow($domandaId);
         $modeMeta = (new QuestionModeResolver())->resolveFromRow($domandaCorrenteRow);
         $modeMeta = (new ImpostoreModeService())->applyRuntimeOverride($this->sessioneId, $domandaId, $modeMeta);
+        $modeMeta = (new MemeModeService())->applyRuntimeOverride($this->sessioneId, $domandaId, $modeMeta);
         $isImpostoreMode = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC'))) === 'IMPOSTORE';
         $impostoreService = new ImpostoreModeService();
         $assignment = $isImpostoreMode ? $impostoreService->getAssignment($this->sessioneId, $domandaId) : null;

@@ -7,6 +7,8 @@
     domandaNumero: document.getElementById('domanda-numero'),
     partecipantiSpan: document.getElementById('partecipanti-numero'),
     timerIndicator: document.getElementById('timer-indicator'),
+    memeTextInput: document.getElementById('memeTextInput'),
+    btnMemeToggle: document.getElementById('btnMemeToggle'),
     btnImpostoreToggle: document.getElementById('btnImpostoreToggle'),
 
     inputSessioneNome: document.getElementById('sessione-nome'),

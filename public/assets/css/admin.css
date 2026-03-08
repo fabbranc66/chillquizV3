@@ -78,6 +78,18 @@ h2 {
     font-size: 13px;
 }
 
+.badge-input {
+    min-width: min(320px, 62vw);
+    text-align: left;
+    color: #fff;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.14);
+}
+
+.badge-input::placeholder {
+    color: rgba(255,255,255,.68);
+}
+
 /* ================= CARD LOOK ================= */
 
 .row {
@@ -155,6 +167,11 @@ button.enabled {
 button.disabled {
     background: linear-gradient(135deg, #e74c3c, #922b21) !important;
     opacity: .85;
+}
+
+button.is-locked {
+    opacity: .72;
+    cursor: not-allowed;
 }
 
 /* Pulsante speciale blu */

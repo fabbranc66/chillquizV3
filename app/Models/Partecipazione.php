@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Core\Database;
 use App\Services\Question\ImpostoreModeService;
+use App\Services\Question\MemeModeService;
 use App\Services\Question\QuestionModeResolver;
 use App\Services\Question\Score\ScoreEngine;
 use PDO;
@@ -100,8 +101,15 @@ class Partecipazione
         }
 
         $stmt = $this->pdo->prepare(
-            "SELECT corretta FROM opzioni
-             WHERE id = :id LIMIT 1"
+            "SELECT o.corretta,
+                    o.testo AS risposta_data_testo,
+                    c.testo AS risposta_corretta_testo
+             FROM opzioni o
+             LEFT JOIN opzioni c
+               ON c.domanda_id = o.domanda_id
+              AND c.corretta = 1
+             WHERE o.id = :id
+             LIMIT 1"
         );
 
         $stmt->execute(['id' => $opzioneId]);
@@ -111,6 +119,8 @@ class Partecipazione
         }
 
         $corretta = (int) $opzione['corretta'];
+        $rispostaDataTesto = (string) ($opzione['risposta_data_testo'] ?? '');
+        $rispostaCorrettaTesto = (string) ($opzione['risposta_corretta_testo'] ?? '');
 
         $stmt = $this->pdo->prepare(
             "SELECT * FROM domande
@@ -148,6 +158,18 @@ class Partecipazione
         $sessioneId = (int) $sessionData['sessione_id'];
         $inizioDomanda = (float) $sessionData['inizio_domanda'];
         $modeMeta = (new ImpostoreModeService())->applyRuntimeOverride($sessioneId, $domandaId, $modeMeta);
+        $modeMeta = (new MemeModeService())->applyRuntimeOverride($sessioneId, $domandaId, $modeMeta);
+        $isMemeMode = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC'))) === 'MEME';
+
+        if ($isMemeMode) {
+            $memeState = (new MemeModeService())->getRuntimeState($sessioneId);
+            $memeText = trim((string) ($memeState['meme_text'] ?? ''));
+            $displayWrongOptionId = (int) ($memeState['display_wrong_option_id'] ?? 0);
+
+            if ($memeText !== '' && $displayWrongOptionId > 0 && $displayWrongOptionId === $opzioneId) {
+                $rispostaDataTesto = $memeText;
+            }
+        }
 
         $tempoServer = max(0, round(microtime(true) - $inizioDomanda, 3));
         $tempoRisposta = $tempoServer;
@@ -276,6 +298,8 @@ class Partecipazione
             'tipo_domanda' => $modeMeta['tipo_domanda'],
             'modalita_party' => $modeMeta['modalita_party'],
             'fase_domanda' => $modeMeta['fase_domanda'],
+            'risposta_data_testo' => $rispostaDataTesto,
+            'risposta_corretta_testo' => $rispostaCorrettaTesto,
         ];
     }
 

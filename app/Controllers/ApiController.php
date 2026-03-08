@@ -12,6 +12,7 @@ use App\Models\ScreenMedia;
 use App\Models\AppSettings;
 use App\Services\Admin\SessionImageSearchService;
 use App\Services\Question\ImpostoreModeService;
+use App\Services\Question\MemeModeService;
 use App\Services\SessioneService;
 use Throwable;
 
@@ -384,10 +385,21 @@ class ApiController
                     : false;
                 $locked = in_array((string) ($sessione['stato'] ?? ''), ['domanda', 'conclusa'], true);
 
+                $memeService = new MemeModeService();
+                $memeState = $memeService->getRuntimeState((int) ($sessione['id'] ?? 0));
+                $memeEnabled = $eligible
+                    ? $memeService->isEnabledForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
+                    : false;
+
                 $sessione['impostore_enabled'] = $enabled;
                 $sessione['impostore_eligible'] = (bool) $eligible;
                 $sessione['impostore_locked'] = $locked;
                 $sessione['impostore_question_id'] = (int) ($currentQuestion['id'] ?? 0);
+                $sessione['meme_enabled'] = $memeEnabled;
+                $sessione['meme_eligible'] = (bool) $eligible;
+                $sessione['meme_locked'] = $locked;
+                $sessione['meme_question_id'] = (int) ($currentQuestion['id'] ?? 0);
+                $sessione['meme_text'] = trim((string) ($memeState['meme_text'] ?? ''));
             }
 
             $this->json([
@@ -1130,6 +1142,76 @@ public function join($sessioneId): void
                         'sessione_id' => $targetSessioneId,
                         'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
                         'enabled' => $impostoreService->isEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
+                    ]);
+                    return;
+
+                case 'meme-toggle':
+                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                    if ($targetSessioneId <= 0) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Sessione non valida'
+                        ]);
+                        return;
+                    }
+
+                    $sessionRow = (new Sessione())->trova($targetSessioneId);
+                    if (!$sessionRow) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Sessione non trovata'
+                        ]);
+                        return;
+                    }
+
+                    if (in_array((string) ($sessionRow['stato'] ?? ''), ['domanda', 'conclusa'], true)) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'MEME modificabile solo prima dello stato domanda'
+                        ]);
+                        return;
+                    }
+
+                    $currentQuestion = $this->loadCurrentQuestionForSession($targetSessioneId);
+                    if (!$currentQuestion) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Domanda corrente non disponibile'
+                        ]);
+                        return;
+                    }
+
+                    $modeMeta = (new \App\Services\Question\QuestionModeResolver())->resolveFromRow($currentQuestion);
+                    $currentType = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
+                    if ($currentType === 'SARABANDA') {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'MEME non disponibile su domande SARABANDA'
+                        ]);
+                        return;
+                    }
+
+                    $enabled = (int) ($_POST['enabled'] ?? 0) === 1;
+                    $memeText = trim((string) ($_POST['meme_text'] ?? ''));
+                    if ($enabled && $memeText === '') {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Inserisci il testo meme prima di attivare la modalita'
+                        ]);
+                        return;
+                    }
+
+                    $memeService = new MemeModeService();
+                    $memeService->setEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled, $memeText);
+                    $state = $memeService->getRuntimeState($targetSessioneId);
+
+                    $this->json([
+                        'success' => true,
+                        'action' => $action,
+                        'sessione_id' => $targetSessioneId,
+                        'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
+                        'enabled' => $memeService->isEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
+                        'meme_text' => trim((string) ($state['meme_text'] ?? '')),
                     ]);
                     return;
 

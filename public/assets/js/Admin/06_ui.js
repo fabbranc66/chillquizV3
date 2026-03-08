@@ -49,6 +49,7 @@
     },
 
     aggiornaUI(sessione) {
+      S.currentSessionState = sessione || null;
       if (D.sessioneIdSpan) D.sessioneIdSpan.textContent = String(S.SESSIONE_ID);
 
       const nomeSessione = String(sessione?.nome_sessione || sessione?.nome || sessione?.titolo || '').trim();
@@ -64,6 +65,8 @@
       if (D.statoDiv) D.statoDiv.textContent = 'Stato: ' + sessione.stato;
       if (D.conclusaDiv) D.conclusaDiv.style.display = (sessione.stato === 'conclusa') ? 'block' : 'none';
       S.impostoreEnabled = !!sessione.impostore_enabled;
+      S.memeEnabled = !!sessione.meme_enabled;
+      S.memeText = String(sessione.meme_text || '');
 
       Admin.ui.setButton(D.btnPuntata, sessione.stato === 'attesa' || sessione.stato === 'risultati');
       Admin.ui.setButton(D.btnDomanda, sessione.stato === 'puntata');
@@ -84,11 +87,35 @@
         const enabled = !!sessione.impostore_enabled;
         D.btnImpostoreToggle.textContent = enabled ? 'IMPOSTORE ON' : 'IMPOSTORE OFF';
         D.btnImpostoreToggle.disabled = !eligible || locked;
-        D.btnImpostoreToggle.classList.toggle('enabled', enabled && eligible && !locked);
-        D.btnImpostoreToggle.classList.toggle('disabled', !enabled || !eligible || locked);
+        D.btnImpostoreToggle.classList.toggle('enabled', enabled);
+        D.btnImpostoreToggle.classList.toggle('disabled', !enabled || !eligible);
+        D.btnImpostoreToggle.classList.toggle('is-locked', locked);
         D.btnImpostoreToggle.title = !eligible
           ? 'Non disponibile per SARABANDA'
           : (locked ? 'Modificabile solo prima dello stato domanda' : 'Applica IMPOSTORE alla domanda corrente');
+      }
+
+      if (D.memeTextInput) {
+        const locked = !!sessione.meme_locked;
+        D.memeTextInput.disabled = locked;
+        if (document.activeElement !== D.memeTextInput) {
+          const preferredText = S.memeDraftText || S.memeText || '';
+          D.memeTextInput.value = preferredText;
+        }
+      }
+
+      if (D.btnMemeToggle) {
+        const eligible = !!sessione.meme_eligible;
+        const locked = !!sessione.meme_locked;
+        const enabled = !!sessione.meme_enabled;
+        D.btnMemeToggle.textContent = enabled ? 'MEME ON' : 'MEME OFF';
+        D.btnMemeToggle.disabled = !eligible || locked;
+        D.btnMemeToggle.classList.toggle('enabled', enabled);
+        D.btnMemeToggle.classList.toggle('disabled', !enabled || !eligible);
+        D.btnMemeToggle.classList.toggle('is-locked', locked);
+        D.btnMemeToggle.title = !eligible
+          ? 'Non disponibile per SARABANDA'
+          : (locked ? 'Modificabile solo prima dello stato domanda' : 'Applica MEME alla domanda corrente');
       }
 
       Admin.actions.aggiornaPartecipanti();

@@ -4,6 +4,7 @@ namespace App\Services\Sessione\Traits;
 
 use App\Models\Partecipazione;
 use App\Services\Question\ImpostoreModeService;
+use App\Services\Question\MemeModeService;
 use RuntimeException;
 
 trait TransizioniTrait
@@ -39,6 +40,7 @@ trait TransizioniTrait
         $this->generaDomandeSessione();
         $this->svuotaPuntateLive();
         $this->resetRevealCorretta();
+        (new MemeModeService())->clearRuntimeState($this->sessioneId);
         $this->aggiornaStato('puntata');
     }
 
@@ -59,6 +61,9 @@ trait TransizioniTrait
 
         if ($tipoDomanda === 'IMPOSTORE') {
             (new ImpostoreModeService())->assignForQuestion($this->sessioneId, (int) ($domandaCorrente['id'] ?? 0));
+        }
+        if ($tipoDomanda === 'MEME') {
+            (new MemeModeService())->prepareForQuestion($this->sessioneId, (int) ($domandaCorrente['id'] ?? 0));
         }
 
         if ($tipoDomanda === 'SARABANDA' && $hasAudio) {
@@ -125,10 +130,12 @@ trait TransizioniTrait
             $this->sessione['inizio_domanda'] = null;
             $this->sessione['mostra_corretta_fino'] = null;
             (new ImpostoreModeService())->clearRuntimeState($this->sessioneId);
+            (new MemeModeService())->clearRuntimeState($this->sessioneId);
         } else {
             $this->resetRevealCorretta();
             $this->aggiornaStato('conclusa');
             (new ImpostoreModeService())->clearRuntimeState($this->sessioneId);
+            (new MemeModeService())->clearRuntimeState($this->sessioneId);
         }
     }
 }

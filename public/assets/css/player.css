@@ -6,6 +6,11 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
 :root {
     --app-max: 520px;
     --radius-md: 12px;
@@ -25,11 +30,12 @@ body {
 
 #app {
     width: 100%;
-    max-width: var(--app-max);
+    max-width: min(var(--app-max), 100vw);
     height: 100dvh;
     display: flex;
     flex-direction: column;
     background: transparent;
+    min-width: 0;
 }
 
 /* HEADER */
@@ -44,9 +50,11 @@ body {
     column-gap: 10px;
     font-weight: 700;
     font-size: 16px;
+    min-width: 0;
 }
 
 #player-display-name {
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -56,6 +64,7 @@ body {
     color: #8fffc3;
     font-weight: 800;
     white-space: nowrap;
+    min-width: 0;
 }
 
 .header-timer-wrap {
@@ -66,6 +75,7 @@ body {
     border-radius: 999px;
     background: rgba(0, 0, 0, 0.26);
     border: 1px solid rgba(255, 255, 255, 0.28);
+    min-width: 0;
 }
 
 /* CONTENT */
@@ -83,6 +93,7 @@ body {
     width: 100%;
     text-align: center;
     animation: screenIn .2s ease;
+    min-width: 0;
 }
 
 #screen-puntata {
@@ -96,6 +107,7 @@ body {
         linear-gradient(180deg, rgba(18, 42, 19, 0.94), rgba(44, 84, 34, 0.88));
     border: 1px solid rgba(255, 255, 255, 0.16);
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+    min-width: 0;
 }
 
 #screen-accesso {
@@ -225,6 +237,7 @@ input {
         linear-gradient(180deg, rgba(16, 18, 48, 0.92), rgba(31, 24, 76, 0.88));
     border: 1px solid rgba(255, 255, 255, 0.16);
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.32);
+    min-width: 0;
 }
 
 #domanda-testo {
@@ -234,6 +247,7 @@ input {
     font-weight: 900;
     text-wrap: balance;
     letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
 }
 
 .domanda-status-message {
@@ -244,6 +258,7 @@ input {
     font-weight: 800;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.16);
+    overflow-wrap: anywhere;
 }
 
 .domanda-status-message.is-impostore {
@@ -252,21 +267,10 @@ input {
     color: #fff4f7;
 }
 
-.question-type-badge-player {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin: 0;
-}
-
-.question-type-badge-image-player {
-    width: min(86vw, 220px);
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 1 / 1;
-    object-fit: contain;
-    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.28));
+.domanda-status-message.is-meme {
+    background: linear-gradient(135deg, rgba(126, 63, 242, 0.94), rgba(44, 20, 126, 0.92));
+    border-color: rgba(225, 208, 255, 0.34);
+    color: #f8f4ff;
 }
 
 .puntata-placeholder {
@@ -298,6 +302,7 @@ input {
     place-items: center;
     gap: 10px;
     aspect-ratio: 16 / 9;
+    max-height: min(42vh, 320px);
     border-radius: 18px;
     border: 1px dashed rgba(255, 255, 255, 0.28);
     background:
@@ -363,10 +368,11 @@ input {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+    min-width: 0;
 }
 
 .grid-opzioni button {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: auto;
     min-height: 80px;
     padding: 10px 12px;
     font-size: 16px;
@@ -380,6 +386,9 @@ input {
     transition: transform 0.1s, filter 0.12s ease, box-shadow 0.12s ease;
     touch-action: manipulation;
     border-bottom: 4px solid rgba(0, 0, 0, 0.22);
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: normal;
 }
 
 .grid-opzioni button:nth-child(1) { background: #e84118; }
@@ -418,6 +427,12 @@ input {
 .grid-opzioni button.is-reveal-dim {
     opacity: 0.38;
     filter: grayscale(0.1);
+}
+
+.grid-opzioni button.meme-letter-button {
+    font-size: clamp(28px, 9vw, 56px);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 /* RISULTATI / CLASSIFICA */
@@ -581,8 +596,9 @@ body.module-tags-off .module-debug-tag {
     .header {
         padding-left: 10px;
         padding-right: 10px;
-        font-size: 14px;
-        column-gap: 6px;
+        font-size: 13px;
+        column-gap: 4px;
+        grid-template-columns: minmax(0, 1fr) auto auto;
     }
 
     .player-timer-indicator {
@@ -601,8 +617,8 @@ body.module-tags-off .module-debug-tag {
     }
 
     .header-timer-wrap {
-        gap: 6px;
-        padding: 3px 6px;
+        gap: 4px;
+        padding: 3px 5px;
     }
 
     input,
@@ -631,9 +647,9 @@ body.module-tags-off .module-debug-tag {
 
     .grid-opzioni button {
         aspect-ratio: 16 / 9;
-        min-height: 70px;
-        font-size: 15px;
-        padding: 10px 8px;
+        min-height: 64px;
+        font-size: 14px;
+        padding: 8px 7px;
     }
 
     #risultato-personale .riga-testo {
@@ -679,8 +695,306 @@ body.module-tags-off .module-debug-tag {
 
     .grid-opzioni button {
         aspect-ratio: 16 / 9;
-        min-height: 60px;
-        font-size: 14px;
+        min-height: 54px;
+        font-size: 13px;
+    }
+}
+
+/* Override duro contro ingrandimento font telefono */
+@media (max-width: 480px) {
+    body {
+        font-size: 14px !important;
+    }
+
+    #screen-puntata,
+    #screen-domanda {
+        padding: 10px !important;
+        gap: 10px !important;
+        border-radius: 16px !important;
+    }
+
+    .content {
+        padding: 12px !important;
+        padding-bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    }
+
+    .header {
+        grid-template-columns: minmax(0, 1fr) auto auto !important;
+        column-gap: 4px !important;
+        font-size: 14px !important;
+        padding: 10px !important;
+        padding-top: max(10px, env(safe-area-inset-top)) !important;
+    }
+
+    .header-timer-wrap {
+        gap: 4px !important;
+        padding: 3px 5px !important;
+    }
+
+    .player-timer-indicator {
+        width: 34px !important;
+        height: 34px !important;
+    }
+
+    .player-timer-indicator-inner {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    .player-timer-label {
+        font-size: 12px !important;
+        min-width: 26px !important;
+    }
+
+    #domanda-testo {
+        font-size: clamp(17px, 4.8vw, 23px) !important;
+        line-height: 1.12 !important;
+    }
+
+    .domanda-status-message {
+        padding: 8px 10px !important;
+        font-size: 12px !important;
+    }
+
+    .puntata-placeholder-image {
+        width: min(52vw, 140px) !important;
+    }
+
+    .domanda-media-wrap {
+        width: 100% !important;
+        max-height: min(34vh, 240px) !important;
+        border-radius: 14px !important;
+    }
+
+    .domanda-media-image {
+        padding: 6px !important;
+    }
+
+    .grid-opzioni {
+        gap: 8px !important;
+    }
+
+    .grid-opzioni button {
+        min-height: 68px !important;
+        font-size: 14px !important;
+        padding: 8px 7px !important;
+        border-radius: 12px !important;
+        border-bottom-width: 3px !important;
+        line-height: 1.15 !important;
+        font-weight: 700 !important;
+    }
+
+    .grid-opzioni button.meme-letter-button {
+        font-size: clamp(22px, 8vw, 42px) !important;
+    }
+}
+
+@media (max-width: 390px) {
+    body {
+        font-size: 13px !important;
+    }
+
+    .header {
+        font-size: 12px !important;
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+        column-gap: 3px !important;
+    }
+
+    .player-timer-label {
+        font-size: 11px !important;
+        min-width: 22px !important;
+    }
+
+    input,
+    .btn-primary {
+        min-height: 46px !important;
+        font-size: 15px !important;
+    }
+
+    #screen-puntata,
+    #screen-domanda {
+        padding: 8px !important;
+        gap: 8px !important;
+        border-radius: 14px !important;
+    }
+
+    .puntata-placeholder-image {
+        width: min(44vw, 112px) !important;
+    }
+
+    #domanda-testo {
+        font-size: clamp(15px, 4.2vw, 20px) !important;
+        line-height: 1.08 !important;
+    }
+
+    .domanda-media-wrap {
+        max-height: min(30vh, 200px) !important;
+    }
+
+    .domanda-media-image {
+        padding: 4px !important;
+    }
+
+    .domanda-media-caption {
+        font-size: 11px !important;
+        padding: 6px 8px !important;
+    }
+
+    .domanda-status-message {
+        padding: 7px 8px !important;
+        font-size: 11px !important;
+    }
+
+    .grid-opzioni {
+        gap: 6px !important;
+    }
+
+    .grid-opzioni button {
+        min-height: 58px !important;
+        font-size: 13px !important;
+        padding: 6px !important;
+        border-radius: 10px !important;
+        border-bottom-width: 2px !important;
+    }
+
+    #risultato-personale .riga-testo {
+        font-size: 12px !important;
+    }
+
+    .classifica-item {
+        font-size: 12px !important;
+        padding: 8px !important;
+    }
+}
+
+@media (max-width: 360px) {
+    body {
+        font-size: 12px !important;
+    }
+
+    .content {
+        padding: 8px !important;
+        padding-bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    }
+
+    .header {
+        padding: 7px 6px !important;
+        padding-top: max(7px, env(safe-area-inset-top)) !important;
+        font-size: 11px !important;
+        column-gap: 2px !important;
+    }
+
+    .header-timer-wrap {
+        padding: 2px 4px !important;
+        gap: 3px !important;
+    }
+
+    .player-timer-indicator {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .player-timer-indicator-inner {
+        width: 19px !important;
+        height: 19px !important;
+    }
+
+    .player-timer-label {
+        font-size: 10px !important;
+        min-width: 18px !important;
+    }
+
+    input,
+    .btn-primary,
+    .btn-secondary {
+        min-height: 42px !important;
+        font-size: 13px !important;
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+    }
+
+    #screen-puntata,
+    #screen-domanda {
+        padding: 6px !important;
+        gap: 6px !important;
+        border-radius: 12px !important;
+    }
+
+    #domanda-testo {
+        font-size: clamp(13px, 4vw, 17px) !important;
+    }
+
+    .domanda-status-message {
+        padding: 6px 7px !important;
+        font-size: 10px !important;
+    }
+
+    .puntata-placeholder-image {
+        width: min(38vw, 90px) !important;
+    }
+
+    .domanda-media-wrap {
+        max-height: min(24vh, 150px) !important;
+        border-radius: 12px !important;
+    }
+
+    .domanda-media-image {
+        padding: 2px !important;
+    }
+
+    .domanda-media-caption {
+        font-size: 10px !important;
+        padding: 4px 6px !important;
+        margin: 0 4px 4px !important;
+    }
+
+    .grid-opzioni {
+        gap: 5px !important;
+    }
+
+    .grid-opzioni button {
+        min-height: 50px !important;
+        font-size: 11px !important;
+        padding: 5px !important;
+        border-radius: 9px !important;
+        border-bottom-width: 2px !important;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.26) !important;
+    }
+
+    .grid-opzioni button.meme-letter-button {
+        font-size: clamp(18px, 7vw, 32px) !important;
+    }
+
+    #risultato-personale .riga-testo,
+    .classifica-item {
+        font-size: 11px !important;
+    }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+    #screen-domanda {
+        gap: 8px !important;
+        padding: 8px !important;
+    }
+
+    .content {
+        padding-top: 8px !important;
+        padding-bottom: 8px !important;
+    }
+
+    #domanda-testo {
+        font-size: clamp(14px, 3vw, 18px) !important;
+    }
+
+    .domanda-media-image {
+        padding: 4px !important;
+    }
+
+    .grid-opzioni button {
+        min-height: 50px !important;
+        font-size: 12px !important;
+        padding: 6px !important;
     }
 }
 

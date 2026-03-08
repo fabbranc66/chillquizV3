@@ -21,6 +21,8 @@
     <div class="badge">
         <span class="timer-wrap">Timer: <span id="timer-indicator" class="timer-indicator"><span class="timer-indicator-inner"></span></span></span>
     </div>
+    <input id="memeTextInput" type="text" class="badge badge-input" placeholder="Testo MEME assurdo">
+    <button id="btnMemeToggle" type="button" class="badge badge-toggle">MEME OFF</button>
     <button id="btnImpostoreToggle" type="button" class="badge badge-toggle">IMPOSTORE OFF</button>
 </div>
 

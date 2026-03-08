@@ -180,6 +180,12 @@ body {
     color: #fff3f6;
 }
 
+.domanda-status-message.is-meme {
+    background: linear-gradient(135deg, rgba(88, 41, 185, 0.96), rgba(40, 18, 106, 0.94));
+    border-color: rgba(217, 203, 255, 0.34);
+    color: #f8f4ff;
+}
+
 .grid-opzioni {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -204,10 +210,47 @@ body {
     text-align: center;
 }
 
+.opzione-meme {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    align-content: start;
+    gap: 10px;
+    text-align: left;
+    padding: 14px 16px;
+}
+
+.opzione-lettera {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.24);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.opzione-testo {
+    display: block;
+    width: 100%;
+    line-height: 1.15;
+}
+
+.opzione-testo.is-meme-display {
+    font-style: italic;
+}
+
 .grid-opzioni .opzione:nth-child(1) { background: #e84118; }
 .grid-opzioni .opzione:nth-child(2) { background: #0097e6; }
 .grid-opzioni .opzione:nth-child(3) { background: #fbc531; color: #111; }
 .grid-opzioni .opzione:nth-child(4) { background: #4cd137; }
+
+.grid-opzioni .opzione.opzione-kahoot-1 { background: #e84118; color: #fff; }
+.grid-opzioni .opzione.opzione-kahoot-2 { background: #0097e6; color: #fff; }
+.grid-opzioni .opzione.opzione-kahoot-3 { background: #fbc531; color: #111; }
+.grid-opzioni .opzione.opzione-kahoot-4 { background: #4cd137; color: #fff; }
 
 .grid-opzioni .opzione.is-correct-reveal {
     background: #44d62c !important;

@@ -11,7 +11,6 @@
         <img id="domanda-media-image-player" class="domanda-media-image hidden" alt="Media domanda">
         <div id="domanda-media-caption-player" class="domanda-media-caption hidden"></div>
     </div>
-
     <div id="domanda-status-message-player" class="domanda-status-message hidden"></div>
     <h2 id="domanda-testo"></h2>
     <div id="opzioni" class="grid-opzioni"></div>

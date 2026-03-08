@@ -27,18 +27,20 @@ let audioUnlockedByUser = false;
 let statoRequestInFlight = false;
 let mediaRequestInFlight = false;
 let audioPreviewRequestInFlight = false;
+let memeRotationTimer = null;
+let memeRotationStep = -1;
 const QUESTION_TYPE_ICON_MAP = {
   CLASSIC: 'assets/img/question-types/classic.png',
   MEDIA: 'assets/img/question-types/classic.png',
   SARABANDA: 'assets/img/question-types/sarabanda.png',
-  IMPOSTORE: 'assets/img/question-types/impostore.png',
-  MEME: 'assets/img/question-types/meme.png',
-  MAJORITY: 'assets/img/question-types/majority.png',
-  RANDOM_BONUS: 'assets/img/question-types/random_bonus.png',
-  BOMB: 'assets/img/question-types/bomb.png',
-  CHAOS: 'assets/img/question-types/chaos.png',
-  AUDIO_PARTY: 'assets/img/question-types/audio_party.png',
-  IMAGE_PARTY: 'assets/img/question-types/image_party.png',
+  IMPOSTORE: 'assets/img/question-types/classic.png',
+  MEME: 'assets/img/question-types/classic.png',
+  MAJORITY: 'assets/img/question-types/classic.png',
+  RANDOM_BONUS: 'assets/img/question-types/classic.png',
+  BOMB: 'assets/img/question-types/classic.png',
+  CHAOS: 'assets/img/question-types/classic.png',
+  AUDIO_PARTY: 'assets/img/question-types/classic.png',
+  IMAGE_PARTY: 'assets/img/question-types/classic.png',
 };
 
 function extractSessioneIdFromUrl() {
@@ -515,6 +517,73 @@ function renderDomandaMedia(domanda, imageOnly = false) {
   wrap.classList.toggle('media-slot-empty', !hasAny);
 }
 
+function stopMemeRotation() {
+  if (memeRotationTimer) {
+    window.clearInterval(memeRotationTimer);
+    memeRotationTimer = null;
+  }
+  memeRotationStep = -1;
+}
+
+function getMemeRotationStep(domanda) {
+  const rotationMs = Math.max(100, Number(domanda?.meme_rotation_ms || 300));
+  const elapsedMs = currentTimerStart > 0
+    ? Math.max(0, Math.floor(((Date.now() / 1000) - currentTimerStart) * 1000))
+    : 0;
+  return Math.floor(elapsedMs / rotationMs);
+}
+
+function getMemeSlots(step) {
+  const base = [
+    { letter: 'A', palette: 1 },
+    { letter: 'B', palette: 2 },
+    { letter: 'C', palette: 3 },
+    { letter: 'D', palette: 4 },
+  ];
+  const normalized = ((Number(step || 0) % base.length) + base.length) % base.length;
+  if (normalized === 0) return base;
+  return base.slice(normalized).concat(base.slice(0, normalized));
+}
+
+function renderMemeOptions(domanda, showCorrect, correctOptionId) {
+  const opzioniNode = document.getElementById('opzioni');
+  if (!opzioniNode) return;
+
+  const baseOptions = Array.isArray(domanda?.opzioni) ? [...domanda.opzioni] : [];
+  stopMemeRotation();
+  memeRotationStep = 0;
+  const slots = getMemeSlots(0);
+  opzioniNode.innerHTML = '';
+
+  baseOptions.forEach((opzione, index) => {
+    const slot = slots[index] || { letter: String(index + 1), palette: (index % 4) + 1 };
+    const el = document.createElement('div');
+    el.className = `opzione opzione-meme opzione-kahoot-${slot.palette}`;
+    if (showCorrect) {
+      if (String(opzione?.id || '') === correctOptionId) {
+        el.classList.add('is-correct-reveal');
+      } else {
+        el.classList.add('is-reveal-dim');
+      }
+    }
+
+    const label = document.createElement('span');
+    label.className = 'opzione-lettera';
+    label.innerText = slot.letter;
+
+    const text = document.createElement('span');
+    text.className = 'opzione-testo';
+    text.innerText = String(opzione?.display_text || opzione?.testo || '');
+    if (opzione?.is_meme_display) {
+      text.classList.add('is-meme-display');
+    }
+
+    el.appendChild(label);
+    el.appendChild(text);
+    opzioniNode.appendChild(el);
+  });
+}
+
 async function playScreenAudioPreview(preview) {
   if (!canUseAudioPreview()) {
     clearAudioPreviewRuntime();
@@ -623,6 +692,7 @@ async function fetchAudioPreviewStatus() {
 }
 
 function hideDomandaView() {
+  stopMemeRotation();
   clearAudioPreviewRuntime();
   currentDomandaData = null;
   hideRisultatiView();
@@ -634,6 +704,7 @@ function hideDomandaView() {
     statusMessage.innerText = '';
     statusMessage.classList.add('hidden');
     statusMessage.classList.remove('is-impostore');
+    statusMessage.classList.remove('is-meme');
   }
   document.getElementById('opzioni').innerHTML = '';
   clearQuestionTypeBadge();
@@ -654,6 +725,7 @@ function showDomandaView() {
 }
 
 function showDomandaLoadingView() {
+  stopMemeRotation();
   showDomandaView();
 
   if (domandaRenderizzata) return;
@@ -668,6 +740,7 @@ function showDomandaLoadingView() {
     statusMessage.innerText = '';
     statusMessage.classList.add('hidden');
     statusMessage.classList.remove('is-impostore');
+    statusMessage.classList.remove('is-meme');
   }
   clearQuestionTypeBadge();
   clearDomandaMedia();
@@ -697,21 +770,31 @@ function renderDomanda(domanda) {
   const isImpostoreMasked = !!domanda.impostore_masked;
   const showCorrect = !!domanda.show_correct;
   const correctOptionId = String(domanda.correct_option_id || '');
+  const hasMemeDecoratedOptions = Array.isArray(domanda.opzioni)
+    && domanda.opzioni.some((opzione) => String(opzione?.display_text || '') !== '');
+  const isMemeMode = !!domanda.meme_mode || tipoDomanda === 'MEME' || hasMemeDecoratedOptions;
 
   const titolo = document.getElementById('domanda-testo');
   const opzioni = document.getElementById('opzioni');
   const statusMessage = getDomandaStatusMessageNode();
 
-  titolo.innerText = isSarabandaIntro ? '' : (domanda.testo || '');
+  titolo.innerText = isImpostoreMasked ? '' : (isSarabandaIntro ? '' : (domanda.testo || ''));
   if (statusMessage) {
-    if (isImpostoreMasked) {
+    if (isMemeMode) {
+      statusMessage.innerText = String(domanda.meme_screen_notice || 'Modalita MEME: le risposte ruotano ogni 0,3 secondi.');
+      statusMessage.classList.remove('hidden');
+      statusMessage.classList.add('is-meme');
+      statusMessage.classList.remove('is-impostore');
+    } else if (isImpostoreMasked) {
       statusMessage.innerText = String(domanda.impostore_screen_notice || 'Modalita IMPOSTORE: lo schermo non mostra la domanda.');
       statusMessage.classList.remove('hidden');
       statusMessage.classList.add('is-impostore');
+      statusMessage.classList.remove('is-meme');
     } else {
       statusMessage.innerText = '';
       statusMessage.classList.add('hidden');
       statusMessage.classList.remove('is-impostore');
+      statusMessage.classList.remove('is-meme');
     }
   }
   renderQuestionTypeBadge(domanda);
@@ -729,6 +812,13 @@ function renderDomanda(domanda) {
   opzioni.innerHTML = '';
 
   if (isSarabandaIntro) {
+    domandaRenderizzata = true;
+    showDomandaView();
+    return;
+  }
+
+  if (isMemeMode) {
+    renderMemeOptions(domanda, showCorrect, correctOptionId);
     domandaRenderizzata = true;
     showDomandaView();
     return;

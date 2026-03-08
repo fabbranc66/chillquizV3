@@ -5,31 +5,15 @@
   const D = Player.dom;
   const { isDomandaAttiva } = Player.utils;
 
-  const PUBLIC_BASE = String(S.API_BASE || '').replace(/\?url=api.*$/i, '');
-  const QUESTION_TYPE_ICON_MAP = {
-    CLASSIC: 'assets/img/question-types/classic.png',
-    MEDIA: 'assets/img/question-types/classic.png',
-    SARABANDA: 'assets/img/question-types/sarabanda.png',
-    IMPOSTORE: 'assets/img/question-types/impostore.png',
-    MEME: 'assets/img/question-types/meme.png',
-    MAJORITY: 'assets/img/question-types/majority.png',
-    RANDOM_BONUS: 'assets/img/question-types/random_bonus.png',
-    BOMB: 'assets/img/question-types/bomb.png',
-    CHAOS: 'assets/img/question-types/chaos.png',
-    AUDIO_PARTY: 'assets/img/question-types/audio_party.png',
-    IMAGE_PARTY: 'assets/img/question-types/image_party.png',
-  };
-
+  const PUBLIC_BASE = String(S.PUBLIC_BASE_URL || '/');
   function resolveMediaUrl(path) {
     const raw = String(path || '').trim();
     if (!raw) return '';
     if (/^https?:\/\//i.test(raw) || raw.startsWith('data:')) return raw;
 
     const normalizedPath = raw.startsWith('/') ? raw.slice(1) : raw;
-    if (!PUBLIC_BASE) return `/${normalizedPath}`;
-
-    const base = PUBLIC_BASE.endsWith('/') ? PUBLIC_BASE : `${PUBLIC_BASE}/`;
-    return `${base}${normalizedPath}`;
+    const basePath = PUBLIC_BASE.endsWith('/') ? PUBLIC_BASE : `${PUBLIC_BASE}/`;
+    return `${window.location.origin}${basePath}${normalizedPath}`;
   }
 
   function getMediaNodes() {
@@ -41,36 +25,37 @@
     };
   }
 
+  function buildDomandaRenderKey(domanda) {
+    if (!domanda || !Array.isArray(domanda.opzioni)) return '';
+    const optionKey = domanda.opzioni.map((opzione) => [
+      Number(opzione?.id || 0),
+      String(opzione?.testo || ''),
+      String(opzione?.display_text || ''),
+      opzione?.is_meme_display ? '1' : '0',
+    ].join(':')).join('|');
+
+    return [
+      Number(domanda.id || 0),
+      String(domanda.tipo_domanda || ''),
+      domanda.show_correct ? '1' : '0',
+      String(domanda.correct_option_id || ''),
+      domanda.impostore_masked ? '1' : '0',
+      domanda.is_impostore ? '1' : '0',
+      domanda.meme_mode ? '1' : '0',
+      String(domanda.media_image_path || ''),
+      String(domanda.media_caption || ''),
+      String(S.domandaTimerStart || 0),
+      optionKey,
+    ].join('||');
+  }
+
   function clearQuestionTypeBadge() {
     S.badgeQuestionId = 0;
     S.badgeTipoDomanda = '';
-    if (D.questionTypeBadgeImagePlayer) {
-      D.questionTypeBadgeImagePlayer.removeAttribute('src');
-      D.questionTypeBadgeImagePlayer.classList.add('hidden');
-    }
-    if (D.questionTypeBadgePlayer) {
-      D.questionTypeBadgePlayer.classList.add('hidden');
-    }
   }
 
   function renderQuestionTypeBadge(tipoDomandaRaw) {
-    const tipo = String(tipoDomandaRaw || 'CLASSIC').trim().toUpperCase();
-    const rel = QUESTION_TYPE_ICON_MAP[tipo] || '';
-    if (!rel || !D.questionTypeBadgePlayer || !D.questionTypeBadgeImagePlayer) {
-      clearQuestionTypeBadge();
-      return;
-    }
-
-    const src = resolveMediaUrl(rel);
-    if (D.questionTypeBadgeImagePlayer.src === src && !D.questionTypeBadgeImagePlayer.classList.contains('hidden')) {
-      if (D.questionTypeBadgePlayer) D.questionTypeBadgePlayer.classList.remove('hidden');
-      return;
-    }
-
-    D.questionTypeBadgeImagePlayer.onerror = () => clearQuestionTypeBadge();
-    D.questionTypeBadgeImagePlayer.src = src;
-    D.questionTypeBadgeImagePlayer.classList.remove('hidden');
-    D.questionTypeBadgePlayer.classList.remove('hidden');
+    clearQuestionTypeBadge();
   }
 
   function normalizeBadgeQuestionType(domanda) {
@@ -82,8 +67,10 @@
 
   function resetDomandaMedia() {
     const { wrap, image, audio, caption } = getMediaNodes();
+    S.lastMediaUrl = '';
 
     if (image) {
+      image.onerror = null;
       image.removeAttribute('src');
       image.classList.add('hidden');
     }
@@ -116,12 +103,23 @@
     let hasAny = false;
 
     if (image && imageUrl) {
-      image.src = imageUrl;
+      if (S.lastMediaUrl !== imageUrl) {
+        image.onerror = () => {
+          image.removeAttribute('src');
+          image.classList.add('hidden');
+          wrap.classList.add('media-slot-empty');
+          wrap.classList.remove('has-media');
+        };
+        image.src = imageUrl;
+        S.lastMediaUrl = imageUrl;
+      }
       image.classList.remove('hidden');
       hasAny = true;
     } else if (image) {
+      image.onerror = null;
       image.removeAttribute('src');
       image.classList.add('hidden');
+      S.lastMediaUrl = '';
     }
 
     if (audio) {
@@ -146,12 +144,87 @@
     wrap.classList.toggle('media-slot-empty', !hasAny);
   }
 
+  function stopMemeRotation() {
+    if (S.memeRotationTimer) {
+      window.clearInterval(S.memeRotationTimer);
+      S.memeRotationTimer = null;
+    }
+    S.memeRotationStep = -1;
+  }
+
+  function getMemeRotationStep(domanda) {
+    const rotationMs = Math.max(100, Number(domanda?.meme_rotation_ms || 300));
+    const start = Number(S.domandaTimerStart || 0);
+    const elapsedMs = start > 0
+      ? Math.max(0, Math.floor(((Date.now() / 1000) - start) * 1000))
+      : 0;
+    return Math.floor(elapsedMs / rotationMs);
+  }
+
+  function getMemeSlots(step) {
+    const base = [
+      { letter: 'A', palette: 1 },
+      { letter: 'B', palette: 2 },
+      { letter: 'C', palette: 3 },
+      { letter: 'D', palette: 4 },
+    ];
+    const normalized = ((Number(step || 0) % base.length) + base.length) % base.length;
+    if (normalized === 0) return base;
+    return base.slice(normalized).concat(base.slice(0, normalized));
+  }
+
+  function renderMemeButtons(domanda, showCorrect, correctOptionId) {
+    const baseOptions = Array.isArray(domanda?.opzioni) ? domanda.opzioni : [];
+    const letters = ['A', 'B', 'C', 'D'];
+    const applyStep = () => {
+      const step = showCorrect ? 0 : getMemeRotationStep(domanda);
+      if (!showCorrect && step === S.memeRotationStep) {
+        return;
+      }
+
+      S.memeRotationStep = step;
+      const slots = getMemeSlots(step);
+      D.opzioniDiv.innerHTML = '';
+
+      baseOptions.forEach((opzione, index) => {
+        const slot = slots[index] || { letter: String(index + 1), palette: (index % 4) + 1 };
+        const btn = document.createElement('button');
+        btn.innerText = letters[index] || String(index + 1);
+        btn.dataset.id = String(opzione?.id || '');
+        btn.dataset.letter = letters[index] || '';
+        btn.classList.add(`opzione-kahoot-${slot.palette}`, 'meme-letter-button');
+
+        if (showCorrect) {
+          btn.disabled = true;
+          if (btn.dataset.id === correctOptionId) {
+            btn.classList.add('is-correct-reveal');
+          } else {
+            btn.classList.add('is-reveal-dim');
+          }
+        } else {
+          btn.onclick = () => inviaRisposta(domanda.id, opzione.id);
+        }
+
+        D.opzioniDiv.appendChild(btn);
+      });
+    };
+
+    applyStep();
+    stopMemeRotation();
+    if (!showCorrect) {
+      S.memeRotationTimer = window.setInterval(applyStep, 75);
+    }
+  }
+
   function resetDomandaView() {
+    stopMemeRotation();
+    S.renderedDomandaKey = '';
     if (D.domandaTesto) D.domandaTesto.innerText = '';
     if (D.domandaStatusMessage) {
       D.domandaStatusMessage.innerText = '';
       D.domandaStatusMessage.classList.add('hidden');
       D.domandaStatusMessage.classList.remove('is-impostore');
+      D.domandaStatusMessage.classList.remove('is-meme');
     }
     if (D.opzioniDiv) D.opzioniDiv.innerHTML = '';
     resetDomandaMedia();
@@ -225,6 +298,11 @@
 
     if (!D.domandaTesto || !D.opzioniDiv) return;
 
+    const renderKey = buildDomandaRenderKey(domanda);
+    if (renderKey !== '' && renderKey === S.renderedDomandaKey) {
+      return;
+    }
+
     const domandaId = Number(domanda.id || 0);
     const tipoDomanda = normalizeBadgeQuestionType(domanda);
     const nowSec = Math.floor(Date.now() / 1000);
@@ -233,21 +311,32 @@
     const correctOptionId = String(domanda.correct_option_id || '');
     const isImpostoreMasked = !!domanda.impostore_masked;
     const isImpostore = !!domanda.is_impostore;
+    const hasMemeDecoratedOptions = Array.isArray(domanda.opzioni)
+      && domanda.opzioni.some((opzione) => String(opzione?.display_text || '') !== '');
+    const isMemeMode = !!domanda.meme_mode || tipoDomanda === 'MEME' || hasMemeDecoratedOptions;
 
-    D.domandaTesto.innerText = isSarabandaIntro ? '' : (domanda.testo || '');
+    D.domandaTesto.innerText = (isSarabandaIntro || isMemeMode || isImpostoreMasked) ? '' : (domanda.testo || '');
     if (D.domandaStatusMessage) {
-      if (isImpostoreMasked) {
+      if (isMemeMode) {
+        D.domandaStatusMessage.innerText = String(domanda.meme_player_notice || 'Modalita MEME: premi A/B/C/D mentre le associazioni ruotano.');
+        D.domandaStatusMessage.classList.remove('hidden');
+        D.domandaStatusMessage.classList.add('is-meme');
+        D.domandaStatusMessage.classList.remove('is-impostore');
+      } else if (isImpostoreMasked) {
         D.domandaStatusMessage.innerText = String(domanda.impostore_notice || 'Sei l\'impostore: osserva gli altri e deduci la risposta.');
         D.domandaStatusMessage.classList.remove('hidden');
         D.domandaStatusMessage.classList.add('is-impostore');
+        D.domandaStatusMessage.classList.remove('is-meme');
       } else if (isImpostore) {
         D.domandaStatusMessage.innerText = 'Sei l\'impostore, ma in questa vista la domanda e mascherata.';
         D.domandaStatusMessage.classList.remove('hidden');
         D.domandaStatusMessage.classList.add('is-impostore');
+        D.domandaStatusMessage.classList.remove('is-meme');
       } else {
         D.domandaStatusMessage.innerText = '';
         D.domandaStatusMessage.classList.add('hidden');
         D.domandaStatusMessage.classList.remove('is-impostore');
+        D.domandaStatusMessage.classList.remove('is-meme');
       }
     }
     S.badgeQuestionId = domandaId;
@@ -285,6 +374,12 @@
       S.questionShownTimerStart = timerStart;
     }
 
+    if (isMemeMode) {
+      S.renderedDomandaKey = renderKey;
+      renderMemeButtons(domanda, showCorrect, correctOptionId);
+      return;
+    }
+
     domanda.opzioni.forEach((opzione, index) => {
       const btn = document.createElement('button');
       btn.innerText = opzione.testo || '';
@@ -306,6 +401,8 @@
 
       D.opzioniDiv.appendChild(btn);
     });
+
+    S.renderedDomandaKey = renderKey;
   }
 
   async function inviaRisposta(domandaId, opzioneId) {

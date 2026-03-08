@@ -36,6 +36,10 @@
       return;
     }
 
+    if (S.timerInterval && Number(S.domandaTimerStart || 0) === start) {
+      return;
+    }
+
     if (S.timerInterval) {
       clearInterval(S.timerInterval);
       S.timerInterval = null;
@@ -84,6 +88,9 @@
         S.currentState = stato;
         S.rispostaInviata = false;
         S.puntataInviata = false;
+        if (stato !== 'risultati') {
+          S.lastImmediateResult = null;
+        }
       }
 
       if (!(stato === 'puntata' && !stateChanged)) {

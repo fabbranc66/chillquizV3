@@ -35,7 +35,6 @@
             <option value="CLASSIC">CLASSIC</option>
             <option value="MEDIA">MEDIA</option>
             <option value="SARABANDA">SARABANDA</option>
-            <option value="MEME">MEME</option>
             <option value="MAJORITY">MAJORITY</option>
             <option value="RANDOM_BONUS">RANDOM_BONUS</option>
             <option value="BOMB">BOMB</option>

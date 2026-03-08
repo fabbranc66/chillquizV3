@@ -3,6 +3,7 @@
 namespace App\Services\Sessione\Traits;
 
 use App\Services\Question\ImpostoreModeService;
+use App\Services\Question\MemeModeService;
 use App\Services\Question\QuestionModeResolver;
 use RuntimeException;
 
@@ -120,6 +121,7 @@ trait PoolDomandeTrait
 
         $modeMeta = (new QuestionModeResolver())->resolveFromRow($domanda);
         $modeMeta = (new ImpostoreModeService())->applyRuntimeOverride($this->sessioneId, (int) ($domanda['id'] ?? 0), $modeMeta);
+        $modeMeta = (new MemeModeService())->applyRuntimeOverride($this->sessioneId, (int) ($domanda['id'] ?? 0), $modeMeta);
 
         $domanda['tipo_domanda'] = $modeMeta['tipo_domanda'];
         $domanda['modalita_party'] = $modeMeta['modalita_party'];
@@ -151,6 +153,7 @@ trait PoolDomandeTrait
             $viewer,
             $partecipazioneId
         );
+        $domanda = (new MemeModeService())->decorateQuestion($domanda, $this->sessioneId);
 
         return $domanda;
     }

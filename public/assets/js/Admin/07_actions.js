@@ -35,6 +35,59 @@
     return raw.startsWith('/') ? raw : `/${raw}`;
   }
 
+  function sanitizeMemeText(raw) {
+    return String(raw || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function refreshMemeToggleUi(enabled, textValue = '') {
+    S.memeEnabled = !!enabled;
+    if (textValue !== '') {
+      S.memeText = sanitizeMemeText(textValue);
+    }
+
+    const current = S.currentSessionState || {};
+    const eligible = current.meme_eligible !== undefined ? !!current.meme_eligible : true;
+    const locked = current.meme_locked !== undefined ? !!current.meme_locked : false;
+
+    if (D.btnMemeToggle) {
+      D.btnMemeToggle.textContent = S.memeEnabled ? 'MEME ON' : 'MEME OFF';
+      D.btnMemeToggle.disabled = !eligible || locked;
+      D.btnMemeToggle.classList.toggle('enabled', S.memeEnabled);
+      D.btnMemeToggle.classList.toggle('disabled', !S.memeEnabled || !eligible);
+      D.btnMemeToggle.classList.toggle('is-locked', locked);
+    }
+
+    if (D.memeTextInput && document.activeElement !== D.memeTextInput) {
+      D.memeTextInput.value = S.memeDraftText || S.memeText || '';
+    }
+  }
+
+  function getMemeDraftStorageKey() {
+    return `chillquiz_meme_draft_${Number(S.SESSIONE_ID || 0)}`;
+  }
+
+  function loadMemeDraft() {
+    try {
+      return sanitizeMemeText(window.localStorage.getItem(getMemeDraftStorageKey()) || '');
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function saveMemeDraft(value) {
+    const normalized = sanitizeMemeText(value);
+    S.memeDraftText = normalized;
+    try {
+      if (normalized) {
+        window.localStorage.setItem(getMemeDraftStorageKey(), normalized);
+      } else {
+        window.localStorage.removeItem(getMemeDraftStorageKey());
+      }
+    } catch (e) {
+      console.warn(e);
+    }
+  }
+
   function resolveMediaUrl(path) {
     const normalized = normalizePath(path);
     if (!normalized) return '';
@@ -276,6 +329,7 @@
     const tipo = escapeHtml(String(domanda.tipo_domanda || 'CLASSIC'));
     const modalita = escapeHtml(String(domanda.modalita_party || '-'));
     const fase = escapeHtml(String(domanda.fase_domanda || 'domanda'));
+    const memeMode = !!domanda.meme_mode;
     const hasImage = String(domanda.media_image_path || '').trim() !== '';
     const hasAudio = String(domanda.media_audio_path || '').trim() !== '';
     const hasCaption = String(domanda.media_caption || '').trim() !== '';
@@ -285,6 +339,7 @@
       <div style="padding:4px 0;"><strong>ID:</strong> ${Number(domanda.id || 0)}</div>
       <div style="padding:4px 0;"><strong>Testo:</strong> ${testo}</div>
       <div style="padding:4px 0;"><strong>Tipo:</strong> ${tipo}</div>
+      <div style="padding:4px 0;"><strong>MEME runtime:</strong> ${memeMode ? 'attivo' : 'no'}</div>
       <div style="padding:4px 0;"><strong>Modalita party:</strong> ${modalita}</div>
       <div style="padding:4px 0;"><strong>Fase domanda:</strong> ${fase}</div>
       <div style="padding:4px 0;"><strong>Media:</strong> immagine=${yesNo(hasImage)} · audio=${yesNo(hasAudio)} · caption=${yesNo(hasCaption)}</div>
@@ -520,7 +575,7 @@
       }
 
       if (D.domandaEditorRowParty) {
-        const partyTypes = ['AUDIO_PARTY', 'IMAGE_PARTY', 'CHAOS', 'MEME', 'RANDOM_BONUS', 'BOMB', 'IMPOSTORE', 'MAJORITY'];
+        const partyTypes = ['AUDIO_PARTY', 'IMAGE_PARTY', 'CHAOS', 'RANDOM_BONUS', 'BOMB', 'IMPOSTORE', 'MAJORITY'];
         D.domandaEditorRowParty.style.display = partyTypes.includes(tipo) ? 'block' : 'none';
       }
     },
@@ -1169,6 +1224,66 @@
       }
     },
 
+    async toggleMemeCorrente() {
+      const targetSessioneId = Number(D.sessioneSelect?.value || S.SESSIONE_ID || 0);
+      if (targetSessioneId <= 0) {
+        addLog({ ok: false, title: 'meme-toggle', message: 'Sessione non valida', data: {} });
+        return;
+      }
+
+      const nextEnabled = !S.memeEnabled;
+      const memeText = sanitizeMemeText(D.memeTextInput?.value || S.memeDraftText || S.memeText || '');
+      if (nextEnabled && memeText === '') {
+        addLog({ ok: false, title: 'meme-toggle', message: 'Inserisci prima il testo MEME', data: {} });
+        if (D.memeTextInput) D.memeTextInput.focus();
+        return;
+      }
+
+      if (memeText !== '') {
+        saveMemeDraft(memeText);
+      }
+
+      const formData = new FormData();
+      formData.append('sessione_id', String(targetSessioneId));
+      formData.append('enabled', nextEnabled ? '1' : '0');
+      formData.append('meme_text', memeText);
+
+      try {
+        const res = await fetch(`${S.API_BASE}/admin/meme-toggle/0`, {
+          method: 'POST',
+          headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
+          body: formData,
+        });
+
+        const data = await res.json();
+        addLog({
+          ok: !!data.success,
+          title: 'meme-toggle',
+          message: data.success
+            ? `MEME ${data.enabled ? 'attivato' : 'disattivato'} per la domanda corrente`
+            : (data.error || 'Operazione fallita'),
+          data,
+        });
+
+        if (data.success) {
+          S.memeText = sanitizeMemeText(data.meme_text || '');
+          if (memeText !== '') {
+            saveMemeDraft(memeText);
+          }
+          refreshMemeToggleUi(!!data.enabled, S.memeText);
+          await Admin.actions.aggiornaStato();
+          await Admin.actions.aggiornaDomandaCorrenteMeta();
+        }
+      } catch (e) {
+        addLog({
+          ok: false,
+          title: 'meme-toggle',
+          message: 'Errore rete durante toggle MEME',
+          data: { error: String(e?.message || e) },
+        });
+      }
+    },
+
     async caricaDomandeSessione(sessioneId) {
       if (!D.domandeSessioneList) return;
       if (D.domandaEditorWrapper && D.domandaEditorWrapper.parentElement === D.domandeSessioneList) {
@@ -1344,9 +1459,9 @@
         data,
       });
 
-      Admin.actions.aggiornaStato();
-      Admin.actions.aggiornaJoinRichieste();
-      Admin.actions.aggiornaDomandaCorrenteMeta();
+      await Admin.actions.aggiornaStato();
+      await Admin.actions.aggiornaJoinRichieste();
+      await Admin.actions.aggiornaDomandaCorrenteMeta();
     },
 
     async nuovaSessione() {
@@ -1429,6 +1544,9 @@
       if (S.statoRequestInFlight || !S.SESSIONE_ID) return;
       S.statoRequestInFlight = true;
       try {
+        if (!S.memeDraftText) {
+          S.memeDraftText = loadMemeDraft();
+        }
         const res = await fetch(`${S.API_BASE}/stato/${S.SESSIONE_ID}`);
         const data = await res.json();
         if (data.success) {

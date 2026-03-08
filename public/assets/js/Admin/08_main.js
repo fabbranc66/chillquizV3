@@ -56,7 +56,24 @@
 
   if (D.btnSetCorrente) D.btnSetCorrente.onclick = () => Admin.actions.impostaSessioneCorrente();
   if (D.btnSalvaSessione) D.btnSalvaSessione.onclick = () => Admin.actions.salvaSessioneCorrente();
+  if (D.btnMemeToggle) D.btnMemeToggle.onclick = () => Admin.actions.toggleMemeCorrente();
   if (D.btnImpostoreToggle) D.btnImpostoreToggle.onclick = () => Admin.actions.toggleImpostoreCorrente();
+  if (D.memeTextInput) {
+    D.memeTextInput.oninput = () => {
+      const value = String(D.memeTextInput.value || '');
+      Admin.state.memeDraftText = value.replace(/\s+/g, ' ').trim();
+      try {
+        const key = `chillquiz_meme_draft_${Number(Admin.state.SESSIONE_ID || 0)}`;
+        if (Admin.state.memeDraftText) {
+          window.localStorage.setItem(key, Admin.state.memeDraftText);
+        } else {
+          window.localStorage.removeItem(key);
+        }
+      } catch (e) {
+        console.warn(e);
+      }
+    };
+  }
 
   if (D.btnToggleDomandeSessione) D.btnToggleDomandeSessione.onclick = () => Admin.actions.toggleDomandeSessione();
   if (D.btnToggleDomandaEditor) D.btnToggleDomandaEditor.onclick = () => Admin.actions.toggleDomandaEditor();

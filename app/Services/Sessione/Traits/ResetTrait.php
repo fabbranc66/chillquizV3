@@ -3,6 +3,7 @@
 namespace App\Services\Sessione\Traits;
 
 use App\Services\Question\ImpostoreModeService;
+use App\Services\Question\MemeModeService;
 
 trait ResetTrait
 {
@@ -25,6 +26,7 @@ trait ResetTrait
         $this->sessione['mostra_corretta_fino'] = null;
 
         (new ImpostoreModeService())->clearRuntimeState($this->sessioneId);
+        (new MemeModeService())->clearRuntimeState($this->sessioneId);
         $this->svuotaPuntateLive();
         $this->generaDomandeSessione();
     }

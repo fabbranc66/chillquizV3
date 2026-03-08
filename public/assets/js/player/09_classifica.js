@@ -72,6 +72,11 @@
     const container = D.risultatoPersonale;
     if (!container) return;
 
+    if (S.lastImmediateResult && typeof S.lastImmediateResult === 'object') {
+      renderRisultatoPersonaleImmediato(S.lastImmediateResult);
+      return;
+    }
+
     const miaRiga = getMiaRigaClassifica(lista);
 
     if (!miaRiga) {
@@ -116,6 +121,7 @@
   function renderRisultatoPersonaleImmediato(risultato) {
     const container = D.risultatoPersonale;
     if (!container || !risultato || typeof risultato !== 'object') return;
+    S.lastImmediateResult = risultato;
 
     const esito = risultato.corretta ? 'corretta' : 'errata';
     const puntata = Number(risultato.puntata ?? 0);
@@ -128,12 +134,16 @@
     const punti = Number(risultato.punti ?? 0);
     const tempo = forceDisplayString(risultato.tempo_risposta_display || formatTempoRisposta(risultato.tempo_risposta ?? 0));
     const capitale = Number(risultato.capitale ?? 0);
+    const rispostaData = forceDisplayString(risultato.risposta_data_testo || '-');
+    const rispostaCorretta = forceDisplayString(risultato.risposta_corretta_testo || '-');
 
     container.classList.remove('esito-corretta', 'esito-errata');
     container.classList.add(risultato.corretta ? 'esito-corretta' : 'esito-errata');
 
     container.innerHTML = [
       rowLine('Esito', esito),
+      rowLine('Risposta data', rispostaData),
+      rowLine('Risposta corretta', rispostaCorretta),
       rowLine('Tempo risposta', tempo),
       rowLine('Puntata', `${POINTS_SYMBOL} ${puntata}`),
       rowLine('Coeff. difficolta', `x${formatCoeff(difficolta)}`),
