@@ -636,7 +636,7 @@ public function join($sessioneId): void
 
     try {
 
-        // ?? BLOCCO: nome gi� usato nella stessa sessione (richiede approvazione admin)
+        // ?? BLOCCO: nome giï¿½ usato nella stessa sessione (richiede approvazione admin)
         $pdo = \App\Core\Database::getInstance();
 
         $check = $pdo->prepare("
@@ -667,7 +667,7 @@ public function join($sessioneId): void
                 'success' => false,
                 'requires_approval' => true,
                 'request_id' => (int) $richiesta['id'],
-                'error' => 'Nome gi� utilizzato: richiesta inviata alla regia'
+                'error' => 'Nome giï¿½ utilizzato: richiesta inviata alla regia'
             ]);
             return;
         }
@@ -784,7 +784,7 @@ public function join($sessioneId): void
             if (!$service->puoPuntare()) {
                 $this->json([
                     'success' => false,
-                    'error' => 'Non � il momento di puntare'
+                    'error' => 'Non ï¿½ il momento di puntare'
                 ]);
                 return;
             }
@@ -848,7 +848,7 @@ public function join($sessioneId): void
             if (!$service->puoRispondere()) {
                 $this->json([
                     'success' => false,
-                    'error' => 'Non � il momento di rispondere'
+                    'error' => 'Non ï¿½ il momento di rispondere'
                 ]);
                 return;
             }
@@ -904,6 +904,1119 @@ public function join($sessioneId): void
         }
     }
 
+    private function handleAdminPhaseAction(string $action, int $sessioneId): bool
+    {
+        switch ($action) {
+            case 'avvia-puntata':
+                $this->clearAudioPreviewCommand($sessioneId);
+                (new SessioneService($sessioneId))->avviaPuntata();
+                $this->json([
+                    'success' => true,
+                    'action' => $action
+                ]);
+                return true;
+
+            case 'avvia-domanda':
+                $this->clearAudioPreviewCommand($sessioneId);
+                (new SessioneService($sessioneId))->avviaDomanda();
+                $this->json([
+                    'success' => true,
+                    'action' => $action
+                ]);
+                return true;
+
+            case 'risultati':
+                $this->clearAudioPreviewCommand($sessioneId);
+                (new SessioneService($sessioneId))->chiudiDomanda();
+                $this->json([
+                    'success' => true,
+                    'action' => $action
+                ]);
+                return true;
+
+            case 'prossima':
+                $this->clearAudioPreviewCommand($sessioneId);
+                (new SessioneService($sessioneId))->prossimaFase();
+                $this->json([
+                    'success' => true,
+                    'action' => $action
+                ]);
+                return true;
+
+            case 'riavvia':
+                $this->clearAudioPreviewCommand($sessioneId);
+                (new SessioneService($sessioneId))->resetTotale();
+                $this->json([
+                    'success' => true,
+                    'action' => $action
+                ]);
+                return true;
+        }
+
+        return false;
+    }
+
+    private function handleAdminSessionAction(string $action, int $sessioneId): bool
+    {
+        switch ($action) {
+            case 'nuova-sessione':
+                $nomeSessione = trim((string) ($_POST['nome'] ?? $_POST['sessione_nome'] ?? ''));
+
+                $numeroDomande = (int) ($_POST['numero_domande'] ?? 0);
+                $poolTipo = trim((string) ($_POST['pool_tipo'] ?? ''));
+                $argomentoRaw = $_POST['argomento_id'] ?? null;
+                $selezioneTipo = trim((string) ($_POST['selezione_tipo'] ?? ''));
+
+                $configInput = [
+                    'numero_domande' => $numeroDomande > 0 ? $numeroDomande : null,
+                    'pool_tipo' => $poolTipo,
+                    'argomento_id' => $argomentoRaw,
+                    'selezione_tipo' => $selezioneTipo,
+                ];
+
+                $sessioneModel = new Sessione();
+                $nuovaId = $sessioneModel->crea(1, $nomeSessione, $configInput);
+                $sessioneCreata = $sessioneModel->trova($nuovaId) ?: [];
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $nuovaId,
+                    'nome_sessione' => $nomeSessione !== '' ? $nomeSessione : null,
+                    'numero_domande' => (int) ($sessioneCreata['numero_domande'] ?? 0),
+                    'pool_tipo' => (string) ($sessioneCreata['pool_tipo'] ?? ''),
+                    'argomento_id' => $sessioneCreata['argomento_id'] ?? null,
+                    'selezione_tipo' => (string) ($sessioneCreata['selezione_tipo'] ?? ''),
+                ]);
+                return true;
+
+            case 'sessioni-lista':
+                $sessioneModel = new Sessione();
+                $corrente = $sessioneModel->corrente();
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_corrente_id' => (int) ($corrente['id'] ?? 0),
+                    'sessioni' => $sessioneModel->disponibili(200)
+                ]);
+                return true;
+
+            case 'argomenti-lista':
+                $pdo = \App\Core\Database::getInstance();
+                $stmt = $pdo->query("SELECT id, nome FROM argomenti ORDER BY nome ASC");
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'argomenti' => $stmt ? ($stmt->fetchAll() ?: []) : []
+                ]);
+                return true;
+
+            case 'set-corrente':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? 0);
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non valida'
+                    ]);
+                    return true;
+                }
+
+                $ok = (new Sessione())->impostaCorrente($targetSessioneId);
+                $this->json([
+                    'success' => $ok,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'error' => $ok ? null : 'Impossibile impostare sessione corrente'
+                ]);
+                return true;
+
+            case 'sessione-update':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? 0);
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non valida'
+                    ]);
+                    return true;
+                }
+
+                $nomeSessione = trim((string) ($_POST['nome_sessione'] ?? $_POST['nome'] ?? ''));
+                $numeroDomande = (int) ($_POST['numero_domande'] ?? 0);
+                $poolTipo = trim((string) ($_POST['pool_tipo'] ?? 'tutti'));
+                $argomentoRaw = $_POST['argomento_id'] ?? null;
+                $selezioneTipo = trim((string) ($_POST['selezione_tipo'] ?? 'random'));
+
+                $sessioneModel = new Sessione();
+                $ok = $sessioneModel->aggiornaSnapshot($targetSessioneId, [
+                    'nome_sessione' => $nomeSessione,
+                    'numero_domande' => $numeroDomande,
+                    'pool_tipo' => $poolTipo,
+                    'argomento_id' => $argomentoRaw,
+                    'selezione_tipo' => $selezioneTipo,
+                ]);
+
+                $aggiornata = $sessioneModel->trova($targetSessioneId) ?: null;
+
+                $this->json([
+                    'success' => $ok,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'sessione' => $aggiornata,
+                    'error' => $ok ? null : 'Impossibile aggiornare sessione'
+                ]);
+                return true;
+
+            case 'sessione-image-search':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                if ($targetSessioneId <= 0) {
+                    $corrente = (new Sessione())->corrente();
+                    $targetSessioneId = (int) ($corrente['id'] ?? 0);
+                }
+
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione corrente non disponibile'
+                    ]);
+                    return true;
+                }
+
+                $report = (new SessionImageSearchService())->analyzeSession($targetSessioneId);
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'report' => $report,
+                ]);
+                return true;
+        }
+
+        return false;
+    }
+
+    private function handleAdminRuntimeAction(string $action, int $sessioneId): bool
+    {
+        switch ($action) {
+            case 'audio-preview':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non valida'
+                    ]);
+                    return true;
+                }
+
+                $service = new SessioneService($targetSessioneId);
+                $domanda = $service->domandaCorrente();
+
+                if (!$domanda || !is_array($domanda)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Domanda corrente non disponibile'
+                    ]);
+                    return true;
+                }
+
+                $audioPath = trim((string) ($domanda['media_audio_path'] ?? ''));
+                if ($audioPath === '') {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'La domanda corrente non ha audio'
+                    ]);
+                    return true;
+                }
+
+                $previewSec = (int) ($domanda['media_audio_preview_sec'] ?? 0);
+                $tipoDomanda = strtoupper(trim((string) ($domanda['tipo_domanda'] ?? 'CLASSIC')));
+
+                if ($tipoDomanda === 'SARABANDA' && $previewSec <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Per SARABANDA imposta Intro secondi maggiore di 0',
+                    ]);
+                    return true;
+                }
+
+                $payload = [
+                    'token' => $targetSessioneId . '-' . time() . '-' . random_int(1000, 9999),
+                    'sessione_id' => $targetSessioneId,
+                    'domanda_id' => (int) ($domanda['id'] ?? 0),
+                    'audio_path' => $audioPath,
+                    'preview_sec' => $previewSec > 0 ? $previewSec : 0,
+                    'created_at' => time(),
+                ];
+
+                $ok = $this->writeAudioPreviewCommand($targetSessioneId, $payload);
+                if (!$ok) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Impossibile inviare comando anteprima audio'
+                    ]);
+                    return true;
+                }
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'preview' => $payload,
+                ]);
+                return true;
+
+            case 'join-richieste':
+                $joinRichiesta = new JoinRichiesta();
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'richieste' => $joinRichiesta->listaPending($sessioneId)
+                ]);
+                return true;
+
+            case 'impostore-toggle':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non valida'
+                    ]);
+                    return true;
+                }
+
+                $sessionRow = (new Sessione())->trova($targetSessioneId);
+                if (!$sessionRow) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non trovata'
+                    ]);
+                    return true;
+                }
+
+                if (in_array((string) ($sessionRow['stato'] ?? ''), ['domanda', 'conclusa'], true)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'IMPOSTORE modificabile solo prima dello stato domanda'
+                    ]);
+                    return true;
+                }
+
+                $currentQuestion = $this->loadCurrentQuestionForSession($targetSessioneId);
+                if (!$currentQuestion) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Domanda corrente non disponibile'
+                    ]);
+                    return true;
+                }
+
+                $modeMeta = (new \App\Services\Question\QuestionModeResolver())->resolveFromRow($currentQuestion);
+                $currentType = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
+                if ($currentType === 'SARABANDA') {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'IMPOSTORE non disponibile su domande SARABANDA'
+                    ]);
+                    return true;
+                }
+
+                $enabled = (int) ($_POST['enabled'] ?? 0) === 1;
+                $impostoreService = new ImpostoreModeService();
+                $impostoreService->setEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled);
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
+                    'enabled' => $impostoreService->isEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
+                ]);
+                return true;
+
+            case 'meme-toggle':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non valida'
+                    ]);
+                    return true;
+                }
+
+                $sessionRow = (new Sessione())->trova($targetSessioneId);
+                if (!$sessionRow) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non trovata'
+                    ]);
+                    return true;
+                }
+
+                if (in_array((string) ($sessionRow['stato'] ?? ''), ['domanda', 'conclusa'], true)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'MEME modificabile solo prima dello stato domanda'
+                    ]);
+                    return true;
+                }
+
+                $currentQuestion = $this->loadCurrentQuestionForSession($targetSessioneId);
+                if (!$currentQuestion) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Domanda corrente non disponibile'
+                    ]);
+                    return true;
+                }
+
+                $modeMeta = (new \App\Services\Question\QuestionModeResolver())->resolveFromRow($currentQuestion);
+                $currentType = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
+                if ($currentType === 'SARABANDA') {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'MEME non disponibile su domande SARABANDA'
+                    ]);
+                    return true;
+                }
+
+                $enabled = (int) ($_POST['enabled'] ?? 0) === 1;
+                $memeText = trim((string) ($_POST['meme_text'] ?? ''));
+                if ($enabled && $memeText === '') {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Inserisci il testo meme prima di attivare la modalita'
+                    ]);
+                    return true;
+                }
+
+                $memeService = new MemeModeService();
+                $memeService->setEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled, $memeText);
+                $state = $memeService->getRuntimeState($targetSessioneId);
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
+                    'enabled' => $memeService->isEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
+                    'meme_text' => trim((string) ($state['meme_text'] ?? '')),
+                ]);
+                return true;
+
+            case 'approva-join':
+            case 'rifiuta-join':
+                $richiestaId = (int) ($_POST['request_id'] ?? 0);
+                if ($richiestaId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Richiesta non valida'
+                    ]);
+                    return true;
+                }
+
+                $joinRichiesta = new JoinRichiesta();
+                $stato = $action === 'approva-join' ? 'approvata' : 'rifiutata';
+                $ok = $joinRichiesta->gestisci($richiestaId, $sessioneId, $stato);
+
+                $this->json([
+                    'success' => $ok,
+                    'action' => $action,
+                    'request_id' => $richiestaId,
+                    'stato' => $stato,
+                    'error' => $ok ? null : 'Impossibile aggiornare richiesta'
+                ]);
+                return true;
+        }
+
+        return false;
+    }
+
+    private function handleAdminQuestionAction(string $action, int $sessioneId): bool
+    {
+        switch ($action) {
+            case 'domande-sessione':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non valida'
+                    ]);
+                    return true;
+                }
+
+                $pdo = \App\Core\Database::getInstance();
+                $this->ensureDomandeIdentitySchema($pdo);
+                $stmt = $pdo->prepare(
+                    "SELECT
+                        sd.posizione,
+                        d.id AS domanda_id,
+                        d.codice_domanda,
+                        d.testo,
+                        d.tipo_domanda,
+                        d.modalita_party,
+                        d.fase_domanda,
+                        d.media_image_path,
+                        d.media_audio_path,
+                        d.media_caption
+                     FROM sessione_domande sd
+                     JOIN domande d ON d.id = sd.domanda_id
+                     WHERE sd.sessione_id = :sessione_id
+                     ORDER BY sd.posizione ASC"
+                );
+
+                $stmt->execute(['sessione_id' => $targetSessioneId]);
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'domande' => $stmt->fetchAll() ?: []
+                ]);
+                return true;
+
+            case 'domanda-dettaglio':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                $domandaId = (int) ($_POST['domanda_id'] ?? 0);
+
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non valida'
+                    ]);
+                    return true;
+                }
+
+                if ($domandaId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Domanda non valida'
+                    ]);
+                    return true;
+                }
+
+                $pdo = \App\Core\Database::getInstance();
+                $this->ensureDomandeIdentitySchema($pdo);
+
+                $check = $pdo->prepare(
+                    "SELECT d.id
+                     FROM domande d
+                     JOIN sessione_domande sd ON sd.domanda_id = d.id
+                     WHERE sd.sessione_id = :sessione_id
+                       AND d.id = :domanda_id
+                     LIMIT 1"
+                );
+                $check->execute([
+                    'sessione_id' => $targetSessioneId,
+                    'domanda_id' => $domandaId,
+                ]);
+
+                if (!$check->fetch()) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Domanda non appartenente alla sessione'
+                    ]);
+                    return true;
+                }
+
+                $stmt = $pdo->prepare(
+                    "SELECT id, codice_domanda, fingerprint_unico, testo, tipo_domanda, modalita_party, fase_domanda, media_image_path, media_audio_path, media_audio_preview_sec, media_caption, config_json
+                     FROM domande
+                     WHERE id = :id
+                     LIMIT 1"
+                );
+                $stmt->execute(['id' => $domandaId]);
+                $domanda = $stmt->fetch() ?: null;
+
+                if (!$domanda) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Domanda non trovata'
+                    ]);
+                    return true;
+                }
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'domanda_id' => $domandaId,
+                    'domanda' => $domanda,
+                ]);
+                return true;
+
+            case 'domanda-update':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non valida'
+                    ]);
+                    return true;
+                }
+
+                $pdo = \App\Core\Database::getInstance();
+                $this->ensureDomandeIdentitySchema($pdo);
+
+                $domandaId = (int) ($_POST['domanda_id'] ?? 0);
+                if ($domandaId <= 0) {
+                    $stmt = $pdo->prepare(
+                        "SELECT sd.domanda_id
+                         FROM sessioni s
+                         JOIN sessione_domande sd
+                           ON sd.sessione_id = s.id
+                          AND sd.posizione = s.domanda_corrente
+                         WHERE s.id = :sessione_id
+                         LIMIT 1"
+                    );
+                    $stmt->execute(['sessione_id' => $targetSessioneId]);
+                    $rowDomanda = $stmt->fetch();
+                    $domandaId = (int) ($rowDomanda['domanda_id'] ?? 0);
+                }
+
+                if ($domandaId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Domanda corrente non trovata'
+                    ]);
+                    return true;
+                }
+
+                $check = $pdo->prepare(
+                    "SELECT d.id
+                     FROM domande d
+                     JOIN sessione_domande sd ON sd.domanda_id = d.id
+                     WHERE sd.sessione_id = :sessione_id
+                       AND d.id = :domanda_id
+                     LIMIT 1"
+                );
+                $check->execute([
+                    'sessione_id' => $targetSessioneId,
+                    'domanda_id' => $domandaId,
+                ]);
+
+                if (!$check->fetch()) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Domanda non appartenente alla sessione'
+                    ]);
+                    return true;
+                }
+
+                $tipoRaw = strtoupper(trim((string) ($_POST['tipo_domanda'] ?? 'CLASSIC')));
+                $allowedTipi = [
+                    'CLASSIC', 'MEDIA', 'SARABANDA', 'IMPOSTORE', 'MEME', 'MAJORITY',
+                    'RANDOM_BONUS', 'BOMB', 'CHAOS', 'AUDIO_PARTY', 'IMAGE_PARTY',
+                ];
+                $tipoDomanda = in_array($tipoRaw, $allowedTipi, true) ? $tipoRaw : 'CLASSIC';
+
+                $modalitaPartyRaw = trim((string) ($_POST['modalita_party'] ?? ''));
+                $modalitaParty = $modalitaPartyRaw !== '' ? $modalitaPartyRaw : null;
+
+                $faseRaw = strtolower(trim((string) ($_POST['fase_domanda'] ?? 'domanda')));
+                $faseDomanda = $faseRaw === 'intro' ? 'intro' : 'domanda';
+
+                $mediaImagePathRaw = trim((string) ($_POST['media_image_path'] ?? ''));
+                $mediaImagePath = $mediaImagePathRaw !== '' ? $mediaImagePathRaw : null;
+
+                $mediaAudioPathRaw = trim((string) ($_POST['media_audio_path'] ?? ''));
+                $mediaAudioPath = $mediaAudioPathRaw !== '' ? $mediaAudioPathRaw : null;
+
+                $previewRaw = (int) ($_POST['media_audio_preview_sec'] ?? 0);
+                $mediaAudioPreviewSec = $previewRaw > 0 ? $previewRaw : null;
+
+                $mediaCaptionRaw = trim((string) ($_POST['media_caption'] ?? ''));
+                $mediaCaption = $mediaCaptionRaw !== '' ? $mediaCaptionRaw : null;
+
+                $configJsonRaw = trim((string) ($_POST['config_json'] ?? ''));
+                $configJson = null;
+                if ($configJsonRaw !== '') {
+                    $decoded = json_decode($configJsonRaw, true);
+                    if (!is_array($decoded)) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'config_json non valido'
+                        ]);
+                        return true;
+                    }
+                    $configJson = json_encode($decoded, JSON_UNESCAPED_UNICODE);
+                }
+
+                $update = $pdo->prepare(
+                    "UPDATE domande
+                     SET tipo_domanda = :tipo_domanda,
+                         modalita_party = :modalita_party,
+                         fase_domanda = :fase_domanda,
+                         media_image_path = :media_image_path,
+                         media_audio_path = :media_audio_path,
+                         media_audio_preview_sec = :media_audio_preview_sec,
+                         media_caption = :media_caption,
+                         config_json = :config_json
+                     WHERE id = :domanda_id"
+                );
+
+                $update->execute([
+                    'tipo_domanda' => $tipoDomanda,
+                    'modalita_party' => $modalitaParty,
+                    'fase_domanda' => $faseDomanda,
+                    'media_image_path' => $mediaImagePath,
+                    'media_audio_path' => $mediaAudioPath,
+                    'media_audio_preview_sec' => $mediaAudioPreviewSec,
+                    'media_caption' => $mediaCaption,
+                    'config_json' => $configJson,
+                    'domanda_id' => $domandaId,
+                ]);
+
+                $identity = $this->syncDomandaIdentityFields($pdo, $domandaId, false);
+
+                $stmt = $pdo->prepare(
+                    "SELECT id, codice_domanda, fingerprint_unico, testo, tipo_domanda, modalita_party, fase_domanda, media_image_path, media_audio_path, media_audio_preview_sec, media_caption, config_json
+                     FROM domande
+                     WHERE id = :id
+                     LIMIT 1"
+                );
+                $stmt->execute(['id' => $domandaId]);
+                $domandaAggiornata = $stmt->fetch() ?: null;
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'domanda_id' => $domandaId,
+                    'identity' => $identity,
+                    'domanda' => $domandaAggiornata,
+                ]);
+                return true;
+        }
+
+        return false;
+    }
+
+    private function handleAdminSettingsAction(string $action): bool
+    {
+        switch ($action) {
+            case 'settings-get':
+                $this->json([
+                    'success' => true,
+                    'settings' => (new AppSettings())->all()
+                ]);
+                return true;
+
+            case 'settings-save':
+                $settingsModel = new AppSettings();
+
+                $rawConfig = (string) ($_POST['configurazioni_json'] ?? '{}');
+                $decoded = json_decode($rawConfig, true);
+                $configurazioni = is_array($decoded) ? $decoded : [];
+
+                $showModuleTags = (int) ($_POST['show_module_tags'] ?? (($configurazioni['show_module_tags'] ?? '1'))) === 1;
+                $configurazioni['show_module_tags'] = $showModuleTags ? '1' : '0';
+
+                $settingsModel->saveConfigurazioni($configurazioni);
+
+                $this->json([
+                    'success' => true,
+                    'settings' => $settingsModel->all()
+                ]);
+                return true;
+        }
+
+        return false;
+    }
+
+    private function handleAdminMediaAction(string $action): bool
+    {
+        switch ($action) {
+            case 'media-list':
+                $this->json([
+                    'success' => true,
+                    'media' => (new ScreenMedia())->lista('screen')
+                ]);
+                return true;
+
+            case 'media-attiva':
+                $mediaId = (int) ($_POST['media_id'] ?? 0);
+                $attiva = (int) ($_POST['attiva'] ?? 1) === 1;
+                if ($mediaId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Media non valido'
+                    ]);
+                    return true;
+                }
+
+                $ok = (new ScreenMedia())->impostaAttiva($mediaId, $attiva, 'screen');
+                $this->json([
+                    'success' => $ok,
+                    'media_id' => $mediaId,
+                    'attiva' => $attiva,
+                    'error' => $ok ? null : 'Media non trovato'
+                ]);
+                return true;
+
+            case 'media-disattiva':
+                $ok = (new ScreenMedia())->disattivaTutte('screen');
+                $this->json([
+                    'success' => $ok
+                ]);
+                return true;
+
+            case 'media-elimina':
+                $mediaId = (int) ($_POST['media_id'] ?? 0);
+                if ($mediaId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Media non valido'
+                    ]);
+                    return true;
+                }
+
+                $mediaModel = new ScreenMedia();
+                $media = $mediaModel->trova($mediaId, 'screen');
+
+                if (!$media) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Media non trovato'
+                    ]);
+                    return true;
+                }
+
+                $ok = $mediaModel->elimina($mediaId, 'screen');
+                if ($ok) {
+                    $file = BASE_PATH . '/public' . ($media['file_path'] ?? '');
+                    if (is_file($file)) {
+                        @unlink($file);
+                    }
+                }
+
+                $this->json([
+                    'success' => $ok
+                ]);
+                return true;
+        }
+
+        return false;
+    }
+
+    private function handleAdminUploadAction(string $action): bool
+    {
+        switch ($action) {
+            case 'media-upload':
+                if (!isset($_FILES['immagine']) || !is_array($_FILES['immagine'])) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'File media mancante'
+                    ]);
+                    return true;
+                }
+
+                $file = $_FILES['immagine'];
+
+                if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Upload non valido'
+                    ]);
+                    return true;
+                }
+
+                $maxSizeBytes = 12 * 1024 * 1024;
+                $size = (int) ($file['size'] ?? 0);
+                if ($size <= 0 || $size > $maxSizeBytes) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Dimensione file non valida (max 12MB)'
+                    ]);
+                    return true;
+                }
+
+                $tmpName = $file['tmp_name'] ?? '';
+                $detectedMime = @mime_content_type($tmpName) ?: '';
+                $isImage = strpos((string) $detectedMime, 'image/') === 0;
+                $isAudio = strpos((string) $detectedMime, 'audio/') === 0;
+
+                if (!$isImage && !$isAudio) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Formato non supportato: carica immagine o audio'
+                    ]);
+                    return true;
+                }
+
+                $originalName = (string) ($file['name'] ?? '');
+                $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+                $allowedImageExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                $allowedAudioExt = ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'webm'];
+                $allowedExt = $isImage ? $allowedImageExt : $allowedAudioExt;
+                if (!in_array($ext, $allowedExt, true)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Estensione non consentita'
+                    ]);
+                    return true;
+                }
+
+                $subDir = $isImage ? 'image' : 'audio';
+                $uploadDir = BASE_PATH . '/public/upload/' . $subDir;
+                if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true) && !is_dir($uploadDir)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Impossibile creare cartella upload'
+                    ]);
+                    return true;
+                }
+
+                $safeBase = preg_replace('/[^a-zA-Z0-9_-]+/', '-', pathinfo($originalName, PATHINFO_FILENAME));
+                $safeBase = trim((string) $safeBase, '-');
+                if ($safeBase === '') {
+                    $safeBase = 'media';
+                }
+
+                $fileName = $safeBase . '-' . time() . '-' . random_int(1000, 9999) . '.' . $ext;
+                $destPath = $uploadDir . '/' . $fileName;
+
+                if (!move_uploaded_file($tmpName, $destPath)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Errore salvataggio file'
+                    ]);
+                    return true;
+                }
+
+                $titolo = trim((string) ($_POST['titolo'] ?? ''));
+                if ($titolo === '') {
+                    $titolo = pathinfo($originalName, PATHINFO_FILENAME) ?: ($isImage ? 'Immagine' : 'Audio');
+                }
+
+                $filePath = '/upload/' . $subDir . '/' . $fileName;
+                $tipoFile = $isImage ? 'image' : 'audio';
+                $id = (new ScreenMedia())->crea($titolo, $filePath, 'screen', $tipoFile);
+
+                $this->json([
+                    'success' => true,
+                    'media_id' => $id,
+                    'file_path' => $filePath,
+                    'tipo_file' => $tipoFile
+                ]);
+                return true;
+
+            case 'domanda-media-list':
+                $mediaModel = new ScreenMedia();
+                $listDomanda = $mediaModel->lista('domanda');
+
+                $merged = [];
+                $seen = [];
+
+                foreach ($listDomanda as $row) {
+                    $filePath = (string) ($row['file_path'] ?? '');
+                    $tipoFile = (string) ($row['tipo_file'] ?? '');
+                    $isDomandaAudio = $tipoFile === 'audio' && strpos($filePath, '/upload/domanda/audio/') === 0;
+                    $isDomandaImage = $tipoFile === 'image' && strpos($filePath, '/upload/domanda/image/') === 0;
+                    if (!$isDomandaAudio && !$isDomandaImage) {
+                        continue;
+                    }
+                    $key = $tipoFile . '|' . $filePath;
+                    if ($filePath === '' || isset($seen[$key])) {
+                        continue;
+                    }
+                    $seen[$key] = true;
+                    $merged[] = $row;
+                }
+
+                $scanSources = [
+                    ['dir' => BASE_PATH . '/public/upload/domanda/audio', 'urlPrefix' => '/upload/domanda/audio/', 'tipo' => 'audio'],
+                    ['dir' => BASE_PATH . '/public/upload/domanda/image', 'urlPrefix' => '/upload/domanda/image/', 'tipo' => 'image'],
+                ];
+
+                foreach ($scanSources as $src) {
+                    $dir = (string) ($src['dir'] ?? '');
+                    $urlPrefix = (string) ($src['urlPrefix'] ?? '');
+                    $tipo = (string) ($src['tipo'] ?? '');
+
+                    if ($dir === '' || !is_dir($dir)) {
+                        continue;
+                    }
+
+                    $files = @scandir($dir);
+                    if (!is_array($files)) {
+                        continue;
+                    }
+
+                    foreach ($files as $file) {
+                        if ($file === '.' || $file === '..') {
+                            continue;
+                        }
+
+                        $fullPath = $dir . DIRECTORY_SEPARATOR . $file;
+                        if (!is_file($fullPath)) {
+                            continue;
+                        }
+
+                        $filePath = $urlPrefix . $file;
+                        $key = $tipo . '|' . $filePath;
+                        if (isset($seen[$key])) {
+                            continue;
+                        }
+
+                        $seen[$key] = true;
+                        $merged[] = [
+                            'id' => 0,
+                            'titolo' => pathinfo($file, PATHINFO_FILENAME),
+                            'file_path' => $filePath,
+                            'contesto' => 'domanda',
+                            'tipo_file' => $tipo,
+                            'attiva' => 0,
+                            'creato_il' => null,
+                        ];
+                    }
+                }
+
+                $this->json([
+                    'success' => true,
+                    'media' => $merged
+                ]);
+                return true;
+
+            case 'domanda-media-upload':
+                if (!isset($_FILES['media_file']) || !is_array($_FILES['media_file'])) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'File media mancante'
+                    ]);
+                    return true;
+                }
+
+                $file = $_FILES['media_file'];
+
+                if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Upload non valido'
+                    ]);
+                    return true;
+                }
+
+                $maxSizeBytes = 16 * 1024 * 1024;
+                $size = (int) ($file['size'] ?? 0);
+                if ($size <= 0 || $size > $maxSizeBytes) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Dimensione file non valida (max 16MB)'
+                    ]);
+                    return true;
+                }
+
+                $tmpName = (string) ($file['tmp_name'] ?? '');
+                $detectedMime = (string) (@mime_content_type($tmpName) ?: '');
+                $isImage = strpos($detectedMime, 'image/') === 0;
+                $isAudio = strpos($detectedMime, 'audio/') === 0;
+
+                if (!$isImage && !$isAudio) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Formato non supportato: carica immagine o audio'
+                    ]);
+                    return true;
+                }
+
+                $originalName = (string) ($file['name'] ?? '');
+                $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+
+                $allowedImageExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                $allowedAudioExt = ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'webm'];
+                $allowedExt = $isImage ? $allowedImageExt : $allowedAudioExt;
+
+                if (!in_array($ext, $allowedExt, true)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Estensione non consentita per questo tipo file'
+                    ]);
+                    return true;
+                }
+
+                $subDir = $isImage ? 'image' : 'audio';
+                $uploadDir = BASE_PATH . '/public/upload/domanda/' . $subDir;
+                if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true) && !is_dir($uploadDir)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Impossibile creare cartella upload'
+                    ]);
+                    return true;
+                }
+
+                $safeBase = preg_replace('/[^a-zA-Z0-9_-]+/', '-', pathinfo($originalName, PATHINFO_FILENAME));
+                $safeBase = trim((string) $safeBase, '-');
+                if ($safeBase === '') {
+                    $safeBase = 'media-domanda';
+                }
+
+                $fileName = $safeBase . '-' . time() . '-' . random_int(1000, 9999) . '.' . $ext;
+                $destPath = $uploadDir . '/' . $fileName;
+
+                if (!move_uploaded_file($tmpName, $destPath)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Errore salvataggio file'
+                    ]);
+                    return true;
+                }
+
+                $titolo = trim((string) ($_POST['titolo'] ?? ''));
+                if ($titolo === '') {
+                    $titolo = pathinfo($originalName, PATHINFO_FILENAME) ?: ($isImage ? 'Immagine domanda' : 'Audio domanda');
+                }
+
+                $filePath = '/upload/domanda/' . $subDir . '/' . $fileName;
+                $tipoFile = $isImage ? 'image' : 'audio';
+                $id = (new ScreenMedia())->crea($titolo, $filePath, 'domanda', $tipoFile);
+
+                $this->json([
+                    'success' => true,
+                    'media_id' => $id,
+                    'contesto' => 'domanda',
+                    'tipo_file' => $tipoFile,
+                    'file_path' => $filePath
+                ]);
+                return true;
+
+            case 'domanda-media-elimina':
+                $mediaId = (int) ($_POST['media_id'] ?? 0);
+                if ($mediaId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Media non valido'
+                    ]);
+                    return true;
+                }
+
+                $mediaModel = new ScreenMedia();
+                $media = $mediaModel->trova($mediaId, 'domanda');
+
+                if (!$media) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Media non trovato'
+                    ]);
+                    return true;
+                }
+
+                $ok = $mediaModel->elimina($mediaId, 'domanda');
+                if ($ok) {
+                    $file = BASE_PATH . '/public' . ($media['file_path'] ?? '');
+                    if (is_file($file)) {
+                        @unlink($file);
+                    }
+                }
+
+                $this->json([
+                    'success' => $ok
+                ]);
+                return true;
+        }
+
+        return false;
+    }
+
     /* ======================
        ADMIN CONTROL
     ====================== */
@@ -930,1078 +2043,39 @@ public function join($sessioneId): void
         }
 
         try {
-
-            switch ($action) {
-
-                case 'nuova-sessione':
-                    $nomeSessione = trim((string) ($_POST['nome'] ?? $_POST['sessione_nome'] ?? ''));
-
-                    $numeroDomande = (int) ($_POST['numero_domande'] ?? 0);
-                    $poolTipo = trim((string) ($_POST['pool_tipo'] ?? ''));
-                    $argomentoRaw = $_POST['argomento_id'] ?? null;
-                    $selezioneTipo = trim((string) ($_POST['selezione_tipo'] ?? ''));
-
-                    $configInput = [
-                        'numero_domande' => $numeroDomande > 0 ? $numeroDomande : null,
-                        'pool_tipo' => $poolTipo,
-                        'argomento_id' => $argomentoRaw,
-                        'selezione_tipo' => $selezioneTipo,
-                    ];
-
-                    $sessioneModel = new Sessione();
-                    $nuovaId = $sessioneModel->crea(1, $nomeSessione, $configInput);
-                    $sessioneCreata = $sessioneModel->trova($nuovaId) ?: [];
-
-                    $this->json([
-                        'success' => true,
-                        'action' => $action,
-                        'sessione_id' => $nuovaId,
-                        'nome_sessione' => $nomeSessione !== '' ? $nomeSessione : null,
-                        'numero_domande' => (int) ($sessioneCreata['numero_domande'] ?? 0),
-                        'pool_tipo' => (string) ($sessioneCreata['pool_tipo'] ?? ''),
-                        'argomento_id' => $sessioneCreata['argomento_id'] ?? null,
-                        'selezione_tipo' => (string) ($sessioneCreata['selezione_tipo'] ?? ''),
-                    ]);
-                    return;
-                case 'avvia-puntata':
-                    $this->clearAudioPreviewCommand($sessioneId);
-                    (new SessioneService($sessioneId))->avviaPuntata();
-                    break;
-
-                case 'avvia-domanda':
-                    $this->clearAudioPreviewCommand($sessioneId);
-                    (new SessioneService($sessioneId))->avviaDomanda();
-                    break;
-
-                case 'risultati':
-                    $this->clearAudioPreviewCommand($sessioneId);
-                    (new SessioneService($sessioneId))->chiudiDomanda();
-                    break;
-
-                case 'prossima':
-                    $this->clearAudioPreviewCommand($sessioneId);
-                    (new SessioneService($sessioneId))->prossimaFase();
-                    break;
-
-                case 'riavvia':
-                    $this->clearAudioPreviewCommand($sessioneId);
-                    (new SessioneService($sessioneId))->resetTotale();
-                    break;
-
-                case 'audio-preview':
-                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
-                    if ($targetSessioneId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Sessione non valida'
-                        ]);
-                        return;
-                    }
-
-                    $service = new SessioneService($targetSessioneId);
-                    $domanda = $service->domandaCorrente();
-
-                    if (!$domanda || !is_array($domanda)) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Domanda corrente non disponibile'
-                        ]);
-                        return;
-                    }
-
-                    $audioPath = trim((string) ($domanda['media_audio_path'] ?? ''));
-                    if ($audioPath === '') {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'La domanda corrente non ha audio'
-                        ]);
-                        return;
-                    }
-
-                    $previewSec = (int) ($domanda['media_audio_preview_sec'] ?? 0);
-                    $tipoDomanda = strtoupper(trim((string) ($domanda['tipo_domanda'] ?? 'CLASSIC')));
-
-                    if ($tipoDomanda === 'SARABANDA' && $previewSec <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Per SARABANDA imposta Intro secondi maggiore di 0',
-                        ]);
-                        return;
-                    }
-
-                    $payload = [
-                        'token' => $targetSessioneId . '-' . time() . '-' . random_int(1000, 9999),
-                        'sessione_id' => $targetSessioneId,
-                        'domanda_id' => (int) ($domanda['id'] ?? 0),
-                        'audio_path' => $audioPath,
-                        'preview_sec' => $previewSec > 0 ? $previewSec : 0,
-                        'created_at' => time(),
-                    ];
-
-                    $ok = $this->writeAudioPreviewCommand($targetSessioneId, $payload);
-                    if (!$ok) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Impossibile inviare comando anteprima audio'
-                        ]);
-                        return;
-                    }
-
-                    $this->json([
-                        'success' => true,
-                        'action' => $action,
-                        'sessione_id' => $targetSessioneId,
-                        'preview' => $payload,
-                    ]);
-                    return;
-
-                case 'join-richieste':
-                    $joinRichiesta = new JoinRichiesta();
-                    $this->json([
-                        'success' => true,
-                        'action' => $action,
-                        'richieste' => $joinRichiesta->listaPending($sessioneId)
-                    ]);
-                    return;
-
-                case 'sessioni-lista':
-                    $sessioneModel = new Sessione();
-                    $corrente = $sessioneModel->corrente();
-
-                    $this->json([
-                        'success' => true,
-                        'action' => $action,
-                        'sessione_corrente_id' => (int) ($corrente['id'] ?? 0),
-                        'sessioni' => $sessioneModel->disponibili(200)
-                    ]);
-                    return;
-
-                case 'argomenti-lista':
-                    $pdo = \App\Core\Database::getInstance();
-                    $stmt = $pdo->query("SELECT id, nome FROM argomenti ORDER BY nome ASC");
-                    $this->json([
-                        'success' => true,
-                        'action' => $action,
-                        'argomenti' => $stmt ? ($stmt->fetchAll() ?: []) : []
-                    ]);
-                    return;
-
-                case 'impostore-toggle':
-                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
-                    if ($targetSessioneId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Sessione non valida'
-                        ]);
-                        return;
-                    }
-
-                    $sessionRow = (new Sessione())->trova($targetSessioneId);
-                    if (!$sessionRow) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Sessione non trovata'
-                        ]);
-                        return;
-                    }
-
-                    if (in_array((string) ($sessionRow['stato'] ?? ''), ['domanda', 'conclusa'], true)) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'IMPOSTORE modificabile solo prima dello stato domanda'
-                        ]);
-                        return;
-                    }
-
-                    $currentQuestion = $this->loadCurrentQuestionForSession($targetSessioneId);
-                    if (!$currentQuestion) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Domanda corrente non disponibile'
-                        ]);
-                        return;
-                    }
-
-                    $modeMeta = (new \App\Services\Question\QuestionModeResolver())->resolveFromRow($currentQuestion);
-                    $currentType = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
-                    if ($currentType === 'SARABANDA') {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'IMPOSTORE non disponibile su domande SARABANDA'
-                        ]);
-                        return;
-                    }
-
-                    $enabled = (int) ($_POST['enabled'] ?? 0) === 1;
-                    $impostoreService = new ImpostoreModeService();
-                    $impostoreService->setEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled);
-
-                    $this->json([
-                        'success' => true,
-                        'action' => $action,
-                        'sessione_id' => $targetSessioneId,
-                        'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
-                        'enabled' => $impostoreService->isEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
-                    ]);
-                    return;
-
-                case 'meme-toggle':
-                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
-                    if ($targetSessioneId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Sessione non valida'
-                        ]);
-                        return;
-                    }
-
-                    $sessionRow = (new Sessione())->trova($targetSessioneId);
-                    if (!$sessionRow) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Sessione non trovata'
-                        ]);
-                        return;
-                    }
-
-                    if (in_array((string) ($sessionRow['stato'] ?? ''), ['domanda', 'conclusa'], true)) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'MEME modificabile solo prima dello stato domanda'
-                        ]);
-                        return;
-                    }
-
-                    $currentQuestion = $this->loadCurrentQuestionForSession($targetSessioneId);
-                    if (!$currentQuestion) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Domanda corrente non disponibile'
-                        ]);
-                        return;
-                    }
-
-                    $modeMeta = (new \App\Services\Question\QuestionModeResolver())->resolveFromRow($currentQuestion);
-                    $currentType = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
-                    if ($currentType === 'SARABANDA') {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'MEME non disponibile su domande SARABANDA'
-                        ]);
-                        return;
-                    }
-
-                    $enabled = (int) ($_POST['enabled'] ?? 0) === 1;
-                    $memeText = trim((string) ($_POST['meme_text'] ?? ''));
-                    if ($enabled && $memeText === '') {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Inserisci il testo meme prima di attivare la modalita'
-                        ]);
-                        return;
-                    }
-
-                    $memeService = new MemeModeService();
-                    $memeService->setEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled, $memeText);
-                    $state = $memeService->getRuntimeState($targetSessioneId);
-
-                    $this->json([
-                        'success' => true,
-                        'action' => $action,
-                        'sessione_id' => $targetSessioneId,
-                        'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
-                        'enabled' => $memeService->isEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
-                        'meme_text' => trim((string) ($state['meme_text'] ?? '')),
-                    ]);
-                    return;
-
-                case 'set-corrente':
-                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? 0);
-                    if ($targetSessioneId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Sessione non valida'
-                        ]);
-                        return;
-                    }
-
-                    $ok = (new Sessione())->impostaCorrente($targetSessioneId);
-                    $this->json([
-                        'success' => $ok,
-                        'action' => $action,
-                        'sessione_id' => $targetSessioneId,
-                        'error' => $ok ? null : 'Impossibile impostare sessione corrente'
-                    ]);
-                    return;
-
-                case 'sessione-update':
-                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? 0);
-                    if ($targetSessioneId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Sessione non valida'
-                        ]);
-                        return;
-                    }
-
-                    $nomeSessione = trim((string) ($_POST['nome_sessione'] ?? $_POST['nome'] ?? ''));
-                    $numeroDomande = (int) ($_POST['numero_domande'] ?? 0);
-                    $poolTipo = trim((string) ($_POST['pool_tipo'] ?? 'tutti'));
-                    $argomentoRaw = $_POST['argomento_id'] ?? null;
-                    $selezioneTipo = trim((string) ($_POST['selezione_tipo'] ?? 'random'));
-
-                    $sessioneModel = new Sessione();
-                    $ok = $sessioneModel->aggiornaSnapshot($targetSessioneId, [
-                        'nome_sessione' => $nomeSessione,
-                        'numero_domande' => $numeroDomande,
-                        'pool_tipo' => $poolTipo,
-                        'argomento_id' => $argomentoRaw,
-                        'selezione_tipo' => $selezioneTipo,
-                    ]);
-
-                    $aggiornata = $sessioneModel->trova($targetSessioneId) ?: null;
-
-                    $this->json([
-                        'success' => $ok,
-                        'action' => $action,
-                        'sessione_id' => $targetSessioneId,
-                        'sessione' => $aggiornata,
-                        'error' => $ok ? null : 'Impossibile aggiornare sessione'
-                    ]);
-                    return;
-
-                case 'domande-sessione':
-                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
-                    if ($targetSessioneId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Sessione non valida'
-                        ]);
-                        return;
-                    }
-
-                    $pdo = \App\Core\Database::getInstance();
-                    $this->ensureDomandeIdentitySchema($pdo);
-                    $stmt = $pdo->prepare(
-                        "SELECT
-                            sd.posizione,
-                            d.id AS domanda_id,
-                            d.codice_domanda,
-                            d.testo,
-                            d.tipo_domanda,
-                            d.modalita_party,
-                            d.fase_domanda,
-                            d.media_image_path,
-                            d.media_audio_path,
-                            d.media_caption
-                         FROM sessione_domande sd
-                         JOIN domande d ON d.id = sd.domanda_id
-                         WHERE sd.sessione_id = :sessione_id
-                         ORDER BY sd.posizione ASC"
-                    );
-
-                    $stmt->execute(['sessione_id' => $targetSessioneId]);
-
-                    $this->json([
-                        'success' => true,
-                        'action' => $action,
-                        'sessione_id' => $targetSessioneId,
-                        'domande' => $stmt->fetchAll() ?: []
-                    ]);
-                    return;
-
-                case 'sessione-image-search':
-                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
-                    if ($targetSessioneId <= 0) {
-                        $corrente = (new Sessione())->corrente();
-                        $targetSessioneId = (int) ($corrente['id'] ?? 0);
-                    }
-
-                    if ($targetSessioneId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Sessione corrente non disponibile'
-                        ]);
-                        return;
-                    }
-
-                    $report = (new SessionImageSearchService())->analyzeSession($targetSessioneId);
-                    $this->json([
-                        'success' => true,
-                        'action' => $action,
-                        'sessione_id' => $targetSessioneId,
-                        'report' => $report,
-                    ]);
-                    return;
-
-                case 'domanda-dettaglio':
-                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
-                    $domandaId = (int) ($_POST['domanda_id'] ?? 0);
-
-                    if ($targetSessioneId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Sessione non valida'
-                        ]);
-                        return;
-                    }
-
-                    if ($domandaId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Domanda non valida'
-                        ]);
-                        return;
-                    }
-
-                    $pdo = \App\Core\Database::getInstance();
-                    $this->ensureDomandeIdentitySchema($pdo);
-
-                    $check = $pdo->prepare(
-                        "SELECT d.id
-                         FROM domande d
-                         JOIN sessione_domande sd ON sd.domanda_id = d.id
-                         WHERE sd.sessione_id = :sessione_id
-                           AND d.id = :domanda_id
-                         LIMIT 1"
-                    );
-                    $check->execute([
-                        'sessione_id' => $targetSessioneId,
-                        'domanda_id' => $domandaId,
-                    ]);
-
-                    if (!$check->fetch()) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Domanda non appartenente alla sessione'
-                        ]);
-                        return;
-                    }
-
-                    $stmt = $pdo->prepare(
-                        "SELECT id, codice_domanda, fingerprint_unico, testo, tipo_domanda, modalita_party, fase_domanda, media_image_path, media_audio_path, media_audio_preview_sec, media_caption, config_json
-                         FROM domande
-                         WHERE id = :id
-                         LIMIT 1"
-                    );
-                    $stmt->execute(['id' => $domandaId]);
-                    $domanda = $stmt->fetch() ?: null;
-
-                    if (!$domanda) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Domanda non trovata'
-                        ]);
-                        return;
-                    }
-
-                    $this->json([
-                        'success' => true,
-                        'action' => $action,
-                        'sessione_id' => $targetSessioneId,
-                        'domanda_id' => $domandaId,
-                        'domanda' => $domanda,
-                    ]);
-                    return;
-
-                case 'domanda-update':
-                    $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
-                    if ($targetSessioneId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Sessione non valida'
-                        ]);
-                        return;
-                    }
-
-                    $pdo = \App\Core\Database::getInstance();
-                    $this->ensureDomandeIdentitySchema($pdo);
-
-                    $domandaId = (int) ($_POST['domanda_id'] ?? 0);
-                    if ($domandaId <= 0) {
-                        $stmt = $pdo->prepare(
-                            "SELECT sd.domanda_id
-                             FROM sessioni s
-                             JOIN sessione_domande sd
-                               ON sd.sessione_id = s.id
-                              AND sd.posizione = s.domanda_corrente
-                             WHERE s.id = :sessione_id
-                             LIMIT 1"
-                        );
-                        $stmt->execute(['sessione_id' => $targetSessioneId]);
-                        $rowDomanda = $stmt->fetch();
-                        $domandaId = (int) ($rowDomanda['domanda_id'] ?? 0);
-                    }
-
-                    if ($domandaId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Domanda corrente non trovata'
-                        ]);
-                        return;
-                    }
-
-                    $check = $pdo->prepare(
-                        "SELECT d.id
-                         FROM domande d
-                         JOIN sessione_domande sd ON sd.domanda_id = d.id
-                         WHERE sd.sessione_id = :sessione_id
-                           AND d.id = :domanda_id
-                         LIMIT 1"
-                    );
-                    $check->execute([
-                        'sessione_id' => $targetSessioneId,
-                        'domanda_id' => $domandaId,
-                    ]);
-
-                    if (!$check->fetch()) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Domanda non appartenente alla sessione'
-                        ]);
-                        return;
-                    }
-
-                    $tipoRaw = strtoupper(trim((string) ($_POST['tipo_domanda'] ?? 'CLASSIC')));
-                    $allowedTipi = [
-                        'CLASSIC',
-                        'MEDIA',
-                        'SARABANDA',
-                        'IMPOSTORE',
-                        'MEME',
-                        'MAJORITY',
-                        'RANDOM_BONUS',
-                        'BOMB',
-                        'CHAOS',
-                        'AUDIO_PARTY',
-                        'IMAGE_PARTY',
-                    ];
-                    $tipoDomanda = in_array($tipoRaw, $allowedTipi, true) ? $tipoRaw : 'CLASSIC';
-
-                    $modalitaPartyRaw = trim((string) ($_POST['modalita_party'] ?? ''));
-                    $modalitaParty = $modalitaPartyRaw !== '' ? $modalitaPartyRaw : null;
-
-                    $faseRaw = strtolower(trim((string) ($_POST['fase_domanda'] ?? 'domanda')));
-                    $faseDomanda = $faseRaw === 'intro' ? 'intro' : 'domanda';
-
-                    $mediaImagePathRaw = trim((string) ($_POST['media_image_path'] ?? ''));
-                    $mediaImagePath = $mediaImagePathRaw !== '' ? $mediaImagePathRaw : null;
-
-                    $mediaAudioPathRaw = trim((string) ($_POST['media_audio_path'] ?? ''));
-                    $mediaAudioPath = $mediaAudioPathRaw !== '' ? $mediaAudioPathRaw : null;
-
-                    $previewRaw = (int) ($_POST['media_audio_preview_sec'] ?? 0);
-                    $mediaAudioPreviewSec = $previewRaw > 0 ? $previewRaw : null;
-
-                    $mediaCaptionRaw = trim((string) ($_POST['media_caption'] ?? ''));
-                    $mediaCaption = $mediaCaptionRaw !== '' ? $mediaCaptionRaw : null;
-
-                    $configJsonRaw = trim((string) ($_POST['config_json'] ?? ''));
-                    $configJson = null;
-                    if ($configJsonRaw !== '') {
-                        $decoded = json_decode($configJsonRaw, true);
-                        if (!is_array($decoded)) {
-                            $this->json([
-                                'success' => false,
-                                'error' => 'config_json non valido'
-                            ]);
-                            return;
-                        }
-                        $configJson = json_encode($decoded, JSON_UNESCAPED_UNICODE);
-                    }
-
-                    $update = $pdo->prepare(
-                        "UPDATE domande
-                         SET tipo_domanda = :tipo_domanda,
-                             modalita_party = :modalita_party,
-                             fase_domanda = :fase_domanda,
-                             media_image_path = :media_image_path,
-                             media_audio_path = :media_audio_path,
-                             media_audio_preview_sec = :media_audio_preview_sec,
-                             media_caption = :media_caption,
-                             config_json = :config_json
-                         WHERE id = :domanda_id"
-                    );
-
-                    $update->execute([
-                        'tipo_domanda' => $tipoDomanda,
-                        'modalita_party' => $modalitaParty,
-                        'fase_domanda' => $faseDomanda,
-                        'media_image_path' => $mediaImagePath,
-                        'media_audio_path' => $mediaAudioPath,
-                        'media_audio_preview_sec' => $mediaAudioPreviewSec,
-                        'media_caption' => $mediaCaption,
-                        'config_json' => $configJson,
-                        'domanda_id' => $domandaId,
-                    ]);
-
-                    $identity = $this->syncDomandaIdentityFields($pdo, $domandaId, false);
-
-                    $stmt = $pdo->prepare(
-                        "SELECT id, codice_domanda, fingerprint_unico, testo, tipo_domanda, modalita_party, fase_domanda, media_image_path, media_audio_path, media_audio_preview_sec, media_caption, config_json
-                         FROM domande
-                         WHERE id = :id
-                         LIMIT 1"
-                    );
-                    $stmt->execute(['id' => $domandaId]);
-                    $domandaAggiornata = $stmt->fetch() ?: null;
-
-                    $this->json([
-                        'success' => true,
-                        'action' => $action,
-                        'sessione_id' => $targetSessioneId,
-                        'domanda_id' => $domandaId,
-                        'identity' => $identity,
-                        'domanda' => $domandaAggiornata,
-                    ]);
-                    return;
-
-                case 'settings-get':
-                    $this->json([
-                        'success' => true,
-                        'settings' => (new AppSettings())->all()
-                    ]);
-                    return;
-
-                case 'settings-save':
-                    $settingsModel = new AppSettings();
-
-                    $rawConfig = (string) ($_POST['configurazioni_json'] ?? '{}');
-                    $decoded = json_decode($rawConfig, true);
-                    $configurazioni = is_array($decoded) ? $decoded : [];
-
-                    $showModuleTags = (int) ($_POST['show_module_tags'] ?? (($configurazioni['show_module_tags'] ?? '1'))) === 1;
-                    $configurazioni['show_module_tags'] = $showModuleTags ? '1' : '0';
-
-                    $settingsModel->saveConfigurazioni($configurazioni);
-
-                    $this->json([
-                        'success' => true,
-                        'settings' => $settingsModel->all()
-                    ]);
-                    return;
-
-                case 'media-list':
-                    $this->json([
-                        'success' => true,
-                        'media' => (new ScreenMedia())->lista('screen')
-                    ]);
-                    return;
-
-                case 'media-upload':
-                    if (!isset($_FILES['immagine']) || !is_array($_FILES['immagine'])) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'File media mancante'
-                        ]);
-                        return;
-                    }
-
-                    $file = $_FILES['immagine'];
-
-                    if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Upload non valido'
-                        ]);
-                        return;
-                    }
-
-                    $maxSizeBytes = 12 * 1024 * 1024;
-                    $size = (int) ($file['size'] ?? 0);
-                    if ($size <= 0 || $size > $maxSizeBytes) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Dimensione file non valida (max 12MB)'
-                        ]);
-                        return;
-                    }
-
-                    $tmpName = $file['tmp_name'] ?? '';
-                    $detectedMime = @mime_content_type($tmpName) ?: '';
-                    $isImage = strpos((string) $detectedMime, 'image/') === 0;
-                    $isAudio = strpos((string) $detectedMime, 'audio/') === 0;
-
-                    if (!$isImage && !$isAudio) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Formato non supportato: carica immagine o audio'
-                        ]);
-                        return;
-                    }
-
-                    $originalName = (string) ($file['name'] ?? '');
-                    $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
-                    $allowedImageExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-                    $allowedAudioExt = ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'webm'];
-                    $allowedExt = $isImage ? $allowedImageExt : $allowedAudioExt;
-                    if (!in_array($ext, $allowedExt, true)) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Estensione non consentita'
-                        ]);
-                        return;
-                    }
-
-                    $subDir = $isImage ? 'image' : 'audio';
-                    $uploadDir = BASE_PATH . '/public/upload/' . $subDir;
-                    if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true) && !is_dir($uploadDir)) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Impossibile creare cartella upload'
-                        ]);
-                        return;
-                    }
-
-                    $safeBase = preg_replace('/[^a-zA-Z0-9_-]+/', '-', pathinfo($originalName, PATHINFO_FILENAME));
-                    $safeBase = trim((string) $safeBase, '-');
-                    if ($safeBase === '') {
-                        $safeBase = 'media';
-                    }
-
-                    $fileName = $safeBase . '-' . time() . '-' . random_int(1000, 9999) . '.' . $ext;
-                    $destPath = $uploadDir . '/' . $fileName;
-
-                    if (!move_uploaded_file($tmpName, $destPath)) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Errore salvataggio file'
-                        ]);
-                        return;
-                    }
-
-                    $titolo = trim((string) ($_POST['titolo'] ?? ''));
-                    if ($titolo === '') {
-                        $titolo = pathinfo($originalName, PATHINFO_FILENAME) ?: ($isImage ? 'Immagine' : 'Audio');
-                    }
-
-                    $filePath = '/upload/' . $subDir . '/' . $fileName;
-                    $tipoFile = $isImage ? 'image' : 'audio';
-                    $id = (new ScreenMedia())->crea($titolo, $filePath, 'screen', $tipoFile);
-
-                    $this->json([
-                        'success' => true,
-                        'media_id' => $id,
-                        'file_path' => $filePath,
-                        'tipo_file' => $tipoFile
-                    ]);
-                    return;
-
-                case 'media-attiva':
-                    $mediaId = (int) ($_POST['media_id'] ?? 0);
-                    $attiva = (int) ($_POST['attiva'] ?? 1) === 1;
-                    if ($mediaId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Media non valido'
-                        ]);
-                        return;
-                    }
-
-                    $ok = (new ScreenMedia())->impostaAttiva($mediaId, $attiva, 'screen');
-                    $this->json([
-                        'success' => $ok,
-                        'media_id' => $mediaId,
-                        'attiva' => $attiva,
-                        'error' => $ok ? null : 'Media non trovato'
-                    ]);
-                    return;
-
-                case 'media-disattiva':
-                    $ok = (new ScreenMedia())->disattivaTutte('screen');
-                    $this->json([
-                        'success' => $ok
-                    ]);
-                    return;
-
-                case 'media-elimina':
-                    $mediaId = (int) ($_POST['media_id'] ?? 0);
-                    if ($mediaId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Media non valido'
-                        ]);
-                        return;
-                    }
-
-                    $mediaModel = new ScreenMedia();
-                    $media = $mediaModel->trova($mediaId, 'screen');
-
-                    if (!$media) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Media non trovato'
-                        ]);
-                        return;
-                    }
-
-                    $ok = $mediaModel->elimina($mediaId, 'screen');
-
-                    if ($ok) {
-                        $file = BASE_PATH . '/public' . ($media['file_path'] ?? '');
-                        if (is_file($file)) {
-                            @unlink($file);
-                        }
-                    }
-
-                    $this->json([
-                        'success' => $ok
-                    ]);
-                    return;
-
-                case 'domanda-media-list':
-                    $mediaModel = new ScreenMedia();
-                    $listDomanda = $mediaModel->lista('domanda');
-
-                    $merged = [];
-                    $seen = [];
-
-                    foreach ($listDomanda as $row) {
-                        $filePath = (string) ($row['file_path'] ?? '');
-                        $tipoFile = (string) ($row['tipo_file'] ?? '');
-                        $isDomandaAudio = $tipoFile === 'audio' && strpos($filePath, '/upload/domanda/audio/') === 0;
-                        $isDomandaImage = $tipoFile === 'image' && strpos($filePath, '/upload/domanda/image/') === 0;
-                        if (!$isDomandaAudio && !$isDomandaImage) {
-                            continue;
-                        }
-                        $key = $tipoFile . '|' . $filePath;
-                        if ($filePath === '' || isset($seen[$key])) {
-                            continue;
-                        }
-                        $seen[$key] = true;
-                        $merged[] = $row;
-                    }
-
-                    // Aggiunge anche file presenti su disco (copiati manualmente)
-                    // non ancora registrati in tabella screen_media.
-                    $scanSources = [
-                        ['dir' => BASE_PATH . '/public/upload/domanda/audio', 'urlPrefix' => '/upload/domanda/audio/', 'tipo' => 'audio'],
-                        ['dir' => BASE_PATH . '/public/upload/domanda/image', 'urlPrefix' => '/upload/domanda/image/', 'tipo' => 'image'],
-                    ];
-
-                    foreach ($scanSources as $src) {
-                        $dir = (string) ($src['dir'] ?? '');
-                        $urlPrefix = (string) ($src['urlPrefix'] ?? '');
-                        $tipo = (string) ($src['tipo'] ?? '');
-
-                        if ($dir === '' || !is_dir($dir)) {
-                            continue;
-                        }
-
-                        $files = @scandir($dir);
-                        if (!is_array($files)) {
-                            continue;
-                        }
-
-                        foreach ($files as $file) {
-                            if ($file === '.' || $file === '..') {
-                                continue;
-                            }
-
-                            $fullPath = $dir . DIRECTORY_SEPARATOR . $file;
-                            if (!is_file($fullPath)) {
-                                continue;
-                            }
-
-                            $filePath = $urlPrefix . $file;
-                            $key = $tipo . '|' . $filePath;
-                            if (isset($seen[$key])) {
-                                continue;
-                            }
-
-                            $seen[$key] = true;
-                            $merged[] = [
-                                'id' => 0,
-                                'titolo' => pathinfo($file, PATHINFO_FILENAME),
-                                'file_path' => $filePath,
-                                'contesto' => 'domanda',
-                                'tipo_file' => $tipo,
-                                'attiva' => 0,
-                                'creato_il' => null,
-                            ];
-                        }
-                    }
-
-                    $this->json([
-                        'success' => true,
-                        'media' => $merged
-                    ]);
-                    return;
-
-                case 'domanda-media-upload':
-                    if (!isset($_FILES['media_file']) || !is_array($_FILES['media_file'])) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'File media mancante'
-                        ]);
-                        return;
-                    }
-
-                    $file = $_FILES['media_file'];
-
-                    if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Upload non valido'
-                        ]);
-                        return;
-                    }
-
-                    $maxSizeBytes = 16 * 1024 * 1024;
-                    $size = (int) ($file['size'] ?? 0);
-                    if ($size <= 0 || $size > $maxSizeBytes) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Dimensione file non valida (max 16MB)'
-                        ]);
-                        return;
-                    }
-
-                    $tmpName = (string) ($file['tmp_name'] ?? '');
-                    $detectedMime = (string) (@mime_content_type($tmpName) ?: '');
-                    $isImage = strpos($detectedMime, 'image/') === 0;
-                    $isAudio = strpos($detectedMime, 'audio/') === 0;
-
-                    if (!$isImage && !$isAudio) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Formato non supportato: carica immagine o audio'
-                        ]);
-                        return;
-                    }
-
-                    $originalName = (string) ($file['name'] ?? '');
-                    $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
-
-                    $allowedImageExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-                    $allowedAudioExt = ['mp3', 'wav', 'ogg', 'm4a', 'aac', 'webm'];
-                    $allowedExt = $isImage ? $allowedImageExt : $allowedAudioExt;
-
-                    if (!in_array($ext, $allowedExt, true)) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Estensione non consentita per questo tipo file'
-                        ]);
-                        return;
-                    }
-
-                    $subDir = $isImage ? 'image' : 'audio';
-                    $uploadDir = BASE_PATH . '/public/upload/domanda/' . $subDir;
-                    if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true) && !is_dir($uploadDir)) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Impossibile creare cartella upload'
-                        ]);
-                        return;
-                    }
-
-                    $safeBase = preg_replace('/[^a-zA-Z0-9_-]+/', '-', pathinfo($originalName, PATHINFO_FILENAME));
-                    $safeBase = trim((string) $safeBase, '-');
-                    if ($safeBase === '') {
-                        $safeBase = 'media-domanda';
-                    }
-
-                    $fileName = $safeBase . '-' . time() . '-' . random_int(1000, 9999) . '.' . $ext;
-                    $destPath = $uploadDir . '/' . $fileName;
-
-                    if (!move_uploaded_file($tmpName, $destPath)) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Errore salvataggio file'
-                        ]);
-                        return;
-                    }
-
-                    $titolo = trim((string) ($_POST['titolo'] ?? ''));
-                    if ($titolo === '') {
-                        $titolo = pathinfo($originalName, PATHINFO_FILENAME) ?: ($isImage ? 'Immagine domanda' : 'Audio domanda');
-                    }
-
-                    $filePath = '/upload/domanda/' . $subDir . '/' . $fileName;
-                    $tipoFile = $isImage ? 'image' : 'audio';
-                    $id = (new ScreenMedia())->crea($titolo, $filePath, 'domanda', $tipoFile);
-
-                    $this->json([
-                        'success' => true,
-                        'media_id' => $id,
-                        'contesto' => 'domanda',
-                        'tipo_file' => $tipoFile,
-                        'file_path' => $filePath
-                    ]);
-                    return;
-
-                case 'domanda-media-elimina':
-                    $mediaId = (int) ($_POST['media_id'] ?? 0);
-                    if ($mediaId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Media non valido'
-                        ]);
-                        return;
-                    }
-
-                    $mediaModel = new ScreenMedia();
-                    $media = $mediaModel->trova($mediaId, 'domanda');
-
-                    if (!$media) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Media non trovato'
-                        ]);
-                        return;
-                    }
-
-                    $ok = $mediaModel->elimina($mediaId, 'domanda');
-
-                    if ($ok) {
-                        $file = BASE_PATH . '/public' . ($media['file_path'] ?? '');
-                        if (is_file($file)) {
-                            @unlink($file);
-                        }
-                    }
-
-                    $this->json([
-                        'success' => $ok
-                    ]);
-                    return;
-
-                case 'approva-join':
-                case 'rifiuta-join':
-                    $richiestaId = (int) ($_POST['request_id'] ?? 0);
-                    if ($richiestaId <= 0) {
-                        $this->json([
-                            'success' => false,
-                            'error' => 'Richiesta non valida'
-                        ]);
-                        return;
-                    }
-
-                    $joinRichiesta = new JoinRichiesta();
-                    $stato = $action === 'approva-join' ? 'approvata' : 'rifiutata';
-                    $ok = $joinRichiesta->gestisci($richiestaId, $sessioneId, $stato);
-
-                    $this->json([
-                        'success' => $ok,
-                        'action' => $action,
-                        'request_id' => $richiestaId,
-                        'stato' => $stato,
-                        'error' => $ok ? null : 'Impossibile aggiornare richiesta'
-                    ]);
-                    return;
-
-                default:
-                    $this->json([
-                        'success' => false,
-                        'error' => 'Azione non valida'
-                    ]);
-                    return;
+            if ($this->handleAdminPhaseAction((string) $action, $sessioneId)) {
+                return;
+            }
+
+            if ($this->handleAdminSessionAction((string) $action, $sessioneId)) {
+                return;
+            }
+
+            if ($this->handleAdminRuntimeAction((string) $action, $sessioneId)) {
+                return;
+            }
+
+            if ($this->handleAdminQuestionAction((string) $action, $sessioneId)) {
+                return;
+            }
+
+            if ($this->handleAdminSettingsAction((string) $action)) {
+                return;
+            }
+
+            if ($this->handleAdminMediaAction((string) $action)) {
+                return;
+            }
+
+            if ($this->handleAdminUploadAction((string) $action)) {
+                return;
             }
 
             $this->json([
-                'success' => true,
-                'action' => $action
+                'success' => false,
+                'error' => 'Azione non valida'
             ]);
-
+            return;
         } catch (\Throwable $e) {
 
             $this->json([
