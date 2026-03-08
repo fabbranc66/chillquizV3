@@ -316,6 +316,14 @@
     }
   }
 
+  function closeDomandaEditor() {
+    if (!D.domandaEditorWrapper) return;
+    D.domandaEditorWrapper.style.display = 'none';
+    if (D.domandaEditorId) {
+      D.domandaEditorId.value = '0';
+    }
+  }
+
   Admin.actions = {
     syncDomandaEditorVisibility() {
       const tipo = normalizeTipo(D.domandaEditorTipo?.value || 'CLASSIC');
@@ -541,7 +549,12 @@
       if (!D.domandaEditorWrapper) return;
 
       const isHidden = D.domandaEditorWrapper.style.display === 'none' || D.domandaEditorWrapper.style.display === '';
-      D.domandaEditorWrapper.style.display = isHidden ? 'block' : 'none';
+      if (!isHidden) {
+        closeDomandaEditor();
+        return;
+      }
+
+      D.domandaEditorWrapper.style.display = 'block';
 
       if (isHidden) {
         Admin.actions.caricaDomandaEditor();
@@ -599,7 +612,7 @@
       const sameQuestionToggle = editorVisible && selectedEditorId > 0 && selectedEditorId === domandaId;
 
       if (sameQuestionToggle) {
-        D.domandaEditorWrapper.style.display = 'none';
+        closeDomandaEditor();
         return;
       }
 

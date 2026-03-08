@@ -7,11 +7,7 @@
 
 $httpHost = (string) ($_SERVER['HTTP_HOST'] ?? '');
 $serverAddr = (string) ($_SERVER['SERVER_ADDR'] ?? '127.0.0.1');
-$publicHost = $httpHost;
-
-if ($publicHost === '') {
-    $publicHost = $serverAddr;
-}
+$publicHost = $httpHost !== '' ? $httpHost : $serverAddr;
 
 $isLocalHost = stripos($publicHost, 'localhost') !== false || stripos($publicHost, '127.0.0.1') !== false;
 
@@ -70,8 +66,8 @@ if ($isLocalHost) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChillQuiz Screen</title>
-    <link rel="stylesheet" href="/chillquizV3/public/assets/css/screen.css?v=<?= time() ?>">
+    <title>ChillQuiz - Screen</title>
+    <link rel="stylesheet" href="<?= htmlspecialchars(chillquiz_asset_url('assets/css/screen.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body class="<?= !empty($showModuleTags) ? 'module-tags-on' : 'module-tags-off' ?>">
 
@@ -105,12 +101,13 @@ if ($isLocalHost) {
 <script>
 window.SCREEN_BOOTSTRAP = {
     sessioneId: <?= (int)($sessioneId ?? 0) ?>,
-    basePublicUrl: window.location.pathname.replace(/index\.php$/, ''),
+    basePublicUrl: <?= json_encode(chillquiz_public_base_url(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>,
+    apiBase: <?= json_encode(chillquiz_api_base_url(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>,
     publicHost: <?= json_encode($publicHost, JSON_UNESCAPED_UNICODE) ?>
 };
 </script>
 
-<script src="/chillquizV3/public/assets/js/screen.js?v=<?= time() ?>"></script>
+<script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 
 </body>
 </html>

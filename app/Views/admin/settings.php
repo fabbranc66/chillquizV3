@@ -2,14 +2,14 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>ChillQuiz V3 - Settings</title>
+    <title>ChillQuiz - Settings</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/chillquizV3/public/assets/css/settings.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars(chillquiz_asset_url('assets/css/settings.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body>
 <div class="container">
-    <p><a class="back" href="index.php?url=admin/index">← Torna alla regia</a></p>
-    <h1>⚙️ Admin settings</h1>
+    <p><a class="back" href="<?= htmlspecialchars(chillquiz_public_url('index.php?url=admin/index'), ENT_QUOTES, 'UTF-8') ?>">&larr; Torna alla regia</a></p>
+    <h1>Admin settings</h1>
 
     <div class="card">
         <div class="setting-row">
@@ -36,10 +36,10 @@
 
 <script>
 window.SETTINGS_BOOTSTRAP = {
-    apiBase: `${window.location.pathname.replace(/index\.php$/, '')}index.php?url=api`,
+    apiBase: <?= json_encode(chillquiz_api_base_url(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>,
     adminToken: 'SUPERSEGRETO123'
 };
 </script>
-<script src="/chillquizV3/public/assets/js/settings.js"></script>
+<script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/settings.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 </body>
 </html>

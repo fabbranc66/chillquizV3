@@ -18,24 +18,14 @@ class SelezioneDomande
     {
         $sessionConfig = $this->loadSessionConfig($sessioneId);
 
-        if ($sessionConfig !== null) {
-            $numero = (int) $sessionConfig['numero_domande'];
-            $poolTipo = $sessionConfig['pool_tipo'];
-            $argomentoId = $sessionConfig['argomento_id'];
-            $selezioneTipo = $sessionConfig['selezione_tipo'];
-        } else {
-            $configModel = new ConfigurazioneQuiz();
-            $config = $configModel->trova($configurazioneId);
-
-            if (!$config) {
-                throw new \RuntimeException('Configurazione non trovata');
-            }
-
-            $numero = (int) $config['numero_domande'];
-            $poolTipo = ($config['pool_tipo'] ?? 'misto') === 'mono' ? 'mono' : 'tutti';
-            $argomentoId = $config['argomento_id'] !== null ? (int) $config['argomento_id'] : null;
-            $selezioneTipo = ($config['selezione_tipo'] ?? 'random') === 'manuale' ? 'manuale' : 'random';
+        if ($sessionConfig === null) {
+            throw new \RuntimeException('Snapshot sessione non trovato');
         }
+
+        $numero = (int) $sessionConfig['numero_domande'];
+        $poolTipo = $sessionConfig['pool_tipo'];
+        $argomentoId = $sessionConfig['argomento_id'];
+        $selezioneTipo = $sessionConfig['selezione_tipo'];
 
         $sql = 'SELECT id FROM domande WHERE attiva = 1';
         $params = [];

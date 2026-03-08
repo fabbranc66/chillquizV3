@@ -30,7 +30,6 @@ class Sessione
         }
 
         $params = [
-            'configurazione_id' => $configurazioneId,
             'numero_domande' => $configSnapshot['numero_domande'],
             'pool_tipo' => $configSnapshot['pool_tipo'],
             'argomento_id' => $configSnapshot['argomento_id'],
@@ -42,18 +41,18 @@ class Sessione
         if ($nomeColumn !== null) {
             $stmt = $this->pdo->prepare(
                 "INSERT INTO sessioni
-                 (configurazione_id, numero_domande, pool_tipo, argomento_id, selezione_tipo, pin, {$nomeColumn}, stato, domanda_corrente, creata_il)
+                 (numero_domande, pool_tipo, argomento_id, selezione_tipo, pin, {$nomeColumn}, stato, domanda_corrente, creata_il)
                  VALUES
-                 (:configurazione_id, :numero_domande, :pool_tipo, :argomento_id, :selezione_tipo, :pin, :nome_sessione, 'attesa', 1, :creata_il)"
+                 (:numero_domande, :pool_tipo, :argomento_id, :selezione_tipo, :pin, :nome_sessione, 'attesa', 1, :creata_il)"
             );
 
             $params['nome_sessione'] = $nomeSessione;
         } else {
             $stmt = $this->pdo->prepare(
                 "INSERT INTO sessioni
-                 (configurazione_id, numero_domande, pool_tipo, argomento_id, selezione_tipo, pin, stato, domanda_corrente, creata_il)
+                 (numero_domande, pool_tipo, argomento_id, selezione_tipo, pin, stato, domanda_corrente, creata_il)
                  VALUES
-                 (:configurazione_id, :numero_domande, :pool_tipo, :argomento_id, :selezione_tipo, :pin, 'attesa', 1, :creata_il)"
+                 (:numero_domande, :pool_tipo, :argomento_id, :selezione_tipo, :pin, 'attesa', 1, :creata_il)"
             );
         }
 
@@ -109,30 +108,12 @@ class Sessione
 
     private function loadConfigSnapshot(int $configurazioneId): array
     {
-        $stmt = $this->pdo->prepare(
-            "SELECT numero_domande, pool_tipo, argomento_id, selezione_tipo
-             FROM configurazioni_quiz
-             WHERE id = :id
-             LIMIT 1"
-        );
-
-        $stmt->execute(['id' => $configurazioneId]);
-        $legacy = $stmt->fetch();
-
-        if ($legacy) {
-            $legacyPool = (string) ($legacy['pool_tipo'] ?? 'misto');
-            $poolTipo = 'tutti';
-            if ($legacyPool === 'sarabanda') {
-                $poolTipo = 'sarabanda';
-            } elseif ($legacyPool === 'mono') {
-                $poolTipo = 'mono';
-            }
-
+        if (!$this->hasTable('configurazioni_quiz_v2')) {
             return [
-                'numero_domande' => (int) ($legacy['numero_domande'] ?? 10),
-                'pool_tipo' => $poolTipo,
-                'argomento_id' => $legacy['argomento_id'] !== null ? (int) $legacy['argomento_id'] : null,
-                'selezione_tipo' => $legacy['selezione_tipo'] ?? 'random',
+                'numero_domande' => 10,
+                'pool_tipo' => 'tutti',
+                'argomento_id' => null,
+                'selezione_tipo' => 'random',
             ];
         }
 
@@ -165,6 +146,14 @@ class Sessione
             'argomento_id' => null,
             'selezione_tipo' => 'random',
         ];
+    }
+
+    private function hasTable(string $table): bool
+    {
+        $quoted = $this->pdo->quote($table);
+        $stmt = $this->pdo->query("SHOW TABLES LIKE {$quoted}");
+
+        return (bool) $stmt->fetchColumn();
     }
 
     private function hasColumn(string $table, string $column): bool

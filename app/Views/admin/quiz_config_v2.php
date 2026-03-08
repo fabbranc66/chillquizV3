@@ -2,9 +2,9 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>ChillQuiz V3 - Quiz Config V2</title>
+    <title>ChillQuiz - Quiz Config V2</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/chillquizV3/public/assets/css/admin.css">
+    <link rel="stylesheet" href="<?= htmlspecialchars(chillquiz_asset_url('assets/css/admin.css'), ENT_QUOTES, 'UTF-8') ?>">
     <style>
         :root {
             --k-purple: #46178f;

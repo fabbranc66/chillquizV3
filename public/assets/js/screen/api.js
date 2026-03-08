@@ -15,10 +15,10 @@
   function getBasePublicUrl() {
     const boot = getBoot();
     const fromBoot = String(boot.basePublicUrl || '').trim();
-    if (fromBoot) return fromBoot; // es: "/chillquizV3/public/"
+    if (fromBoot) return fromBoot; // es: "/public/"
 
     // fallback: deriva da pathname
-    // /chillquizV3/public/index.php  -> /chillquizV3/public/
+    // /public/index.php -> /public/
     const path = window.location.pathname;
     return path.replace(/index\.php$/, '');
   }
@@ -26,7 +26,7 @@
   function getApiBase() {
     const boot = getBoot();
     const fromBoot = String(boot.apiBase || '').trim();
-    if (fromBoot) return fromBoot; // es: "/chillquizV3/public/index.php?url=api"
+    if (fromBoot) return fromBoot; // es: "/public/index.php?url=api"
 
     return getBasePublicUrl() + 'index.php?url=api';
   }

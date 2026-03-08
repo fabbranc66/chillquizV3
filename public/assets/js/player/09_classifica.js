@@ -49,6 +49,24 @@
     return numeric.toFixed(2).replace('.', ',');
   }
 
+  function formatSignedPoints(value) {
+    const numeric = Number(value);
+    if (!Number.isFinite(numeric)) return '0';
+    return numeric >= 0 ? `+${numeric}` : `${numeric}`;
+  }
+
+  function formatCapitaleBreakdown(capitaleAttuale, vincitaTotale) {
+    const capitale = Number(capitaleAttuale);
+    const vincita = Number(vincitaTotale);
+
+    if (!Number.isFinite(capitale) || !Number.isFinite(vincita)) {
+      return `${POINTS_SYMBOL} ${Number.isFinite(capitale) ? capitale : 0}`;
+    }
+
+    const capitalePrecedente = capitale - vincita;
+    return `${POINTS_SYMBOL} ${capitalePrecedente} ${formatSignedPoints(vincita)} = ${POINTS_SYMBOL} ${capitale}`;
+  }
+
 
   function renderRisultatoPersonaleDaClassifica(lista) {
     const container = D.risultatoPersonale;
@@ -89,7 +107,7 @@
       rowLine('Vincita velocita', `${vincitaVelocita}`, true),
       rowLine('Bonus primo', `${bonusPrimo}`, true),
       rowLine('Vincita totale', `${vincitaTotale}`, true),
-      rowLine('Punti attuali', `${POINTS_SYMBOL} ${capitale}`),
+      rowLine('Punti attuali', formatCapitaleBreakdown(capitale, vincitaTotale)),
     ].join('');
   }
 
@@ -121,7 +139,7 @@
       rowLine('Vincita velocita', `${vincitaVelocita}`, true),
       rowLine('Bonus primo', `${bonusPrimo}`, true),
       rowLine('Vincita totale', `${punti}`, true),
-      rowLine('Punti attuali', `${POINTS_SYMBOL} ${capitale}`),
+      rowLine('Punti attuali', formatCapitaleBreakdown(capitale, punti)),
     ].join('');
   }
 

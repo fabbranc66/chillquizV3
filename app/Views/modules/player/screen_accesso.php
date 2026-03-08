@@ -7,7 +7,6 @@
 <div class="module-debug-tag">player/screen_accesso.php</div>
 <!-- ACCESSO -->
 <div id="screen-accesso" class="screen">
-    <h1>ChillQuiz</h1>
     <input type="text" id="player-name" placeholder="Inserisci il tuo nome">
     <button id="btn-entra" class="btn-primary">Entra</button>
 </div>

@@ -1,6 +1,11 @@
 const MEDIA_BOOTSTRAP = window.MEDIA_BOOTSTRAP || {};
-const BASE_PUBLIC_URL = MEDIA_BOOTSTRAP.basePublicUrl || window.location.pathname.replace(/index\.php$/, '');
-const API_BASE = MEDIA_BOOTSTRAP.apiBase || `${BASE_PUBLIC_URL}index.php?url=api`;
+const rawBasePublicUrl = String(
+    MEDIA_BOOTSTRAP.basePublicUrl
+    || String(window.location.pathname || '').replace(/index\.php.*$/i, '')
+    || '/'
+);
+const BASE_PUBLIC_URL = rawBasePublicUrl.endsWith('/') ? rawBasePublicUrl : `${rawBasePublicUrl}/`;
+const API_BASE = String(MEDIA_BOOTSTRAP.apiBase || `${BASE_PUBLIC_URL}index.php?url=api`);
 const ADMIN_TOKEN = MEDIA_BOOTSTRAP.adminToken || 'SUPERSEGRETO123';
 
 function mediaUrl(filePath) {

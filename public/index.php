@@ -2,7 +2,7 @@
 
 /*
 |--------------------------------------------------------------------------
-| CHILLQUIZ V3 — BOOTSTRAP
+| CHILLQUIZ - BOOTSTRAP
 |--------------------------------------------------------------------------
 */
 
@@ -31,6 +31,45 @@ define('APP_PATH', BASE_PATH . '/app');
 define('CONFIG_PATH', BASE_PATH . '/config');
 define('STORAGE_PATH', BASE_PATH . '/storage');
 
+if (!function_exists('chillquiz_public_base_url')) {
+    function chillquiz_public_base_url(): string
+    {
+        $scriptName = str_replace('\\', '/', (string) ($_SERVER['SCRIPT_NAME'] ?? '/public/index.php'));
+        $dir = str_replace('\\', '/', dirname($scriptName));
+        if ($dir === '.' || $dir === '\\' || $dir === '') {
+            $dir = '/';
+        }
+        $dir = rtrim($dir, '/');
+        return $dir === '' ? '/' : ($dir . '/');
+    }
+}
+
+if (!function_exists('chillquiz_public_url')) {
+    function chillquiz_public_url(string $path = ''): string
+    {
+        $base = chillquiz_public_base_url();
+        $clean = ltrim($path, '/');
+        return $clean === '' ? $base : ($base . $clean);
+    }
+}
+
+if (!function_exists('chillquiz_api_base_url')) {
+    function chillquiz_api_base_url(): string
+    {
+        return chillquiz_public_url('index.php?url=api');
+    }
+}
+
+if (!function_exists('chillquiz_asset_url')) {
+    function chillquiz_asset_url(string $relativePublicPath): string
+    {
+        $clean = ltrim($relativePublicPath, '/');
+        $file = BASE_PATH . '/public/' . str_replace('/', DIRECTORY_SEPARATOR, $clean);
+        $version = is_file($file) ? (string) filemtime($file) : (string) time();
+        return chillquiz_public_url($clean) . '?v=' . rawurlencode($version);
+    }
+}
+
 /*
 |--------------------------------------------------------------------------
 | Autoload PSR-4 semplice
@@ -38,7 +77,6 @@ define('STORAGE_PATH', BASE_PATH . '/storage');
 */
 
 spl_autoload_register(function ($class) {
-
     $prefix = 'App\\';
 
     if (strpos($class, $prefix) !== 0) {
@@ -83,21 +121,18 @@ if (!empty($config['debug'])) {
 use App\Core\Router;
 
 try {
-
     $router = new Router();
     $router->dispatch();
-
 } catch (Throwable $e) {
-
     http_response_code(500);
 
     if (!empty($config['debug'])) {
-        echo "<pre>";
+        echo '<pre>';
         echo $e->getMessage();
         echo "\n\n";
         echo $e->getTraceAsString();
-        echo "</pre>";
+        echo '</pre>';
     } else {
-        echo "Errore interno.";
+        echo 'Errore interno.';
     }
 }

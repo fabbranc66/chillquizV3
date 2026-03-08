@@ -4,6 +4,14 @@ namespace App\Services\Sessione\Traits;
 
 trait ConfigQuizTrait
 {
+    private function hasConfigV2Table(): bool
+    {
+        $quoted = $this->pdo->quote('configurazioni_quiz_v2');
+        $stmt = $this->pdo->query("SHOW TABLES LIKE {$quoted}");
+
+        return (bool) $stmt->fetchColumn();
+    }
+
     private function loadUnifiedQuizConfig(int $configurazioneId): ?array
     {
         $numero = isset($this->sessione['numero_domande']) ? (int) $this->sessione['numero_domande'] : 0;
@@ -24,6 +32,17 @@ trait ConfigQuizTrait
             ];
         }
 
+        if (!$this->hasConfigV2Table() || $configurazioneId <= 0) {
+            return [
+                'source' => 'default',
+                'numero_domande' => 10,
+                'pool_tipo' => 'tutti',
+                'argomento_id' => null,
+                'selezione_tipo' => 'random',
+                'modalita' => null,
+            ];
+        }
+
         $stmt = $this->pdo->prepare(
             "SELECT id, numero_domande, modalita, argomento_id, selezione_tipo
              FROM configurazioni_quiz_v2
@@ -34,7 +53,14 @@ trait ConfigQuizTrait
         $v2 = $stmt->fetch();
 
         if (!$v2) {
-            return null;
+            return [
+                'source' => 'default',
+                'numero_domande' => 10,
+                'pool_tipo' => 'tutti',
+                'argomento_id' => null,
+                'selezione_tipo' => 'random',
+                'modalita' => null,
+            ];
         }
 
         $poolTipo = 'tutti';

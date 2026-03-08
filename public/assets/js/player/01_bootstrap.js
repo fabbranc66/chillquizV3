@@ -3,13 +3,20 @@
   window.Player = window.Player || {};
 
   const PLAYER_BOOTSTRAP = window.PLAYER_BOOTSTRAP || {};
-  const API_BASE = String(PLAYER_BOOTSTRAP.apiBase || '/chillquizV3/public/?url=api');
+  const publicBaseUrl = String(
+    PLAYER_BOOTSTRAP.publicBaseUrl
+    || String(window.location.pathname || '').replace(/index\.php.*$/i, '')
+    || '/'
+  );
+  const normalizedPublicBaseUrl = publicBaseUrl.endsWith('/') ? publicBaseUrl : `${publicBaseUrl}/`;
+  const API_BASE = String(PLAYER_BOOTSTRAP.apiBase || `${normalizedPublicBaseUrl}index.php?url=api`);
 
   let sessioneId = Number(PLAYER_BOOTSTRAP.sessioneId || 0);
   if (Number.isNaN(sessioneId)) sessioneId = 0;
 
   window.Player.state = {
     PLAYER_BOOTSTRAP,
+    PUBLIC_BASE_URL: normalizedPublicBaseUrl,
     API_BASE,
 
     sessioneId,

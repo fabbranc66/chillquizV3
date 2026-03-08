@@ -1,7 +1,7 @@
 /**
  * FILE: public/assets/js/screen.js
  * SCOPO: Gestione UI Schermo (stato sessione, domanda, classifica risultati, media placeholder, QR join).
- * UTILIZZATO DA: app/Views/screen/index.php tramite <script src="/chillquizV3/public/assets/js/screen.js"></script>.
+ * UTILIZZATO DA: app/Views/screen/index.php tramite asset JS screen.
  */
 
 const SCREEN_BOOTSTRAP = window.SCREEN_BOOTSTRAP || {};

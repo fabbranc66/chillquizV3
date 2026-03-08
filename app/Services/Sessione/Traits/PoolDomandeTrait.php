@@ -17,7 +17,7 @@ trait PoolDomandeTrait
             return;
         }
 
-        $config = $this->loadUnifiedQuizConfig((int) $this->sessione['configurazione_id']);
+        $config = $this->loadUnifiedQuizConfig((int) ($this->sessione['configurazione_id'] ?? 0));
 
         if (!$config) {
             throw new RuntimeException('Configurazione quiz non trovata.');
@@ -26,7 +26,7 @@ trait PoolDomandeTrait
         $numeroDomande = (int) $config['numero_domande'];
 
         if (($config['source'] ?? '') === 'v2' && ($config['modalita'] ?? '') === 'manuale_domande_argomento_corrente') {
-            $domande = $this->loadManualV2Questions((int) $this->sessione['configurazione_id']);
+            $domande = $this->loadManualV2Questions((int) ($this->sessione['configurazione_id'] ?? 0));
 
             if (count($domande) < $numeroDomande) {
                 throw new RuntimeException('Domande manuali insufficienti per generare la sessione.');

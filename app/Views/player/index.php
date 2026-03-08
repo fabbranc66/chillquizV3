@@ -8,9 +8,9 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>ChillQuiz Player</title>
+    <title>ChillQuiz - Player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/chillquizV3/public/assets/css/player.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(chillquiz_asset_url('assets/css/player.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body class="<?= !empty($showModuleTags) ? 'module-tags-on' : 'module-tags-off' ?>">
 
@@ -31,22 +31,24 @@
 
 </div>
 
-<!-- BLOCCO LOGICO: BOOTSTRAP JS PLAYER -->
 <script>
 window.PLAYER_BOOTSTRAP = {
     sessioneId: <?= (int)($sessioneId ?? 0) ?>,
-    apiBase: '/chillquizV3/public/?url=api'
+    publicBaseUrl: <?= json_encode(chillquiz_public_base_url(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>,
+    apiBase: <?= json_encode(chillquiz_api_base_url(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>
 };
 </script>
 
-<!-- FILE JS: public/assets/js/player.js -->
-<script defer src="/chillquizV3/public/assets/js/player/01_bootstrap.js?v=<?= time() ?>"></script>
-<script defer src="/chillquizV3/public/assets/js/player/02_dom.js?v=<?= time() ?>"></script>
-<script defer src="/chillquizV3/public/assets/js/player/03_utils.js?v=<?= time() ?>"></script>
-<script defer src="/chillquizV3/public/assets/js/player/04_screens.js?v=<?= time() ?>"></script>
-<script defer src="/chillquizV3/public/assets/js/player/05_join.js?v=<?= time() ?>"></script>
-<script defer src="/chillquizV3/public/assets/js/player/06_polling.js?v=<?= time() ?>"></script>
-<script defer src="/chillquizV3/public/assets/js/player/07_domanda.js?v=<?= time() ?>"></script>
-<script defer src="/chillquizV3/public/assets/js/player/08_puntata.js?v=<?= time() ?>"></script>
-<script defer src="/chillquizV3/public/assets/js/player/09_classifica.js?v=<?= time() ?>"></script>
-<script defer src="/chillquizV3/public/assets/js/player/10_main.js?v=<?= time() ?>"></script></html>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/01_bootstrap.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/02_dom.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/03_utils.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/04_screens.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/05_join.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/06_polling.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/07_domanda.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/08_puntata.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/09_classifica.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/10_main.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+
+</body>
+</html>

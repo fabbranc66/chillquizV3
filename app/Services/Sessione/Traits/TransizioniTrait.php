@@ -99,7 +99,7 @@ trait TransizioniTrait
             );
         }
 
-        $config = $this->loadUnifiedQuizConfig((int) $this->sessione['configurazione_id']);
+        $config = $this->loadUnifiedQuizConfig((int) ($this->sessione['configurazione_id'] ?? 0));
 
         if (!$config) {
             throw new RuntimeException('Configurazione quiz non trovata.');
