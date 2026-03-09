@@ -52,10 +52,13 @@ window.PLAYER_BOOTSTRAP = {
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/03_utils.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/04_screens.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/05_join.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/06a_polling_render.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/06_polling.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/07_domanda.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/07a_domanda_render.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/08_puntata.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/09_classifica.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/09a_classifica_render.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/10_main.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 
 </body>

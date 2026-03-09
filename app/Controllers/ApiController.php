@@ -644,7 +644,7 @@ public function join($sessioneId): void
 
     try {
 
-        // ?? BLOCCO: nome giÃ¯Â¿Â½ usato nella stessa sessione (richiede approvazione admin)
+        // BLOCCO: nome gia' usato nella stessa sessione (richiede approvazione admin)
         $pdo = \App\Core\Database::getInstance();
 
         $check = $pdo->prepare("
@@ -856,7 +856,7 @@ public function join($sessioneId): void
             if (!$service->puoRispondere()) {
                 $this->json([
                     'success' => false,
-                    'error' => 'Non Ã¯Â¿Â½ il momento di rispondere'
+                    'error' => 'Non e\' il momento di rispondere'
                 ]);
                 return;
             }
@@ -873,7 +873,7 @@ public function join($sessioneId): void
             if (!$risultato) {
                 $this->json([
                     'success' => false,
-                    'error' => 'Errore registrazione risposta'
+                    'error' => $partecipazione->getLastError() ?: 'Errore registrazione risposta'
                 ]);
                 return;
             }

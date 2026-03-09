@@ -9,6 +9,8 @@ use App\Services\Question\QuestionModeResolver;
 
 trait ClassificaTrait
 {
+    private static bool $risposteOptionIdEnsured = false;
+
     private function formatTempoRispostaDisplay(?float $value): ?string
     {
         if ($value === null) {
@@ -20,6 +22,7 @@ trait ClassificaTrait
 
     public function classifica(): array
     {
+        $this->ensureRisposteOptionIdColumn();
         $this->ensurePuntateLiveTable();
 
         $sistema = new Sistema();
@@ -46,18 +49,21 @@ trait ClassificaTrait
                 p.capitale_attuale,
                 COALESCE(pl.importo, r_corrente.puntata, 0) AS ultima_puntata,
                 r_corrente.id AS risposta_id,
+                r_corrente.opzione_id AS risposta_opzione_id,
                 r_corrente.corretta AS esito_corretta,
                 r_corrente.tempo_risposta,
                 r_corrente.punti AS vincita_domanda_raw,
                 d_corrente.difficolta AS difficolta_domanda,
-                primo.partecipazione_id AS primo_partecipazione_id
+                primo.partecipazione_id AS primo_partecipazione_id,
+                o_risposta.testo AS risposta_data_testo,
+                o_corretta.testo AS risposta_corretta_testo
              FROM partecipazioni p
              JOIN utenti u ON u.id = p.utente_id
              LEFT JOIN puntate_live pl
                 ON pl.sessione_id = p.sessione_id
                AND pl.partecipazione_id = p.id
              LEFT JOIN (
-                SELECT r1.id, r1.partecipazione_id, r1.puntata, r1.corretta, r1.tempo_risposta, r1.punti
+                SELECT r1.id, r1.partecipazione_id, r1.opzione_id, r1.puntata, r1.corretta, r1.tempo_risposta, r1.punti
                 FROM risposte r1
                 INNER JOIN (
                     SELECT partecipazione_id, MAX(id) AS max_id
@@ -67,10 +73,15 @@ trait ClassificaTrait
                 ) r2 ON r2.max_id = r1.id
              ) r_corrente ON r_corrente.partecipazione_id = p.id
              LEFT JOIN domande d_corrente ON d_corrente.id = :domanda_id_domanda
+             LEFT JOIN opzioni o_risposta ON o_risposta.id = r_corrente.opzione_id
+             LEFT JOIN opzioni o_corretta
+                ON o_corretta.domanda_id = d_corrente.id
+               AND o_corretta.corretta = 1
              LEFT JOIN (
                 SELECT r0.partecipazione_id
                 FROM risposte r0
                 WHERE r0.domanda_id = :domanda_id_primo
+                  AND r0.corretta = 1
                 ORDER BY r0.tempo_risposta ASC, r0.id ASC
                 LIMIT 1
              ) primo ON 1 = 1
@@ -102,6 +113,8 @@ trait ClassificaTrait
             $row['primo_a_rispondere'] = isset($row['primo_partecipazione_id'])
                 ? ((int) $row['primo_partecipazione_id'] === (int) $row['partecipazione_id'])
                 : false;
+            $row['risposta_data_testo'] = (string) ($row['risposta_data_testo'] ?? '');
+            $row['risposta_corretta_testo'] = (string) ($row['risposta_corretta_testo'] ?? '');
 
             $puntata = (int) $row['ultima_puntata'];
             $difficolta = (float) ($row['difficolta_domanda'] ?? 1.0);
@@ -232,5 +245,28 @@ trait ClassificaTrait
                 $this->pdo->rollBack();
             }
         }
+    }
+
+    private function ensureRisposteOptionIdColumn(): void
+    {
+        if (self::$risposteOptionIdEnsured) {
+            return;
+        }
+
+        $stmt = $this->pdo->query("
+            SELECT COUNT(*) AS totale
+            FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_SCHEMA = DATABASE()
+              AND TABLE_NAME = 'risposte'
+              AND COLUMN_NAME = 'opzione_id'
+        ");
+
+        $exists = (int) (($stmt ? $stmt->fetch()['totale'] : 0) ?? 0) > 0;
+
+        if (!$exists) {
+            $this->pdo->exec("ALTER TABLE risposte ADD COLUMN opzione_id INT NULL AFTER domanda_id");
+        }
+
+        self::$risposteOptionIdEnsured = true;
     }
 }

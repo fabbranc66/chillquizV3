@@ -12,6 +12,8 @@ use PDO;
 class Partecipazione
 {
     private PDO $pdo;
+    private static bool $risposteOptionIdEnsured = false;
+    private ?string $lastError = null;
 
     private function formatTempoRispostaDisplay(?float $value): ?string
     {
@@ -25,6 +27,73 @@ class Partecipazione
     public function __construct()
     {
         $this->pdo = Database::getInstance();
+        $this->ensureRisposteOptionIdColumn();
+    }
+
+    public function getLastError(): ?string
+    {
+        return $this->lastError;
+    }
+
+    private function loadExistingResult(int $partecipazioneId, int $domandaId): ?array
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT r.opzione_id,
+                    r.corretta,
+                    r.puntata,
+                    r.punti,
+                    r.tempo_risposta,
+                    p.capitale_attuale AS capitale,
+                    d.difficolta AS difficolta_domanda,
+                    o_sel.testo AS risposta_data_testo,
+                    o_ok.testo AS risposta_corretta_testo
+             FROM risposte r
+             JOIN partecipazioni p ON p.id = r.partecipazione_id
+             LEFT JOIN domande d ON d.id = r.domanda_id
+             LEFT JOIN opzioni o_sel ON o_sel.id = r.opzione_id
+             LEFT JOIN opzioni o_ok
+               ON o_ok.domanda_id = r.domanda_id
+              AND o_ok.corretta = 1
+             WHERE r.partecipazione_id = :partecipazione_id
+               AND r.domanda_id = :domanda_id
+             ORDER BY r.id DESC
+             LIMIT 1"
+        );
+
+        $stmt->execute([
+            'partecipazione_id' => $partecipazioneId,
+            'domanda_id' => $domandaId,
+        ]);
+
+        $row = $stmt->fetch();
+        if (!$row) {
+            return null;
+        }
+
+        $tempoRisposta = $row['tempo_risposta'] === null ? null : (float) $row['tempo_risposta'];
+
+        return [
+            'corretta' => (bool) ((int) ($row['corretta'] ?? 0)),
+            'puntata' => (int) ($row['puntata'] ?? 0),
+            'punti' => (int) ($row['punti'] ?? 0),
+            'vincita_difficolta' => 0,
+            'vincita_velocita' => 0,
+            'bonus_primo' => 0,
+            'bonus_impostore' => 0,
+            'fattore_velocita' => 0,
+            'tempo_risposta' => $tempoRisposta,
+            'tempo_risposta_display' => $this->formatTempoRispostaDisplay($tempoRisposta),
+            'difficolta_domanda' => $row['difficolta_domanda'] === null ? 0 : (float) $row['difficolta_domanda'],
+            'primo_a_rispondere' => false,
+            'is_impostore' => false,
+            'vincita_domanda' => (int) ($row['punti'] ?? 0),
+            'capitale' => (int) ($row['capitale'] ?? 0),
+            'tipo_domanda' => null,
+            'modalita_party' => null,
+            'fase_domanda' => null,
+            'risposta_data_testo' => (string) ($row['risposta_data_testo'] ?? ''),
+            'risposta_corretta_testo' => (string) ($row['risposta_corretta_testo'] ?? ''),
+        ];
     }
 
     public function entra(int $sessioneId, int $utenteId): int
@@ -90,13 +159,11 @@ class Partecipazione
         int $opzioneId,
         ?float $tempoClient = null
     ): ?array {
+        $this->lastError = null;
+
         $partecipazione = $this->trova($partecipazioneId);
         if (!$partecipazione) {
-            return null;
-        }
-
-        $puntata = $_SESSION['puntate'][$partecipazioneId] ?? 0;
-        if ($puntata <= 0) {
+            $this->lastError = 'Partecipazione non trovata';
             return null;
         }
 
@@ -115,6 +182,7 @@ class Partecipazione
         $stmt->execute(['id' => $opzioneId]);
         $opzione = $stmt->fetch();
         if (!$opzione) {
+            $this->lastError = 'Opzione non valida';
             return null;
         }
 
@@ -141,9 +209,15 @@ class Partecipazione
         $coeffBonusPrimo = (float) $sistema->get('coefficiente_bonus_primo');
 
         $stmt = $this->pdo->prepare(
-            "SELECT s.inizio_domanda, s.id as sessione_id
+            "SELECT s.inizio_domanda,
+                    s.id as sessione_id,
+                    s.stato,
+                    sd.domanda_id AS domanda_attuale_id
              FROM partecipazioni p
              JOIN sessioni s ON s.id = p.sessione_id
+             LEFT JOIN sessione_domande sd
+               ON sd.sessione_id = s.id
+              AND sd.posizione = s.domanda_corrente
              WHERE p.id = :id
              LIMIT 1"
         );
@@ -152,10 +226,35 @@ class Partecipazione
         $sessionData = $stmt->fetch();
 
         if (!$sessionData || !$sessionData['inizio_domanda']) {
+            $this->lastError = 'Domanda non attiva';
             return null;
         }
 
         $sessioneId = (int) $sessionData['sessione_id'];
+        $existingResult = $this->loadExistingResult($partecipazioneId, $domandaId);
+        if ($existingResult !== null) {
+            return $existingResult;
+        }
+
+        $puntataLiveStmt = $this->pdo->prepare(
+            "SELECT importo
+             FROM puntate_live
+             WHERE sessione_id = :sessione_id
+               AND partecipazione_id = :partecipazione_id
+             LIMIT 1"
+        );
+
+        $puntataLiveStmt->execute([
+            'sessione_id' => $sessioneId,
+            'partecipazione_id' => $partecipazioneId,
+        ]);
+
+        $puntata = (int) (($puntataLiveStmt->fetch()['importo'] ?? 0));
+        if ($puntata <= 0) {
+            $this->lastError = 'Puntata non trovata per la domanda corrente';
+            return null;
+        }
+
         $inizioDomanda = (float) $sessionData['inizio_domanda'];
         $modeMeta = (new ImpostoreModeService())->applyRuntimeOverride($sessioneId, $domandaId, $modeMeta);
         $modeMeta = (new MemeModeService())->applyRuntimeOverride($sessioneId, $domandaId, $modeMeta);
@@ -194,13 +293,22 @@ class Partecipazione
         $isImpostore = false;
         $bonusImpostore = 0;
 
-        if ($bonusPrimoAttivo) {
+        if (
+            (string) ($sessionData['stato'] ?? '') !== 'domanda'
+            || (int) ($sessionData['domanda_attuale_id'] ?? 0) !== $domandaId
+        ) {
+            $this->lastError = 'Domanda non piu valida';
+            return null;
+        }
+
+        if ($bonusPrimoAttivo && (bool) $corretta) {
             $check = $this->pdo->prepare(
                 "SELECT COUNT(*) as totale
                  FROM risposte r
                  JOIN partecipazioni p ON p.id = r.partecipazione_id
                  WHERE r.domanda_id = :domanda_id
-                 AND p.sessione_id = :sessione_id"
+                 AND p.sessione_id = :sessione_id
+                 AND r.corretta = 1"
             );
 
             $check->execute([
@@ -259,14 +367,15 @@ class Partecipazione
 
         $insert = $this->pdo->prepare(
             "INSERT INTO risposte
-             (partecipazione_id, domanda_id, puntata, corretta, punti, tempo_risposta, data_risposta)
+             (partecipazione_id, domanda_id, opzione_id, puntata, corretta, punti, tempo_risposta, data_risposta)
              VALUES
-             (:partecipazione_id, :domanda_id, :puntata, :corretta, :punti, :tempo, :data)"
+             (:partecipazione_id, :domanda_id, :opzione_id, :puntata, :corretta, :punti, :tempo, :data)"
         );
 
         $insert->execute([
             'partecipazione_id' => $partecipazioneId,
             'domanda_id' => $domandaId,
+            'opzione_id' => $opzioneId,
             'puntata' => $puntata,
             'corretta' => $corretta,
             'punti' => $punti,
@@ -370,9 +479,9 @@ class Partecipazione
 
             $insertRisposta = $this->pdo->prepare(
                 "INSERT INTO risposte
-                 (partecipazione_id, domanda_id, puntata, corretta, punti, tempo_risposta, data_risposta)
+                 (partecipazione_id, domanda_id, opzione_id, puntata, corretta, punti, tempo_risposta, data_risposta)
                  VALUES
-                 (:partecipazione_id, :domanda_id, :puntata, 0, :punti, :tempo_risposta, :data)"
+                 (:partecipazione_id, :domanda_id, NULL, :puntata, 0, :punti, :tempo_risposta, :data)"
             );
 
             $deleteLive = $this->pdo->prepare(
@@ -504,5 +613,28 @@ class Partecipazione
                 KEY idx_sessione (sessione_id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
         ");
+    }
+
+    private function ensureRisposteOptionIdColumn(): void
+    {
+        if (self::$risposteOptionIdEnsured) {
+            return;
+        }
+
+        $stmt = $this->pdo->query("
+            SELECT COUNT(*) AS totale
+            FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_SCHEMA = DATABASE()
+              AND TABLE_NAME = 'risposte'
+              AND COLUMN_NAME = 'opzione_id'
+        ");
+
+        $exists = (int) (($stmt ? $stmt->fetch()['totale'] : 0) ?? 0) > 0;
+
+        if (!$exists) {
+            $this->pdo->exec("ALTER TABLE risposte ADD COLUMN opzione_id INT NULL AFTER domanda_id");
+        }
+
+        self::$risposteOptionIdEnsured = true;
     }
 }
