@@ -441,6 +441,23 @@
     }
   }
 
+  function getQuestionRenderState(domanda) {
+    const tipoDomanda = normalizeQuestionType(domanda);
+    const nowSec = Math.floor(Date.now() / 1000);
+    const hasMemeDecoratedOptions = Array.isArray(domanda?.opzioni)
+      && domanda.opzioni.some((opzione) => String(opzione?.display_text || '') !== '');
+
+    return {
+      tipoDomanda,
+      isSarabandaIntro: tipoDomanda === 'SARABANDA'
+        && (S.currentTimerStart <= 0 || nowSec < S.currentTimerStart),
+      isImpostoreMasked: !!domanda?.impostore_masked,
+      isMemeMode: !!domanda?.meme_mode || tipoDomanda === 'MEME' || hasMemeDecoratedOptions,
+      showCorrect: !!domanda?.show_correct,
+      correctOptionId: String(domanda?.correct_option_id || ''),
+    };
+  }
+
   function stopMemeRotation() {
     if (S.memeRotationTimer) {
       window.clearInterval(S.memeRotationTimer);
@@ -547,16 +564,13 @@
     }
 
     S.currentDomandaData = domanda;
-
-    const tipoDomanda = normalizeQuestionType(domanda);
-    const nowSec = Math.floor(Date.now() / 1000);
-    const isSarabandaIntro = tipoDomanda === 'SARABANDA' && (S.currentTimerStart <= 0 || nowSec < S.currentTimerStart);
-    const isImpostoreMasked = !!domanda.impostore_masked;
-    const showCorrect = !!domanda.show_correct;
-    const correctOptionId = String(domanda.correct_option_id || '');
-    const hasMemeDecoratedOptions = Array.isArray(domanda.opzioni)
-      && domanda.opzioni.some((opzione) => String(opzione?.display_text || '') !== '');
-    const isMemeMode = !!domanda.meme_mode || tipoDomanda === 'MEME' || hasMemeDecoratedOptions;
+    const {
+      isSarabandaIntro,
+      isImpostoreMasked,
+      isMemeMode,
+      showCorrect,
+      correctOptionId,
+    } = getQuestionRenderState(domanda);
 
     const titolo = document.getElementById('domanda-testo');
     const opzioni = document.getElementById('opzioni');

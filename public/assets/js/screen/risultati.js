@@ -3,6 +3,13 @@
   window.ScreenApp = window.ScreenApp || {};
   const ScreenApp = window.ScreenApp;
 
+  function clearMemeAlertTimer() {
+    if (ScreenApp.store.memeAlertTimer) {
+      window.clearTimeout(ScreenApp.store.memeAlertTimer);
+      ScreenApp.store.memeAlertTimer = null;
+    }
+  }
+
   function getMemeAlertNodes() {
     return {
       wrap: document.getElementById('meme-alert-screen'),
@@ -11,10 +18,7 @@
   }
 
   function clearMemeAlert() {
-    if (ScreenApp.store.memeAlertTimer) {
-      window.clearTimeout(ScreenApp.store.memeAlertTimer);
-      ScreenApp.store.memeAlertTimer = null;
-    }
+    clearMemeAlertTimer();
     const { wrap, message } = getMemeAlertNodes();
     if (message) {
       message.innerText = '';
@@ -42,22 +46,30 @@
     return templates[index];
   }
 
+  function buildMemeAlertKey(choosers) {
+    return choosers
+      .map((row) => `${row.nome || ''}:${row.risposta_data_testo || ''}:${row.tempo_risposta_display || ''}`)
+      .join('|');
+  }
+
+  function getMemeChoosers(lista) {
+    return Array.isArray(lista) ? lista.filter((row) => !!row?.is_meme_choice) : [];
+  }
+
   function renderMemeAlert(lista) {
     const { wrap, message } = getMemeAlertNodes();
     if (!wrap || !message || !Array.isArray(lista)) {
       return;
     }
 
-    const choosers = lista.filter((row) => !!row?.is_meme_choice);
+    const choosers = getMemeChoosers(lista);
     if (choosers.length === 0) {
       ScreenApp.store.lastMemeAlertKey = '';
       clearMemeAlert();
       return;
     }
 
-    const alertKey = choosers
-      .map((row) => `${row.nome || ''}:${row.risposta_data_testo || ''}:${row.tempo_risposta_display || ''}`)
-      .join('|');
+    const alertKey = buildMemeAlertKey(choosers);
 
     if (ScreenApp.store.lastMemeAlertKey === alertKey) {
       return;
@@ -66,12 +78,30 @@
     ScreenApp.store.lastMemeAlertKey = alertKey;
     message.innerText = buildMemeAlertMessage(choosers);
     wrap.classList.remove('hidden');
-    if (ScreenApp.store.memeAlertTimer) {
-      window.clearTimeout(ScreenApp.store.memeAlertTimer);
-    }
+    clearMemeAlertTimer();
     ScreenApp.store.memeAlertTimer = window.setTimeout(() => {
       clearMemeAlert();
     }, 15000);
+  }
+
+  function getOrderedScoreboard(lista) {
+    return [...lista]
+      .sort((a, b) => Number(b.capitale_attuale ?? 0) - Number(a.capitale_attuale ?? 0))
+      .slice(0, 10);
+  }
+
+  function renderScoreboardItems(lista) {
+    return lista.map((p, index) => {
+      const nome = p.nome || 'Giocatore';
+      const punti = Number(p.capitale_attuale ?? 0);
+      return `
+        <div class="scoreboard-item">
+          <div class="score-rank">#${index + 1}</div>
+          <div>${nome}</div>
+          <div class="score-points">${punti}</div>
+        </div>
+      `;
+    }).join('');
   }
 
   function renderClassifica(lista) {
@@ -84,21 +114,7 @@
       return;
     }
 
-    const ordinata = [...lista]
-      .sort((a, b) => Number(b.capitale_attuale ?? 0) - Number(a.capitale_attuale ?? 0))
-      .slice(0, 10);
-
-    listEl.innerHTML = ordinata.map((p, index) => {
-      const nome = p.nome || 'Giocatore';
-      const punti = Number(p.capitale_attuale ?? 0);
-      return `
-        <div class="scoreboard-item">
-          <div class="score-rank">#${index + 1}</div>
-          <div>${nome}</div>
-          <div class="score-points">${punti}</div>
-        </div>
-      `;
-    }).join('');
+    listEl.innerHTML = renderScoreboardItems(getOrderedScoreboard(lista));
 
     renderMemeAlert(lista);
   }
