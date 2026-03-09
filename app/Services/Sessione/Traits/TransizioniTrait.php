@@ -5,7 +5,7 @@ namespace App\Services\Sessione\Traits;
 use App\Models\Partecipazione;
 use App\Services\Question\ImpostoreModeService;
 use App\Services\Question\MemeModeService;
-use App\Services\Question\QuestionModeResolver;
+use App\Services\Question\QuestionRuntimeModeService;
 use RuntimeException;
 
 trait TransizioniTrait
@@ -19,9 +19,7 @@ trait TransizioniTrait
     private function resolveCurrentQuestionModeMeta(array $domandaCorrente): array
     {
         $domandaId = (int) ($domandaCorrente['id'] ?? 0);
-        $modeMeta = (new QuestionModeResolver())->resolveFromRow($domandaCorrente);
-        $modeMeta = (new ImpostoreModeService())->applyRuntimeOverride($this->sessioneId, $domandaId, $modeMeta);
-        return (new MemeModeService())->applyRuntimeOverride($this->sessioneId, $domandaId, $modeMeta);
+        return (new QuestionRuntimeModeService())->resolveFromRow($this->sessioneId, $domandaId, $domandaCorrente);
     }
 
     private function prepareRuntimeQuestionModes(array $domandaCorrente, array $modeMeta): void
@@ -36,6 +34,31 @@ trait TransizioniTrait
         if ($tipoDomanda === 'MEME') {
             (new MemeModeService())->prepareForQuestion($this->sessioneId, $domandaId);
         }
+    }
+
+    private function resolveQuestionStartTimestamp(array $domandaCorrente, array $modeMeta): ?float
+    {
+        $tipoDomanda = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
+        $hasAudio = trim((string) ($domandaCorrente['media_audio_path'] ?? '')) !== '';
+
+        if ($tipoDomanda === 'SARABANDA' && $hasAudio) {
+            return null;
+        }
+
+        return round(microtime(true), 3);
+    }
+
+    private function persistQuestionStartState(?float $timestamp): void
+    {
+        $stmt = $this->pdo->prepare(
+            "UPDATE sessioni SET stato = 'domanda', inizio_domanda = ?, mostra_corretta_fino = NULL WHERE id = ?"
+        );
+
+        $stmt->execute([$timestamp, $this->sessioneId]);
+
+        $this->sessione['stato'] = 'domanda';
+        $this->sessione['inizio_domanda'] = $timestamp;
+        $this->sessione['mostra_corretta_fino'] = null;
     }
 
     private function resetRevealCorretta(): void
@@ -83,26 +106,14 @@ trait TransizioniTrait
             );
         }
 
-        $timestamp = round(microtime(true), 3);
         $domandaCorrente = $this->domandaCorrente();
         $modeMeta = $this->resolveCurrentQuestionModeMeta(is_array($domandaCorrente) ? $domandaCorrente : []);
-        $tipoDomanda = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
-        $hasAudio = trim((string) ($domandaCorrente['media_audio_path'] ?? '')) !== '';
         $this->prepareRuntimeQuestionModes(is_array($domandaCorrente) ? $domandaCorrente : [], $modeMeta);
-
-        if ($tipoDomanda === 'SARABANDA' && $hasAudio) {
-            $timestamp = null;
-        }
-
-        $stmt = $this->pdo->prepare(
-            "UPDATE sessioni SET stato = 'domanda', inizio_domanda = ?, mostra_corretta_fino = NULL WHERE id = ?"
+        $timestamp = $this->resolveQuestionStartTimestamp(
+            is_array($domandaCorrente) ? $domandaCorrente : [],
+            $modeMeta
         );
-
-        $stmt->execute([$timestamp, $this->sessioneId]);
-
-        $this->sessione['stato'] = 'domanda';
-        $this->sessione['inizio_domanda'] = $timestamp;
-        $this->sessione['mostra_corretta_fino'] = null;
+        $this->persistQuestionStartState($timestamp);
 
     }
 

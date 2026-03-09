@@ -5,7 +5,61 @@
   const D = Player.dom;
   const { isDomandaAttiva } = Player.utils;
   const Alert = Player.uiAlert;
+  const Copy = Player.copy;
   const Support = Player.domandaSupport;
+
+  function bindImmediateAnswer(button, domandaId, opzioneId) {
+    const handleAnswer = (event) => {
+      event.preventDefault();
+      inviaRisposta(domandaId, opzioneId);
+    };
+
+    button.onclick = null;
+    button.addEventListener('pointerdown', handleAnswer, { once: true });
+  }
+
+  function clearStatusMessage() {
+    if (!D.domandaStatusMessage) {
+      return;
+    }
+
+    D.domandaStatusMessage.innerText = '';
+    D.domandaStatusMessage.classList.add('hidden');
+    D.domandaStatusMessage.classList.remove('is-impostore');
+    D.domandaStatusMessage.classList.remove('is-meme');
+  }
+
+  function renderStatusMessage(domanda, isMemeMode, isImpostoreMasked, isImpostore) {
+    if (!D.domandaStatusMessage) {
+      return;
+    }
+
+    if (isMemeMode) {
+      D.domandaStatusMessage.innerText = String(domanda.meme_player_notice || Copy.memePlayerNotice);
+      D.domandaStatusMessage.classList.remove('hidden');
+      D.domandaStatusMessage.classList.add('is-meme');
+      D.domandaStatusMessage.classList.remove('is-impostore');
+      return;
+    }
+
+    if (isImpostoreMasked) {
+      D.domandaStatusMessage.innerText = String(domanda.impostore_notice || Copy.impostoreMaskedNotice);
+      D.domandaStatusMessage.classList.remove('hidden');
+      D.domandaStatusMessage.classList.add('is-impostore');
+      D.domandaStatusMessage.classList.remove('is-meme');
+      return;
+    }
+
+    if (isImpostore) {
+      D.domandaStatusMessage.innerText = Copy.impostoreMaskedFallback;
+      D.domandaStatusMessage.classList.remove('hidden');
+      D.domandaStatusMessage.classList.add('is-impostore');
+      D.domandaStatusMessage.classList.remove('is-meme');
+      return;
+    }
+
+    clearStatusMessage();
+  }
 
   function renderDomandaMedia(domanda, imageOnly = false, overrides = {}) {
     const { wrap, image, audio, caption } = Support.getMediaNodes();
@@ -64,16 +118,8 @@
   function renderMemeButtons(domanda, showCorrect, correctOptionId) {
     const baseOptions = Array.isArray(domanda?.opzioni) ? domanda.opzioni : [];
     const letters = ['A', 'B', 'C', 'D'];
-    const bindImmediateAnswer = (button, domandaId, opzioneId) => {
-      const handleAnswer = (event) => {
-        event.preventDefault();
-        inviaRisposta(domandaId, opzioneId);
-      };
-
-      button.onclick = null;
-      button.addEventListener('pointerdown', handleAnswer, { once: true });
-    };
-
+    const selectedDomandaId = Number(S.selectedAnswerDomandaId || 0);
+    const selectedOptionId = String(S.selectedAnswerOptionId || '');
     const applyStep = () => {
       const step = showCorrect ? 0 : Support.getMemeRotationStep(domanda);
       if (!showCorrect && step === S.memeRotationStep) {
@@ -99,6 +145,9 @@
           } else {
             btn.classList.add('is-reveal-dim');
           }
+          if (selectedDomandaId === Number(domanda?.id || 0) && btn.dataset.id === selectedOptionId) {
+            btn.classList.add('is-player-choice-reveal');
+          }
         } else {
           bindImmediateAnswer(btn, domanda.id, opzione.id);
         }
@@ -119,12 +168,7 @@
     Support.stopMemeRotation();
     S.renderedDomandaKey = '';
     if (D.domandaTesto) D.domandaTesto.innerText = '';
-    if (D.domandaStatusMessage) {
-      D.domandaStatusMessage.innerText = '';
-      D.domandaStatusMessage.classList.add('hidden');
-      D.domandaStatusMessage.classList.remove('is-impostore');
-      D.domandaStatusMessage.classList.remove('is-meme');
-    }
+    clearStatusMessage();
     if (D.opzioniDiv) D.opzioniDiv.innerHTML = '';
     Support.resetDomandaMedia();
     Support.clearQuestionTypeBadge();
@@ -206,29 +250,7 @@
     const isMemeMode = !!domanda.meme_mode || tipoDomanda === 'MEME' || hasMemeDecoratedOptions;
 
     D.domandaTesto.innerText = (isSarabandaIntro || isMemeMode || isImpostoreMasked) ? '' : (domanda.testo || '');
-    if (D.domandaStatusMessage) {
-      if (isMemeMode) {
-        D.domandaStatusMessage.innerText = String(domanda.meme_player_notice || 'Modalita\' MEME: premi A/B/C/D mentre le associazioni ruotano.');
-        D.domandaStatusMessage.classList.remove('hidden');
-        D.domandaStatusMessage.classList.add('is-meme');
-        D.domandaStatusMessage.classList.remove('is-impostore');
-      } else if (isImpostoreMasked) {
-        D.domandaStatusMessage.innerText = String(domanda.impostore_notice || 'Sei l\'impostore: osserva gli altri e deduci la risposta.');
-        D.domandaStatusMessage.classList.remove('hidden');
-        D.domandaStatusMessage.classList.add('is-impostore');
-        D.domandaStatusMessage.classList.remove('is-meme');
-      } else if (isImpostore) {
-        D.domandaStatusMessage.innerText = 'Sei l\'impostore, ma in questa vista la domanda e\' mascherata.';
-        D.domandaStatusMessage.classList.remove('hidden');
-        D.domandaStatusMessage.classList.add('is-impostore');
-        D.domandaStatusMessage.classList.remove('is-meme');
-      } else {
-        D.domandaStatusMessage.innerText = '';
-        D.domandaStatusMessage.classList.add('hidden');
-        D.domandaStatusMessage.classList.remove('is-impostore');
-        D.domandaStatusMessage.classList.remove('is-meme');
-      }
-    }
+    renderStatusMessage(domanda, isMemeMode, isImpostoreMasked, isImpostore);
 
     S.badgeQuestionId = domandaId;
     S.badgeTipoDomanda = tipoDomanda;
@@ -280,12 +302,14 @@
         } else {
           btn.classList.add('is-reveal-dim');
         }
+        if (
+          Number(S.selectedAnswerDomandaId || 0) === domandaId
+          && btn.dataset.id === String(S.selectedAnswerOptionId || '')
+        ) {
+          btn.classList.add('is-player-choice-reveal');
+        }
       } else {
-        btn.onclick = null;
-        btn.addEventListener('pointerdown', (event) => {
-          event.preventDefault();
-          inviaRisposta(domanda.id, opzione.id);
-        }, { once: true });
+        bindImmediateAnswer(btn, domanda.id, opzione.id);
       }
 
       D.opzioniDiv.appendChild(btn);
@@ -296,6 +320,14 @@
 
   async function inviaRisposta(domandaId, opzioneId) {
     if (S.rispostaInviata) return;
+    if (!S.puntataInviata) {
+      Alert.show({
+        title: Copy.betRequiredBeforeAnswerTitle,
+        message: Copy.betRequiredBeforeAnswerMessage,
+        tone: 'warn',
+      });
+      return;
+    }
     S.rispostaInviata = true;
     Support.stopMemeRotation();
     Support.freezeAnsweredQuestion(domandaId, opzioneId);
@@ -334,8 +366,8 @@
 
       if (!data.success) {
         Alert.show({
-          title: 'Risposta non inviata',
-          message: data.error || 'Errore invio risposta.',
+          title: Copy.answerFailedTitle,
+          message: data.error || Copy.answerFailedMessage,
           tone: 'error',
         });
         S.rispostaInviata = false;
@@ -349,8 +381,8 @@
     } catch (err) {
       console.error(err);
       Alert.show({
-        title: 'Errore di rete',
-        message: 'Impossibile inviare la risposta.',
+        title: Copy.networkErrorTitle,
+        message: Copy.answerNetworkErrorMessage,
         tone: 'error',
       });
       S.rispostaInviata = false;

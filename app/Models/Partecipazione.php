@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Core\Database;
 use App\Services\Question\ImpostoreModeService;
 use App\Services\Question\MemeModeService;
-use App\Services\Question\QuestionModeResolver;
+use App\Services\Question\QuestionRuntimeModeService;
 use App\Services\Question\Score\ScoreEngine;
 use PDO;
 
@@ -115,9 +115,68 @@ class Partecipazione
 
     private function resolveQuestionModeMeta(int $sessioneId, int $domandaId, ?array $domanda): array
     {
-        $modeMeta = (new QuestionModeResolver())->resolveFromRow(is_array($domanda) ? $domanda : []);
-        $modeMeta = (new ImpostoreModeService())->applyRuntimeOverride($sessioneId, $domandaId, $modeMeta);
-        return (new MemeModeService())->applyRuntimeOverride($sessioneId, $domandaId, $modeMeta);
+        return (new QuestionRuntimeModeService())->resolveFromRow($sessioneId, $domandaId, is_array($domanda) ? $domanda : []);
+    }
+
+    private function validateAnswerSessionContext(?array $sessionData, int $domandaId): ?string
+    {
+        if (!$sessionData || !$sessionData['inizio_domanda']) {
+            return 'Domanda non attiva';
+        }
+
+        if ((string) ($sessionData['stato'] ?? '') !== 'domanda') {
+            return 'Domanda non piu valida';
+        }
+
+        if ((int) ($sessionData['domanda_attuale_id'] ?? 0) !== $domandaId) {
+            return 'Domanda non piu valida';
+        }
+
+        return null;
+    }
+
+    private function decorateAnswerTextsForRuntime(
+        int $sessioneId,
+        int $opzioneId,
+        array $modeMeta,
+        string $rispostaDataTesto
+    ): string {
+        $tipoDomanda = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
+        if ($tipoDomanda !== 'MEME') {
+            return $rispostaDataTesto;
+        }
+
+        $memeState = (new MemeModeService())->getRuntimeState($sessioneId);
+        $memeText = trim((string) ($memeState['meme_text'] ?? ''));
+        $displayWrongOptionId = (int) ($memeState['display_wrong_option_id'] ?? 0);
+
+        if ($memeText !== '' && $displayWrongOptionId > 0 && $displayWrongOptionId === $opzioneId) {
+            return $memeText;
+        }
+
+        return $rispostaDataTesto;
+    }
+
+    private function calculateAnswerScore(
+        array $modeMeta,
+        int $puntata,
+        int $corretta,
+        float $difficolta,
+        float $fattoreVelocita,
+        int $bonusPrimo,
+        int $bonusImpostore,
+        float $tempoRisposta
+    ): object {
+        return (new ScoreEngine())->calculate($modeMeta['tipo_domanda'], [
+            'puntata' => $puntata,
+            'corretta' => (bool) $corretta,
+            'difficolta' => $difficolta,
+            'fattore_velocita' => $fattoreVelocita,
+            'bonus_primo' => $bonusPrimo,
+            'bonus_impostore' => $bonusImpostore,
+            'tempo_risposta' => $tempoRisposta,
+            'question_meta' => $modeMeta,
+        ]);
     }
 
     private function resolveTempoRisposta(float $inizioDomanda, int $durata, ?float $tempoClient): array
@@ -450,8 +509,9 @@ class Partecipazione
 
         $sessionData = $this->loadAnswerSessionContext($partecipazioneId);
 
-        if (!$sessionData || !$sessionData['inizio_domanda']) {
-            $this->lastError = 'Domanda non attiva';
+        $validationError = $this->validateAnswerSessionContext($sessionData, $domandaId);
+        if ($validationError !== null) {
+            $this->lastError = $validationError;
             return null;
         }
 
@@ -469,17 +529,12 @@ class Partecipazione
 
         $inizioDomanda = (float) $sessionData['inizio_domanda'];
         $modeMeta = $this->resolveQuestionModeMeta($sessioneId, $domandaId, $domanda);
-        $isMemeMode = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC'))) === 'MEME';
-
-        if ($isMemeMode) {
-            $memeState = (new MemeModeService())->getRuntimeState($sessioneId);
-            $memeText = trim((string) ($memeState['meme_text'] ?? ''));
-            $displayWrongOptionId = (int) ($memeState['display_wrong_option_id'] ?? 0);
-
-            if ($memeText !== '' && $displayWrongOptionId > 0 && $displayWrongOptionId === $opzioneId) {
-                $rispostaDataTesto = $memeText;
-            }
-        }
+        $rispostaDataTesto = $this->decorateAnswerTextsForRuntime(
+            $sessioneId,
+            $opzioneId,
+            $modeMeta,
+            $rispostaDataTesto
+        );
 
         [$tempoRisposta, $tempoRimanente] = $this->resolveTempoRisposta($inizioDomanda, $durata, $tempoClient);
 
@@ -490,14 +545,6 @@ class Partecipazione
         $isPrimoARispondere = false;
         $isImpostore = false;
         $bonusImpostore = 0;
-
-        if (
-            (string) ($sessionData['stato'] ?? '') !== 'domanda'
-            || (int) ($sessionData['domanda_attuale_id'] ?? 0) !== $domandaId
-        ) {
-            $this->lastError = 'Domanda non piu valida';
-            return null;
-        }
 
         [$bonusPrimo, $isPrimoARispondere] = $this->resolveBonusPrimo(
             $bonusPrimoAttivo,
@@ -516,17 +563,16 @@ class Partecipazione
             $corretta
         );
 
-        $scoreEngine = new ScoreEngine();
-        $score = $scoreEngine->calculate($modeMeta['tipo_domanda'], [
-            'puntata' => $puntata,
-            'corretta' => (bool) $corretta,
-            'difficolta' => $difficolta,
-            'fattore_velocita' => $fattoreVelocita,
-            'bonus_primo' => $bonusPrimo,
-            'bonus_impostore' => $bonusImpostore,
-            'tempo_risposta' => $tempoRisposta,
-            'question_meta' => $modeMeta,
-        ]);
+        $score = $this->calculateAnswerScore(
+            $modeMeta,
+            $puntata,
+            $corretta,
+            $difficolta,
+            $fattoreVelocita,
+            $bonusPrimo,
+            $bonusImpostore,
+            $tempoRisposta
+        );
 
         $punti = $score->punti;
         $vincitaDifficolta = $score->vincitaDifficolta;

@@ -148,6 +148,8 @@
   }
 
   function freezeAnsweredQuestion(domandaId, opzioneId) {
+    S.selectedAnswerDomandaId = Number(domandaId || 0);
+    S.selectedAnswerOptionId = Number(opzioneId || 0);
     S.renderedDomandaKey = `answered||${Number(domandaId || 0)}||${String(opzioneId || '')}`;
   }
 

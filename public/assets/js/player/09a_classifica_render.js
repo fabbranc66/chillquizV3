@@ -4,6 +4,7 @@
   const S = Player.state;
   const D = Player.dom;
   const POINTS_SYMBOL = '&#9733;';
+  const Copy = Player.copy;
   const Support = Player.classificaSupport;
 
   function renderRisultatoPersonaleDaClassifica(lista) {
@@ -20,7 +21,7 @@
 
     if (!miaRiga) {
       container.classList.remove('esito-corretta', 'esito-errata');
-      container.innerHTML = '<div>Risultato personale non disponibile.</div>';
+      container.innerHTML = `<div>${Copy.personalResultUnavailable}</div>`;
       return;
     }
 
@@ -37,17 +38,12 @@
       : Number(miaRiga.vincita_domanda);
     const tempo = Support.forceDisplayString(miaRiga.tempo_risposta_display || Support.formatTempoRisposta(miaRiga.tempo_risposta));
     const capitale = Number(miaRiga.capitale_attuale ?? 0);
-    const rispostaData = Support.forceDisplayString(miaRiga.risposta_data_testo || '-');
-    const rispostaCorretta = Support.forceDisplayString(miaRiga.risposta_corretta_testo || '-');
-
     container.classList.remove('esito-corretta', 'esito-errata');
     if (esito === 'corretta') container.classList.add('esito-corretta');
     else if (esito === 'errata') container.classList.add('esito-errata');
 
     container.innerHTML = [
       Support.rowLine('Esito', esito),
-      Support.rowLine('Risposta data', rispostaData),
-      Support.rowLine('Risposta corretta', rispostaCorretta),
       Support.rowLine('Tempo risposta', tempo),
       Support.rowLine('Puntata', `${POINTS_SYMBOL} ${puntata}`),
       Support.rowLine('Coeff. difficolta', `x${Support.formatCoeff(difficolta)}`),
@@ -77,16 +73,11 @@
     const punti = Number(risultato.punti ?? 0);
     const tempo = Support.forceDisplayString(risultato.tempo_risposta_display || Support.formatTempoRisposta(risultato.tempo_risposta ?? 0));
     const capitale = Number(risultato.capitale ?? 0);
-    const rispostaData = Support.forceDisplayString(risultato.risposta_data_testo || '-');
-    const rispostaCorretta = Support.forceDisplayString(risultato.risposta_corretta_testo || '-');
-
     container.classList.remove('esito-corretta', 'esito-errata');
     container.classList.add(risultato.corretta ? 'esito-corretta' : 'esito-errata');
 
     container.innerHTML = [
       Support.rowLine('Esito', esito),
-      Support.rowLine('Risposta data', rispostaData),
-      Support.rowLine('Risposta corretta', rispostaCorretta),
       Support.rowLine('Tempo risposta', tempo),
       Support.rowLine('Puntata', `${POINTS_SYMBOL} ${puntata}`),
       Support.rowLine('Coeff. difficolta', `x${Support.formatCoeff(difficolta)}`),
@@ -119,7 +110,7 @@
       container.innerHTML = '';
 
       if (classificaOrdinata.length === 0) {
-        container.innerHTML = '<div>Nessun giocatore</div>';
+        container.innerHTML = `<div>${Copy.noPlayers}</div>`;
         return;
       }
 

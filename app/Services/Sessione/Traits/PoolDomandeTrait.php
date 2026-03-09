@@ -4,7 +4,7 @@ namespace App\Services\Sessione\Traits;
 
 use App\Services\Question\ImpostoreModeService;
 use App\Services\Question\MemeModeService;
-use App\Services\Question\QuestionModeResolver;
+use App\Services\Question\QuestionRuntimeModeService;
 use RuntimeException;
 
 trait PoolDomandeTrait
@@ -119,9 +119,11 @@ trait PoolDomandeTrait
         $domanda['opzioni'] = $stmt->fetchAll();
         $domanda['opzioni'] = $this->shuffleQuestionOptions($domanda['opzioni'], (int) $domanda['id']);
 
-        $modeMeta = (new QuestionModeResolver())->resolveFromRow($domanda);
-        $modeMeta = (new ImpostoreModeService())->applyRuntimeOverride($this->sessioneId, (int) ($domanda['id'] ?? 0), $modeMeta);
-        $modeMeta = (new MemeModeService())->applyRuntimeOverride($this->sessioneId, (int) ($domanda['id'] ?? 0), $modeMeta);
+        $modeMeta = (new QuestionRuntimeModeService())->resolveFromRow(
+            $this->sessioneId,
+            (int) ($domanda['id'] ?? 0),
+            $domanda
+        );
 
         $domanda['tipo_domanda'] = $modeMeta['tipo_domanda'];
         $domanda['modalita_party'] = $modeMeta['modalita_party'];

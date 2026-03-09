@@ -5,6 +5,13 @@
   const D = Admin.dom;
   const { addLog } = Admin.log;
   const Support = Admin.actionsSupport;
+  const RUNTIME_COPY = {
+    invalidSession: 'Sessione non valida',
+    networkDebugError: 'Errore rete debug sessione',
+    networkImpostoreError: 'Errore rete durante toggle IMPOSTORE',
+    networkMemeError: 'Errore rete durante toggle MEME',
+    memeTextRequired: 'Inserisci prima il testo MEME',
+  };
 
   function readTargetSessioneId() {
     return Number(D.sessioneSelect?.value || S.SESSIONE_ID || 0);
@@ -64,6 +71,7 @@
   }
 
   Admin.runtimeSupport = {
+    copy: RUNTIME_COPY,
     readTargetSessioneId,
     fetchAdminJson,
     logActionResult,

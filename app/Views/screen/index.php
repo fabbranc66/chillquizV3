@@ -111,6 +111,8 @@ window.SCREEN_BOOTSTRAP = {
 <script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/api.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/state.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/risultati.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/domanda_support.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/domanda_audio.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/domanda.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/polling.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 

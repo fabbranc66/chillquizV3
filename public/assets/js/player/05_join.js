@@ -4,6 +4,7 @@
   const S = Player.state;
   const D = Player.dom;
   const Alert = Player.uiAlert;
+  const Copy = Player.copy;
 
   function completeJoin(nome, capitale) {
     if (D.displayName) D.displayName.innerText = nome;
@@ -22,8 +23,8 @@
     const nome = (D.inputNome?.value || '').trim();
     if (!nome) {
       Alert.show({
-        title: 'Nome richiesto',
-        message: 'Inserisci un nome prima di entrare.',
+        title: Copy.joinNameRequiredTitle,
+        message: Copy.joinNameRequiredMessage,
         tone: 'warn',
       });
       return;
@@ -43,8 +44,8 @@
       if (!data.success) {
         if (data.requires_approval && data.request_id) {
           Alert.show({
-            title: 'Accesso in approvazione',
-            message: data.error || 'Nome gia\' presente: richiesta inviata alla regia.',
+            title: Copy.joinApprovalTitle,
+            message: data.error || Copy.joinApprovalMessage,
             tone: 'info',
           });
           watchJoinRequest(data.request_id, nome);
@@ -52,8 +53,8 @@
         }
 
         Alert.show({
-          title: 'Accesso non riuscito',
-          message: data.error || 'Join non riuscito.',
+          title: Copy.joinFailedTitle,
+          message: data.error || Copy.joinFailedMessage,
           tone: 'error',
         });
         return;
@@ -64,8 +65,8 @@
     } catch (err) {
       console.error(err);
       Alert.show({
-        title: 'Errore di rete',
-        message: 'Impossibile contattare il server per l\'accesso.',
+        title: Copy.networkErrorTitle,
+        message: Copy.joinNetworkErrorMessage,
         tone: 'error',
       });
     }
@@ -104,8 +105,8 @@
           clearInterval(S.joinRequestPolling);
           S.joinRequestPolling = null;
           Alert.show({
-            title: 'Accesso rifiutato',
-            message: 'Richiesta di accesso rifiutata dalla regia.',
+            title: Copy.joinRejectedTitle,
+            message: Copy.joinRejectedMessage,
             tone: 'error',
           });
         }

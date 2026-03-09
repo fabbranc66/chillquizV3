@@ -41,6 +41,8 @@
     questionShownAtPerf: 0,
     questionShownDomandaId: 0,
     questionShownTimerStart: 0,
+    selectedAnswerDomandaId: 0,
+    selectedAnswerOptionId: 0,
     renderedDomandaKey: '',
     lastMediaUrl: '',
     memeRotationTimer: null,

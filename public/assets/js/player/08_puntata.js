@@ -4,6 +4,7 @@
   const S = Player.state;
   const D = Player.dom;
   const Alert = Player.uiAlert;
+  const Copy = Player.copy;
   const STEP = 250;
 
   function capitaleAttuale() {
@@ -34,8 +35,8 @@
 
     if (!importo || importo <= 0) {
       Alert.show({
-        title: 'Puntata non valida',
-        message: 'Inserisci un importo valido.',
+        title: Copy.betInvalidTitle,
+        message: Copy.betInvalidMessage,
         tone: 'warn',
       });
       return;
@@ -57,8 +58,8 @@
 
       if (!data.success) {
         Alert.show({
-          title: 'Puntata rifiutata',
-          message: data.error || 'Errore puntata.',
+          title: Copy.betRejectedTitle,
+          message: data.error || Copy.betRejectedMessage,
           tone: 'error',
         });
         S.puntataInviata = false;
@@ -69,8 +70,8 @@
     } catch (err) {
       console.error(err);
       Alert.show({
-        title: 'Errore di rete',
-        message: 'Impossibile inviare la puntata.',
+        title: Copy.networkErrorTitle,
+        message: Copy.betNetworkErrorMessage,
         tone: 'error',
       });
       S.puntataInviata = false;

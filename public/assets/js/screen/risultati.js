@@ -36,9 +36,9 @@
       : `${names.slice(0, -1).join(', ')} e ${names[names.length - 1]}`;
 
     const templates = [
-      `${who} hanno puntato tutto su "${memeText}". La scienza non approva, ma il pubblico si'.`,
+      `${who} hanno puntato tutto su "${memeText}". La scienza non approva, ma il pubblico si diverte.`,
       `${who} hanno scelto "${memeText}". Decisione tecnicamente discutibile, spiritualmente impeccabile.`,
-      `${who} hanno visto "${memeText}" e hanno detto: si', questa e' la mia verita'.`,
+      `${who} hanno visto "${memeText}" e hanno detto: si, questa e' la mia verita'.`,
       `${who} hanno creduto in "${memeText}". Nessun rimorso, solo caos controllato.`,
     ];
 

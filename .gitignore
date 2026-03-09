@@ -1,1 +1,9 @@
-.vscode/settings.json
+storage/runtime/**
+!storage/runtime/
+!storage/runtime/.gitkeep
+!storage/runtime/audio_preview/
+!storage/runtime/audio_preview/.gitkeep
+!storage/runtime/impostore/
+!storage/runtime/impostore/.gitkeep
+!storage/runtime/meme/
+!storage/runtime/meme/.gitkeep

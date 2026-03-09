@@ -8,6 +8,8 @@
   function resetRoundInteractionFlags() {
     S.rispostaInviata = false;
     S.puntataInviata = false;
+    S.selectedAnswerDomandaId = 0;
+    S.selectedAnswerOptionId = 0;
   }
 
   function handleStateTransition(nextState) {
@@ -103,6 +105,7 @@
         Player.screens.showOnly('screen-risultati');
         if (D.risultatiTitle) D.risultatiTitle.textContent = 'Risultati';
         if (D.risultatoPersonale) D.risultatoPersonale.classList.remove('hidden');
+        if (D.classifica) D.classifica.classList.add('hidden');
         Player.classifica.fetchClassifica();
         resetTimerUI();
         break;
@@ -111,17 +114,20 @@
         Player.screens.showOnly('screen-risultati');
         if (D.risultatiTitle) D.risultatiTitle.textContent = 'Classifica finale';
         if (D.risultatoPersonale) D.risultatoPersonale.classList.add('hidden');
+        if (D.classifica) D.classifica.classList.remove('hidden');
         Player.classifica.fetchClassifica();
         resetTimerUI();
         break;
 
       case 'attesa':
         Player.screens.showOnly('screen-lobby');
+        if (D.classifica) D.classifica.classList.add('hidden');
         resetTimerUI();
         break;
 
       case 'puntata':
         Player.screens.showOnly('screen-puntata');
+        if (D.classifica) D.classifica.classList.add('hidden');
         if (stateChanged) {
           Player.puntata.prepareScreen?.();
         }
@@ -130,6 +136,7 @@
 
       default:
         Player.screens.showOnly('screen-lobby');
+        if (D.classifica) D.classifica.classList.add('hidden');
         resetTimerUI();
         break;
     }

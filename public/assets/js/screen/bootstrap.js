@@ -39,4 +39,10 @@
     memeAlertTimer: null,
     lastMemeAlertKey: '',
   };
+
+  ScreenApp.copy = {
+    memeScreenNotice: 'Modalita MEME attiva.',
+    impostoreScreenNotice: 'Modalita IMPOSTORE: lo schermo non mostra la domanda.',
+    impostoreMaskedCaption: 'Immagine mascherata per la modalita impostore',
+  };
 })();

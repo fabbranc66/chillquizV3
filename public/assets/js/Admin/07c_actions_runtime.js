@@ -7,6 +7,7 @@
   const { renderClassificaLive, renderJoinRichieste } = Admin.render;
   const Support = Admin.actionsSupport;
   const Runtime = Admin.runtimeSupport;
+  const Copy = Runtime.copy;
 
   Object.assign(Admin.actions, {
     async aggiornaPartecipanti() {
@@ -198,7 +199,7 @@
         addLog({
           ok: false,
           title: 'debug-sessione',
-          message: 'Errore rete debug sessione',
+          message: Copy.networkDebugError,
           data: { error: String(e?.message || e) },
         });
       } finally {
@@ -218,7 +219,7 @@
     async toggleImpostoreCorrente() {
       const targetSessioneId = Runtime.readTargetSessioneId();
       if (targetSessioneId <= 0) {
-        addLog({ ok: false, title: 'impostore-toggle', message: 'Sessione non valida', data: {} });
+        addLog({ ok: false, title: 'impostore-toggle', message: Copy.invalidSession, data: {} });
         return;
       }
 
@@ -242,7 +243,7 @@
         addLog({
           ok: false,
           title: 'impostore-toggle',
-          message: 'Errore rete durante toggle IMPOSTORE',
+          message: Copy.networkImpostoreError,
           data: { error: String(e?.message || e) },
         });
       }
@@ -251,14 +252,14 @@
     async toggleMemeCorrente() {
       const targetSessioneId = Runtime.readTargetSessioneId();
       if (targetSessioneId <= 0) {
-        addLog({ ok: false, title: 'meme-toggle', message: 'Sessione non valida', data: {} });
+        addLog({ ok: false, title: 'meme-toggle', message: Copy.invalidSession, data: {} });
         return;
       }
 
       const nextEnabled = !S.memeEnabled;
       const memeText = Support.sanitizeMemeText(D.memeTextInput?.value || S.memeDraftText || S.memeText || '');
       if (nextEnabled && memeText === '') {
-        addLog({ ok: false, title: 'meme-toggle', message: 'Inserisci prima il testo MEME', data: {} });
+        addLog({ ok: false, title: 'meme-toggle', message: Copy.memeTextRequired, data: {} });
         if (D.memeTextInput) D.memeTextInput.focus();
         return;
       }
@@ -292,7 +293,7 @@
         addLog({
           ok: false,
           title: 'meme-toggle',
-          message: 'Errore rete durante toggle MEME',
+          message: Copy.networkMemeError,
           data: { error: String(e?.message || e) },
         });
       }
