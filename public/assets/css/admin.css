@@ -452,6 +452,37 @@ textarea {
     margin-bottom: 2px;
     font-size: 13px;
 }
+
+.debug-sessione-panel {
+    margin: 10px auto 0;
+    max-width: 980px;
+    text-align: left;
+    padding: 10px;
+    border: 2px solid rgba(255,255,255,.12);
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(20,20,20,.96), rgba(12,12,12,.96));
+    box-shadow: 0 8px 18px rgba(0,0,0,.35);
+}
+
+.debug-sessione-head {
+    font-size: 13px;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.debug-sessione-output {
+    margin: 0;
+    max-height: 320px;
+    overflow: auto;
+    padding: 10px;
+    border-radius: 10px;
+    background: #101010;
+    border: 1px solid #242424;
+    font-size: 12px;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
 /* Question Action - Kahoot style */
 .qa-card {
     margin: 8px 0 12px;

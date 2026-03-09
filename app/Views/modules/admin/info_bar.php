@@ -8,8 +8,8 @@
 <div class="info-bar info-bar-kahoot">
     <div class="sessione-hero">
         <span class="sessione-label">SESSIONE</span>
-        <strong id="sessione-nome-display" class="sessione-nome"><?= htmlspecialchars((string)($nomeSessione ?? '-'), ENT_QUOTES, 'UTF-8') ?></strong>
-        <span class="sessione-meta">ID <strong id="sessione-id"><?= (int)($sessioneId ?? 0) ?></strong></span>
+        <strong id="sessione-nome-display" class="sessione-nome"><?= htmlspecialchars((string) ($nomeSessione ?? '-'), ENT_QUOTES, 'UTF-8') ?></strong>
+        <span class="sessione-meta">ID <strong id="sessione-id"><?= (int) ($sessioneId ?? 0) ?></strong></span>
     </div>
 
     <div class="badge">
@@ -24,7 +24,12 @@
     <input id="memeTextInput" type="text" class="badge badge-input" placeholder="Testo MEME assurdo">
     <button id="btnMemeToggle" type="button" class="badge badge-toggle">MEME OFF</button>
     <button id="btnImpostoreToggle" type="button" class="badge badge-toggle">IMPOSTORE OFF</button>
+    <button id="btnDebugSessione" type="button" class="badge badge-toggle">DEBUG</button>
 </div>
 
 <div id="stato">Stato: ...</div>
-<div id="conclusa">🎉 SESSIONE CONCLUSA</div>
+<div id="conclusa">SESSIONE CONCLUSA</div>
+<div id="debug-sessione-panel" class="debug-sessione-panel" style="display:none;">
+    <div class="debug-sessione-head">Snapshot debug sessione</div>
+    <pre id="debug-sessione-output" class="debug-sessione-output">Nessun dato</pre>
+</div>

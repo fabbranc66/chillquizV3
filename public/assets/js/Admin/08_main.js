@@ -58,6 +58,7 @@
   if (D.btnSalvaSessione) D.btnSalvaSessione.onclick = () => Admin.actions.salvaSessioneCorrente();
   if (D.btnMemeToggle) D.btnMemeToggle.onclick = () => Admin.actions.toggleMemeCorrente();
   if (D.btnImpostoreToggle) D.btnImpostoreToggle.onclick = () => Admin.actions.toggleImpostoreCorrente();
+  if (D.btnDebugSessione) D.btnDebugSessione.onclick = () => Admin.actions.toggleDebugSessione();
   if (D.memeTextInput) {
     D.memeTextInput.oninput = () => {
       const value = String(D.memeTextInput.value || '');
@@ -195,6 +196,11 @@
   setInterval(() => Admin.actions.aggiornaStato(), 2500);
   setInterval(() => Admin.actions.aggiornaJoinRichieste(), 4000);
   setInterval(() => Admin.actions.aggiornaDomandaCorrenteMeta(), 5000);
+  setInterval(() => {
+    if (D.debugSessionePanel && D.debugSessionePanel.style.display !== 'none') {
+      Admin.actions.aggiornaDebugSessione();
+    }
+  }, 4000);
 
   Admin.actions.aggiornaStato();
   Admin.actions.aggiornaJoinRichieste();

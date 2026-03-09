@@ -202,6 +202,56 @@
       }
     },
 
+    async aggiornaDebugSessione(forceOpen = false) {
+      if (S.debugSessioneInFlight || !S.SESSIONE_ID) return;
+      S.debugSessioneInFlight = true;
+      try {
+        const formData = new FormData();
+        formData.append('sessione_id', String(S.SESSIONE_ID));
+
+        const res = await fetch(`${S.API_BASE}/admin/debug-sessione/${S.SESSIONE_ID}`, {
+          method: 'POST',
+          headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
+          body: formData,
+        });
+        const data = await res.json();
+
+        if (!data.success) {
+          addLog({ ok: false, title: 'debug-sessione', message: data.error || 'Errore debug sessione', data });
+          return;
+        }
+
+        if (D.debugSessioneOutput) {
+          D.debugSessioneOutput.textContent = JSON.stringify(data.debug || {}, null, 2);
+        }
+
+        if (forceOpen && D.debugSessionePanel) {
+          D.debugSessionePanel.style.display = 'block';
+        }
+      } catch (e) {
+        addLog({
+          ok: false,
+          title: 'debug-sessione',
+          message: 'Errore rete debug sessione',
+          data: { error: String(e?.message || e) },
+        });
+      } finally {
+        S.debugSessioneInFlight = false;
+      }
+    },
+
+    toggleDebugSessione() {
+      if (!D.debugSessionePanel || !D.btnDebugSessione) return;
+      const visible = D.debugSessionePanel.style.display !== 'none';
+      const nextVisible = !visible;
+      D.debugSessionePanel.style.display = nextVisible ? 'block' : 'none';
+      D.btnDebugSessione.classList.toggle('enabled', nextVisible);
+      D.btnDebugSessione.classList.toggle('disabled', !nextVisible);
+      if (nextVisible) {
+        Admin.actions.aggiornaDebugSessione(true);
+      }
+    },
+
     async toggleImpostoreCorrente() {
       const targetSessioneId = Number(D.sessioneSelect?.value || S.SESSIONE_ID || 0);
       if (targetSessioneId <= 0) {

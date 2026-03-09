@@ -33,5 +33,6 @@
     joinRequestInFlight: false,
     domandaMetaRequestInFlight: false,
     sessionImageSearchInFlight: false,
+    debugSessioneInFlight: false,
   };
 })();
