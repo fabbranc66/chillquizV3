@@ -300,6 +300,40 @@
     `;
   }
 
+  function syncSessioneDomandaInfo() {
+    if (!D.sessioneDomandaInfo) return;
+
+    const domanda = S.domandaCorrente || null;
+    const posizione = Number(S.currentSessionState?.domanda_corrente || 0);
+    if (!domanda || !domanda.id) {
+      D.sessioneDomandaInfo.textContent = `#${posizione > 0 ? posizione : '-'} · - · -`;
+      return;
+    }
+
+    const argomentoNome = String(domanda.argomento_nome || '').trim();
+    const argomentoId = Number(domanda.argomento_id || 0);
+    const argomentoLabel = argomentoNome !== ''
+      ? argomentoNome
+      : (argomentoId > 0 ? `#${argomentoId}` : '-');
+    const testo = String(domanda.testo || '').replace(/\s+/g, ' ').trim() || '-';
+
+    D.sessioneDomandaInfo.textContent = `#${posizione > 0 ? posizione : '-'} · ${argomentoLabel} · ${testo}`;
+  }
+
+  function syncSarabandaAudioLed() {
+    if (!D.sarabandaAudioLed) return;
+
+    const domanda = S.domandaCorrente || null;
+    const tipo = normalizeTipo(domanda?.tipo_domanda || 'CLASSIC');
+    const isSarabanda = tipo === 'SARABANDA';
+
+    D.sarabandaAudioLed.classList.toggle('is-on', isSarabanda);
+    D.sarabandaAudioLed.classList.toggle('is-off', !isSarabanda);
+    D.sarabandaAudioLed.title = isSarabanda
+      ? 'La domanda corrente è SARABANDA'
+      : 'La domanda corrente non è SARABANDA';
+  }
+
   function syncAudioPreviewButton() {
     if (!D.btnAudioPreview) return;
     const domanda = S.domandaCorrente || null;
@@ -510,6 +544,8 @@
     ensureDefaultMediaPreviewValue,
     syncDomandaMediaPreview,
     renderDomandaCorrenteMeta,
+    syncSessioneDomandaInfo,
+    syncSarabandaAudioLed,
     syncAudioPreviewButton,
     scheduleAudioPreviewButtonReset,
     editorSetValue,

@@ -24,6 +24,7 @@
     partecipazioneId: null,
     currentState: null,
     activeScreenId: null,
+    latestSessioneSnapshot: null,
 
     pollingInterval: null,
     joinRequestPolling: null,
@@ -46,8 +47,15 @@
     selectedAnswerOptionId: 0,
     renderedDomandaKey: '',
     lastMediaUrl: '',
+    optionRevealTimer: null,
     pixelateTimer: null,
     memeRotationTimer: null,
     memeRotationStep: -1,
+    debugTiming: {
+      domandaId: 0,
+      timerStartedAtMs: 0,
+      optionsShownAtMs: 0,
+      deltaMs: null,
+    },
   };
 })();

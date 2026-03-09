@@ -61,6 +61,7 @@
   if (D.btnImpostoreToggle) D.btnImpostoreToggle.onclick = () => Admin.actions.toggleImpostoreCorrente();
   if (D.btnImagePartyToggle) D.btnImagePartyToggle.onclick = () => Admin.actions.toggleImagePartyCorrente();
   if (D.btnFadeToggle) D.btnFadeToggle.onclick = () => Admin.actions.toggleFadeCorrente();
+  if (D.btnSarabandaReverseToggle) D.btnSarabandaReverseToggle.onclick = () => Admin.actions.toggleSarabandaReverse();
   if (D.btnDebugSessione) D.btnDebugSessione.onclick = () => Admin.actions.toggleDebugSessione();
   if (D.memeTextInput) {
     D.memeTextInput.oninput = () => {

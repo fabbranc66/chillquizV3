@@ -4,6 +4,7 @@
   Admin.dom = {
     sessioneIdSpan: document.getElementById('sessione-id'),
     sessioneNomeSpan: document.getElementById('sessione-nome-display'),
+    sessioneDomandaInfo: document.getElementById('sessione-domanda-info'),
     domandaNumero: document.getElementById('domanda-numero'),
     partecipantiSpan: document.getElementById('partecipanti-numero'),
     timerIndicator: document.getElementById('timer-indicator'),
@@ -12,6 +13,8 @@
     btnImpostoreToggle: document.getElementById('btnImpostoreToggle'),
     btnImagePartyToggle: document.getElementById('btnImagePartyToggle'),
     btnFadeToggle: document.getElementById('btnFadeToggle'),
+    sarabandaAudioLed: document.getElementById('sarabandaAudioLed'),
+    btnSarabandaReverseToggle: document.getElementById('btnSarabandaReverseToggle'),
     btnDebugSessione: document.getElementById('btnDebugSessione'),
     debugSessionePanel: document.getElementById('debug-sessione-panel'),
     debugSessioneOutput: document.getElementById('debug-sessione-output'),

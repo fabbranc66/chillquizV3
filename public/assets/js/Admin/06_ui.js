@@ -61,13 +61,13 @@
           : `Sessione nr ${S.SESSIONE_ID} del ${new Date().toLocaleDateString('it-IT')}`;
       }
 
-      if (D.domandaNumero) D.domandaNumero.textContent = String(sessione.domanda_corrente);
       if (D.statoDiv) D.statoDiv.textContent = 'Stato: ' + sessione.stato;
       if (D.conclusaDiv) D.conclusaDiv.style.display = (sessione.stato === 'conclusa') ? 'block' : 'none';
       S.impostoreEnabled = !!sessione.impostore_enabled;
       S.memeEnabled = !!sessione.meme_enabled;
       S.imagePartyEnabled = !!sessione.image_party_enabled;
       S.fadeEnabled = !!sessione.fade_enabled;
+      S.sarabandaReverseEnabled = !!sessione.sarabanda_reverse_enabled;
       S.memeText = String(sessione.meme_text || '');
 
       Admin.ui.setButton(D.btnPuntata, sessione.stato === 'attesa' || sessione.stato === 'risultati');
@@ -147,6 +147,23 @@
           ? 'Richiede un\'immagine e non e disponibile per SARABANDA'
           : (locked ? 'Modificabile solo prima dello stato domanda' : 'Applica FADE alla domanda corrente');
       }
+
+      if (D.btnSarabandaReverseToggle) {
+        const eligible = !!sessione.sarabanda_audio_eligible;
+        const locked = !!sessione.sarabanda_audio_locked;
+        const enabled = !!sessione.sarabanda_reverse_enabled;
+        D.btnSarabandaReverseToggle.textContent = enabled ? 'REVERSE ON' : 'REVERSE OFF';
+        D.btnSarabandaReverseToggle.disabled = !eligible || locked;
+        D.btnSarabandaReverseToggle.classList.toggle('enabled', enabled);
+        D.btnSarabandaReverseToggle.classList.toggle('disabled', !enabled || !eligible);
+        D.btnSarabandaReverseToggle.classList.toggle('is-locked', locked);
+        D.btnSarabandaReverseToggle.title = !eligible
+          ? 'Disponibile solo per SARABANDA con audio'
+          : (locked ? 'Modificabile solo prima dello stato domanda' : 'Riproduce il brano al contrario');
+      }
+
+      Admin.actionsSupport.syncSarabandaAudioLed();
+      Admin.actionsSupport.syncSessioneDomandaInfo();
 
       Admin.actionsSupport.syncCurrentQuestionHighlight();
 

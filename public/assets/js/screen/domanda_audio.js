@@ -17,7 +17,64 @@
     return S.previewAudio;
   }
 
+  function getAudioContext() {
+    if (!S.audioContext) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return null;
+      S.audioContext = new AudioCtx();
+    }
+    return S.audioContext;
+  }
+
+  function getReverseAudioCacheKey(src, previewSec = 0) {
+    const cleanSrc = String(src || '').trim();
+    const normalizedPreviewSec = Math.max(0, Number(previewSec || 0));
+    return `reverse::${cleanSrc}::${normalizedPreviewSec}`;
+  }
+
+  async function preloadReverseAudioBuffer(src, previewSec = 0) {
+    const cleanSrc = String(src || '').trim();
+    if (!cleanSrc) return null;
+
+    const audioCtx = getAudioContext();
+    if (!audioCtx) return null;
+
+    const normalizedPreviewSec = Math.max(0, Number(previewSec || 0));
+    const cacheKey = getReverseAudioCacheKey(cleanSrc, normalizedPreviewSec);
+    const cached = S.audioBufferCache.get(cacheKey) || null;
+    if (cached) return cached;
+
+    const response = await fetch(`${cleanSrc}${cleanSrc.includes('?') ? '&' : '?'}_=${Date.now()}`);
+    const arrayBuffer = await response.arrayBuffer();
+    const decoded = await audioCtx.decodeAudioData(arrayBuffer.slice(0));
+
+    const sampleRate = decoded.sampleRate;
+    const maxSamples = normalizedPreviewSec > 0
+      ? Math.min(decoded.length, Math.max(1, Math.floor(normalizedPreviewSec * sampleRate)))
+      : decoded.length;
+
+    const reversedBuffer = audioCtx.createBuffer(decoded.numberOfChannels, maxSamples, sampleRate);
+    for (let channel = 0; channel < decoded.numberOfChannels; channel += 1) {
+      const sourceData = decoded.getChannelData(channel);
+      const targetData = reversedBuffer.getChannelData(channel);
+      for (let i = 0, j = maxSamples - 1; i < maxSamples; i += 1, j -= 1) {
+        targetData[i] = sourceData[j];
+      }
+    }
+
+    S.audioBufferCache.set(cacheKey, reversedBuffer);
+    return reversedBuffer;
+  }
+
+  function stopBufferSource() {
+    if (!S.currentBufferSource) return;
+    try { S.currentBufferSource.stop(0); } catch (error) { console.warn(error); }
+    try { S.currentBufferSource.disconnect(); } catch (error) { console.warn(error); }
+    S.currentBufferSource = null;
+  }
+
   function stopPreviewAudio() {
+    stopBufferSource();
     const audio = getPreviewAudio();
     window.clearTimeout(audio.__previewTimer);
     try { audio.pause(); } catch (error) { console.warn(error); }
@@ -70,6 +127,7 @@
       domanda_id: Number(domanda.id || 0),
       audio_path: audioPath,
       preview_sec: Math.max(0, Number(domanda.media_audio_preview_sec || 0)),
+      reverse_audio: !!S.sarabandaReverseEnabled,
       created_at: Math.floor(Date.now() / 1000),
     };
   }
@@ -130,6 +188,54 @@
     const src = ScreenApp.domandaSupport.resolveMediaUrl(preview.audio_path);
     if (!src) return false;
 
+    const previewSec = Number(preview.preview_sec ?? 0);
+    const reverseAudio = !!(preview.reverse_audio || S.sarabandaReverseEnabled);
+
+    if (reverseAudio) {
+      try {
+        const audioCtx = getAudioContext();
+        if (!audioCtx) throw new Error('AudioContext non disponibile');
+        if (audioCtx.state === 'suspended') {
+          await audioCtx.resume();
+        }
+
+        const cacheKey = getReverseAudioCacheKey(src, previewSec);
+        let reversedBuffer = S.audioBufferCache.get(cacheKey) || null;
+        if (!reversedBuffer) {
+          reversedBuffer = await preloadReverseAudioBuffer(src, previewSec);
+        }
+        if (!reversedBuffer) throw new Error('Buffer reverse non disponibile');
+
+        stopPreviewAudio();
+        const source = audioCtx.createBufferSource();
+        source.buffer = reversedBuffer;
+        source.connect(audioCtx.destination);
+        S.currentBufferSource = source;
+
+        const durationMs = Math.max(
+          250,
+          Math.round((reversedBuffer.duration || Math.max(0.25, Number(previewSec || 0.25))) * 1000)
+        );
+        source.start(0);
+        getPreviewAudio().__previewTimer = window.setTimeout(() => {
+          stopBufferSource();
+          clearPendingAudioPreview();
+        }, durationMs);
+        source.onended = () => {
+          stopBufferSource();
+          clearPendingAudioPreview();
+        };
+
+        notifyAudioPreviewStarted(preview).catch((error) => console.warn(error));
+        clearPendingAudioPreview();
+        return true;
+      } catch (error) {
+        console.warn('Reverse audio preview play failed', error);
+        S.pendingAudioPreview = preview;
+        return false;
+      }
+    }
+
     const audio = getPreviewAudio();
     window.clearTimeout(audio.__previewTimer);
     audio.pause();
@@ -141,13 +247,12 @@
     audio.currentTime = 0;
     audio.load();
 
-    const previewSec = Number(preview.preview_sec ?? 0);
     if (previewSec > 0) {
-      const stopAt = Math.max(1, Math.floor(previewSec));
+      const stopAtMs = Math.max(250, Math.round(previewSec * 1000));
       audio.__previewTimer = window.setTimeout(() => {
         try { audio.pause(); } catch (error) { console.warn(error); }
         clearPendingAudioPreview();
-      }, stopAt * 1000);
+      }, stopAtMs);
     }
 
     try {
@@ -177,6 +282,10 @@
 
     const audio = getPreviewAudio();
     try {
+      const audioCtx = getAudioContext();
+      if (audioCtx && audioCtx.state === 'suspended') {
+        await audioCtx.resume();
+      }
       audio.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
       audio.muted = true;
       audio.volume = 0;
@@ -196,16 +305,26 @@
 
   async function handleQuestionTypeBadgeClick() {
     if (!ScreenApp.state.canUseAudioPreview() || !hasInteractiveBadgeAudio()) return;
+    if (S.audioPreviewPlayInFlight) return;
 
-    let preview = await resolveScreenAudioPreviewSource();
-    if (!preview) return;
+    S.audioPreviewPlayInFlight = true;
+    try {
+      await unlockAudioByGesture();
+      const preview = await resolveScreenAudioPreviewSource();
+      if (!preview) return;
 
-    S.pendingAudioPreview = preview;
-    let played = await playScreenAudioPreview(preview);
-    if (played) return;
+      if (preview.reverse_audio || S.sarabandaReverseEnabled) {
+        const src = ScreenApp.domandaSupport.resolveMediaUrl(preview.audio_path || '');
+        if (src) {
+          await preloadReverseAudioBuffer(src, Number(preview.preview_sec || 0));
+        }
+      }
 
-    await unlockAudioByGesture();
-    await playScreenAudioPreview(preview);
+      S.pendingAudioPreview = preview;
+      await playScreenAudioPreview(preview);
+    } finally {
+      S.audioPreviewPlayInFlight = false;
+    }
   }
 
   function clearQuestionTypeBadge() {
@@ -260,28 +379,11 @@
   }
 
   function bindBadgeAudioEvents() {
-    const { wrap, image } = ScreenApp.domandaSupport.getQuestionTypeBadgeNodes();
+    const { wrap } = ScreenApp.domandaSupport.getQuestionTypeBadgeNodes();
     if (wrap) wrap.addEventListener('click', handleQuestionTypeBadgeClick);
-    if (image) image.addEventListener('click', handleQuestionTypeBadgeClick);
   }
 
   function bindUnlockEvents() {
-    const tryUnlockPendingAudio = async () => {
-      if (!ScreenApp.state.canUseAudioPreview()) return;
-
-      let preview = await resolveScreenAudioPreviewSource();
-      if (!preview) return;
-
-      S.pendingAudioPreview = preview;
-      let played = await playScreenAudioPreview(preview);
-      if (played) return;
-
-      await unlockAudioByGesture();
-      await playScreenAudioPreview(preview);
-    };
-
-    document.addEventListener('pointerdown', tryUnlockPendingAudio);
-    document.addEventListener('keydown', tryUnlockPendingAudio);
     window.addEventListener('storage', (event) => {
       if (event.key !== `${S.audioPreviewStoragePrefix}${S.sessioneId}`) return;
       if (!ScreenApp.state.canUseAudioPreview()) {
@@ -322,6 +424,13 @@
 
       S.lastAudioPreviewToken = token;
       S.pendingAudioPreview = data.preview;
+      if (data.preview && (data.preview.reverse_audio || S.sarabandaReverseEnabled)) {
+        const src = ScreenApp.domandaSupport.resolveMediaUrl(data.preview.audio_path || '');
+        if (src) {
+          preloadReverseAudioBuffer(src, Number(data.preview.preview_sec || 0))
+            .catch((error) => console.warn('Reverse audio preload failed', error));
+        }
+      }
       try {
         window.localStorage.setItem(`${S.audioPreviewStoragePrefix}${S.sessioneId}`, JSON.stringify(data.preview));
       } catch (error) {

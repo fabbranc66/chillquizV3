@@ -42,21 +42,26 @@
         return;
       }
 
+      S.latestSessioneSnapshot = data.sessione || null;
       S.currentState = data.sessione?.stato || null;
       S.currentTimerStart = Number(data.sessione?.timer_start || 0);
       S.currentTimerMax = Number(data.sessione?.timer_max || 0);
-      ScreenApp.state.renderStageTimer(data.sessione || null);
-
+      S.sarabandaReverseEnabled = !!data.sessione?.sarabanda_reverse_enabled;
       if (ScreenApp.state.isDomandaState()) {
         ScreenApp.state.hideRisultatiView();
-        ScreenApp.domanda.showLoadingView();
-        await ScreenApp.domanda.fetchCurrent();
+        if (data.domanda) {
+          ScreenApp.domanda.render(data.domanda, data.sessione || null);
+        } else {
+          ScreenApp.domanda.showLoadingView();
+          await ScreenApp.domanda.fetchCurrent();
+        }
       } else if (S.currentState === 'risultati' || S.currentState === 'conclusa') {
         ScreenApp.state.showRisultatiView();
         await ScreenApp.risultati.fetchClassifica();
         ScreenApp.domanda.enforceAudioStateGuard();
       } else {
         ScreenApp.domanda.hideView();
+        ScreenApp.state.renderStageTimer(data.sessione || null);
         ScreenApp.domanda.enforceAudioStateGuard();
       }
     } catch (error) {

@@ -8,6 +8,41 @@
   const Copy = Player.copy;
   const Support = Player.domandaSupport;
 
+  function persistDebugTiming() {
+    try {
+      if (Number(S.sessioneId || 0) <= 0) return;
+      window.localStorage.setItem(
+        `chillquiz_debug_timing_player_${Number(S.sessioneId || 0)}`,
+        JSON.stringify(S.debugTiming || {})
+      );
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
+  function markOptionsShown(domandaId) {
+    const currentDomandaId = Number(domandaId || 0);
+    if (currentDomandaId <= 0) return;
+
+    if (Number(S.debugTiming?.domandaId || 0) !== currentDomandaId) {
+      S.debugTiming = {
+        domandaId: currentDomandaId,
+        timerStartedAtMs: 0,
+        optionsShownAtMs: 0,
+        deltaMs: null,
+      };
+    }
+
+    if (Number(S.debugTiming.optionsShownAtMs || 0) > 0) return;
+
+    S.debugTiming.optionsShownAtMs = Date.now();
+    if (Number(S.debugTiming.timerStartedAtMs || 0) > 0) {
+      S.debugTiming.deltaMs = S.debugTiming.optionsShownAtMs - S.debugTiming.timerStartedAtMs;
+    }
+    persistDebugTiming();
+    console.info('[player] options-shown', S.debugTiming);
+  }
+
   function bindImmediateAnswer(button, domandaId, opzioneId) {
     const handleAnswer = (event) => {
       event.preventDefault();
@@ -16,6 +51,13 @@
 
     button.onclick = null;
     button.addEventListener('pointerdown', handleAnswer, { once: true });
+  }
+
+  function clearOptionRevealTimer() {
+    if (S.optionRevealTimer) {
+      clearTimeout(S.optionRevealTimer);
+      S.optionRevealTimer = null;
+    }
   }
 
   function clearStatusMessage() {
@@ -206,6 +248,9 @@
     };
 
     applyStep();
+    if (!showCorrect) {
+      markOptionsShown(domanda?.id);
+    }
     Support.stopMemeRotation();
     if (!showCorrect) {
       const rotationMs = Math.max(100, Number(domanda?.meme_rotation_ms || 300));
@@ -214,6 +259,7 @@
   }
 
   function resetDomandaView() {
+    clearOptionRevealTimer();
     Support.stopMemeRotation();
     Support.stopPixelateRender();
     S.renderedDomandaKey = '';
@@ -272,7 +318,7 @@
     }
   }
 
-  function renderDomanda(domanda) {
+  function renderDomanda(domanda, sessioneMeta = null) {
     if (!isDomandaAttiva(S.currentState)) return;
 
     if (!domanda || !Array.isArray(domanda.opzioni)) {
@@ -288,6 +334,15 @@
     }
 
     const domandaId = Number(domanda.id || 0);
+    if (Number(S.debugTiming?.domandaId || 0) !== domandaId) {
+      S.debugTiming = {
+        domandaId,
+        timerStartedAtMs: 0,
+        optionsShownAtMs: 0,
+        deltaMs: null,
+      };
+      persistDebugTiming();
+    }
     const tipoDomanda = Support.normalizeBadgeQuestionType(domanda);
     const nowSec = Math.floor(Date.now() / 1000);
     const isSarabandaIntro = tipoDomanda === 'SARABANDA' && (Number(S.domandaTimerStart || 0) <= 0 || nowSec < Number(S.domandaTimerStart || 0));
@@ -337,41 +392,78 @@
       Support.markQuestionShown(domandaId, timerStart);
     }
 
-    if (isMemeMode) {
-      S.renderedDomandaKey = renderKey;
-      renderMemeButtons(domanda, showCorrect, correctOptionId);
+    if (!showCorrect && timerStart <= 0) {
+      D.opzioniDiv.innerHTML = '';
       return;
     }
 
-    domanda.opzioni.forEach((opzione, index) => {
-      const btn = document.createElement('button');
-      btn.innerText = opzione.testo || '';
-      btn.dataset.id = String(opzione.id || '');
+    const effectiveSessione = sessioneMeta || S.latestSessioneSnapshot || {
+      stato: 'domanda',
+      timer_start: S.domandaTimerStart,
+      timer_max: S.domandaTimerMax,
+    };
 
-      const paletteIndex = (index % 4) + 1;
-      btn.classList.add(`opzione-kahoot-${paletteIndex}`);
+    const renderOptions = () => {
+      D.opzioniDiv.innerHTML = '';
 
-      if (showCorrect) {
-        btn.disabled = true;
-        if (btn.dataset.id === correctOptionId) {
-          btn.classList.add('is-correct-reveal');
-        } else {
-          btn.classList.add('is-reveal-dim');
-        }
-        if (
-          Number(S.selectedAnswerDomandaId || 0) === domandaId
-          && btn.dataset.id === String(S.selectedAnswerOptionId || '')
-        ) {
-          btn.classList.add('is-player-choice-reveal');
-        }
-      } else {
-        bindImmediateAnswer(btn, domanda.id, opzione.id);
+      if (isMemeMode) {
+        S.renderedDomandaKey = renderKey;
+        renderMemeButtons(domanda, showCorrect, correctOptionId);
+        return;
       }
 
-      D.opzioniDiv.appendChild(btn);
-    });
+      domanda.opzioni.forEach((opzione, index) => {
+        const btn = document.createElement('button');
+        btn.innerText = opzione.testo || '';
+        btn.dataset.id = String(opzione.id || '');
 
-    S.renderedDomandaKey = renderKey;
+        const paletteIndex = (index % 4) + 1;
+        btn.classList.add(`opzione-kahoot-${paletteIndex}`);
+
+        if (showCorrect) {
+          btn.disabled = true;
+          if (btn.dataset.id === correctOptionId) {
+            btn.classList.add('is-correct-reveal');
+          } else {
+            btn.classList.add('is-reveal-dim');
+          }
+          if (
+            Number(S.selectedAnswerDomandaId || 0) === domandaId
+            && btn.dataset.id === String(S.selectedAnswerOptionId || '')
+          ) {
+            btn.classList.add('is-player-choice-reveal');
+          }
+        } else {
+          bindImmediateAnswer(btn, domanda.id, opzione.id);
+        }
+
+        D.opzioniDiv.appendChild(btn);
+      });
+
+      if (!showCorrect) {
+        markOptionsShown(domandaId);
+        Player.pollingSupport.renderTimer(effectiveSessione);
+      }
+
+      S.renderedDomandaKey = renderKey;
+    };
+
+    clearOptionRevealTimer();
+    const startMs = timerStart > 0 ? Math.round(timerStart * 1000) : 0;
+    const delayMs = !showCorrect && startMs > Date.now() ? (startMs - Date.now()) : 0;
+
+    if (delayMs > 0) {
+      D.opzioniDiv.innerHTML = '';
+      S.optionRevealTimer = setTimeout(() => {
+        S.optionRevealTimer = null;
+        if (!isDomandaAttiva(S.currentState)) return;
+        if (Number(S.badgeQuestionId || 0) !== domandaId) return;
+        renderOptions();
+      }, delayMs);
+      return;
+    }
+
+    renderOptions();
   }
 
   async function inviaRisposta(domandaId, opzioneId) {

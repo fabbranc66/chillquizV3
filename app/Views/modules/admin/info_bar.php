@@ -10,12 +10,10 @@
         <span class="sessione-label">SESSIONE</span>
         <strong id="sessione-nome-display" class="sessione-nome"><?= htmlspecialchars((string) ($nomeSessione ?? '-'), ENT_QUOTES, 'UTF-8') ?></strong>
         <span class="sessione-meta">ID <strong id="sessione-id"><?= (int) ($sessioneId ?? 0) ?></strong></span>
+        <div id="sessione-domanda-info" class="sessione-domanda-info">#1 · - · -</div>
     </div>
 
-    <div class="badge">
-        Domanda: <strong id="domanda-numero">1</strong>
-    </div>
-    <div class="badge">
+    <div class="badge badge-participants">
         Partecipanti: <strong id="partecipanti-numero">0</strong>
     </div>
     <div class="badge">
@@ -37,6 +35,15 @@
         <span class="effect-group-label">Effetti immagine</span>
         <button id="btnFadeToggle" type="button" class="badge badge-toggle">FADE OFF</button>
         <button id="btnImagePartyToggle" type="button" class="badge badge-toggle">PIXELATE OFF</button>
+    </div>
+
+    <div class="effect-group effect-group-audio">
+        <span class="effect-group-label">Effetti audio</span>
+        <div id="sarabandaAudioLed" class="effect-led is-off">
+            <span class="effect-led-dot"></span>
+            <span class="effect-led-label">SARABANDA</span>
+        </div>
+        <button id="btnSarabandaReverseToggle" type="button" class="badge badge-toggle">REVERSE OFF</button>
     </div>
 
     <button id="btnDebugSessione" type="button" class="badge badge-toggle">DEBUG</button>

@@ -5,6 +5,50 @@
   const D = Player.dom;
   const { isDomandaAttiva } = Player.utils;
 
+  function persistDebugTiming() {
+    try {
+      if (Number(S.sessioneId || 0) <= 0) return;
+      window.localStorage.setItem(
+        `chillquiz_debug_timing_player_${Number(S.sessioneId || 0)}`,
+        JSON.stringify(S.debugTiming || {})
+      );
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
+  function markTimerStarted(domandaId) {
+    const currentDomandaId = Number(domandaId || 0);
+    if (currentDomandaId <= 0) return;
+
+    if (Number(S.debugTiming?.domandaId || 0) !== currentDomandaId) {
+      S.debugTiming = {
+        domandaId: currentDomandaId,
+        timerStartedAtMs: 0,
+        optionsShownAtMs: 0,
+        deltaMs: null,
+      };
+    }
+
+    if (Number(S.debugTiming.timerStartedAtMs || 0) > 0) return;
+
+    S.debugTiming.timerStartedAtMs = Date.now();
+    if (Number(S.debugTiming.optionsShownAtMs || 0) > 0) {
+      S.debugTiming.deltaMs = S.debugTiming.optionsShownAtMs - S.debugTiming.timerStartedAtMs;
+    }
+    persistDebugTiming();
+    console.info('[player] timer-start', S.debugTiming);
+  }
+
+  function resolveTimingDomandaId() {
+    return Number(
+      S.debugTiming?.domandaId
+      || S.badgeQuestionId
+      || S.questionShownDomandaId
+      || 0
+    );
+  }
+
   function resetRoundInteractionFlags() {
     S.rispostaInviata = false;
     S.selectedAnswerDomandaId = 0;
@@ -14,6 +58,10 @@
   function resetRoundForNewQuestionCycle() {
     resetRoundInteractionFlags();
     S.puntataInviata = false;
+    if (S.optionRevealTimer) {
+      clearTimeout(S.optionRevealTimer);
+      S.optionRevealTimer = null;
+    }
   }
 
   function handleStateTransition(nextState) {
@@ -73,7 +121,11 @@
       S.timerInterval = null;
     }
 
+    const nowSec = Date.now() / 1000;
+    const delayMs = start > nowSec ? Math.round((start - nowSec) * 1000) : 0;
+
     const tick = () => {
+      markTimerStarted(resolveTimingDomandaId());
       const elapsed = Math.max(0, (Date.now() / 1000) - start);
       const remaining = Math.max(0, max - elapsed);
       const visibleRemaining = Math.max(0, Math.ceil(remaining));
@@ -93,6 +145,20 @@
       }
     };
 
+    if (delayMs > 0) {
+      if (D.timerIndicator) {
+        D.timerIndicator.style.setProperty('--progress', '0deg');
+      }
+      if (D.timerLabel) {
+        D.timerLabel.textContent = '';
+      }
+      S.timerInterval = setTimeout(() => {
+        tick();
+        S.timerInterval = setInterval(tick, 250);
+      }, delayMs);
+      return;
+    }
+
     tick();
     S.timerInterval = setInterval(tick, 250);
   }
@@ -109,7 +175,6 @@
     switch (stato) {
       case 'domanda':
         Player.screens.showOnly('screen-domanda');
-        renderTimer(sessione);
         break;
 
       case 'risultati':

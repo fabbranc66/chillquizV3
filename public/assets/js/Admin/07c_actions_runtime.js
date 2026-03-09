@@ -64,16 +64,22 @@
         if (!data.success) {
           S.domandaCorrente = null;
           Support.renderDomandaCorrenteMeta(null);
+          Support.syncSessioneDomandaInfo();
+          Support.syncSarabandaAudioLed();
           Support.syncAudioPreviewButton();
           return;
         }
 
         S.domandaCorrente = data.domanda || null;
         Support.renderDomandaCorrenteMeta(data.domanda || null);
+        Support.syncSessioneDomandaInfo();
+        Support.syncSarabandaAudioLed();
         Support.syncAudioPreviewButton();
       } catch (e) {
         S.domandaCorrente = null;
         Support.renderDomandaCorrenteMeta(null);
+        Support.syncSessioneDomandaInfo();
+        Support.syncSarabandaAudioLed();
         Support.syncAudioPreviewButton();
       } finally {
         S.domandaMetaRequestInFlight = false;
@@ -145,9 +151,9 @@
 
     apriSchermo() {
       const url = new URL(window.location.href);
-      url.searchParams.set('url', `screen/${S.SESSIONE_ID}`);
+      url.searchParams.set('url', 'screen');
       window.open(url.toString(), '_blank', 'noopener,noreferrer');
-      addLog({ ok: true, title: 'Screen', message: `Schermo attivato per sessione ${S.SESSIONE_ID}`, data: { sessione_id: S.SESSIONE_ID } });
+      addLog({ ok: true, title: 'Screen', message: 'Schermo aperto sulla sessione corrente', data: { sessione_id: S.SESSIONE_ID } });
     },
 
     apriSettings() {
@@ -188,8 +194,24 @@
           return;
         }
 
+        const debugPayload = Object.assign({}, data.debug || {});
+        try {
+          const playerTimingRaw = window.localStorage.getItem(`chillquiz_debug_timing_player_${S.SESSIONE_ID}`);
+          const screenTimingRaw = window.localStorage.getItem(`chillquiz_debug_timing_screen_${S.SESSIONE_ID}`);
+          debugPayload.client_timing = {
+            player: playerTimingRaw ? JSON.parse(playerTimingRaw) : null,
+            screen: screenTimingRaw ? JSON.parse(screenTimingRaw) : null,
+          };
+        } catch (e) {
+          debugPayload.client_timing = {
+            player: null,
+            screen: null,
+            error: String(e?.message || e),
+          };
+        }
+
         if (D.debugSessioneOutput) {
-          D.debugSessioneOutput.textContent = JSON.stringify(data.debug || {}, null, 2);
+          D.debugSessioneOutput.textContent = JSON.stringify(debugPayload, null, 2);
         }
 
         if (forceOpen) {
@@ -360,6 +382,39 @@
           ok: false,
           title: 'fade-toggle',
           message: Copy.networkFadeError,
+          data: { error: String(e?.message || e) },
+        });
+      }
+    },
+
+    async toggleSarabandaReverse() {
+      const targetSessioneId = Runtime.readTargetSessioneId();
+      if (targetSessioneId <= 0) {
+        addLog({ ok: false, title: 'sarabanda-reverse-toggle', message: Copy.invalidSession, data: {} });
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('sessione_id', String(targetSessioneId));
+      formData.append('enabled', S.sarabandaReverseEnabled ? '0' : '1');
+
+      try {
+        const data = await Runtime.fetchAdminJson('sarabanda-reverse-toggle', 0, formData);
+        Runtime.logActionResult(
+          'sarabanda-reverse-toggle',
+          data,
+          `REVERSE SARABANDA ${data.enabled ? 'attivato' : 'disattivato'}`
+        );
+
+        if (data.success) {
+          S.sarabandaReverseEnabled = !!data.enabled;
+          await Runtime.refreshRuntimeContext();
+        }
+      } catch (e) {
+        addLog({
+          ok: false,
+          title: 'sarabanda-reverse-toggle',
+          message: Copy.networkSarabandaReverseError,
           data: { error: String(e?.message || e) },
         });
       }

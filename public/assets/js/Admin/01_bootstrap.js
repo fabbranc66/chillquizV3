@@ -28,6 +28,7 @@
     memeEnabled: false,
     imagePartyEnabled: false,
     fadeEnabled: false,
+    sarabandaReverseEnabled: false,
     memeText: '',
     memeDraftText: '',
     currentSessionState: null,

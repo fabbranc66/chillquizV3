@@ -9,7 +9,7 @@
       clearInterval(S.pollingInterval);
       S.pollingInterval = null;
     }
-    S.pollingInterval = setInterval(fetchStato, 2500);
+    S.pollingInterval = setInterval(fetchStato, 300);
   }
 
   async function fetchStato() {
@@ -23,17 +23,22 @@
       if (!data.success || !data.sessione) return;
 
       const sessione = data.sessione;
+      S.latestSessioneSnapshot = sessione;
       const stato = sessione.stato;
       S.domandaTimerStart = Number(sessione?.timer_start || 0);
       S.domandaTimerMax = Number(sessione?.timer_max || 0);
       const stateChanged = Support.handleStateTransition(stato);
 
-      if (!(stato === 'puntata' && !stateChanged)) {
-        Support.renderState(sessione, stateChanged);
+      if (stato === 'domanda') {
+        if (data.domanda) {
+          Player.domanda.renderDomanda(data.domanda, sessione);
+        } else {
+          Player.domanda.fetchDomanda();
+        }
       }
 
-      if (stato === 'domanda') {
-        Player.domanda.fetchDomanda();
+      if (!(stato === 'puntata' && !stateChanged)) {
+        Support.renderState(sessione, stateChanged);
       }
     } catch (err) {
       console.error(err);

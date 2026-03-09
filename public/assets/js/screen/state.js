@@ -4,6 +4,41 @@
   const ScreenApp = window.ScreenApp;
   const S = ScreenApp.store;
 
+  function persistDebugTiming() {
+    try {
+      if (Number(S.sessioneId || 0) <= 0) return;
+      window.localStorage.setItem(
+        `chillquiz_debug_timing_screen_${Number(S.sessioneId || 0)}`,
+        JSON.stringify(S.debugTiming || {})
+      );
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
+  function markTimerStarted() {
+    const domandaId = Number(S.currentDomandaData?.id || 0);
+    if (domandaId <= 0) return;
+
+    if (Number(S.debugTiming?.domandaId || 0) !== domandaId) {
+      S.debugTiming = {
+        domandaId,
+        timerStartedAtMs: 0,
+        optionsShownAtMs: 0,
+        deltaMs: null,
+      };
+    }
+
+    if (Number(S.debugTiming.timerStartedAtMs || 0) > 0) return;
+
+    S.debugTiming.timerStartedAtMs = Date.now();
+    if (Number(S.debugTiming.optionsShownAtMs || 0) > 0) {
+      S.debugTiming.deltaMs = S.debugTiming.optionsShownAtMs - S.debugTiming.timerStartedAtMs;
+    }
+    persistDebugTiming();
+    console.info('[screen] timer-start', S.debugTiming);
+  }
+
   function isDomandaState() {
     return String(S.currentState || '') === 'domanda';
   }
@@ -25,6 +60,7 @@
 
   function resetStageTimer() {
     if (S.timerTick) {
+      clearTimeout(S.timerTick);
       clearInterval(S.timerTick);
       S.timerTick = null;
     }
@@ -51,11 +87,16 @@
     }
 
     if (S.timerTick) {
+      clearTimeout(S.timerTick);
       clearInterval(S.timerTick);
       S.timerTick = null;
     }
 
+    const nowSec = Date.now() / 1000;
+    const delayMs = start > nowSec ? Math.round((start - nowSec) * 1000) : 0;
+
     const tick = () => {
+      markTimerStarted();
       const elapsed = Math.max(0, (Date.now() / 1000) - start);
       const remaining = Math.max(0, max - elapsed);
       const visibleRemaining = Math.max(0, Math.ceil(remaining));
@@ -70,6 +111,16 @@
         S.timerTick = null;
       }
     };
+
+    if (delayMs > 0) {
+      indicator.style.setProperty('--progress', '0deg');
+      label.innerText = '';
+      S.timerTick = setTimeout(() => {
+        tick();
+        S.timerTick = setInterval(tick, 250);
+      }, delayMs);
+      return;
+    }
 
     tick();
     S.timerTick = setInterval(tick, 250);

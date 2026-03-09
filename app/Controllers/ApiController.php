@@ -18,6 +18,7 @@ use App\Services\Question\ImpostoreModeService;
 use App\Services\Question\FadeModeService;
 use App\Services\Question\ImagePartyModeService;
 use App\Services\Question\MemeModeService;
+use App\Services\Question\SarabandaAudioModeService;
 use App\Services\SessioneService;
 use Throwable;
 
@@ -412,6 +413,13 @@ class ApiController
                 $fadeEnabled = $fadeEligible
                     ? $fadeService->isEnabledForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
                     : false;
+                $sarabandaAudioService = new SarabandaAudioModeService();
+                $sarabandaAudioEligible = is_array($currentQuestion)
+                    && $currentType === 'SARABANDA'
+                    && trim((string) ($currentQuestion['media_audio_path'] ?? '')) !== '';
+                $sarabandaReverseEnabled = $sarabandaAudioEligible
+                    ? $sarabandaAudioService->isReverseEnabledForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
+                    : false;
 
                 $sessione['impostore_enabled'] = $enabled;
                 $sessione['impostore_eligible'] = (bool) $eligible;
@@ -430,11 +438,21 @@ class ApiController
                 $sessione['fade_eligible'] = (bool) $fadeEligible;
                 $sessione['fade_locked'] = $locked;
                 $sessione['fade_question_id'] = (int) ($currentQuestion['id'] ?? 0);
+                $sessione['sarabanda_reverse_enabled'] = $sarabandaReverseEnabled;
+                $sessione['sarabanda_audio_eligible'] = (bool) $sarabandaAudioEligible;
+                $sessione['sarabanda_audio_locked'] = $locked;
+                $sessione['sarabanda_audio_question_id'] = (int) ($currentQuestion['id'] ?? 0);
+            }
+
+            $domandaPayload = null;
+            if (is_array($sessione) && (string) ($sessione['stato'] ?? '') === 'domanda') {
+                $domandaPayload = $service->domandaCorrente();
             }
 
             $this->json([
                 'success' => true,
-                'sessione' => $sessione
+                'sessione' => $sessione,
+                'domanda' => $domandaPayload,
             ]);
 
         } catch (Throwable $e) {
@@ -577,6 +595,7 @@ class ApiController
                     'domanda_id' => (int) ($domanda['id'] ?? 0),
                     'audio_path' => $audioPath,
                     'preview_sec' => (int) ($domanda['media_audio_preview_sec'] ?? 0),
+                    'reverse_audio' => (new SarabandaAudioModeService())->isReverseEnabledForQuestion($sessioneId, (int) ($domanda['id'] ?? 0)),
                     'created_at' => round(microtime(true), 3),
                 ];
             }

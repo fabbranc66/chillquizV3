@@ -92,7 +92,7 @@ trait PoolDomandeTrait
 
     public function domandaCorrente(): ?array
     {
-        $stmt = $this->pdo->prepare("\n            SELECT d.*\n            FROM sessione_domande sd\n            JOIN domande d ON d.id = sd.domanda_id\n            WHERE sd.sessione_id = ?\n            AND sd.posizione = ?\n            LIMIT 1\n        ");
+        $stmt = $this->pdo->prepare("\n            SELECT d.*, COALESCE(a.nome, '') AS argomento_nome\n            FROM sessione_domande sd\n            JOIN domande d ON d.id = sd.domanda_id\n            LEFT JOIN argomenti a ON a.id = d.argomento_id\n            WHERE sd.sessione_id = ?\n            AND sd.posizione = ?\n            LIMIT 1\n        ");
 
         $stmt->execute([
             $this->sessioneId,

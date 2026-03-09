@@ -4,12 +4,54 @@
   const ScreenApp = window.ScreenApp;
   const S = ScreenApp.store;
 
+  function persistDebugTiming() {
+    try {
+      if (Number(S.sessioneId || 0) <= 0) return;
+      window.localStorage.setItem(
+        `chillquiz_debug_timing_screen_${Number(S.sessioneId || 0)}`,
+        JSON.stringify(S.debugTiming || {})
+      );
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+
+  function markOptionsShown(domandaId) {
+    const currentDomandaId = Number(domandaId || 0);
+    if (currentDomandaId <= 0) return;
+
+    if (Number(S.debugTiming?.domandaId || 0) !== currentDomandaId) {
+      S.debugTiming = {
+        domandaId: currentDomandaId,
+        timerStartedAtMs: 0,
+        optionsShownAtMs: 0,
+        deltaMs: null,
+      };
+    }
+
+    if (Number(S.debugTiming.optionsShownAtMs || 0) > 0) return;
+
+    S.debugTiming.optionsShownAtMs = Date.now();
+    if (Number(S.debugTiming.timerStartedAtMs || 0) > 0) {
+      S.debugTiming.deltaMs = S.debugTiming.optionsShownAtMs - S.debugTiming.timerStartedAtMs;
+    }
+    persistDebugTiming();
+    console.info('[screen] options-shown', S.debugTiming);
+  }
+
   function stopMemeRotation() {
     if (S.memeRotationTimer) {
       window.clearInterval(S.memeRotationTimer);
       S.memeRotationTimer = null;
     }
     S.memeRotationStep = -1;
+  }
+
+  function clearOptionRevealTimer() {
+    if (S.optionRevealTimer) {
+      clearTimeout(S.optionRevealTimer);
+      S.optionRevealTimer = null;
+    }
   }
 
   function getMemeSlots(step) {
@@ -56,6 +98,10 @@
       el.appendChild(text);
       opzioniNode.appendChild(el);
     });
+
+    if (!showCorrect) {
+      markOptionsShown(domanda?.id);
+    }
   }
 
   function showView() {
@@ -66,6 +112,7 @@
 
   function hideView() {
     stopMemeRotation();
+    clearOptionRevealTimer();
     ScreenApp.domandaAudio.clearAudioPreviewRuntime();
     S.currentDomandaData = null;
     ScreenApp.state.hideRisultatiView();
@@ -89,6 +136,7 @@
 
   function showLoadingView() {
     stopMemeRotation();
+    clearOptionRevealTimer();
     showView();
     if (S.domandaRenderizzata) return;
 
@@ -120,15 +168,29 @@
 
       opzioni.appendChild(el);
     });
+
+    if (!showCorrect) {
+      markOptionsShown(domanda?.id);
+    }
   }
 
-  function render(domanda) {
+  function render(domanda, sessioneMeta = null) {
     if (!domanda || !Array.isArray(domanda.opzioni)) {
       showLoadingView();
       return;
     }
 
     S.currentDomandaData = domanda;
+    const domandaId = Number(domanda?.id || 0);
+    if (Number(S.debugTiming?.domandaId || 0) !== domandaId) {
+      S.debugTiming = {
+        domandaId,
+        timerStartedAtMs: 0,
+        optionsShownAtMs: 0,
+        deltaMs: null,
+      };
+      persistDebugTiming();
+    }
     const {
       isSarabandaIntro,
       isImpostoreMasked,
@@ -156,14 +218,51 @@
       return;
     }
 
-    if (isMemeMode) {
-      renderMemeOptions(domanda, showCorrect, correctOptionId);
+    const timerStart = Number(S.currentTimerStart || 0);
+    if (!showCorrect && timerStart <= 0) {
+      opzioni.innerHTML = '';
       S.domandaRenderizzata = true;
       showView();
       return;
     }
 
-    renderClassicOptions(domanda, showCorrect, correctOptionId);
+    const effectiveSessione = sessioneMeta || S.latestSessioneSnapshot || {
+      stato: 'domanda',
+      timer_start: S.currentTimerStart,
+      timer_max: S.currentTimerMax,
+    };
+
+    const renderOptions = () => {
+      if (isMemeMode) {
+        renderMemeOptions(domanda, showCorrect, correctOptionId);
+        if (!showCorrect) {
+          ScreenApp.state.renderStageTimer(effectiveSessione);
+        }
+        return;
+      }
+
+      renderClassicOptions(domanda, showCorrect, correctOptionId);
+      if (!showCorrect) {
+        ScreenApp.state.renderStageTimer(effectiveSessione);
+      }
+    };
+
+    clearOptionRevealTimer();
+    const startMs = timerStart > 0 ? Math.round(timerStart * 1000) : 0;
+    const delayMs = !showCorrect && startMs > Date.now() ? (startMs - Date.now()) : 0;
+
+    if (delayMs > 0) {
+      opzioni.innerHTML = '';
+      S.optionRevealTimer = setTimeout(() => {
+        S.optionRevealTimer = null;
+        if (!ScreenApp.state.isDomandaState()) return;
+        if (Number(S.currentDomandaData?.id || 0) !== domandaId) return;
+        renderOptions();
+      }, delayMs);
+    } else {
+      renderOptions();
+    }
+
     S.domandaRenderizzata = true;
     showView();
   }

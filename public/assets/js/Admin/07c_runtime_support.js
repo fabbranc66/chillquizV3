@@ -12,6 +12,7 @@
     networkMemeError: 'Errore rete durante toggle MEME',
     networkImagePartyError: 'Errore rete durante toggle PIXELATE',
     networkFadeError: 'Errore rete durante toggle FADE',
+    networkSarabandaReverseError: 'Errore rete durante toggle REVERSE SARABANDA',
     memeTextRequired: 'Inserisci prima il testo MEME',
   };
 

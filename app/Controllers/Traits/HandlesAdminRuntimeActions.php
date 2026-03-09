@@ -9,6 +9,7 @@ use App\Services\Question\FadeModeService;
 use App\Services\Question\ImagePartyModeService;
 use App\Services\Question\ImpostoreModeService;
 use App\Services\Question\MemeModeService;
+use App\Services\Question\SarabandaAudioModeService;
 use App\Services\SessioneService;
 
 trait HandlesAdminRuntimeActions
@@ -63,6 +64,10 @@ trait HandlesAdminRuntimeActions
                     'domanda_id' => (int) ($domanda['id'] ?? 0),
                     'audio_path' => $audioPath,
                     'preview_sec' => $previewSec > 0 ? $previewSec : 0,
+                    'reverse_audio' => (new SarabandaAudioModeService())->isReverseEnabledForQuestion(
+                        $targetSessioneId,
+                        (int) ($domanda['id'] ?? 0)
+                    ),
                     'created_at' => time(),
                 ];
 
@@ -80,6 +85,65 @@ trait HandlesAdminRuntimeActions
                     'action' => $action,
                     'sessione_id' => $targetSessioneId,
                     'preview' => $payload,
+                ]);
+                return true;
+
+            case 'sarabanda-reverse-toggle':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non valida'
+                    ]);
+                    return true;
+                }
+
+                $sessionRow = (new Sessione())->trova($targetSessioneId);
+                if (!$sessionRow) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non trovata'
+                    ]);
+                    return true;
+                }
+
+                if (in_array((string) ($sessionRow['stato'] ?? ''), ['domanda', 'conclusa'], true)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'REVERSE modificabile solo prima dello stato domanda'
+                    ]);
+                    return true;
+                }
+
+                $currentQuestion = $this->loadCurrentQuestionForSession($targetSessioneId);
+                if (!$currentQuestion) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Domanda corrente non disponibile'
+                    ]);
+                    return true;
+                }
+
+                $currentType = strtoupper(trim((string) ($currentQuestion['tipo_domanda'] ?? 'CLASSIC')));
+                $hasAudio = trim((string) ($currentQuestion['media_audio_path'] ?? '')) !== '';
+                if ($currentType !== 'SARABANDA' || !$hasAudio) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'REVERSE disponibile solo per SARABANDA con audio'
+                    ]);
+                    return true;
+                }
+
+                $enabled = (int) ($_POST['enabled'] ?? 0) === 1;
+                $service = new SarabandaAudioModeService();
+                $service->setReverseEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled);
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
+                    'enabled' => $service->isReverseEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
                 ]);
                 return true;
 
@@ -118,6 +182,7 @@ trait HandlesAdminRuntimeActions
                 $memeService = new MemeModeService();
                 $imagePartyService = new ImagePartyModeService();
                 $fadeService = new FadeModeService();
+                $sarabandaAudioService = new SarabandaAudioModeService();
                 $pdo = Database::getInstance();
 
                 $puntateLiveStmt = $pdo->prepare(
@@ -171,6 +236,8 @@ trait HandlesAdminRuntimeActions
                             'image_party_state' => $imagePartyService->getRuntimeState($targetSessioneId),
                             'fade_enabled' => $questionId > 0 ? $fadeService->isEnabledForQuestion($targetSessioneId, $questionId) : false,
                             'fade_state' => $fadeService->getRuntimeState($targetSessioneId),
+                            'sarabanda_reverse_enabled' => $questionId > 0 ? $sarabandaAudioService->isReverseEnabledForQuestion($targetSessioneId, $questionId) : false,
+                            'sarabanda_audio_state' => $sarabandaAudioService->getRuntimeState($targetSessioneId),
                         ],
                         'puntate_live' => $puntateLiveStmt->fetchAll() ?: [],
                         'classifica' => $service->classifica(),
