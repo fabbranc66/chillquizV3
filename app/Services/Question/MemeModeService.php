@@ -7,7 +7,7 @@ use PDO;
 
 class MemeModeService
 {
-    public const ROTATION_MS = 2000;
+    public const ROTATION_MS = 250;
 
     private PDO $pdo;
 
@@ -120,7 +120,7 @@ class MemeModeService
         $domanda['meme_rotation_ms'] = $rotationMs;
         $domanda['meme_text'] = $memeText;
         $domanda['meme_display_wrong_option_id'] = $displayWrongOptionId;
-        $domanda['meme_player_notice'] = 'Modalita MEME: le lettere A/B/C/D cambiano associazione ogni 2 secondi.';
+        $domanda['meme_player_notice'] = 'Modalita MEME: le lettere A/B/C/D cambiano associazione ogni 0,25 secondi.';
         $domanda['meme_screen_notice'] = 'Modalita MEME attiva.';
 
         return $domanda;

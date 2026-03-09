@@ -68,6 +68,7 @@ window.ADMIN_BOOTSTRAP = {
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/admin/07_actions.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/admin/07a_actions_session.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/admin/07b_actions_question.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/admin/07c_runtime_support.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/admin/07c_actions_runtime.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/admin/08_main.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 

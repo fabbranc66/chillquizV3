@@ -2,6 +2,7 @@
 (() => {
   const Admin = window.Admin;
   const D = Admin.dom;
+  const Runtime = Admin.runtimeSupport;
   const PANEL_KEY = 'admin_panels_v1';
 
   function loadPanelsState() {
@@ -61,18 +62,7 @@
   if (D.btnDebugSessione) D.btnDebugSessione.onclick = () => Admin.actions.toggleDebugSessione();
   if (D.memeTextInput) {
     D.memeTextInput.oninput = () => {
-      const value = String(D.memeTextInput.value || '');
-      Admin.state.memeDraftText = value.replace(/\s+/g, ' ').trim();
-      try {
-        const key = `chillquiz_meme_draft_${Number(Admin.state.SESSIONE_ID || 0)}`;
-        if (Admin.state.memeDraftText) {
-          window.localStorage.setItem(key, Admin.state.memeDraftText);
-        } else {
-          window.localStorage.removeItem(key);
-        }
-      } catch (e) {
-        console.warn(e);
-      }
+      Runtime.persistMemeDraft(String(D.memeTextInput.value || ''));
     };
   }
 

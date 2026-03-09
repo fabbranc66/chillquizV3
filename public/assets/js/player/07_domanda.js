@@ -158,7 +158,7 @@
       return {
         opzione,
         positionIndex,
-        palette: (positionIndex % 4) + 1,
+        palette: (index % 4) + 1,
         letter: letters[index] || String(index + 1),
       };
     }).sort((left, right) => left.positionIndex - right.positionIndex);

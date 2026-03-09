@@ -10,6 +10,34 @@ use RuntimeException;
 
 trait TransizioniTrait
 {
+    private function clearRuntimeModes(): void
+    {
+        (new ImpostoreModeService())->clearRuntimeState($this->sessioneId);
+        (new MemeModeService())->clearRuntimeState($this->sessioneId);
+    }
+
+    private function resolveCurrentQuestionModeMeta(array $domandaCorrente): array
+    {
+        $domandaId = (int) ($domandaCorrente['id'] ?? 0);
+        $modeMeta = (new QuestionModeResolver())->resolveFromRow($domandaCorrente);
+        $modeMeta = (new ImpostoreModeService())->applyRuntimeOverride($this->sessioneId, $domandaId, $modeMeta);
+        return (new MemeModeService())->applyRuntimeOverride($this->sessioneId, $domandaId, $modeMeta);
+    }
+
+    private function prepareRuntimeQuestionModes(array $domandaCorrente, array $modeMeta): void
+    {
+        $domandaId = (int) ($domandaCorrente['id'] ?? 0);
+        $tipoDomanda = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
+
+        if ($tipoDomanda === 'IMPOSTORE') {
+            (new ImpostoreModeService())->assignForQuestion($this->sessioneId, $domandaId);
+        }
+
+        if ($tipoDomanda === 'MEME') {
+            (new MemeModeService())->prepareForQuestion($this->sessioneId, $domandaId);
+        }
+    }
+
     private function resetRevealCorretta(): void
     {
         $stmt = $this->pdo->prepare('UPDATE sessioni SET mostra_corretta_fino = NULL WHERE id = ?');
@@ -41,7 +69,7 @@ trait TransizioniTrait
         $this->generaDomandeSessione();
         $this->svuotaPuntateLive();
         $this->resetRevealCorretta();
-        (new MemeModeService())->clearRuntimeState($this->sessioneId);
+        $this->clearRuntimeModes();
         $this->aggiornaStato('puntata');
     }
 
@@ -57,18 +85,10 @@ trait TransizioniTrait
 
         $timestamp = round(microtime(true), 3);
         $domandaCorrente = $this->domandaCorrente();
-        $modeMeta = (new QuestionModeResolver())->resolveFromRow(is_array($domandaCorrente) ? $domandaCorrente : []);
-        $modeMeta = (new ImpostoreModeService())->applyRuntimeOverride($this->sessioneId, (int) ($domandaCorrente['id'] ?? 0), $modeMeta);
-        $modeMeta = (new MemeModeService())->applyRuntimeOverride($this->sessioneId, (int) ($domandaCorrente['id'] ?? 0), $modeMeta);
+        $modeMeta = $this->resolveCurrentQuestionModeMeta(is_array($domandaCorrente) ? $domandaCorrente : []);
         $tipoDomanda = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
         $hasAudio = trim((string) ($domandaCorrente['media_audio_path'] ?? '')) !== '';
-
-        if ($tipoDomanda === 'IMPOSTORE') {
-            (new ImpostoreModeService())->assignForQuestion($this->sessioneId, (int) ($domandaCorrente['id'] ?? 0));
-        }
-        if ($tipoDomanda === 'MEME') {
-            (new MemeModeService())->prepareForQuestion($this->sessioneId, (int) ($domandaCorrente['id'] ?? 0));
-        }
+        $this->prepareRuntimeQuestionModes(is_array($domandaCorrente) ? $domandaCorrente : [], $modeMeta);
 
         if ($tipoDomanda === 'SARABANDA' && $hasAudio) {
             $timestamp = null;
@@ -134,13 +154,11 @@ trait TransizioniTrait
             $this->sessione['stato'] = 'puntata';
             $this->sessione['inizio_domanda'] = null;
             $this->sessione['mostra_corretta_fino'] = null;
-            (new ImpostoreModeService())->clearRuntimeState($this->sessioneId);
-            (new MemeModeService())->clearRuntimeState($this->sessioneId);
+            $this->clearRuntimeModes();
         } else {
             $this->resetRevealCorretta();
             $this->aggiornaStato('conclusa');
-            (new ImpostoreModeService())->clearRuntimeState($this->sessioneId);
-            (new MemeModeService())->clearRuntimeState($this->sessioneId);
+            $this->clearRuntimeModes();
         }
     }
 }

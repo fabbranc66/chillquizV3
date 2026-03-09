@@ -3,12 +3,84 @@
   window.ScreenApp = window.ScreenApp || {};
   const ScreenApp = window.ScreenApp;
 
+  function getMemeAlertNodes() {
+    return {
+      wrap: document.getElementById('meme-alert-screen'),
+      message: document.getElementById('meme-alert-message'),
+    };
+  }
+
+  function clearMemeAlert() {
+    if (ScreenApp.store.memeAlertTimer) {
+      window.clearTimeout(ScreenApp.store.memeAlertTimer);
+      ScreenApp.store.memeAlertTimer = null;
+    }
+    const { wrap, message } = getMemeAlertNodes();
+    if (message) {
+      message.innerText = '';
+    }
+    if (wrap) {
+      wrap.classList.add('hidden');
+    }
+  }
+
+  function buildMemeAlertMessage(choosers) {
+    const names = choosers.map((row) => String(row.nome || 'Giocatore')).filter(Boolean);
+    const memeText = String(choosers[0]?.meme_text || choosers[0]?.risposta_data_testo || '').trim();
+    const who = names.length === 1
+      ? names[0]
+      : `${names.slice(0, -1).join(', ')} e ${names[names.length - 1]}`;
+
+    const templates = [
+      `${who} hanno puntato tutto su "${memeText}". La scienza non approva, ma il pubblico si'.`,
+      `${who} hanno scelto "${memeText}". Decisione tecnicamente discutibile, spiritualmente impeccabile.`,
+      `${who} hanno visto "${memeText}" e hanno detto: si', questa e' la mia verita'.`,
+      `${who} hanno creduto in "${memeText}". Nessun rimorso, solo caos controllato.`,
+    ];
+
+    const index = (names.join('|').length + memeText.length) % templates.length;
+    return templates[index];
+  }
+
+  function renderMemeAlert(lista) {
+    const { wrap, message } = getMemeAlertNodes();
+    if (!wrap || !message || !Array.isArray(lista)) {
+      return;
+    }
+
+    const choosers = lista.filter((row) => !!row?.is_meme_choice);
+    if (choosers.length === 0) {
+      ScreenApp.store.lastMemeAlertKey = '';
+      clearMemeAlert();
+      return;
+    }
+
+    const alertKey = choosers
+      .map((row) => `${row.nome || ''}:${row.risposta_data_testo || ''}:${row.tempo_risposta_display || ''}`)
+      .join('|');
+
+    if (ScreenApp.store.lastMemeAlertKey === alertKey) {
+      return;
+    }
+
+    ScreenApp.store.lastMemeAlertKey = alertKey;
+    message.innerText = buildMemeAlertMessage(choosers);
+    wrap.classList.remove('hidden');
+    if (ScreenApp.store.memeAlertTimer) {
+      window.clearTimeout(ScreenApp.store.memeAlertTimer);
+    }
+    ScreenApp.store.memeAlertTimer = window.setTimeout(() => {
+      clearMemeAlert();
+    }, 15000);
+  }
+
   function renderClassifica(lista) {
     const listEl = document.getElementById('scoreboard-list');
     if (!listEl) return;
 
     if (!Array.isArray(lista) || lista.length === 0) {
       listEl.innerHTML = '<div class="scoreboard-empty">Nessun giocatore in classifica.</div>';
+      clearMemeAlert();
       return;
     }
 
@@ -27,6 +99,8 @@
         </div>
       `;
     }).join('');
+
+    renderMemeAlert(lista);
   }
 
   async function fetchClassifica() {
@@ -41,5 +115,5 @@
     }
   }
 
-  ScreenApp.risultati = { renderClassifica, fetchClassifica };
+  ScreenApp.risultati = { renderClassifica, fetchClassifica, clearMemeAlert };
 })();

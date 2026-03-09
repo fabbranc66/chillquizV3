@@ -20,27 +20,16 @@ trait ClassificaTrait
         return number_format($value, 2, ',', '');
     }
 
-    public function classifica(): array
+    private function resolveCurrentModeMeta(int $domandaId): array
     {
-        $this->ensureRisposteOptionIdColumn();
-        $this->ensurePuntateLiveTable();
-
-        $sistema = new Sistema();
-
-        $domandaId = $this->domandaCorrenteId();
-        $durataDomanda = (int) ($sistema->get('durata_domanda') ?? 0);
-        $fattoreVelocitaMax = (float) ($sistema->get('fattore_velocita_max') ?? 1);
-        $bonusPrimoAttivo = (int) ($sistema->get('bonus_primo_attivo') ?? 0) === 1;
-        $coefficienteBonusPrimo = (float) ($sistema->get('coefficiente_bonus_primo') ?? 0);
         $domandaCorrenteRow = $this->loadDomandaCorrenteRow($domandaId);
         $modeMeta = (new QuestionModeResolver())->resolveFromRow($domandaCorrenteRow);
         $modeMeta = (new ImpostoreModeService())->applyRuntimeOverride($this->sessioneId, $domandaId, $modeMeta);
-        $modeMeta = (new MemeModeService())->applyRuntimeOverride($this->sessioneId, $domandaId, $modeMeta);
-        $isImpostoreMode = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC'))) === 'IMPOSTORE';
-        $impostoreService = new ImpostoreModeService();
-        $assignment = $isImpostoreMode ? $impostoreService->getAssignment($this->sessioneId, $domandaId) : null;
-        $impostorePartecipazioneId = (int) ($assignment['impostore_partecipazione_id'] ?? 0);
+        return (new MemeModeService())->applyRuntimeOverride($this->sessioneId, $domandaId, $modeMeta);
+    }
 
+    private function loadClassificaRows(int $domandaId): array
+    {
         $stmt = $this->pdo->prepare(
             "SELECT
                 p.id AS partecipazione_id,
@@ -99,89 +88,153 @@ trait ClassificaTrait
             'sessione_id' => $this->sessioneId,
         ]);
 
-        $rows = $stmt->fetchAll();
+        return $stmt->fetchAll();
+    }
 
-        foreach ($rows as &$row) {
-            $row['ultima_puntata'] = (int) ($row['ultima_puntata'] ?? 0);
-            $row['capitale_attuale'] = (int) ($row['capitale_attuale'] ?? 0);
-            $row['esito'] = ($row['esito_corretta'] === null)
-                ? null
-                : ((int) $row['esito_corretta'] === 1 ? 'corretta' : 'errata');
-            $row['tempo_risposta'] = $row['tempo_risposta'] === null ? null : round((float) $row['tempo_risposta'], 3);
-            $row['difficolta_domanda'] = $row['difficolta_domanda'] === null ? null : (float) $row['difficolta_domanda'];
-            $row['durata_domanda'] = $durataDomanda;
-            $row['primo_a_rispondere'] = isset($row['primo_partecipazione_id'])
-                ? ((int) $row['primo_partecipazione_id'] === (int) $row['partecipazione_id'])
-                : false;
-            $row['risposta_data_testo'] = (string) ($row['risposta_data_testo'] ?? '');
-            $row['risposta_corretta_testo'] = (string) ($row['risposta_corretta_testo'] ?? '');
-
-            $puntata = (int) $row['ultima_puntata'];
-            $difficolta = (float) ($row['difficolta_domanda'] ?? 1.0);
-            $tempoRisposta = $row['tempo_risposta'] === null ? null : (float) $row['tempo_risposta'];
-            $vincitaDomandaRaw = $row['vincita_domanda_raw'] === null ? null : (int) $row['vincita_domanda_raw'];
-
-            $fattoreVelocita = 0.0;
-            if ($tempoRisposta !== null && $durataDomanda > 0) {
-                $tempoRimanente = max(0, $durataDomanda - $tempoRisposta);
-                $fattoreVelocita = round(($tempoRimanente / $durataDomanda) * $fattoreVelocitaMax, 2);
-            }
-
-            $vincitaDifficolta = 0;
-            $vincitaVelocita = 0;
-            $bonusPrimo = 0;
-            $bonusImpostore = 0;
-            $vincitaDomandaCalcolata = null;
-
-            if ($row['esito'] === 'corretta') {
-                $vincitaDifficolta = (int) round($puntata * $difficolta);
-                $vincitaVelocita = (int) round($puntata * $fattoreVelocita);
-
-                if ($bonusPrimoAttivo && !empty($row['primo_a_rispondere'])) {
-                    $bonusPrimo = (int) round($puntata * $coefficienteBonusPrimo);
-                }
-
-                if ($isImpostoreMode && $impostorePartecipazioneId > 0 && (int) $row['partecipazione_id'] === $impostorePartecipazioneId) {
-                    $bonusImpostore = $impostoreService->calculateBonus($modeMeta, $puntata, true, true);
-                }
-
-                $vincitaDomandaCalcolata = $vincitaDifficolta + $vincitaVelocita + $bonusPrimo + $bonusImpostore;
-            } elseif ($row['esito'] === 'errata') {
-                $vincitaDomandaCalcolata = -$puntata;
-            }
-
-            if (
-                $vincitaDomandaCalcolata !== null
-                && $vincitaDomandaRaw !== null
-                && $vincitaDomandaCalcolata !== $vincitaDomandaRaw
-            ) {
-                $delta = $vincitaDomandaCalcolata - $vincitaDomandaRaw;
-                $this->allineaPunteggioPersistito(
-                    (int) ($row['risposta_id'] ?? 0),
-                    (int) ($row['partecipazione_id'] ?? 0),
-                    $vincitaDomandaCalcolata,
-                    $delta
-                );
-                $row['capitale_attuale'] += $delta;
-            }
-
-            $row['vincita_domanda'] = $vincitaDomandaCalcolata;
-            $row['fattore_velocita'] = $fattoreVelocita;
-            $row['vincita_difficolta'] = $vincitaDifficolta;
-            $row['vincita_velocita'] = $vincitaVelocita;
-            $row['bonus_primo'] = $bonusPrimo;
-            $row['bonus_impostore'] = $bonusImpostore;
-            $row['is_impostore'] = $isImpostoreMode && $impostorePartecipazioneId > 0
-                ? ((int) $row['partecipazione_id'] === $impostorePartecipazioneId)
-                : false;
-            $row['tempo_risposta_display'] = $this->formatTempoRispostaDisplay($tempoRisposta);
-
-            unset($row['esito_corretta']);
-            unset($row['primo_partecipazione_id']);
-            unset($row['vincita_domanda_raw']);
-            unset($row['risposta_id']);
+    private function enrichClassificaRow(
+        array $row,
+        int $durataDomanda,
+        float $fattoreVelocitaMax,
+        bool $bonusPrimoAttivo,
+        float $coefficienteBonusPrimo,
+        bool $isImpostoreMode,
+        bool $isMemeMode,
+        string $memeText,
+        int $memeDisplayWrongOptionId,
+        int $impostorePartecipazioneId,
+        ImpostoreModeService $impostoreService,
+        array $modeMeta
+    ): array {
+        $row['ultima_puntata'] = (int) ($row['ultima_puntata'] ?? 0);
+        $row['capitale_attuale'] = (int) ($row['capitale_attuale'] ?? 0);
+        $row['esito'] = ($row['esito_corretta'] === null)
+            ? null
+            : ((int) $row['esito_corretta'] === 1 ? 'corretta' : 'errata');
+        $row['tempo_risposta'] = $row['tempo_risposta'] === null ? null : round((float) $row['tempo_risposta'], 3);
+        $row['difficolta_domanda'] = $row['difficolta_domanda'] === null ? null : (float) $row['difficolta_domanda'];
+        $row['durata_domanda'] = $durataDomanda;
+        $row['primo_a_rispondere'] = isset($row['primo_partecipazione_id'])
+            ? ((int) $row['primo_partecipazione_id'] === (int) $row['partecipazione_id'])
+            : false;
+        $row['risposta_data_testo'] = (string) ($row['risposta_data_testo'] ?? '');
+        $row['risposta_corretta_testo'] = (string) ($row['risposta_corretta_testo'] ?? '');
+        $row['is_meme_choice'] = $isMemeMode
+            && $memeText !== ''
+            && $memeDisplayWrongOptionId > 0
+            && (int) ($row['risposta_opzione_id'] ?? 0) === $memeDisplayWrongOptionId;
+        if ($row['is_meme_choice']) {
+            $row['risposta_data_testo'] = $memeText;
         }
-        unset($row);
+        $row['meme_text'] = $isMemeMode ? $memeText : '';
+
+        $puntata = (int) $row['ultima_puntata'];
+        $difficolta = (float) ($row['difficolta_domanda'] ?? 1.0);
+        $tempoRisposta = $row['tempo_risposta'] === null ? null : (float) $row['tempo_risposta'];
+        $vincitaDomandaRaw = $row['vincita_domanda_raw'] === null ? null : (int) $row['vincita_domanda_raw'];
+
+        $fattoreVelocita = 0.0;
+        if ($tempoRisposta !== null && $durataDomanda > 0) {
+            $tempoRimanente = max(0, $durataDomanda - $tempoRisposta);
+            $fattoreVelocita = round(($tempoRimanente / $durataDomanda) * $fattoreVelocitaMax, 2);
+        }
+
+        $vincitaDifficolta = 0;
+        $vincitaVelocita = 0;
+        $bonusPrimo = 0;
+        $bonusImpostore = 0;
+        $vincitaDomandaCalcolata = null;
+
+        if ($row['esito'] === 'corretta') {
+            $vincitaDifficolta = (int) round($puntata * $difficolta);
+            $vincitaVelocita = (int) round($puntata * $fattoreVelocita);
+
+            if ($bonusPrimoAttivo && !empty($row['primo_a_rispondere'])) {
+                $bonusPrimo = (int) round($puntata * $coefficienteBonusPrimo);
+            }
+
+            if ($isImpostoreMode && $impostorePartecipazioneId > 0 && (int) $row['partecipazione_id'] === $impostorePartecipazioneId) {
+                $bonusImpostore = $impostoreService->calculateBonus($modeMeta, $puntata, true, true);
+            }
+
+            $vincitaDomandaCalcolata = $vincitaDifficolta + $vincitaVelocita + $bonusPrimo + $bonusImpostore;
+        } elseif ($row['esito'] === 'errata') {
+            $vincitaDomandaCalcolata = -$puntata;
+        }
+
+        if (
+            $vincitaDomandaCalcolata !== null
+            && $vincitaDomandaRaw !== null
+            && $vincitaDomandaCalcolata !== $vincitaDomandaRaw
+        ) {
+            $delta = $vincitaDomandaCalcolata - $vincitaDomandaRaw;
+            $this->allineaPunteggioPersistito(
+                (int) ($row['risposta_id'] ?? 0),
+                (int) ($row['partecipazione_id'] ?? 0),
+                $vincitaDomandaCalcolata,
+                $delta
+            );
+            $row['capitale_attuale'] += $delta;
+        }
+
+        $row['vincita_domanda'] = $vincitaDomandaCalcolata;
+        $row['fattore_velocita'] = $fattoreVelocita;
+        $row['vincita_difficolta'] = $vincitaDifficolta;
+        $row['vincita_velocita'] = $vincitaVelocita;
+        $row['bonus_primo'] = $bonusPrimo;
+        $row['bonus_impostore'] = $bonusImpostore;
+        $row['is_impostore'] = $isImpostoreMode && $impostorePartecipazioneId > 0
+            ? ((int) $row['partecipazione_id'] === $impostorePartecipazioneId)
+            : false;
+        $row['tempo_risposta_display'] = $this->formatTempoRispostaDisplay($tempoRisposta);
+
+        unset($row['esito_corretta'], $row['primo_partecipazione_id'], $row['vincita_domanda_raw'], $row['risposta_id']);
+
+        return $row;
+    }
+
+    public function classifica(): array
+    {
+        $this->ensureRisposteOptionIdColumn();
+        $this->ensurePuntateLiveTable();
+
+        $sistema = new Sistema();
+
+        $domandaId = $this->domandaCorrenteId();
+        $durataDomanda = (int) ($sistema->get('durata_domanda') ?? 0);
+        $fattoreVelocitaMax = (float) ($sistema->get('fattore_velocita_max') ?? 1);
+        $bonusPrimoAttivo = (int) ($sistema->get('bonus_primo_attivo') ?? 0) === 1;
+        $coefficienteBonusPrimo = (float) ($sistema->get('coefficiente_bonus_primo') ?? 0);
+        $modeMeta = $this->resolveCurrentModeMeta($domandaId);
+        $isImpostoreMode = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC'))) === 'IMPOSTORE';
+        $isMemeMode = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC'))) === 'MEME';
+        $memeText = '';
+        $memeDisplayWrongOptionId = 0;
+        if ($isMemeMode) {
+            $memeState = (new MemeModeService())->getRuntimeState($this->sessioneId);
+            $memeText = trim((string) ($memeState['meme_text'] ?? ''));
+            $memeDisplayWrongOptionId = (int) ($memeState['display_wrong_option_id'] ?? 0);
+        }
+        $impostoreService = new ImpostoreModeService();
+        $assignment = $isImpostoreMode ? $impostoreService->getAssignment($this->sessioneId, $domandaId) : null;
+        $impostorePartecipazioneId = (int) ($assignment['impostore_partecipazione_id'] ?? 0);
+        $rows = $this->loadClassificaRows($domandaId);
+
+        foreach ($rows as $index => $row) {
+            $rows[$index] = $this->enrichClassificaRow(
+                $row,
+                $durataDomanda,
+                $fattoreVelocitaMax,
+                $bonusPrimoAttivo,
+                $coefficienteBonusPrimo,
+                $isImpostoreMode,
+                $isMemeMode,
+                $memeText,
+                $memeDisplayWrongOptionId,
+                $impostorePartecipazioneId,
+                $impostoreService,
+                $modeMeta
+            );
+        }
 
         return $rows;
     }

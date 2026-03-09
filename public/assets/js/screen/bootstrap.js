@@ -36,5 +36,7 @@
     audioUnlockedByUser: false,
     memeRotationTimer: null,
     memeRotationStep: -1,
+    memeAlertTimer: null,
+    lastMemeAlertKey: '',
   };
 })();

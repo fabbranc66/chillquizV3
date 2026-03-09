@@ -126,6 +126,7 @@
   function hideRisultatiView() {
     const risultati = document.getElementById('screen-risultati');
     if (risultati) risultati.classList.add('hidden');
+    ScreenApp.risultati?.clearMemeAlert?.();
   }
 
   ScreenApp.state = {

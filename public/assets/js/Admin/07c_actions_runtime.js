@@ -6,6 +6,7 @@
   const { addLog } = Admin.log;
   const { renderClassificaLive, renderJoinRichieste } = Admin.render;
   const Support = Admin.actionsSupport;
+  const Runtime = Admin.runtimeSupport;
 
   Object.assign(Admin.actions, {
     async aggiornaPartecipanti() {
@@ -43,11 +44,7 @@
       if (S.joinRequestInFlight || !S.SESSIONE_ID) return;
       S.joinRequestInFlight = true;
       try {
-        const res = await fetch(`${S.API_BASE}/admin/join-richieste/${S.SESSIONE_ID}`, {
-          method: 'POST',
-          headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
-        });
-        const data = await res.json();
+        const data = await Runtime.fetchAdminJson('join-richieste', S.SESSIONE_ID);
         if (!data.success) return;
 
         renderJoinRichieste(data.richieste ?? []);
@@ -92,18 +89,8 @@
         return;
       }
 
-      const res = await fetch(`${S.API_BASE}/admin/audio-preview/${S.SESSIONE_ID}`, {
-        method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
-      });
-
-      const data = await res.json();
-      addLog({
-        ok: !!data.success,
-        title: 'audio-preview',
-        message: data.success ? 'Anteprima audio inviata allo schermo' : (data.error || 'Errore avvio anteprima audio'),
-        data,
-      });
+      const data = await Runtime.fetchAdminJson('audio-preview', S.SESSIONE_ID);
+      Runtime.logActionResult('audio-preview', data, 'Anteprima audio inviata allo schermo', 'Errore avvio anteprima audio');
 
       if (data.success) {
         try {
@@ -121,21 +108,12 @@
       const formData = new FormData();
       formData.append('request_id', requestId);
 
-      const res = await fetch(`${S.API_BASE}/admin/${action}/${S.SESSIONE_ID}`, {
-        method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
-        body: formData,
-      });
-
-      const data = await res.json();
-      addLog({
-        ok: !!data.success,
-        title: action === 'approva-join' ? 'Join approvata' : 'Join rifiutata',
-        message: data.success
-          ? `Richiesta #${requestId} ${action === 'approva-join' ? 'approvata' : 'rifiutata'}`
-          : (data.error || 'Operazione fallita'),
+      const data = await Runtime.fetchAdminJson(action, S.SESSIONE_ID, formData);
+      Runtime.logActionResult(
+        action === 'approva-join' ? 'Join approvata' : 'Join rifiutata',
         data,
-      });
+        `Richiesta #${requestId} ${action === 'approva-join' ? 'approvata' : 'rifiutata'}`
+      );
 
       if (data.success) {
         Admin.actions.aggiornaJoinRichieste();
@@ -144,12 +122,7 @@
     },
 
     async callAdmin(action) {
-      const res = await fetch(`${S.API_BASE}/admin/${action}/${S.SESSIONE_ID}`, {
-        method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
-      });
-
-      const data = await res.json();
+      const data = await Runtime.fetchAdminJson(action, S.SESSIONE_ID);
       addLog({
         ok: !!data.success,
         title: action,
@@ -159,9 +132,7 @@
         data,
       });
 
-      await Admin.actions.aggiornaStato();
-      await Admin.actions.aggiornaJoinRichieste();
-      await Admin.actions.aggiornaDomandaCorrenteMeta();
+      await Runtime.refreshRuntimeContext();
     },
 
     apriMedia() {
@@ -209,12 +180,7 @@
         const formData = new FormData();
         formData.append('sessione_id', String(S.SESSIONE_ID));
 
-        const res = await fetch(`${S.API_BASE}/admin/debug-sessione/${S.SESSIONE_ID}`, {
-          method: 'POST',
-          headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
-          body: formData,
-        });
-        const data = await res.json();
+        const data = await Runtime.fetchAdminJson('debug-sessione', S.SESSIONE_ID, formData);
 
         if (!data.success) {
           addLog({ ok: false, title: 'debug-sessione', message: data.error || 'Errore debug sessione', data });
@@ -225,8 +191,8 @@
           D.debugSessioneOutput.textContent = JSON.stringify(data.debug || {}, null, 2);
         }
 
-        if (forceOpen && D.debugSessionePanel) {
-          D.debugSessionePanel.style.display = 'block';
+        if (forceOpen) {
+          Runtime.setDebugPanelVisible(true);
         }
       } catch (e) {
         addLog({
@@ -242,18 +208,15 @@
 
     toggleDebugSessione() {
       if (!D.debugSessionePanel || !D.btnDebugSessione) return;
-      const visible = D.debugSessionePanel.style.display !== 'none';
-      const nextVisible = !visible;
-      D.debugSessionePanel.style.display = nextVisible ? 'block' : 'none';
-      D.btnDebugSessione.classList.toggle('enabled', nextVisible);
-      D.btnDebugSessione.classList.toggle('disabled', !nextVisible);
+      const nextVisible = D.debugSessionePanel.style.display === 'none';
+      Runtime.setDebugPanelVisible(nextVisible);
       if (nextVisible) {
         Admin.actions.aggiornaDebugSessione(true);
       }
     },
 
     async toggleImpostoreCorrente() {
-      const targetSessioneId = Number(D.sessioneSelect?.value || S.SESSIONE_ID || 0);
+      const targetSessioneId = Runtime.readTargetSessioneId();
       if (targetSessioneId <= 0) {
         addLog({ ok: false, title: 'impostore-toggle', message: 'Sessione non valida', data: {} });
         return;
@@ -264,26 +227,16 @@
       formData.append('enabled', S.impostoreEnabled ? '0' : '1');
 
       try {
-        const res = await fetch(`${S.API_BASE}/admin/impostore-toggle/0`, {
-          method: 'POST',
-          headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
-          body: formData,
-        });
-
-        const data = await res.json();
-        addLog({
-          ok: !!data.success,
-          title: 'impostore-toggle',
-          message: data.success
-            ? `IMPOSTORE ${data.enabled ? 'attivato' : 'disattivato'} per la domanda corrente`
-            : (data.error || 'Operazione fallita'),
+        const data = await Runtime.fetchAdminJson('impostore-toggle', 0, formData);
+        Runtime.logActionResult(
+          'impostore-toggle',
           data,
-        });
+          `IMPOSTORE ${data.enabled ? 'attivato' : 'disattivato'} per la domanda corrente`
+        );
 
         if (data.success) {
           S.impostoreEnabled = !!data.enabled;
-          await Admin.actions.aggiornaStato();
-          await Admin.actions.aggiornaDomandaCorrenteMeta();
+          await Runtime.refreshRuntimeContext();
         }
       } catch (e) {
         addLog({
@@ -296,7 +249,7 @@
     },
 
     async toggleMemeCorrente() {
-      const targetSessioneId = Number(D.sessioneSelect?.value || S.SESSIONE_ID || 0);
+      const targetSessioneId = Runtime.readTargetSessioneId();
       if (targetSessioneId <= 0) {
         addLog({ ok: false, title: 'meme-toggle', message: 'Sessione non valida', data: {} });
         return;
@@ -311,7 +264,7 @@
       }
 
       if (memeText !== '') {
-        Support.saveMemeDraft(memeText);
+        Runtime.persistMemeDraft(memeText);
       }
 
       const formData = new FormData();
@@ -320,30 +273,20 @@
       formData.append('meme_text', memeText);
 
       try {
-        const res = await fetch(`${S.API_BASE}/admin/meme-toggle/0`, {
-          method: 'POST',
-          headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
-          body: formData,
-        });
-
-        const data = await res.json();
-        addLog({
-          ok: !!data.success,
-          title: 'meme-toggle',
-          message: data.success
-            ? `MEME ${data.enabled ? 'attivato' : 'disattivato'} per la domanda corrente`
-            : (data.error || 'Operazione fallita'),
+        const data = await Runtime.fetchAdminJson('meme-toggle', 0, formData);
+        Runtime.logActionResult(
+          'meme-toggle',
           data,
-        });
+          `MEME ${data.enabled ? 'attivato' : 'disattivato'} per la domanda corrente`
+        );
 
         if (data.success) {
           S.memeText = Support.sanitizeMemeText(data.meme_text || '');
           if (memeText !== '') {
-            Support.saveMemeDraft(memeText);
+            Runtime.persistMemeDraft(memeText);
           }
           Support.refreshMemeToggleUi(!!data.enabled, S.memeText);
-          await Admin.actions.aggiornaStato();
-          await Admin.actions.aggiornaDomandaCorrenteMeta();
+          await Runtime.refreshRuntimeContext();
         }
       } catch (e) {
         addLog({

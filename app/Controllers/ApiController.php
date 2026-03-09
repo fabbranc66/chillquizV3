@@ -854,9 +854,14 @@ public function join($sessioneId): void
             $service = new SessioneService($sessioneId);
 
             if (!$service->puoRispondere()) {
+                $motivoBlocco = method_exists($service, 'motivoBloccoRisposta')
+                    ? $service->motivoBloccoRisposta()
+                    : null;
                 $this->json([
                     'success' => false,
-                    'error' => 'Non e\' il momento di rispondere'
+                    'error' => $motivoBlocco === 'tempo_scaduto'
+                        ? 'Tempo utile scaduto'
+                        : 'Non e\' il momento di rispondere'
                 ]);
                 return;
             }

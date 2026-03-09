@@ -5,18 +5,12 @@
   const S = ScreenApp.store;
 
   const QUESTION_TYPE_ICON_MAP = {
-    CLASSIC: 'assets/img/question-types/classic.png',
-    MEDIA: 'assets/img/question-types/classic.png',
     SARABANDA: 'assets/img/question-types/sarabanda.png',
-    IMPOSTORE: 'assets/img/question-types/classic.png',
-    MEME: 'assets/img/question-types/classic.png',
-    MAJORITY: 'assets/img/question-types/classic.png',
-    RANDOM_BONUS: 'assets/img/question-types/classic.png',
-    BOMB: 'assets/img/question-types/classic.png',
-    CHAOS: 'assets/img/question-types/classic.png',
-    AUDIO_PARTY: 'assets/img/question-types/classic.png',
-    IMAGE_PARTY: 'assets/img/question-types/classic.png',
   };
+
+  function isSarabandaQuestionType(domanda) {
+    return normalizeQuestionType(domanda) === 'SARABANDA';
+  }
 
   function resolveMediaUrl(path) {
     const raw = String(path || '').trim();
@@ -145,10 +139,18 @@
 
   function hasInteractiveBadgeAudio() {
     if (!ScreenApp.state.canUseAudioPreview()) return false;
+    if (!isSarabandaQuestionType(S.currentDomandaData)) return false;
     const currentAudio = String(S.currentDomandaData?.media_audio_path || '').trim() !== '';
     const pendingAudio = String(S.pendingAudioPreview?.audio_path || '').trim() !== '';
     const storedAudio = String(readStoredAudioPreview()?.audio_path || '').trim() !== '';
     return currentAudio || pendingAudio || storedAudio;
+  }
+
+  async function resolveScreenAudioPreviewSource() {
+    return S.pendingAudioPreview
+      || readStoredAudioPreview()
+      || await fetchLatestAudioPreviewCommand()
+      || buildPreviewFromCurrentDomanda();
   }
 
   async function playScreenAudioPreview(preview) {
@@ -228,7 +230,7 @@
   async function handleQuestionTypeBadgeClick() {
     if (!ScreenApp.state.canUseAudioPreview() || !hasInteractiveBadgeAudio()) return;
 
-    let preview = S.pendingAudioPreview || readStoredAudioPreview() || await fetchLatestAudioPreviewCommand() || buildPreviewFromCurrentDomanda();
+    let preview = await resolveScreenAudioPreviewSource();
     if (!preview) return;
 
     S.pendingAudioPreview = preview;
@@ -274,7 +276,11 @@
     const { wrap, image, label } = getQuestionTypeBadgeNodes();
     if (!wrap || !image || !label) return;
 
-    const questionType = normalizeQuestionType(domanda);
+    if (!isSarabandaQuestionType(domanda)) {
+      clearQuestionTypeBadge();
+      return;
+    }
+    const questionType = 'SARABANDA';
     const iconUrl = resolveQuestionTypeIconPath(questionType);
     if (!iconUrl) {
       clearQuestionTypeBadge();
@@ -322,13 +328,13 @@
     }
   }
 
-  function renderDomandaMedia(domanda, imageOnly) {
+  function renderDomandaMedia(domanda, imageOnly, overrides = {}) {
     const { wrap, image, audio, caption } = getDomandaMediaNodes();
     if (!wrap) return;
 
-    const imageUrl = resolveMediaUrl(domanda?.media_image_path);
-    const audioUrl = resolveMediaUrl(domanda?.media_audio_path);
-    const captionText = imageOnly ? '' : String(domanda?.media_caption || '').trim();
+    const imageUrl = resolveMediaUrl(overrides.media_image_path || domanda?.media_image_path);
+    const audioUrl = resolveMediaUrl(overrides.media_audio_path || domanda?.media_audio_path);
+    const captionText = imageOnly ? '' : String(overrides.media_caption ?? domanda?.media_caption ?? '').trim();
     let hasAny = false;
 
     if (image && imageUrl) {
@@ -367,6 +373,72 @@
     wrap.classList.remove('hidden');
     wrap.classList.toggle('has-media', hasAny);
     wrap.classList.toggle('media-slot-empty', !hasAny);
+  }
+
+  function clearStatusMessage() {
+    const statusMessage = getDomandaStatusMessageNode();
+    if (!statusMessage) {
+      return;
+    }
+
+    statusMessage.innerText = '';
+    statusMessage.classList.add('hidden');
+    statusMessage.classList.remove('is-impostore');
+    statusMessage.classList.remove('is-meme');
+  }
+
+  function renderStatusMessage(domanda, isMemeMode, isImpostoreMasked) {
+    const statusMessage = getDomandaStatusMessageNode();
+    if (!statusMessage) {
+      return;
+    }
+
+    if (isMemeMode) {
+      statusMessage.innerText = String(domanda.meme_screen_notice || 'Modalita MEME: le risposte ruotano ogni 0,25 secondi.');
+      statusMessage.classList.remove('hidden');
+      statusMessage.classList.add('is-meme');
+      statusMessage.classList.remove('is-impostore');
+      return;
+    }
+
+    if (isImpostoreMasked) {
+      statusMessage.innerText = String(domanda.impostore_screen_notice || 'Modalita IMPOSTORE: lo schermo non mostra la domanda.');
+      statusMessage.classList.remove('hidden');
+      statusMessage.classList.add('is-impostore');
+      statusMessage.classList.remove('is-meme');
+      return;
+    }
+
+    clearStatusMessage();
+  }
+
+  function renderQuestionMediaForState(domanda, isImpostoreMasked, isSarabandaIntro) {
+    if (isImpostoreMasked) {
+      renderDomandaMedia(domanda, false, {
+        media_image_path: '/assets/img/player/impostore-fake.svg',
+        media_caption: 'Immagine mascherata per la modalita impostore',
+      });
+      return;
+    }
+
+    if (isSarabandaIntro) {
+      renderDomandaMedia(domanda, true);
+      return;
+    }
+
+    renderDomandaMedia(domanda, false);
+  }
+
+  function renderLoadingOptions(opzioni) {
+    if (opzioni.children.length > 0) return;
+
+    opzioni.innerHTML = '';
+    for (let i = 0; i < 4; i += 1) {
+      const el = document.createElement('div');
+      el.className = 'opzione';
+      el.innerText = '...';
+      opzioni.appendChild(el);
+    }
   }
 
   function stopMemeRotation() {
@@ -437,16 +509,10 @@
 
     const titolo = document.getElementById('domanda-testo');
     const opzioni = document.getElementById('opzioni');
-    const statusMessage = getDomandaStatusMessageNode();
 
     if (titolo) titolo.innerText = '';
     if (opzioni) opzioni.innerHTML = '';
-    if (statusMessage) {
-      statusMessage.innerText = '';
-      statusMessage.classList.add('hidden');
-      statusMessage.classList.remove('is-impostore');
-      statusMessage.classList.remove('is-meme');
-    }
+    clearStatusMessage();
 
     clearQuestionTypeBadge();
     clearDomandaMedia();
@@ -464,29 +530,14 @@
 
     const titolo = document.getElementById('domanda-testo');
     const opzioni = document.getElementById('opzioni');
-    const statusMessage = getDomandaStatusMessageNode();
     if (!titolo || !opzioni) return;
 
     titolo.innerText = 'Caricamento domanda...';
-    if (statusMessage) {
-      statusMessage.innerText = '';
-      statusMessage.classList.add('hidden');
-      statusMessage.classList.remove('is-impostore');
-      statusMessage.classList.remove('is-meme');
-    }
+    clearStatusMessage();
 
     clearQuestionTypeBadge();
     clearDomandaMedia();
-
-    if (opzioni.children.length > 0) return;
-
-    opzioni.innerHTML = '';
-    for (let i = 0; i < 4; i += 1) {
-      const el = document.createElement('div');
-      el.className = 'opzione';
-      el.innerText = '...';
-      opzioni.appendChild(el);
-    }
+    renderLoadingOptions(opzioni);
   }
 
   function render(domanda) {
@@ -509,40 +560,13 @@
 
     const titolo = document.getElementById('domanda-testo');
     const opzioni = document.getElementById('opzioni');
-    const statusMessage = getDomandaStatusMessageNode();
     if (!titolo || !opzioni) return;
 
     titolo.innerText = isImpostoreMasked ? '' : (isSarabandaIntro ? '' : (domanda.testo || ''));
-    if (statusMessage) {
-      if (isMemeMode) {
-        statusMessage.innerText = String(domanda.meme_screen_notice || 'Modalita MEME: le risposte ruotano ogni 2 secondi.');
-        statusMessage.classList.remove('hidden');
-        statusMessage.classList.add('is-meme');
-        statusMessage.classList.remove('is-impostore');
-      } else if (isImpostoreMasked) {
-        statusMessage.innerText = String(domanda.impostore_screen_notice || 'Modalita IMPOSTORE: lo schermo non mostra la domanda.');
-        statusMessage.classList.remove('hidden');
-        statusMessage.classList.add('is-impostore');
-        statusMessage.classList.remove('is-meme');
-      } else {
-        statusMessage.innerText = '';
-        statusMessage.classList.add('hidden');
-        statusMessage.classList.remove('is-impostore');
-        statusMessage.classList.remove('is-meme');
-      }
-    }
+    renderStatusMessage(domanda, isMemeMode, isImpostoreMasked);
 
     renderQuestionTypeBadge(domanda);
-
-    if (isImpostoreMasked) {
-      clearDomandaMedia();
-      const mediaNodes = getDomandaMediaNodes();
-      if (mediaNodes.wrap) mediaNodes.wrap.classList.add('hidden');
-    } else if (isSarabandaIntro) {
-      renderDomandaMedia(domanda, true);
-    } else {
-      renderDomandaMedia(domanda, false);
-    }
+    renderQuestionMediaForState(domanda, isImpostoreMasked, isSarabandaIntro);
 
     opzioni.innerHTML = '';
 
@@ -609,7 +633,7 @@
     const tryUnlockPendingAudio = async () => {
       if (!ScreenApp.state.canUseAudioPreview()) return;
 
-      let preview = S.pendingAudioPreview || readStoredAudioPreview() || await fetchLatestAudioPreviewCommand() || buildPreviewFromCurrentDomanda();
+      let preview = await resolveScreenAudioPreviewSource();
       if (!preview) return;
 
       S.pendingAudioPreview = preview;

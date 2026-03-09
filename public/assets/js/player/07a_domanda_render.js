@@ -7,12 +7,15 @@
   const Alert = Player.uiAlert;
   const Support = Player.domandaSupport;
 
-  function renderDomandaMedia(domanda, imageOnly = false) {
+  function renderDomandaMedia(domanda, imageOnly = false, overrides = {}) {
     const { wrap, image, audio, caption } = Support.getMediaNodes();
     if (!wrap) return;
 
-    const imageUrl = Support.resolveMediaUrl(domanda?.media_image_path);
-    const captionText = imageOnly ? '' : String(domanda?.media_caption || '').trim();
+    const mediaPath = String(overrides.media_image_path || domanda?.media_image_path || '').trim();
+    const imageUrl = Support.resolveMediaUrl(mediaPath);
+    const captionText = imageOnly
+      ? ''
+      : String(overrides.media_caption ?? domanda?.media_caption ?? '').trim();
 
     let hasAny = false;
 
@@ -61,6 +64,16 @@
   function renderMemeButtons(domanda, showCorrect, correctOptionId) {
     const baseOptions = Array.isArray(domanda?.opzioni) ? domanda.opzioni : [];
     const letters = ['A', 'B', 'C', 'D'];
+    const bindImmediateAnswer = (button, domandaId, opzioneId) => {
+      const handleAnswer = (event) => {
+        event.preventDefault();
+        inviaRisposta(domandaId, opzioneId);
+      };
+
+      button.onclick = null;
+      button.addEventListener('pointerdown', handleAnswer, { once: true });
+    };
+
     const applyStep = () => {
       const step = showCorrect ? 0 : Support.getMemeRotationStep(domanda);
       if (!showCorrect && step === S.memeRotationStep) {
@@ -87,7 +100,7 @@
             btn.classList.add('is-reveal-dim');
           }
         } else {
-          btn.onclick = () => inviaRisposta(domanda.id, opzione.id);
+          bindImmediateAnswer(btn, domanda.id, opzione.id);
         }
 
         D.opzioniDiv.appendChild(btn);
@@ -222,9 +235,10 @@
     Support.renderQuestionTypeBadge(tipoDomanda);
 
     if (isImpostoreMasked) {
-      Support.resetDomandaMedia();
-      const mediaNodes = Support.getMediaNodes();
-      if (mediaNodes.wrap) mediaNodes.wrap.classList.add('hidden');
+      renderDomandaMedia(domanda, false, {
+        media_image_path: '/assets/img/player/impostore-fake.svg',
+        media_caption: 'Immagine mascherata per l\'impostore',
+      });
     } else if (isSarabandaIntro) {
       renderDomandaMedia(domanda, true);
     } else {
@@ -267,7 +281,11 @@
           btn.classList.add('is-reveal-dim');
         }
       } else {
-        btn.onclick = () => inviaRisposta(domanda.id, opzione.id);
+        btn.onclick = null;
+        btn.addEventListener('pointerdown', (event) => {
+          event.preventDefault();
+          inviaRisposta(domanda.id, opzione.id);
+        }, { once: true });
       }
 
       D.opzioniDiv.appendChild(btn);
