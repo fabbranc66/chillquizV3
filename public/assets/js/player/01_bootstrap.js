@@ -38,6 +38,7 @@
     badgeQuestionId: 0,
     badgeTipoDomanda: '',
     domandaTimerStart: 0,
+    domandaTimerMax: 0,
     questionShownAtPerf: 0,
     questionShownDomandaId: 0,
     questionShownTimerStart: 0,
@@ -45,6 +46,7 @@
     selectedAnswerOptionId: 0,
     renderedDomandaKey: '',
     lastMediaUrl: '',
+    pixelateTimer: null,
     memeRotationTimer: null,
     memeRotationStep: -1,
   };

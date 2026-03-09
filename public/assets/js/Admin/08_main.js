@@ -59,6 +59,8 @@
   if (D.btnSalvaSessione) D.btnSalvaSessione.onclick = () => Admin.actions.salvaSessioneCorrente();
   if (D.btnMemeToggle) D.btnMemeToggle.onclick = () => Admin.actions.toggleMemeCorrente();
   if (D.btnImpostoreToggle) D.btnImpostoreToggle.onclick = () => Admin.actions.toggleImpostoreCorrente();
+  if (D.btnImagePartyToggle) D.btnImagePartyToggle.onclick = () => Admin.actions.toggleImagePartyCorrente();
+  if (D.btnFadeToggle) D.btnFadeToggle.onclick = () => Admin.actions.toggleFadeCorrente();
   if (D.btnDebugSessione) D.btnDebugSessione.onclick = () => Admin.actions.toggleDebugSessione();
   if (D.memeTextInput) {
     D.memeTextInput.oninput = () => {

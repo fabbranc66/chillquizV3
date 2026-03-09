@@ -178,7 +178,7 @@ trait HandlesAdminQuestionActions
                 $tipoRaw = strtoupper(trim((string) ($_POST['tipo_domanda'] ?? 'CLASSIC')));
                 $allowedTipi = [
                     'CLASSIC', 'MEDIA', 'SARABANDA', 'IMPOSTORE', 'MEME', 'MAJORITY',
-                    'RANDOM_BONUS', 'BOMB', 'CHAOS', 'AUDIO_PARTY', 'IMAGE_PARTY',
+                    'RANDOM_BONUS', 'BOMB', 'CHAOS', 'AUDIO_PARTY',
                 ];
                 $tipoDomanda = in_array($tipoRaw, $allowedTipi, true) ? $tipoRaw : 'CLASSIC';
 

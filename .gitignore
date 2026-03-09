@@ -9,3 +9,7 @@ storage/runtime/**
 !storage/runtime/impostore/.gitkeep
 !storage/runtime/meme/
 !storage/runtime/meme/.gitkeep
+!storage/runtime/image_party/
+!storage/runtime/image_party/.gitkeep
+!storage/runtime/fade/
+!storage/runtime/fade/.gitkeep

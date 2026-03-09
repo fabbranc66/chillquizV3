@@ -66,6 +66,8 @@
       if (D.conclusaDiv) D.conclusaDiv.style.display = (sessione.stato === 'conclusa') ? 'block' : 'none';
       S.impostoreEnabled = !!sessione.impostore_enabled;
       S.memeEnabled = !!sessione.meme_enabled;
+      S.imagePartyEnabled = !!sessione.image_party_enabled;
+      S.fadeEnabled = !!sessione.fade_enabled;
       S.memeText = String(sessione.meme_text || '');
 
       Admin.ui.setButton(D.btnPuntata, sessione.stato === 'attesa' || sessione.stato === 'risultati');
@@ -116,6 +118,34 @@
         D.btnMemeToggle.title = !eligible
           ? 'Non disponibile per SARABANDA'
           : (locked ? 'Modificabile solo prima dello stato domanda' : 'Applica MEME alla domanda corrente');
+      }
+
+      if (D.btnImagePartyToggle) {
+        const eligible = !!sessione.image_party_eligible;
+        const locked = !!sessione.image_party_locked;
+        const enabled = !!sessione.image_party_enabled;
+        D.btnImagePartyToggle.textContent = enabled ? 'PIXELATE ON' : 'PIXELATE OFF';
+        D.btnImagePartyToggle.disabled = !eligible || locked;
+        D.btnImagePartyToggle.classList.toggle('enabled', enabled);
+        D.btnImagePartyToggle.classList.toggle('disabled', !enabled || !eligible);
+        D.btnImagePartyToggle.classList.toggle('is-locked', locked);
+        D.btnImagePartyToggle.title = !eligible
+          ? 'Richiede un\'immagine e non e disponibile per SARABANDA'
+          : (locked ? 'Modificabile solo prima dello stato domanda' : 'Applica PIXELATE alla domanda corrente');
+      }
+
+      if (D.btnFadeToggle) {
+        const eligible = !!sessione.fade_eligible;
+        const locked = !!sessione.fade_locked;
+        const enabled = !!sessione.fade_enabled;
+        D.btnFadeToggle.textContent = enabled ? 'FADE ON' : 'FADE OFF';
+        D.btnFadeToggle.disabled = !eligible || locked;
+        D.btnFadeToggle.classList.toggle('enabled', enabled);
+        D.btnFadeToggle.classList.toggle('disabled', !enabled || !eligible);
+        D.btnFadeToggle.classList.toggle('is-locked', locked);
+        D.btnFadeToggle.title = !eligible
+          ? 'Richiede un\'immagine e non e disponibile per SARABANDA'
+          : (locked ? 'Modificabile solo prima dello stato domanda' : 'Applica FADE alla domanda corrente');
       }
 
       Admin.actionsSupport.syncCurrentQuestionHighlight();

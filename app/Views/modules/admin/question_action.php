@@ -40,7 +40,6 @@
             <option value="BOMB">BOMB</option>
             <option value="CHAOS">CHAOS</option>
             <option value="AUDIO_PARTY">AUDIO_PARTY</option>
-            <option value="IMAGE_PARTY">IMAGE_PARTY</option>
         </select>
     </div>
 

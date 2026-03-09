@@ -30,6 +30,7 @@ final class ScoreEngine
             case QuestionMode::CHAOS:
             case QuestionMode::AUDIO_PARTY:
             case QuestionMode::IMAGE_PARTY:
+            case QuestionMode::FADE:
             default:
                 // Fallback compatibile: tutte le nuove modalita partono dal punteggio classico.
                 return $this->classic->calculate($context);

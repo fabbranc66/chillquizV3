@@ -26,6 +26,8 @@
     sessionImageSearchSessionId: 0,
     impostoreEnabled: false,
     memeEnabled: false,
+    imagePartyEnabled: false,
+    fadeEnabled: false,
     memeText: '',
     memeDraftText: '',
     currentSessionState: null,

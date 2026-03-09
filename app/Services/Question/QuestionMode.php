@@ -15,6 +15,7 @@ final class QuestionMode
     public const CHAOS = 'CHAOS';
     public const AUDIO_PARTY = 'AUDIO_PARTY';
     public const IMAGE_PARTY = 'IMAGE_PARTY';
+    public const FADE = 'FADE';
 
     public static function normalize(?string $value): string
     {
@@ -36,6 +37,7 @@ final class QuestionMode
             self::CHAOS,
             self::AUDIO_PARTY,
             self::IMAGE_PARTY,
+            self::FADE,
         ];
 
         return in_array($candidate, $allowed, true) ? $candidate : self::CLASSIC;

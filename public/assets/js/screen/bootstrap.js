@@ -21,9 +21,11 @@
     mediaPollMs: 30000,
     currentState: null,
     currentTimerStart: 0,
+    currentTimerMax: 0,
     domandaRenderizzata: false,
     currentDomandaData: null,
     mediaAttiva: null,
+    pixelateTimer: null,
     lastAudioPreviewToken: '',
     pendingAudioPreview: null,
     previewAudio: null,
@@ -41,6 +43,8 @@
   };
 
   ScreenApp.copy = {
+    imagePartyNotice: 'Modalita PIXELATE: l\'immagine si schiarisce nel tempo.',
+    fadeNotice: 'Modalita FADE: l\'immagine emerge dal nero durante il timer.',
     memeScreenNotice: 'Modalita MEME attiva.',
     impostoreScreenNotice: 'Modalita IMPOSTORE: lo schermo non mostra la domanda.',
     impostoreMaskedCaption: 'Immagine mascherata per la modalita impostore',

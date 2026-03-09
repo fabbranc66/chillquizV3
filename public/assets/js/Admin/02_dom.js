@@ -10,6 +10,8 @@
     memeTextInput: document.getElementById('memeTextInput'),
     btnMemeToggle: document.getElementById('btnMemeToggle'),
     btnImpostoreToggle: document.getElementById('btnImpostoreToggle'),
+    btnImagePartyToggle: document.getElementById('btnImagePartyToggle'),
+    btnFadeToggle: document.getElementById('btnFadeToggle'),
     btnDebugSessione: document.getElementById('btnDebugSessione'),
     debugSessionePanel: document.getElementById('debug-sessione-panel'),
     debugSessioneOutput: document.getElementById('debug-sessione-output'),

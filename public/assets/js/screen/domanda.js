@@ -132,6 +132,8 @@
     const {
       isSarabandaIntro,
       isImpostoreMasked,
+      isImageParty,
+      isFadeMode,
       isMemeMode,
       showCorrect,
       correctOptionId,
@@ -141,10 +143,10 @@
     const opzioni = document.getElementById('opzioni');
     if (!titolo || !opzioni) return;
 
-    titolo.innerText = isImpostoreMasked ? '' : (isSarabandaIntro ? '' : (domanda.testo || ''));
-    ScreenApp.domandaSupport.renderStatusMessage(domanda, isMemeMode, isImpostoreMasked);
+    titolo.innerText = (isImpostoreMasked || isSarabandaIntro || isImageParty || isFadeMode) ? '' : (domanda.testo || '');
+    ScreenApp.domandaSupport.renderStatusMessage(domanda, isMemeMode, isImpostoreMasked, isImageParty, isFadeMode);
     ScreenApp.domandaAudio.renderQuestionTypeBadge(domanda);
-    ScreenApp.domandaSupport.renderQuestionMediaForState(domanda, isImpostoreMasked, isSarabandaIntro);
+    ScreenApp.domandaSupport.renderQuestionMediaForState(domanda, isImpostoreMasked, isSarabandaIntro, isImageParty, isFadeMode);
 
     opzioni.innerHTML = '';
 

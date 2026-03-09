@@ -8,6 +8,7 @@
 <div id="screen-domanda" class="hidden">
     <div id="domanda-media-screen" class="domanda-media-wrap hidden" aria-live="polite">
         <img id="domanda-media-image-screen" class="domanda-media-image hidden" alt="Media domanda">
+        <canvas id="domanda-media-canvas-screen" class="domanda-media-canvas hidden" aria-hidden="true"></canvas>
         <audio id="domanda-media-audio-screen" class="domanda-media-audio hidden" preload="metadata"></audio>
         <div id="domanda-media-caption-screen" class="domanda-media-caption hidden"></div>
     </div>

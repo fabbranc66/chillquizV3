@@ -27,9 +27,10 @@
     D.domandaStatusMessage.classList.add('hidden');
     D.domandaStatusMessage.classList.remove('is-impostore');
     D.domandaStatusMessage.classList.remove('is-meme');
+    D.domandaStatusMessage.classList.remove('is-image-party');
   }
 
-  function renderStatusMessage(domanda, isMemeMode, isImpostoreMasked, isImpostore) {
+  function renderStatusMessage(domanda, isMemeMode, isImpostoreMasked, isImpostore, isImageParty, isFadeMode) {
     if (!D.domandaStatusMessage) {
       return;
     }
@@ -39,6 +40,19 @@
       D.domandaStatusMessage.classList.remove('hidden');
       D.domandaStatusMessage.classList.add('is-meme');
       D.domandaStatusMessage.classList.remove('is-impostore');
+      return;
+    }
+
+    if (isImageParty || isFadeMode) {
+      D.domandaStatusMessage.innerText = String(
+        isFadeMode
+          ? (domanda.fade_notice || Copy.fadeNotice)
+          : (domanda.image_party_notice || Copy.imagePartyNotice)
+      );
+      D.domandaStatusMessage.classList.remove('hidden');
+      D.domandaStatusMessage.classList.add('is-image-party');
+      D.domandaStatusMessage.classList.remove('is-impostore');
+      D.domandaStatusMessage.classList.remove('is-meme');
       return;
     }
 
@@ -62,7 +76,7 @@
   }
 
   function renderDomandaMedia(domanda, imageOnly = false, overrides = {}) {
-    const { wrap, image, audio, caption } = Support.getMediaNodes();
+    const { wrap, image, canvas, audio, caption } = Support.getMediaNodes();
     if (!wrap) return;
 
     const mediaPath = String(overrides.media_image_path || domanda?.media_image_path || '').trim();
@@ -74,22 +88,38 @@
     let hasAny = false;
 
     if (image && imageUrl) {
-      if (S.lastMediaUrl !== imageUrl) {
-        image.onerror = () => {
-          image.removeAttribute('src');
-          image.classList.add('hidden');
-          wrap.classList.add('media-slot-empty');
-          wrap.classList.remove('has-media');
-        };
+      if (String(image.getAttribute('src') || '') !== imageUrl) {
         image.src = imageUrl;
-        S.lastMediaUrl = imageUrl;
       }
-      image.classList.remove('hidden');
+      image.onerror = () => {
+        image.removeAttribute('src');
+        image.classList.add('hidden');
+        if (canvas) canvas.classList.add('hidden');
+        wrap.classList.add('media-slot-empty');
+        wrap.classList.remove('has-media');
+      };
+      image.style.opacity = '1';
+      if (canvas) {
+        canvas.style.opacity = '1';
+      }
+      if (overrides.is_image_party || overrides.is_fade_mode) {
+        image.classList.remove('hidden');
+        image.style.opacity = '0';
+      } else {
+        image.style.opacity = '1';
+        image.classList.remove('hidden');
+      }
+      S.lastMediaUrl = imageUrl;
       hasAny = true;
     } else if (image) {
       image.onerror = null;
       image.removeAttribute('src');
+      image.style.opacity = '1';
       image.classList.add('hidden');
+      if (canvas) {
+        canvas.style.opacity = '1';
+        canvas.classList.add('hidden');
+      }
       S.lastMediaUrl = '';
     }
 
@@ -113,6 +143,25 @@
     wrap.classList.remove('hidden');
     wrap.classList.toggle('has-media', hasAny);
     wrap.classList.toggle('media-slot-empty', !hasAny);
+    wrap.classList.toggle('is-image-party', !!overrides.is_image_party || !!overrides.is_fade_mode);
+
+    if ((overrides.is_image_party || overrides.is_fade_mode) && imageUrl) {
+      if (overrides.is_fade_mode) {
+        Support.startFadeRender(domanda, !!domanda?.show_correct);
+      } else {
+        Support.startPixelateRender(domanda, !!domanda?.show_correct);
+      }
+    } else {
+      Support.stopPixelateRender();
+      if (canvas) {
+        canvas.style.opacity = '1';
+        canvas.classList.add('hidden');
+      }
+      if (image && imageUrl) {
+        image.style.opacity = '1';
+        image.classList.remove('hidden');
+      }
+    }
   }
 
   function renderMemeButtons(domanda, showCorrect, correctOptionId) {
@@ -166,6 +215,7 @@
 
   function resetDomandaView() {
     Support.stopMemeRotation();
+    Support.stopPixelateRender();
     S.renderedDomandaKey = '';
     if (D.domandaTesto) D.domandaTesto.innerText = '';
     clearStatusMessage();
@@ -245,12 +295,14 @@
     const correctOptionId = String(domanda.correct_option_id || '');
     const isImpostoreMasked = !!domanda.impostore_masked;
     const isImpostore = !!domanda.is_impostore;
+    const isImageParty = tipoDomanda === 'IMAGE_PARTY' && String(domanda.media_image_path || '').trim() !== '';
+    const isFadeMode = tipoDomanda === 'FADE' && String(domanda.media_image_path || '').trim() !== '';
     const hasMemeDecoratedOptions = Array.isArray(domanda.opzioni)
       && domanda.opzioni.some((opzione) => String(opzione?.display_text || '') !== '');
     const isMemeMode = !!domanda.meme_mode || tipoDomanda === 'MEME' || hasMemeDecoratedOptions;
 
-    D.domandaTesto.innerText = (isSarabandaIntro || isMemeMode || isImpostoreMasked) ? '' : (domanda.testo || '');
-    renderStatusMessage(domanda, isMemeMode, isImpostoreMasked, isImpostore);
+    D.domandaTesto.innerText = (isSarabandaIntro || isMemeMode || isImpostoreMasked || isImageParty || isFadeMode) ? '' : (domanda.testo || '');
+    renderStatusMessage(domanda, isMemeMode, isImpostoreMasked, isImpostore, isImageParty, isFadeMode);
 
     S.badgeQuestionId = domandaId;
     S.badgeTipoDomanda = tipoDomanda;
@@ -261,6 +313,10 @@
         media_image_path: '/assets/img/player/impostore-fake.svg',
         media_caption: 'Immagine mascherata per l\'impostore',
       });
+    } else if (isImageParty) {
+      renderDomandaMedia(domanda, false, { is_image_party: true });
+    } else if (isFadeMode) {
+      renderDomandaMedia(domanda, false, { is_fade_mode: true });
     } else if (isSarabandaIntro) {
       renderDomandaMedia(domanda, true);
     } else {

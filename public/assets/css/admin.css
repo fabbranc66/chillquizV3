@@ -24,8 +24,10 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 8px;
+    width: 100%;
+    text-align: left;
 }
 
 .sessione-hero {
@@ -88,6 +90,82 @@ h2 {
 
 .badge-input::placeholder {
     color: rgba(255,255,255,.68);
+}
+
+.effect-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    padding: 6px 8px;
+    margin: 3px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.04);
+    text-align: left;
+}
+
+.effect-group-options {
+    justify-content: space-between;
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 820px;
+    margin-left: 0;
+}
+
+.effect-group-image {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 820px;
+    margin-left: 0;
+}
+
+.effect-group-controls {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.effect-group-controls-left {
+    justify-content: flex-start;
+    flex: 1 1 auto;
+}
+
+.effect-group-controls-right {
+    justify-content: flex-end;
+    flex: 1 1 280px;
+}
+
+.effect-group-label {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: rgba(0,0,0,.22);
+    color: rgba(255,255,255,.78);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.effect-group-controls-right .badge-input {
+    min-width: min(320px, 48vw);
+}
+
+.effect-inline-pair {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.effect-inline-pair .badge-input {
+    min-width: min(160px, 21vw);
+    width: min(160px, 21vw);
 }
 
 /* ================= CARD LOOK ================= */

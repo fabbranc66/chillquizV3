@@ -25,6 +25,7 @@
       const sessione = data.sessione;
       const stato = sessione.stato;
       S.domandaTimerStart = Number(sessione?.timer_start || 0);
+      S.domandaTimerMax = Number(sessione?.timer_max || 0);
       const stateChanged = Support.handleStateTransition(stato);
 
       if (!(stato === 'puntata' && !stateChanged)) {

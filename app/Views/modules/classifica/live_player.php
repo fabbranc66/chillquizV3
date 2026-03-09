@@ -7,8 +7,13 @@
 <div class="module-debug-tag">classifica/live_player.php</div>
 <!-- RISULTATI -->
 <div id="screen-risultati" class="screen hidden">
-    <h2 id="screen-risultati-title">Risultati</h2>
+    <div class="risultati-header">
+        <div class="risultati-kicker">Esito round</div>
+        <h2 id="screen-risultati-title">Risultati</h2>
+    </div>
 
-    <div id="risultato-personale" class="risultato-box"></div>
-    <div id="classifica" class="classifica-list"></div>
+    <div class="risultati-stack">
+        <div id="risultato-personale" class="risultato-box"></div>
+        <div id="classifica" class="classifica-list"></div>
+    </div>
 </div>

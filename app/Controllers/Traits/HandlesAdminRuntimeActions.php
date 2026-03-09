@@ -5,6 +5,8 @@ namespace App\Controllers\Traits;
 use App\Core\Database;
 use App\Models\JoinRichiesta;
 use App\Models\Sessione;
+use App\Services\Question\FadeModeService;
+use App\Services\Question\ImagePartyModeService;
 use App\Services\Question\ImpostoreModeService;
 use App\Services\Question\MemeModeService;
 use App\Services\SessioneService;
@@ -114,6 +116,8 @@ trait HandlesAdminRuntimeActions
                 $questionId = (int) ($currentQuestion['id'] ?? 0);
                 $impostoreService = new ImpostoreModeService();
                 $memeService = new MemeModeService();
+                $imagePartyService = new ImagePartyModeService();
+                $fadeService = new FadeModeService();
                 $pdo = Database::getInstance();
 
                 $puntateLiveStmt = $pdo->prepare(
@@ -163,6 +167,10 @@ trait HandlesAdminRuntimeActions
                             'impostore_assignment' => $questionId > 0 ? $impostoreService->getAssignment($targetSessioneId, $questionId) : null,
                             'meme_enabled' => $questionId > 0 ? $memeService->isEnabledForQuestion($targetSessioneId, $questionId) : false,
                             'meme_state' => $memeService->getRuntimeState($targetSessioneId),
+                            'image_party_enabled' => $questionId > 0 ? $imagePartyService->isEnabledForQuestion($targetSessioneId, $questionId) : false,
+                            'image_party_state' => $imagePartyService->getRuntimeState($targetSessioneId),
+                            'fade_enabled' => $questionId > 0 ? $fadeService->isEnabledForQuestion($targetSessioneId, $questionId) : false,
+                            'fade_state' => $fadeService->getRuntimeState($targetSessioneId),
                         ],
                         'puntate_live' => $puntateLiveStmt->fetchAll() ?: [],
                         'classifica' => $service->classifica(),
@@ -297,6 +305,142 @@ trait HandlesAdminRuntimeActions
                     'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
                     'enabled' => $memeService->isEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
                     'meme_text' => trim((string) ($state['meme_text'] ?? '')),
+                ]);
+                return true;
+
+            case 'image-party-toggle':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non valida'
+                    ]);
+                    return true;
+                }
+
+                $sessionRow = (new Sessione())->trova($targetSessioneId);
+                if (!$sessionRow) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non trovata'
+                    ]);
+                    return true;
+                }
+
+                if (in_array((string) ($sessionRow['stato'] ?? ''), ['domanda', 'conclusa'], true)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'PIXELATE modificabile solo prima dello stato domanda'
+                    ]);
+                    return true;
+                }
+
+                $currentQuestion = $this->loadCurrentQuestionForSession($targetSessioneId);
+                if (!$currentQuestion) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Domanda corrente non disponibile'
+                    ]);
+                    return true;
+                }
+
+                $modeMeta = (new \App\Services\Question\QuestionModeResolver())->resolveFromRow($currentQuestion);
+                $currentType = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
+                if ($currentType === 'SARABANDA') {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'PIXELATE non disponibile su domande SARABANDA'
+                    ]);
+                    return true;
+                }
+
+                if (trim((string) ($currentQuestion['media_image_path'] ?? '')) === '') {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'PIXELATE richiede un\'immagine sulla domanda corrente'
+                    ]);
+                    return true;
+                }
+
+                $enabled = (int) ($_POST['enabled'] ?? 0) === 1;
+                $imagePartyService = new ImagePartyModeService();
+                (new FadeModeService())->clearRuntimeState($targetSessioneId);
+                $imagePartyService->setEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled);
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
+                    'enabled' => $imagePartyService->isEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
+                ]);
+                return true;
+
+            case 'fade-toggle':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non valida'
+                    ]);
+                    return true;
+                }
+
+                $sessionRow = (new Sessione())->trova($targetSessioneId);
+                if (!$sessionRow) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non trovata'
+                    ]);
+                    return true;
+                }
+
+                if (in_array((string) ($sessionRow['stato'] ?? ''), ['domanda', 'conclusa'], true)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'FADE modificabile solo prima dello stato domanda'
+                    ]);
+                    return true;
+                }
+
+                $currentQuestion = $this->loadCurrentQuestionForSession($targetSessioneId);
+                if (!$currentQuestion) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Domanda corrente non disponibile'
+                    ]);
+                    return true;
+                }
+
+                $modeMeta = (new \App\Services\Question\QuestionModeResolver())->resolveFromRow($currentQuestion);
+                $currentType = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
+                if ($currentType === 'SARABANDA') {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'FADE non disponibile su domande SARABANDA'
+                    ]);
+                    return true;
+                }
+
+                if (trim((string) ($currentQuestion['media_image_path'] ?? '')) === '') {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'FADE richiede un\'immagine sulla domanda corrente'
+                    ]);
+                    return true;
+                }
+
+                $enabled = (int) ($_POST['enabled'] ?? 0) === 1;
+                $fadeService = new FadeModeService();
+                (new ImagePartyModeService())->clearRuntimeState($targetSessioneId);
+                $fadeService->setEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled);
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
+                    'enabled' => $fadeService->isEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
                 ]);
                 return true;
 

@@ -10,6 +10,8 @@
     networkDebugError: 'Errore rete debug sessione',
     networkImpostoreError: 'Errore rete durante toggle IMPOSTORE',
     networkMemeError: 'Errore rete durante toggle MEME',
+    networkImagePartyError: 'Errore rete durante toggle PIXELATE',
+    networkFadeError: 'Errore rete durante toggle FADE',
     memeTextRequired: 'Inserisci prima il testo MEME',
   };
 

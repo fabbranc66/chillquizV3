@@ -6,7 +6,7 @@
   const { escapeHtml } = Admin.utils;
   const { addLog } = Admin.log;
 
-  const TYPES_WITH_MEDIA = new Set(['MEDIA', 'SARABANDA', 'AUDIO_PARTY', 'IMAGE_PARTY']);
+  const TYPES_WITH_MEDIA = new Set(['MEDIA', 'SARABANDA', 'AUDIO_PARTY']);
   const AUDIO_PREVIEW_STORAGE_PREFIX = 'chillquiz_audio_preview_';
 
   function yesNo(value) {
@@ -17,7 +17,7 @@
     const value = String(raw || '').trim().toUpperCase();
     const allowed = [
       'CLASSIC', 'MEDIA', 'SARABANDA', 'IMPOSTORE', 'MEME', 'MAJORITY',
-      'RANDOM_BONUS', 'BOMB', 'CHAOS', 'AUDIO_PARTY', 'IMAGE_PARTY',
+      'RANDOM_BONUS', 'BOMB', 'CHAOS', 'AUDIO_PARTY',
     ];
     return allowed.includes(value) ? value : 'CLASSIC';
   }

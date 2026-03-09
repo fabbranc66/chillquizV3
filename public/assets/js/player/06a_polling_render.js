@@ -7,9 +7,13 @@
 
   function resetRoundInteractionFlags() {
     S.rispostaInviata = false;
-    S.puntataInviata = false;
     S.selectedAnswerDomandaId = 0;
     S.selectedAnswerOptionId = 0;
+  }
+
+  function resetRoundForNewQuestionCycle() {
+    resetRoundInteractionFlags();
+    S.puntataInviata = false;
   }
 
   function handleStateTransition(nextState) {
@@ -21,7 +25,14 @@
     }
 
     S.currentState = nextState;
-    resetRoundInteractionFlags();
+
+    if (nextState === 'puntata' || nextState === 'attesa' || nextState === 'conclusa') {
+      resetRoundForNewQuestionCycle();
+    } else if (nextState === 'domanda') {
+      S.rispostaInviata = false;
+      S.selectedAnswerDomandaId = 0;
+      S.selectedAnswerOptionId = 0;
+    }
 
     if (nextState !== 'risultati') {
       Player.classifica.clearImmediateResult?.();
@@ -144,6 +155,7 @@
 
   Player.pollingSupport = {
     resetRoundInteractionFlags,
+    resetRoundForNewQuestionCycle,
     handleStateTransition,
     resetTimerUI,
     renderTimer,

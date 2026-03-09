@@ -15,6 +15,8 @@ use App\Models\Utente;
 use App\Models\ScreenMedia;
 use App\Models\AppSettings;
 use App\Services\Question\ImpostoreModeService;
+use App\Services\Question\FadeModeService;
+use App\Services\Question\ImagePartyModeService;
 use App\Services\Question\MemeModeService;
 use App\Services\SessioneService;
 use Throwable;
@@ -205,6 +207,7 @@ class ApiController
             'CHAOS' => 'CHS',
             'AUDIO_PARTY' => 'AUD',
             'IMAGE_PARTY' => 'IMG',
+            'FADE' => 'FAD',
         ];
 
         $key = strtoupper(trim((string) ($tipoDomanda ?? 'CLASSIC')));
@@ -386,6 +389,7 @@ class ApiController
                     ? (new \App\Services\Question\QuestionModeResolver())->resolveFromRow($currentQuestion)
                     : [];
                 $currentType = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
+                $hasImage = is_array($currentQuestion) && trim((string) ($currentQuestion['media_image_path'] ?? '')) !== '';
                 $eligible = is_array($currentQuestion) && $currentType !== 'SARABANDA';
                 $impostoreService = new ImpostoreModeService();
                 $enabled = $eligible
@@ -398,6 +402,16 @@ class ApiController
                 $memeEnabled = $eligible
                     ? $memeService->isEnabledForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
                     : false;
+                $imagePartyService = new ImagePartyModeService();
+                $imagePartyEligible = $eligible && $hasImage;
+                $imagePartyEnabled = $imagePartyEligible
+                    ? $imagePartyService->isEnabledForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
+                    : false;
+                $fadeService = new FadeModeService();
+                $fadeEligible = $eligible && $hasImage;
+                $fadeEnabled = $fadeEligible
+                    ? $fadeService->isEnabledForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
+                    : false;
 
                 $sessione['impostore_enabled'] = $enabled;
                 $sessione['impostore_eligible'] = (bool) $eligible;
@@ -408,6 +422,14 @@ class ApiController
                 $sessione['meme_locked'] = $locked;
                 $sessione['meme_question_id'] = (int) ($currentQuestion['id'] ?? 0);
                 $sessione['meme_text'] = trim((string) ($memeState['meme_text'] ?? ''));
+                $sessione['image_party_enabled'] = $imagePartyEnabled;
+                $sessione['image_party_eligible'] = (bool) $imagePartyEligible;
+                $sessione['image_party_locked'] = $locked;
+                $sessione['image_party_question_id'] = (int) ($currentQuestion['id'] ?? 0);
+                $sessione['fade_enabled'] = $fadeEnabled;
+                $sessione['fade_eligible'] = (bool) $fadeEligible;
+                $sessione['fade_locked'] = $locked;
+                $sessione['fade_question_id'] = (int) ($currentQuestion['id'] ?? 0);
             }
 
             $this->json([

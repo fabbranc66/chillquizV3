@@ -9,6 +9,7 @@
 <div id="screen-domanda" class="screen hidden">
     <div id="domanda-media-player" class="domanda-media-wrap hidden" aria-live="polite">
         <img id="domanda-media-image-player" class="domanda-media-image hidden" alt="Media domanda">
+        <canvas id="domanda-media-canvas-player" class="domanda-media-canvas hidden" aria-hidden="true"></canvas>
         <div id="domanda-media-caption-player" class="domanda-media-caption hidden"></div>
     </div>
     <div id="domanda-status-message-player" class="domanda-status-message hidden"></div>

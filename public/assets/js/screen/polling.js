@@ -44,6 +44,7 @@
 
       S.currentState = data.sessione?.stato || null;
       S.currentTimerStart = Number(data.sessione?.timer_start || 0);
+      S.currentTimerMax = Number(data.sessione?.timer_max || 0);
       ScreenApp.state.renderStageTimer(data.sessione || null);
 
       if (ScreenApp.state.isDomandaState()) {

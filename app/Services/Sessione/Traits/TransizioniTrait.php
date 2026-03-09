@@ -3,6 +3,8 @@
 namespace App\Services\Sessione\Traits;
 
 use App\Models\Partecipazione;
+use App\Services\Question\FadeModeService;
+use App\Services\Question\ImagePartyModeService;
 use App\Services\Question\ImpostoreModeService;
 use App\Services\Question\MemeModeService;
 use App\Services\Question\QuestionRuntimeModeService;
@@ -14,6 +16,8 @@ trait TransizioniTrait
     {
         (new ImpostoreModeService())->clearRuntimeState($this->sessioneId);
         (new MemeModeService())->clearRuntimeState($this->sessioneId);
+        (new ImagePartyModeService())->clearRuntimeState($this->sessioneId);
+        (new FadeModeService())->clearRuntimeState($this->sessioneId);
     }
 
     private function resolveCurrentQuestionModeMeta(array $domandaCorrente): array

@@ -22,7 +22,7 @@
       }
 
       if (D.domandaEditorRowParty) {
-        const partyTypes = ['AUDIO_PARTY', 'IMAGE_PARTY', 'CHAOS', 'RANDOM_BONUS', 'BOMB', 'IMPOSTORE', 'MAJORITY'];
+        const partyTypes = ['AUDIO_PARTY', 'CHAOS', 'RANDOM_BONUS', 'BOMB', 'IMPOSTORE', 'MAJORITY'];
         D.domandaEditorRowParty.style.display = partyTypes.includes(tipo) ? 'block' : 'none';
       }
     },

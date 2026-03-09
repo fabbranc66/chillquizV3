@@ -298,6 +298,72 @@
         });
       }
     },
+
+    async toggleImagePartyCorrente() {
+      const targetSessioneId = Runtime.readTargetSessioneId();
+      if (targetSessioneId <= 0) {
+        addLog({ ok: false, title: 'image-party-toggle', message: Copy.invalidSession, data: {} });
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('sessione_id', String(targetSessioneId));
+      formData.append('enabled', S.imagePartyEnabled ? '0' : '1');
+
+      try {
+        const data = await Runtime.fetchAdminJson('image-party-toggle', 0, formData);
+        Runtime.logActionResult(
+          'image-party-toggle',
+          data,
+          `PIXELATE ${data.enabled ? 'attivato' : 'disattivato'} per la domanda corrente`
+        );
+
+        if (data.success) {
+          S.imagePartyEnabled = !!data.enabled;
+          await Runtime.refreshRuntimeContext();
+        }
+      } catch (e) {
+        addLog({
+          ok: false,
+          title: 'image-party-toggle',
+          message: Copy.networkImagePartyError,
+          data: { error: String(e?.message || e) },
+        });
+      }
+    },
+
+    async toggleFadeCorrente() {
+      const targetSessioneId = Runtime.readTargetSessioneId();
+      if (targetSessioneId <= 0) {
+        addLog({ ok: false, title: 'fade-toggle', message: Copy.invalidSession, data: {} });
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('sessione_id', String(targetSessioneId));
+      formData.append('enabled', S.fadeEnabled ? '0' : '1');
+
+      try {
+        const data = await Runtime.fetchAdminJson('fade-toggle', 0, formData);
+        Runtime.logActionResult(
+          'fade-toggle',
+          data,
+          `FADE ${data.enabled ? 'attivato' : 'disattivato'} per la domanda corrente`
+        );
+
+        if (data.success) {
+          S.fadeEnabled = !!data.enabled;
+          await Runtime.refreshRuntimeContext();
+        }
+      } catch (e) {
+        addLog({
+          ok: false,
+          title: 'fade-toggle',
+          message: Copy.networkFadeError,
+          data: { error: String(e?.message || e) },
+        });
+      }
+    },
   });
 
   window.gestisciJoin = (requestId, action) => Admin.actions.gestisciJoin(requestId, action);
