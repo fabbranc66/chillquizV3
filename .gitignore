@@ -1,3 +1,5 @@
+.vscode/
+
 storage/runtime/**
 !storage/runtime/
 !storage/runtime/.gitkeep
