@@ -7,7 +7,8 @@
 <div class="module-debug-tag">classifica/live_player.php</div>
 <!-- RISULTATI -->
 <div id="screen-risultati" class="screen hidden">
-    <h2>Risultati</h2>
+    <h2 id="screen-risultati-title">Risultati</h2>
 
     <div id="risultato-personale" class="risultato-box"></div>
+    <div id="classifica" class="classifica-list"></div>
 </div>

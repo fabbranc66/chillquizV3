@@ -27,6 +27,7 @@
     timerLabel: document.getElementById('player-header-timer-label') || document.getElementById('player-timer-label'),
 
     // risultati/classifica
+    risultatiTitle: document.getElementById('screen-risultati-title'),
     risultatoPersonale: document.getElementById('risultato-personale'),
     classifica: document.getElementById('classifica'),
 

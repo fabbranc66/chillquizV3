@@ -100,8 +100,17 @@
         break;
 
       case 'risultati':
+        Player.screens.showOnly('screen-risultati');
+        if (D.risultatiTitle) D.risultatiTitle.textContent = 'Risultati';
+        if (D.risultatoPersonale) D.risultatoPersonale.classList.remove('hidden');
+        Player.classifica.fetchClassifica();
+        resetTimerUI();
+        break;
+
       case 'conclusa':
         Player.screens.showOnly('screen-risultati');
+        if (D.risultatiTitle) D.risultatiTitle.textContent = 'Classifica finale';
+        if (D.risultatoPersonale) D.risultatoPersonale.classList.add('hidden');
         Player.classifica.fetchClassifica();
         resetTimerUI();
         break;

@@ -517,6 +517,10 @@ input {
     margin-top: 12px;
 }
 
+.classifica-list {
+    margin-top: 14px;
+}
+
 .classifica-item {
     display: grid;
     grid-template-columns: auto 1fr auto;
