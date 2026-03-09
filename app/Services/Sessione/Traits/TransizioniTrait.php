@@ -5,6 +5,7 @@ namespace App\Services\Sessione\Traits;
 use App\Models\Partecipazione;
 use App\Services\Question\ImpostoreModeService;
 use App\Services\Question\MemeModeService;
+use App\Services\Question\QuestionModeResolver;
 use RuntimeException;
 
 trait TransizioniTrait
@@ -56,7 +57,10 @@ trait TransizioniTrait
 
         $timestamp = round(microtime(true), 3);
         $domandaCorrente = $this->domandaCorrente();
-        $tipoDomanda = strtoupper(trim((string) ($domandaCorrente['tipo_domanda'] ?? 'CLASSIC')));
+        $modeMeta = (new QuestionModeResolver())->resolveFromRow(is_array($domandaCorrente) ? $domandaCorrente : []);
+        $modeMeta = (new ImpostoreModeService())->applyRuntimeOverride($this->sessioneId, (int) ($domandaCorrente['id'] ?? 0), $modeMeta);
+        $modeMeta = (new MemeModeService())->applyRuntimeOverride($this->sessioneId, (int) ($domandaCorrente['id'] ?? 0), $modeMeta);
+        $tipoDomanda = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
         $hasAudio = trim((string) ($domandaCorrente['media_audio_path'] ?? '')) !== '';
 
         if ($tipoDomanda === 'IMPOSTORE') {

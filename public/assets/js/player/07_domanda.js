@@ -130,6 +130,40 @@
     return url.toString();
   }
 
+  function shouldMarkQuestionShown(domandaId, timerStart) {
+    return (
+      S.questionShownDomandaId !== domandaId
+      || S.questionShownTimerStart !== timerStart
+      || !Number.isFinite(S.questionShownAtPerf)
+      || S.questionShownAtPerf <= 0
+    );
+  }
+
+  function markQuestionShown(domandaId, timerStart) {
+    S.questionShownAtPerf = (typeof performance !== 'undefined' && typeof performance.now === 'function')
+      ? performance.now()
+      : Date.now();
+    S.questionShownDomandaId = domandaId;
+    S.questionShownTimerStart = timerStart;
+  }
+
+  function freezeAnsweredQuestion(domandaId, opzioneId) {
+    S.renderedDomandaKey = `answered||${Number(domandaId || 0)}||${String(opzioneId || '')}`;
+  }
+
+  function buildMemeButtonDescriptors(baseOptions, step, letters = ['A', 'B', 'C', 'D']) {
+    const slotCount = Math.max(1, letters.length);
+    return baseOptions.map((opzione, index) => {
+      const positionIndex = ((index + step) % slotCount + slotCount) % slotCount;
+      return {
+        opzione,
+        positionIndex,
+        palette: (positionIndex % 4) + 1,
+        letter: letters[index] || String(index + 1),
+      };
+    }).sort((left, right) => left.positionIndex - right.positionIndex);
+  }
+
   Player.domandaSupport = {
     resolveMediaUrl,
     getMediaNodes,
@@ -142,5 +176,9 @@
     getMemeRotationStep,
     getMemeSlots,
     buildDomandaRequestUrl,
+    shouldMarkQuestionShown,
+    markQuestionShown,
+    freezeAnsweredQuestion,
+    buildMemeButtonDescriptors,
   };
 })();

@@ -10,8 +10,9 @@
     const container = D.risultatoPersonale;
     if (!container) return;
 
-    if (S.lastImmediateResult && typeof S.lastImmediateResult === 'object') {
-      renderRisultatoPersonaleImmediato(S.lastImmediateResult);
+    const immediateResult = Support.getImmediateResult();
+    if (immediateResult) {
+      renderRisultatoPersonaleImmediato(immediateResult);
       return;
     }
 
@@ -63,7 +64,7 @@
   function renderRisultatoPersonaleImmediato(risultato) {
     const container = D.risultatoPersonale;
     if (!container || !risultato || typeof risultato !== 'object') return;
-    S.lastImmediateResult = risultato;
+    Support.setImmediateResult(risultato);
 
     const esito = risultato.corretta ? 'corretta' : 'errata';
     const puntata = Number(risultato.puntata ?? 0);
@@ -146,6 +147,8 @@
     fetchClassifica,
     renderRisultatoPersonaleImmediato,
     renderRisultatoPersonaleDaClassifica,
+    setImmediateResult: Support.setImmediateResult,
+    clearImmediateResult: Support.clearImmediateResult,
     aggiornaCapitaleDaClassifica: Support.aggiornaCapitaleDaClassifica,
     getMiaRigaClassifica: Support.getMiaRigaClassifica,
   };

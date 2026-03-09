@@ -5,6 +5,29 @@
   const D = Player.dom;
   const { isDomandaAttiva } = Player.utils;
 
+  function resetRoundInteractionFlags() {
+    S.rispostaInviata = false;
+    S.puntataInviata = false;
+  }
+
+  function handleStateTransition(nextState) {
+    const previousState = S.currentState;
+    const stateChanged = nextState !== previousState;
+
+    if (!stateChanged) {
+      return false;
+    }
+
+    S.currentState = nextState;
+    resetRoundInteractionFlags();
+
+    if (nextState !== 'risultati') {
+      Player.classifica.clearImmediateResult?.();
+    }
+
+    return true;
+  }
+
   function resetTimerUI() {
     if (S.timerInterval) {
       clearInterval(S.timerInterval);
@@ -103,5 +126,11 @@
     }
   }
 
-  Player.pollingSupport = { resetTimerUI, renderTimer, renderState };
+  Player.pollingSupport = {
+    resetRoundInteractionFlags,
+    handleStateTransition,
+    resetTimerUI,
+    renderTimer,
+    renderState,
+  };
 })();

@@ -68,21 +68,11 @@
       }
 
       S.memeRotationStep = step;
-      const slotCount = Math.max(1, letters.length);
       D.opzioniDiv.innerHTML = '';
 
-      const descriptors = baseOptions.map((opzione, index) => {
-        const positionIndex = ((index + step) % slotCount + slotCount) % slotCount;
-        return {
-          opzione,
-          index,
-          positionIndex,
-          palette: (positionIndex % 4) + 1,
-          letter: letters[index] || String(index + 1),
-        };
-      }).sort((left, right) => left.positionIndex - right.positionIndex);
+      const descriptors = Support.buildMemeButtonDescriptors(baseOptions, step, letters);
 
-      descriptors.forEach(({ opzione, index, palette, letter }) => {
+      descriptors.forEach(({ opzione, palette, letter }) => {
         const btn = document.createElement('button');
         btn.innerText = letter;
         btn.dataset.id = String(opzione?.id || '');
@@ -251,17 +241,8 @@
     }
 
     const timerStart = Number(S.domandaTimerStart || 0);
-    if (
-      S.questionShownDomandaId !== domandaId
-      || S.questionShownTimerStart !== timerStart
-      || !Number.isFinite(S.questionShownAtPerf)
-      || S.questionShownAtPerf <= 0
-    ) {
-      S.questionShownAtPerf = (typeof performance !== 'undefined' && typeof performance.now === 'function')
-        ? performance.now()
-        : Date.now();
-      S.questionShownDomandaId = domandaId;
-      S.questionShownTimerStart = timerStart;
+    if (Support.shouldMarkQuestionShown(domandaId, timerStart)) {
+      Support.markQuestionShown(domandaId, timerStart);
     }
 
     if (isMemeMode) {
@@ -299,7 +280,7 @@
     if (S.rispostaInviata) return;
     S.rispostaInviata = true;
     Support.stopMemeRotation();
-    S.renderedDomandaKey = `answered||${Number(domandaId || 0)}||${String(opzioneId || '')}`;
+    Support.freezeAnsweredQuestion(domandaId, opzioneId);
 
     const buttons = document.querySelectorAll('#opzioni button');
     buttons.forEach((btn) => {
@@ -345,6 +326,7 @@
 
       Alert.hide();
       Support.stopMemeRotation();
+      Player.classifica.setImmediateResult?.(data.risultato);
       Player.classifica.renderRisultatoPersonaleImmediato(data.risultato);
     } catch (err) {
       console.error(err);

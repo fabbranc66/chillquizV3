@@ -4,6 +4,20 @@
   const S = Player.state;
   const D = Player.dom;
 
+  function getImmediateResult() {
+    return (S.lastImmediateResult && typeof S.lastImmediateResult === 'object')
+      ? S.lastImmediateResult
+      : null;
+  }
+
+  function setImmediateResult(result) {
+    S.lastImmediateResult = (result && typeof result === 'object') ? result : null;
+  }
+
+  function clearImmediateResult() {
+    S.lastImmediateResult = null;
+  }
+
   function getMiaRigaClassifica(lista) {
     if (!Array.isArray(lista) || lista.length === 0) return null;
 
@@ -67,6 +81,9 @@
   }
 
   Player.classificaSupport = {
+    getImmediateResult,
+    setImmediateResult,
+    clearImmediateResult,
     getMiaRigaClassifica,
     aggiornaCapitaleDaClassifica,
     formatTempoRisposta,

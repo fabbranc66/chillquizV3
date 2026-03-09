@@ -25,16 +25,7 @@
       const sessione = data.sessione;
       const stato = sessione.stato;
       S.domandaTimerStart = Number(sessione?.timer_start || 0);
-      const stateChanged = stato !== S.currentState;
-
-      if (stateChanged) {
-        S.currentState = stato;
-        S.rispostaInviata = false;
-        S.puntataInviata = false;
-        if (stato !== 'risultati') {
-          S.lastImmediateResult = null;
-        }
-      }
+      const stateChanged = Support.handleStateTransition(stato);
 
       if (!(stato === 'puntata' && !stateChanged)) {
         Support.renderState(sessione, stateChanged);
