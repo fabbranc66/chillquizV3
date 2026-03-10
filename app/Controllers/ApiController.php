@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\Traits\HandlesAdminMediaActions;
+use App\Controllers\Traits\HandlesAdminAudioRuntimeActions;
 use App\Controllers\Traits\HandlesAdminQuestionActions;
 use App\Controllers\Traits\HandlesAdminRuntimeActions;
 use App\Controllers\Traits\HandlesAdminSessionActions;
@@ -27,6 +28,7 @@ class ApiController
     private const SARABANDA_FAST_FORWARD_SOURCE_SEC = 20;
 
     use HandlesAdminSessionActions;
+    use HandlesAdminAudioRuntimeActions;
     use HandlesAdminRuntimeActions;
     use HandlesAdminQuestionActions;
     use HandlesAdminMediaActions;
