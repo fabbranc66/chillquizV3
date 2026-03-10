@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Modules\QuizConfigV2\QuizConfigService;
+use App\Services\Auth\AdminAuthService;
 use RuntimeException;
 use Throwable;
 
@@ -69,7 +70,7 @@ class ApiQuizConfigController
     private function getAdminToken(): string
     {
         $token = getenv('ADMIN_TOKEN');
-        return is_string($token) && $token !== '' ? $token : 'SUPERSEGRETO123';
+        return is_string($token) ? trim($token) : '';
     }
 
 
@@ -95,13 +96,10 @@ class ApiQuizConfigController
 
     private function isAdminAuthorized(): bool
     {
-        $incoming = $this->getIncomingAdminToken();
-
-        if ($incoming === null || $incoming === '') {
-            return false;
-        }
-
-        return hash_equals($this->getAdminToken(), $incoming);
+        return (new AdminAuthService())->isApiAuthorized(
+            $this->getRequestHeader('X-ADMIN-TOKEN'),
+            $this->getIncomingAdminToken()
+        );
     }
 
     private function getInput(): array

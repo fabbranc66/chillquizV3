@@ -41,6 +41,8 @@
     badgeTipoDomanda: '',
     domandaTimerStart: 0,
     domandaTimerMax: 0,
+    domandaTimerQuestionId: 0,
+    sarabandaPreviewStartedQuestionId: 0,
     questionShownAtPerf: 0,
     questionShownDomandaId: 0,
     questionShownTimerStart: 0,

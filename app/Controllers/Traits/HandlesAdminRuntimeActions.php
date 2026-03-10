@@ -4,10 +4,12 @@ namespace App\Controllers\Traits;
 
 use App\Core\Database;
 use App\Models\JoinRichiesta;
+use App\Models\Sessione;
 use App\Services\Question\FadeModeService;
 use App\Services\Question\ImagePartyModeService;
 use App\Services\Question\ImpostoreModeService;
 use App\Services\Question\MemeModeService;
+use App\Services\Question\SarabandaAudioModeService;
 use App\Services\SessioneService;
 
 trait HandlesAdminRuntimeActions
@@ -308,8 +310,16 @@ trait HandlesAdminRuntimeActions
 
                 $enabled = (int) ($_POST['enabled'] ?? 0) === 1;
                 $imagePartyService = new ImagePartyModeService();
-                (new FadeModeService())->clearRuntimeState($targetSessioneId);
-                $imagePartyService->setEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled);
+                $fadeService = new FadeModeService();
+                $fadeService->clearRuntimeState($targetSessioneId);
+                $writeOk = $imagePartyService->setEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled);
+                if (!$writeOk) {
+                    $this->json([
+                        'success' => false,
+                        'error' => $imagePartyService->getLastError() ?: 'Impossibile aggiornare lo stato PIXELATE',
+                    ]);
+                    return true;
+                }
 
                 $this->json([
                     'success' => true,
@@ -376,8 +386,16 @@ trait HandlesAdminRuntimeActions
 
                 $enabled = (int) ($_POST['enabled'] ?? 0) === 1;
                 $fadeService = new FadeModeService();
-                (new ImagePartyModeService())->clearRuntimeState($targetSessioneId);
-                $fadeService->setEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled);
+                $imagePartyService = new ImagePartyModeService();
+                $imagePartyService->clearRuntimeState($targetSessioneId);
+                $writeOk = $fadeService->setEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled);
+                if (!$writeOk) {
+                    $this->json([
+                        'success' => false,
+                        'error' => $fadeService->getLastError() ?: 'Impossibile aggiornare lo stato FADE',
+                    ]);
+                    return true;
+                }
 
                 $this->json([
                     'success' => true,

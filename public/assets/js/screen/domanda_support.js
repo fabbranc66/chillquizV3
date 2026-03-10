@@ -522,7 +522,13 @@
     return {
       tipoDomanda,
       isSarabandaIntro: tipoDomanda === 'SARABANDA'
-        && (S.currentTimerStart <= 0 || nowSec < S.currentTimerStart),
+        && (
+          Number(S.sarabandaPreviewStartedQuestionId || 0) !== Number(domanda?.id || 0)
+          || 
+          Number(S.currentTimerQuestionId || 0) !== Number(domanda?.id || 0)
+          || S.currentTimerStart <= 0
+          || nowSec < S.currentTimerStart
+        ),
       isImpostoreMasked: !!domanda?.impostore_masked,
       isImageParty: tipoDomanda === 'IMAGE_PARTY' && String(domanda?.media_image_path || '').trim() !== '',
       isFadeMode: tipoDomanda === 'FADE' && String(domanda?.media_image_path || '').trim() !== '',

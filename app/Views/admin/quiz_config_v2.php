@@ -242,7 +242,6 @@
         }
     </style>
 </head>
-<?php $adminToken = getenv('ADMIN_TOKEN') ?: 'SUPERSEGRETO123'; ?>
 <body class="<?= !empty($showModuleTags) ? 'module-tags-on' : 'module-tags-off' ?>">
 <div class="container">
     <div class="top-title">

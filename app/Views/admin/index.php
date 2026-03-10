@@ -10,7 +10,13 @@
 
 <div class="container">
 
-<h2>Regia ChillQuiz</h2>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <h2 style="margin:0;">Regia ChillQuiz</h2>
+    <div style="display:flex;align-items:center;gap:10px;font-size:13px;">
+        <span>Admin: <?= htmlspecialchars((string)($adminUsername ?? 'admin'), ENT_QUOTES, 'UTF-8') ?></span>
+        <a href="<?= htmlspecialchars(chillquiz_public_url('index.php?url=admin/logout'), ENT_QUOTES, 'UTF-8') ?>" style="color:#fff;font-weight:700;">Logout</a>
+    </div>
+</div>
 
 <div class="panel-toolbar">
     <button id="btnToggleDomandePanel" type="button">Domande</button>
@@ -53,7 +59,8 @@
 window.ADMIN_BOOTSTRAP = {
     sessioneId: <?= (int)($sessioneId ?? 0) ?>,
     nomeSessione: <?= json_encode((string)($nomeSessione ?? ''), JSON_UNESCAPED_UNICODE) ?>,
-    adminToken: "SUPERSEGRETO123",
+    adminToken: <?= json_encode((string)($adminToken ?? ''), JSON_UNESCAPED_UNICODE) ?>,
+    adminUsername: <?= json_encode((string)($adminUsername ?? ''), JSON_UNESCAPED_UNICODE) ?>,
     publicBaseUrl: <?= json_encode(chillquiz_public_base_url(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>,
     apiBase: <?= json_encode(chillquiz_api_base_url(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>
 };

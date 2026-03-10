@@ -37,7 +37,7 @@
 <script>
 window.SETTINGS_BOOTSTRAP = {
     apiBase: <?= json_encode(chillquiz_api_base_url(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>,
-    adminToken: 'SUPERSEGRETO123'
+    adminToken: <?= json_encode((string)($adminToken ?? ''), JSON_UNESCAPED_UNICODE) ?>
 };
 </script>
 <script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/settings.js'), ENT_QUOTES, 'UTF-8') ?>"></script>

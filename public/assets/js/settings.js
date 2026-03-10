@@ -4,7 +4,7 @@ const rawBaseApi = String(
     || `${String(window.location.pathname || '').replace(/index\.php.*$/i, '').replace(/\/?$/, '/') }index.php?url=api`
 );
 const API_BASE = rawBaseApi;
-const ADMIN_TOKEN = SETTINGS_BOOTSTRAP.adminToken || 'SUPERSEGRETO123';
+const ADMIN_TOKEN = SETTINGS_BOOTSTRAP.adminToken || '';
 
 const toggleEl = document.getElementById('show-module-tags');
 const logEl = document.getElementById('log');

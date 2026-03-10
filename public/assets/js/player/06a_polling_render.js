@@ -59,6 +59,9 @@
   function resetRoundForNewQuestionCycle() {
     resetRoundInteractionFlags();
     S.puntataInviata = false;
+    S.domandaTimerStart = 0;
+    S.domandaTimerQuestionId = 0;
+    S.sarabandaPreviewStartedQuestionId = 0;
     if (S.optionRevealTimer) {
       clearTimeout(S.optionRevealTimer);
       S.optionRevealTimer = null;
@@ -81,6 +84,9 @@
       S.rispostaInviata = false;
       S.selectedAnswerDomandaId = 0;
       S.selectedAnswerOptionId = 0;
+      S.domandaTimerStart = 0;
+      S.domandaTimerQuestionId = 0;
+      S.sarabandaPreviewStartedQuestionId = 0;
     }
 
     if (nextState !== 'risultati') {
@@ -175,6 +181,11 @@
 
     switch (stato) {
       case 'domanda':
+        resetTimerUI();
+        if (D.opzioniDiv) {
+          D.opzioniDiv.innerHTML = '';
+          D.opzioniDiv.classList.add('hidden');
+        }
         Player.screens.showOnly('screen-domanda');
         break;
 

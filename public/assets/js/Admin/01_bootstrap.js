@@ -14,7 +14,7 @@
     SESSIONE_ID: Number(ADMIN_BOOTSTRAP.sessioneId || 0),
     NOME_SESSIONE: String(ADMIN_BOOTSTRAP.nomeSessione || '').trim(),
 
-    ADMIN_TOKEN: String(ADMIN_BOOTSTRAP.adminToken || 'SUPERSEGRETO123'),
+    ADMIN_TOKEN: String(ADMIN_BOOTSTRAP.adminToken || ''),
     PUBLIC_BASE_URL: normalizedPublicBaseUrl,
     API_BASE: String(ADMIN_BOOTSTRAP.apiBase || `${normalizedPublicBaseUrl}index.php?url=api`),
 

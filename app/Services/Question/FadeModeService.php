@@ -4,6 +4,8 @@ namespace App\Services\Question;
 
 class FadeModeService
 {
+    private ?string $lastError = null;
+
     public function applyRuntimeOverride(int $sessioneId, int $domandaId, array $modeMeta): array
     {
         $tipo = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? QuestionMode::CLASSIC)));
@@ -29,15 +31,17 @@ class FadeModeService
         return (int) ($state['domanda_id'] ?? 0) === $domandaId && !empty($state['enabled']);
     }
 
-    public function setEnabledForQuestion(int $sessioneId, int $domandaId, bool $enabled): void
+    public function setEnabledForQuestion(int $sessioneId, int $domandaId, bool $enabled): bool
     {
+        $this->lastError = null;
+
         if ($sessioneId <= 0 || $domandaId <= 0) {
-            return;
+            $this->lastError = 'Sessione o domanda non valida';
+            return false;
         }
 
         if (!$enabled) {
-            $this->clearRuntimeState($sessioneId);
-            return;
+            return $this->clearRuntimeState($sessioneId);
         }
 
         $payload = [
@@ -49,22 +53,51 @@ class FadeModeService
 
         $json = json_encode($payload, JSON_UNESCAPED_UNICODE);
         if (!is_string($json) || $json === '') {
-            return;
-        }
-
-        @file_put_contents($this->runtimeStateFile($sessioneId), $json, LOCK_EX);
-    }
-
-    public function clearRuntimeState(int $sessioneId): void
-    {
-        if ($sessioneId <= 0) {
-            return;
+            $this->lastError = 'Impossibile serializzare lo stato FADE';
+            return false;
         }
 
         $file = $this->runtimeStateFile($sessioneId);
-        if (is_file($file)) {
-            @unlink($file);
+        if ($file === '') {
+            return false;
         }
+
+        $written = @file_put_contents($file, $json, LOCK_EX);
+        if ($written === false) {
+            $this->lastError = 'Impossibile scrivere lo stato FADE su storage/runtime/fade';
+            error_log('[FadeModeService] ' . $this->lastError . ' (sessione ' . $sessioneId . ')');
+            return false;
+        }
+
+        return true;
+    }
+
+    public function clearRuntimeState(int $sessioneId): bool
+    {
+        $this->lastError = null;
+
+        if ($sessioneId <= 0) {
+            $this->lastError = 'Sessione non valida';
+            return false;
+        }
+
+        $file = $this->runtimeStateFile($sessioneId);
+        if ($file === '') {
+            return false;
+        }
+
+        if (!is_file($file)) {
+            return true;
+        }
+
+        $deleted = @unlink($file);
+        if (!$deleted && is_file($file)) {
+            $this->lastError = 'Impossibile rimuovere lo stato FADE';
+            error_log('[FadeModeService] ' . $this->lastError . ' (sessione ' . $sessioneId . ')');
+            return false;
+        }
+
+        return true;
     }
 
     public function getRuntimeState(int $sessioneId): ?array
@@ -87,11 +120,18 @@ class FadeModeService
         return is_array($decoded) ? $decoded : null;
     }
 
+    public function getLastError(): ?string
+    {
+        return $this->lastError;
+    }
+
     private function runtimeStateFile(int $sessioneId): string
     {
         $dir = STORAGE_PATH . '/runtime/fade';
-        if (!is_dir($dir)) {
-            @mkdir($dir, 0775, true);
+        if (!is_dir($dir) && !@mkdir($dir, 0775, true) && !is_dir($dir)) {
+            $this->lastError = 'Impossibile creare la cartella storage/runtime/fade';
+            error_log('[FadeModeService] ' . $this->lastError);
+            return '';
         }
 
         return $dir . '/session_' . $sessioneId . '_current.json';

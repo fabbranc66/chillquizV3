@@ -61,6 +61,55 @@
     }
   }
 
+  function clearAndHideOptions() {
+    if (!D.opzioniDiv) return;
+    D.opzioniDiv.innerHTML = '';
+    D.opzioniDiv.classList.add('hidden');
+    D.opzioniDiv.classList.remove('is-pending-reveal');
+    D.opzioniDiv.style.opacity = '';
+    D.opzioniDiv.style.visibility = '';
+    D.opzioniDiv.style.pointerEvents = '';
+  }
+
+  function preparePendingRevealOptions(domanda) {
+    if (!D.opzioniDiv) return;
+
+    D.opzioniDiv.innerHTML = '';
+    D.opzioniDiv.classList.add('hidden');
+    D.opzioniDiv.classList.add('is-pending-reveal');
+    D.opzioniDiv.style.opacity = '0';
+    D.opzioniDiv.style.visibility = 'hidden';
+    D.opzioniDiv.style.pointerEvents = 'none';
+
+    (domanda.opzioni || []).forEach((opzione, index) => {
+      const btn = document.createElement('button');
+      btn.innerText = opzione.testo || '';
+      btn.dataset.id = String(opzione.id || '');
+      btn.dataset.pendingReveal = '1';
+      btn.disabled = true;
+
+      const paletteIndex = (index % 4) + 1;
+      btn.classList.add(`opzione-kahoot-${paletteIndex}`);
+      bindImmediateAnswer(btn, domanda.id, opzione.id);
+      D.opzioniDiv.appendChild(btn);
+    });
+  }
+
+  function revealPendingOptions(domandaId, effectiveSessione) {
+    if (!D.opzioniDiv) return;
+    D.opzioniDiv.classList.remove('hidden');
+    D.opzioniDiv.classList.remove('is-pending-reveal');
+    D.opzioniDiv.style.opacity = '';
+    D.opzioniDiv.style.visibility = '';
+    D.opzioniDiv.style.pointerEvents = '';
+    D.opzioniDiv.querySelectorAll('button[data-pending-reveal="1"]').forEach((btn) => {
+      btn.disabled = false;
+      btn.removeAttribute('data-pending-reveal');
+    });
+    markOptionsShown(domandaId);
+    Player.pollingSupport.renderTimer(effectiveSessione);
+  }
+
   function scheduleDomandaRevealAtStart(domanda, sessioneMeta = null) {
     clearOptionRevealTimer();
 
@@ -285,9 +334,10 @@
     Support.stopMemeRotation();
     Support.stopPixelateRender();
     S.renderedDomandaKey = '';
+    S.currentDomandaData = null;
     if (D.domandaTesto) D.domandaTesto.innerText = '';
     clearStatusMessage();
-    if (D.opzioniDiv) D.opzioniDiv.innerHTML = '';
+    clearAndHideOptions();
     Support.resetDomandaMedia();
     Support.clearQuestionTypeBadge();
   }
@@ -348,6 +398,8 @@
       return;
     }
 
+    S.currentDomandaData = domanda;
+
     if (!D.domandaTesto || !D.opzioniDiv) return;
 
     const renderKey = Support.buildDomandaRenderKey(domanda);
@@ -367,7 +419,13 @@
     }
     const tipoDomanda = Support.normalizeBadgeQuestionType(domanda);
     const currentNowSec = Math.floor(Clock.nowSec(S));
-    const isSarabandaIntro = tipoDomanda === 'SARABANDA' && (Number(S.domandaTimerStart || 0) <= 0 || currentNowSec < Number(S.domandaTimerStart || 0));
+    const isSarabandaIntro = tipoDomanda === 'SARABANDA' && (
+      Number(S.sarabandaPreviewStartedQuestionId || 0) !== domandaId
+      ||
+      Number(S.domandaTimerQuestionId || 0) !== domandaId
+      || Number(S.domandaTimerStart || 0) <= 0
+      || currentNowSec < Number(S.domandaTimerStart || 0)
+    );
     const showCorrect = !!domanda.show_correct;
     const correctOptionId = String(domanda.correct_option_id || '');
     const isImpostoreMasked = !!domanda.impostore_masked;
@@ -400,13 +458,12 @@
       renderDomandaMedia(domanda, false);
     }
 
-    D.opzioniDiv.innerHTML = '';
-
     if (isSarabandaIntro) {
+      clearAndHideOptions();
       S.questionShownAtPerf = 0;
       S.questionShownDomandaId = domandaId;
       S.questionShownTimerStart = Number(S.domandaTimerStart || 0);
-      scheduleDomandaRevealAtStart(domanda, sessioneMeta);
+      S.renderedDomandaKey = renderKey;
       return;
     }
 
@@ -427,6 +484,7 @@
     };
 
     const renderOptions = () => {
+      D.opzioniDiv.classList.remove('hidden');
       D.opzioniDiv.innerHTML = '';
 
       if (isMemeMode) {

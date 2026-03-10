@@ -5,6 +5,35 @@
   const S = ScreenApp.store;
   const Clock = window.ChillQuizClock;
 
+  function getNextPollDelayMs() {
+    const stato = String(S.currentState || '');
+    const currentType = String(S.currentDomandaData?.tipo_domanda || '').toUpperCase();
+    const waitingSarabandaIntro = stato === 'domanda'
+      && currentType === 'SARABANDA'
+      && Number(S.currentTimerStart || 0) > Clock.nowSec(S);
+
+    return waitingSarabandaIntro
+      ? Number(S.statoPollFastMs || 250)
+      : Number(S.statoPollMs || 1000);
+  }
+
+  function scheduleNextStatePoll() {
+    if (S.pollStato) clearTimeout(S.pollStato);
+    S.pollStato = setTimeout(async () => {
+      await fetchStato();
+      if (shouldPollAudioPreview()) {
+        ScreenApp.domanda.fetchAudioPreviewStatus();
+      }
+      scheduleNextStatePoll();
+    }, getNextPollDelayMs());
+  }
+
+  function shouldPollAudioPreview() {
+    if (String(S.currentState || '') !== 'domanda') return false;
+    if (S.sarabandaAudioEnabled || S.sarabandaReverseEnabled || S.sarabandaFastForwardEnabled) return true;
+    return ScreenApp.domandaSupport?.isSarabandaQuestionType?.(S.currentDomandaData) === true;
+  }
+
   async function fetchMediaAttiva() {
     if (S.mediaRequestInFlight) return;
     S.mediaRequestInFlight = true;
@@ -50,11 +79,25 @@
       S.currentState = data.sessione?.stato || null;
       S.currentTimerStart = Number(data.sessione?.timer_start || 0);
       S.currentTimerMax = Number(data.sessione?.timer_max || 0);
+      S.currentTimerQuestionId = Number(data?.domanda?.id || S.currentTimerQuestionId || 0);
+      if (S.currentState !== 'domanda') {
+        S.sarabandaPreviewStartedQuestionId = 0;
+      } else if (Number(data?.domanda?.id || 0) > 0 && Number(data?.domanda?.id || 0) !== Number(S.sarabandaPreviewStartedQuestionId || 0)) {
+        const currentType = String(data?.domanda?.tipo_domanda || '').toUpperCase();
+        if (currentType === 'SARABANDA' && Number(S.currentTimerStart || 0) <= 0) {
+          S.sarabandaPreviewStartedQuestionId = 0;
+        }
+      }
       S.sarabandaAudioEnabled = !!data.sessione?.sarabanda_audio_enabled;
       S.sarabandaReverseEnabled = !!data.sessione?.sarabanda_reverse_enabled;
       S.sarabandaFastForwardEnabled = !!data.sessione?.sarabanda_fast_forward_enabled;
       S.sarabandaFastForwardRate = Number(data.sessione?.sarabanda_fast_forward_rate || 5);
       if (ScreenApp.state.isDomandaState()) {
+        const opzioniNode = document.getElementById('opzioni');
+        if (opzioniNode) {
+          opzioniNode.innerHTML = '';
+          opzioniNode.classList.add('hidden');
+        }
         ScreenApp.state.hideRisultatiView();
         if (data.domanda) {
           ScreenApp.domanda.render(data.domanda, data.sessione || null);
@@ -94,13 +137,11 @@
 
     fetchMediaAttiva();
     fetchStato();
-    ScreenApp.domanda.fetchAudioPreviewStatus();
-
-    if (S.pollStato) clearInterval(S.pollStato);
-    S.pollStato = setInterval(() => {
-      fetchStato();
+    if (shouldPollAudioPreview()) {
       ScreenApp.domanda.fetchAudioPreviewStatus();
-    }, Number(S.statoPollMs || 2500));
+    }
+
+    scheduleNextStatePoll();
 
     if (S.pollMedia) clearInterval(S.pollMedia);
     S.pollMedia = setInterval(fetchMediaAttiva, Number(S.mediaPollMs || 30000));

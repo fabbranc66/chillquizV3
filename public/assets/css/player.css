@@ -622,6 +622,12 @@ input {
     min-width: 0;
 }
 
+.grid-opzioni.is-pending-reveal {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
 .grid-opzioni button {
     aspect-ratio: auto;
     min-height: 88px;

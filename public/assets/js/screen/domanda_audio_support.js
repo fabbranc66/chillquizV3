@@ -149,8 +149,39 @@
     }
   }
 
+  function applyPreviewStartAck(data) {
+    if (!data || !data.success) return;
+    const startAt = Number(data.start_at || data.preview?.start_at || 0);
+    if (startAt <= 0) return;
+
+    S.currentTimerStart = startAt;
+    S.currentTimerQuestionId = Number(data.preview?.domanda_id || S.currentDomandaData?.id || 0);
+    S.sarabandaPreviewStartedQuestionId = S.currentTimerQuestionId;
+    if (S.latestSessioneSnapshot && typeof S.latestSessioneSnapshot === 'object') {
+      S.latestSessioneSnapshot.timer_start = startAt;
+      S.latestSessioneSnapshot.inizio_domanda = startAt;
+    }
+
+    if (
+      String(S.currentState || '') === 'domanda'
+      && ScreenApp.domanda
+      && typeof ScreenApp.domanda.render === 'function'
+      && S.currentDomandaData
+    ) {
+      ScreenApp.domanda.render(S.currentDomandaData, S.latestSessioneSnapshot || null);
+    }
+
+    if (ScreenApp.state && typeof ScreenApp.state.renderStageTimer === 'function') {
+      ScreenApp.state.renderStageTimer(S.latestSessioneSnapshot || {
+        stato: 'domanda',
+        timer_start: startAt,
+        timer_max: Number(S.currentTimerMax || 0),
+      });
+    }
+  }
+
   async function notifyAudioPreviewStarted(preview, playbackDurationSec = 0) {
-    if (!preview || !ScreenApp.state.canUseAudioPreview()) return false;
+    if (!preview || !ScreenApp.state.canUseAudioPreview()) return null;
     try {
       const formData = new FormData();
       if (preview.token) formData.append('token', String(preview.token));
@@ -164,10 +195,11 @@
         body: formData,
       });
 
-      return !!data.success;
+      applyPreviewStartAck(data);
+      return data;
     } catch (error) {
       console.error(error);
-      return false;
+      return null;
     }
   }
 

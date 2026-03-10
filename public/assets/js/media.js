@@ -6,7 +6,7 @@ const rawBasePublicUrl = String(
 );
 const BASE_PUBLIC_URL = rawBasePublicUrl.endsWith('/') ? rawBasePublicUrl : `${rawBasePublicUrl}/`;
 const API_BASE = String(MEDIA_BOOTSTRAP.apiBase || `${BASE_PUBLIC_URL}index.php?url=api`);
-const ADMIN_TOKEN = MEDIA_BOOTSTRAP.adminToken || 'SUPERSEGRETO123';
+const ADMIN_TOKEN = MEDIA_BOOTSTRAP.adminToken || '';
 
 function mediaUrl(filePath) {
     if (!filePath) return '';

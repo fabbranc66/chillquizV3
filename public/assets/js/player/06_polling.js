@@ -5,12 +5,27 @@
   const Support = Player.pollingSupport;
   const Clock = window.ChillQuizClock;
 
-  function startPolling() {
+  function getNextPollDelayMs() {
+    const sessione = S.latestSessioneSnapshot || null;
+    const stato = String(sessione?.stato || '');
+    const currentType = String(S.currentDomandaData?.tipo_domanda || '').toUpperCase();
+    const waitingSarabandaIntro = stato === 'domanda'
+      && currentType === 'SARABANDA'
+      && Number(sessione?.timer_start || 0) > Clock.nowSec(S);
+
+    return waitingSarabandaIntro ? 100 : 1000;
+  }
+
+  function scheduleNextPoll() {
     if (S.pollingInterval) {
-      clearInterval(S.pollingInterval);
+      clearTimeout(S.pollingInterval);
       S.pollingInterval = null;
     }
-    S.pollingInterval = setInterval(fetchStato, 300);
+    S.pollingInterval = setTimeout(fetchStato, getNextPollDelayMs());
+  }
+
+  function startPolling() {
+    scheduleNextPoll();
   }
 
   async function fetchStato() {
@@ -32,8 +47,24 @@
       Clock.updateOffsetFromServerNow(S, data?.server_now || 0);
       S.latestSessioneSnapshot = sessione;
       const stato = sessione.stato;
+      const currentDomandaId = Number(data?.domanda?.id || 0);
       S.domandaTimerStart = Number(sessione?.timer_start || 0);
       S.domandaTimerMax = Number(sessione?.timer_max || 0);
+      if (currentDomandaId > 0) {
+        S.domandaTimerQuestionId = currentDomandaId;
+        if (stato === 'domanda' && S.domandaTimerStart > 0) {
+          S.sarabandaPreviewStartedQuestionId = currentDomandaId;
+          if (Player.domanda && typeof Player.domanda.renderDomanda === 'function' && data.domanda) {
+            Player.domanda.renderDomanda(data.domanda, sessione);
+          }
+          if (Support && typeof Support.renderTimer === 'function') {
+            Support.renderTimer(sessione);
+          }
+        }
+      }
+      if (stato !== 'domanda') {
+        S.sarabandaPreviewStartedQuestionId = 0;
+      }
       const stateChanged = Support.handleStateTransition(stato);
 
       if (stato === 'domanda') {
@@ -51,6 +82,7 @@
       console.error(err);
     } finally {
       S.statoRequestInFlight = false;
+      scheduleNextPoll();
     }
   }
 

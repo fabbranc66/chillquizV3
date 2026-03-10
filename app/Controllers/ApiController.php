@@ -20,6 +20,7 @@ use App\Services\Question\FadeModeService;
 use App\Services\Question\ImagePartyModeService;
 use App\Services\Question\MemeModeService;
 use App\Services\Question\SarabandaAudioModeService;
+use App\Services\Auth\AdminAuthService;
 use App\Services\SessioneService;
 use Throwable;
 
@@ -119,18 +120,13 @@ class ApiController
     private function getAdminToken(): string
     {
         $token = getenv('ADMIN_TOKEN');
-        return is_string($token) && $token !== '' ? $token : 'SUPERSEGRETO123';
+        return is_string($token) ? trim($token) : '';
     }
 
     private function isAdminAuthorized(): bool
     {
         $incoming = $this->getRequestHeader('X-ADMIN-TOKEN');
-
-        if ($incoming === null || $incoming === '') {
-            return false;
-        }
-
-        return hash_equals($this->getAdminToken(), $incoming);
+        return (new AdminAuthService())->isApiAuthorized($incoming, null);
     }
 
     private function loadCurrentQuestionForSession(int $sessioneId): ?array

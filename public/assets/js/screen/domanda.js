@@ -55,6 +55,52 @@
     }
   }
 
+  function clearAndHideOptions() {
+    const opzioniNode = document.getElementById('opzioni');
+    if (!opzioniNode) return;
+    opzioniNode.innerHTML = '';
+    opzioniNode.classList.add('hidden');
+    opzioniNode.classList.remove('is-pending-reveal');
+    opzioniNode.style.opacity = '';
+    opzioniNode.style.visibility = '';
+    opzioniNode.style.pointerEvents = '';
+  }
+
+  function preparePendingRevealOptions(domanda) {
+    const opzioniNode = document.getElementById('opzioni');
+    if (!opzioniNode) return;
+
+    opzioniNode.innerHTML = '';
+    opzioniNode.classList.add('hidden');
+    opzioniNode.classList.add('is-pending-reveal');
+    opzioniNode.style.opacity = '0';
+    opzioniNode.style.visibility = 'hidden';
+    opzioniNode.style.pointerEvents = 'none';
+
+    (domanda.opzioni || []).forEach((opzione, index) => {
+      const el = document.createElement('div');
+      el.className = 'opzione';
+      el.innerText = opzione.testo || '';
+      el.dataset.pendingReveal = '1';
+      opzioniNode.appendChild(el);
+    });
+  }
+
+  function revealPendingOptions(domandaId, effectiveSessione) {
+    const opzioniNode = document.getElementById('opzioni');
+    if (!opzioniNode) return;
+    opzioniNode.classList.remove('hidden');
+    opzioniNode.classList.remove('is-pending-reveal');
+    opzioniNode.style.opacity = '';
+    opzioniNode.style.visibility = '';
+    opzioniNode.style.pointerEvents = '';
+    opzioniNode.querySelectorAll('[data-pending-reveal="1"]').forEach((node) => {
+      node.removeAttribute('data-pending-reveal');
+    });
+    markOptionsShown(domandaId);
+    ScreenApp.state.renderStageTimer(effectiveSessione);
+  }
+
   function getMemeSlots(step) {
     const base = [
       { letter: 'A', palette: 1 },
@@ -116,6 +162,7 @@
     clearOptionRevealTimer();
     ScreenApp.domandaAudio.clearAudioPreviewRuntime();
     S.currentDomandaData = null;
+    S.sarabandaPreviewStartedQuestionId = 0;
     ScreenApp.state.hideRisultatiView();
     ScreenApp.state.showOnly('placeholder');
 
@@ -123,7 +170,7 @@
     const opzioni = document.getElementById('opzioni');
 
     if (titolo) titolo.innerText = '';
-    if (opzioni) opzioni.innerHTML = '';
+    clearAndHideOptions();
 
     ScreenApp.domandaSupport.clearStatusMessage();
     ScreenApp.domandaAudio.clearQuestionTypeBadge();
@@ -149,7 +196,7 @@
     ScreenApp.domandaSupport.clearStatusMessage();
     ScreenApp.domandaAudio.clearQuestionTypeBadge();
     ScreenApp.domandaSupport.clearDomandaMedia();
-    ScreenApp.domandaSupport.renderLoadingOptions(opzioni);
+    clearAndHideOptions();
   }
 
   function renderClassicOptions(domanda, showCorrect, correctOptionId) {
@@ -211,9 +258,8 @@
     ScreenApp.domandaAudio.renderQuestionTypeBadge(domanda);
     ScreenApp.domandaSupport.renderQuestionMediaForState(domanda, isImpostoreMasked, isSarabandaIntro, isImageParty, isFadeMode);
 
-    opzioni.innerHTML = '';
-
     if (isSarabandaIntro) {
+      clearAndHideOptions();
       S.domandaRenderizzata = true;
       showView();
       return;
@@ -234,6 +280,7 @@
     };
 
     const renderOptions = () => {
+      opzioni.classList.remove('hidden');
       if (isMemeMode) {
         renderMemeOptions(domanda, showCorrect, correctOptionId);
         if (!showCorrect) {

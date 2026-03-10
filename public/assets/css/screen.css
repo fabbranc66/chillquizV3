@@ -223,6 +223,12 @@ body {
     margin-inline: auto;
 }
 
+.grid-opzioni.is-pending-reveal {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
 .opzione {
     border: 0;
     border-radius: 14px;
