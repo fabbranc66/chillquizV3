@@ -3,6 +3,7 @@
   window.ScreenApp = window.ScreenApp || {};
   const ScreenApp = window.ScreenApp;
   const S = ScreenApp.store;
+  const Clock = window.ChillQuizClock;
 
   async function fetchMediaAttiva() {
     if (S.mediaRequestInFlight) return;
@@ -33,7 +34,9 @@
 
     S.statoRequestInFlight = true;
     try {
-      const data = await ScreenApp.api.fetchJson(`${ScreenApp.api.apiBase}/stato/${S.sessioneId || 0}`);
+      const statoUrl = new URL(`${ScreenApp.api.apiBase}/stato/${S.sessioneId || 0}`, window.location.origin);
+      statoUrl.searchParams.set('viewer', 'screen');
+      const data = await ScreenApp.api.fetchJson(statoUrl.toString());
       if (!data.success) {
         if (S.currentState === 'risultati') ScreenApp.state.showRisultatiView();
         else ScreenApp.domanda.hideView();
@@ -42,11 +45,15 @@
         return;
       }
 
+      Clock.updateOffsetFromServerNow(S, data?.server_now || 0);
       S.latestSessioneSnapshot = data.sessione || null;
       S.currentState = data.sessione?.stato || null;
       S.currentTimerStart = Number(data.sessione?.timer_start || 0);
       S.currentTimerMax = Number(data.sessione?.timer_max || 0);
+      S.sarabandaAudioEnabled = !!data.sessione?.sarabanda_audio_enabled;
       S.sarabandaReverseEnabled = !!data.sessione?.sarabanda_reverse_enabled;
+      S.sarabandaFastForwardEnabled = !!data.sessione?.sarabanda_fast_forward_enabled;
+      S.sarabandaFastForwardRate = Number(data.sessione?.sarabanda_fast_forward_rate || 5);
       if (ScreenApp.state.isDomandaState()) {
         ScreenApp.state.hideRisultatiView();
         if (data.domanda) {

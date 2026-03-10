@@ -7,6 +7,7 @@
   const Alert = Player.uiAlert;
   const Copy = Player.copy;
   const Support = Player.domandaSupport;
+  const Clock = window.ChillQuizClock;
 
   function persistDebugTiming() {
     try {
@@ -58,6 +59,27 @@
       clearTimeout(S.optionRevealTimer);
       S.optionRevealTimer = null;
     }
+  }
+
+  function scheduleDomandaRevealAtStart(domanda, sessioneMeta = null) {
+    clearOptionRevealTimer();
+
+    const domandaId = Number(domanda?.id || 0);
+    const timerStart = Number(S.domandaTimerStart || 0);
+    const delayMs = Clock.computeDelayMsFromStart(S, timerStart);
+
+    if (domandaId <= 0 || delayMs <= 0) {
+      return false;
+    }
+
+    S.optionRevealTimer = setTimeout(() => {
+      S.optionRevealTimer = null;
+      if (!isDomandaAttiva(S.currentState)) return;
+      if (Number(S.badgeQuestionId || 0) !== domandaId) return;
+      renderDomanda(domanda, sessioneMeta);
+    }, delayMs);
+
+    return true;
   }
 
   function clearStatusMessage() {
@@ -344,8 +366,8 @@
       persistDebugTiming();
     }
     const tipoDomanda = Support.normalizeBadgeQuestionType(domanda);
-    const nowSec = Math.floor(Date.now() / 1000);
-    const isSarabandaIntro = tipoDomanda === 'SARABANDA' && (Number(S.domandaTimerStart || 0) <= 0 || nowSec < Number(S.domandaTimerStart || 0));
+    const currentNowSec = Math.floor(Clock.nowSec(S));
+    const isSarabandaIntro = tipoDomanda === 'SARABANDA' && (Number(S.domandaTimerStart || 0) <= 0 || currentNowSec < Number(S.domandaTimerStart || 0));
     const showCorrect = !!domanda.show_correct;
     const correctOptionId = String(domanda.correct_option_id || '');
     const isImpostoreMasked = !!domanda.impostore_masked;
@@ -384,6 +406,7 @@
       S.questionShownAtPerf = 0;
       S.questionShownDomandaId = domandaId;
       S.questionShownTimerStart = Number(S.domandaTimerStart || 0);
+      scheduleDomandaRevealAtStart(domanda, sessioneMeta);
       return;
     }
 
@@ -449,8 +472,7 @@
     };
 
     clearOptionRevealTimer();
-    const startMs = timerStart > 0 ? Math.round(timerStart * 1000) : 0;
-    const delayMs = !showCorrect && startMs > Date.now() ? (startMs - Date.now()) : 0;
+    const delayMs = !showCorrect ? Clock.computeDelayMsFromStart(S, timerStart) : 0;
 
     if (delayMs > 0) {
       D.opzioniDiv.innerHTML = '';

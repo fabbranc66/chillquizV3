@@ -14,6 +14,8 @@ use App\Services\SessioneService;
 
 trait HandlesAdminRuntimeActions
 {
+    private const SARABANDA_FAST_FORWARD_SOURCE_SEC = 20;
+
     private function handleAdminRuntimeAction(string $action, int $sessioneId): bool
     {
         switch ($action) {
@@ -58,16 +60,43 @@ trait HandlesAdminRuntimeActions
                     return true;
                 }
 
+                $audioModeService = new SarabandaAudioModeService();
+                $audioEnabled = $audioModeService->isAudioEnabledForQuestion(
+                    $targetSessioneId,
+                    (int) ($domanda['id'] ?? 0)
+                );
+                $reverseEnabled = $audioModeService->isReverseEnabledForQuestion(
+                    $targetSessioneId,
+                    (int) ($domanda['id'] ?? 0)
+                );
+                $fastForwardEnabled = $audioModeService->isFastForwardEnabledForQuestion(
+                    $targetSessioneId,
+                    (int) ($domanda['id'] ?? 0)
+                );
+                $fastForwardRate = $audioModeService->getFastForwardRateForQuestion(
+                    $targetSessioneId,
+                    (int) ($domanda['id'] ?? 0)
+                );
+                $effectivePreviewSec = $reverseEnabled
+                    ? max(10, $previewSec > 0 ? $previewSec : 0)
+                    : ($fastForwardEnabled
+                        ? max(self::SARABANDA_FAST_FORWARD_SOURCE_SEC, $previewSec > 0 ? $previewSec : 0)
+                        : ($previewSec > 0 ? $previewSec : 0));
+                $playbackDurationSec = $fastForwardEnabled
+                    ? round($effectivePreviewSec / max(1, $fastForwardRate), 3)
+                    : $effectivePreviewSec;
+
                 $payload = [
                     'token' => $targetSessioneId . '-' . time() . '-' . random_int(1000, 9999),
                     'sessione_id' => $targetSessioneId,
                     'domanda_id' => (int) ($domanda['id'] ?? 0),
                     'audio_path' => $audioPath,
-                    'preview_sec' => $previewSec > 0 ? $previewSec : 0,
-                    'reverse_audio' => (new SarabandaAudioModeService())->isReverseEnabledForQuestion(
-                        $targetSessioneId,
-                        (int) ($domanda['id'] ?? 0)
-                    ),
+                    'preview_sec' => $effectivePreviewSec,
+                    'playback_duration_sec' => $playbackDurationSec,
+                    'audio_enabled' => $audioEnabled,
+                    'reverse_audio' => $reverseEnabled,
+                    'fast_forward_audio' => $fastForwardEnabled,
+                    'fast_forward_rate' => $fastForwardRate,
                     'created_at' => time(),
                 ];
 
@@ -144,6 +173,170 @@ trait HandlesAdminRuntimeActions
                     'sessione_id' => $targetSessioneId,
                     'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
                     'enabled' => $service->isReverseEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
+                ]);
+                return true;
+
+            case 'sarabanda-audio-toggle':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                if ($targetSessioneId <= 0) {
+                    $this->json(['success' => false, 'error' => 'Sessione non valida']);
+                    return true;
+                }
+
+                $sessionRow = (new Sessione())->trova($targetSessioneId);
+                if (!$sessionRow) {
+                    $this->json(['success' => false, 'error' => 'Sessione non trovata']);
+                    return true;
+                }
+
+                if (in_array((string) ($sessionRow['stato'] ?? ''), ['domanda', 'conclusa'], true)) {
+                    $this->json(['success' => false, 'error' => 'SARABANDA modificabile solo prima dello stato domanda']);
+                    return true;
+                }
+
+                $currentQuestion = $this->loadCurrentQuestionForSession($targetSessioneId);
+                if (!$currentQuestion) {
+                    $this->json(['success' => false, 'error' => 'Domanda corrente non disponibile']);
+                    return true;
+                }
+
+                $currentType = strtoupper(trim((string) ($currentQuestion['tipo_domanda'] ?? 'CLASSIC')));
+                $hasAudio = trim((string) ($currentQuestion['media_audio_path'] ?? '')) !== '';
+                if ($currentType !== 'SARABANDA' || !$hasAudio) {
+                    $this->json(['success' => false, 'error' => 'SARABANDA disponibile solo per domande SARABANDA con audio']);
+                    return true;
+                }
+
+                $enabled = (int) ($_POST['enabled'] ?? 0) === 1;
+                $service = new SarabandaAudioModeService();
+                $service->setAudioEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled);
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
+                    'enabled' => $service->isAudioEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
+                ]);
+                return true;
+
+            case 'sarabanda-fast-toggle':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non valida'
+                    ]);
+                    return true;
+                }
+
+                $sessionRow = (new Sessione())->trova($targetSessioneId);
+                if (!$sessionRow) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non trovata'
+                    ]);
+                    return true;
+                }
+
+                if (in_array((string) ($sessionRow['stato'] ?? ''), ['domanda', 'conclusa'], true)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'FAST modificabile solo prima dello stato domanda'
+                    ]);
+                    return true;
+                }
+
+                $currentQuestion = $this->loadCurrentQuestionForSession($targetSessioneId);
+                if (!$currentQuestion) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Domanda corrente non disponibile'
+                    ]);
+                    return true;
+                }
+
+                $currentType = strtoupper(trim((string) ($currentQuestion['tipo_domanda'] ?? 'CLASSIC')));
+                $hasAudio = trim((string) ($currentQuestion['media_audio_path'] ?? '')) !== '';
+                if ($currentType !== 'SARABANDA' || !$hasAudio) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'FAST disponibile solo per SARABANDA con audio'
+                    ]);
+                    return true;
+                }
+
+                $enabled = (int) ($_POST['enabled'] ?? 0) === 1;
+                $rate = (float) ($_POST['rate'] ?? SarabandaAudioModeService::DEFAULT_FAST_FORWARD_RATE);
+                $service = new SarabandaAudioModeService();
+                $service->setFastForwardEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $enabled, $rate);
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
+                    'enabled' => $service->isFastForwardEnabledForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
+                    'rate' => $service->getFastForwardRateForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
+                ]);
+                return true;
+
+            case 'sarabanda-fast-rate-set':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non valida'
+                    ]);
+                    return true;
+                }
+
+                $sessionRow = (new Sessione())->trova($targetSessioneId);
+                if (!$sessionRow) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non trovata'
+                    ]);
+                    return true;
+                }
+
+                if (in_array((string) ($sessionRow['stato'] ?? ''), ['domanda', 'conclusa'], true)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Velocita FAST modificabile solo prima dello stato domanda'
+                    ]);
+                    return true;
+                }
+
+                $currentQuestion = $this->loadCurrentQuestionForSession($targetSessioneId);
+                if (!$currentQuestion) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Domanda corrente non disponibile'
+                    ]);
+                    return true;
+                }
+
+                $currentType = strtoupper(trim((string) ($currentQuestion['tipo_domanda'] ?? 'CLASSIC')));
+                $hasAudio = trim((string) ($currentQuestion['media_audio_path'] ?? '')) !== '';
+                if ($currentType !== 'SARABANDA' || !$hasAudio) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'FAST disponibile solo per SARABANDA con audio'
+                    ]);
+                    return true;
+                }
+
+                $rate = (float) ($_POST['rate'] ?? SarabandaAudioModeService::DEFAULT_FAST_FORWARD_RATE);
+                $service = new SarabandaAudioModeService();
+                $service->setFastForwardRateForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0), $rate);
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'domanda_id' => (int) ($currentQuestion['id'] ?? 0),
+                    'rate' => $service->getFastForwardRateForQuestion($targetSessioneId, (int) ($currentQuestion['id'] ?? 0)),
                 ]);
                 return true;
 
@@ -237,6 +430,9 @@ trait HandlesAdminRuntimeActions
                             'fade_enabled' => $questionId > 0 ? $fadeService->isEnabledForQuestion($targetSessioneId, $questionId) : false,
                             'fade_state' => $fadeService->getRuntimeState($targetSessioneId),
                             'sarabanda_reverse_enabled' => $questionId > 0 ? $sarabandaAudioService->isReverseEnabledForQuestion($targetSessioneId, $questionId) : false,
+                            'sarabanda_fast_forward_enabled' => $questionId > 0 ? $sarabandaAudioService->isFastForwardEnabledForQuestion($targetSessioneId, $questionId) : false,
+                            'sarabanda_fast_forward_rate' => $questionId > 0 ? $sarabandaAudioService->getFastForwardRateForQuestion($targetSessioneId, $questionId) : SarabandaAudioModeService::DEFAULT_FAST_FORWARD_RATE,
+                            'sarabanda_audio_enabled' => $questionId > 0 ? $sarabandaAudioService->isAudioEnabledForQuestion($targetSessioneId, $questionId) : false,
                             'sarabanda_audio_state' => $sarabandaAudioService->getRuntimeState($targetSessioneId),
                         ],
                         'puntate_live' => $puntateLiveStmt->fetchAll() ?: [],

@@ -39,11 +39,17 @@
 
     <div class="effect-group effect-group-audio">
         <span class="effect-group-label">Effetti audio</span>
-        <div id="sarabandaAudioLed" class="effect-led is-off">
-            <span class="effect-led-dot"></span>
-            <span class="effect-led-label">SARABANDA</span>
-        </div>
+        <button id="sarabandaAudioLed" type="button" class="badge badge-toggle disabled">SARABANDA OFF</button>
         <button id="btnSarabandaReverseToggle" type="button" class="badge badge-toggle">REVERSE OFF</button>
+        <div class="effect-inline-pair effect-inline-fast">
+            <button id="btnSarabandaFastToggle" type="button" class="badge badge-toggle">FAST OFF</button>
+            <div id="sarabandaFastRateGroup" class="effect-rate-group" role="group" aria-label="Velocita FAST">
+                <button type="button" class="badge badge-toggle effect-rate-btn" data-fast-rate="2">x2</button>
+                <button type="button" class="badge badge-toggle effect-rate-btn" data-fast-rate="3">x3</button>
+                <button type="button" class="badge badge-toggle effect-rate-btn" data-fast-rate="4">x4</button>
+                <button type="button" class="badge badge-toggle effect-rate-btn" data-fast-rate="5">x5</button>
+            </div>
+        </div>
     </div>
 
     <button id="btnDebugSessione" type="button" class="badge badge-toggle">DEBUG</button>

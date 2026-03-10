@@ -3,6 +3,7 @@
   window.ScreenApp = window.ScreenApp || {};
   const ScreenApp = window.ScreenApp;
   const S = ScreenApp.store;
+  const Clock = window.ChillQuizClock;
 
   function persistDebugTiming() {
     try {
@@ -248,8 +249,7 @@
     };
 
     clearOptionRevealTimer();
-    const startMs = timerStart > 0 ? Math.round(timerStart * 1000) : 0;
-    const delayMs = !showCorrect && startMs > Date.now() ? (startMs - Date.now()) : 0;
+    const delayMs = !showCorrect ? Clock.computeDelayMsFromStart(S, timerStart) : 0;
 
     if (delayMs > 0) {
       opzioni.innerHTML = '';

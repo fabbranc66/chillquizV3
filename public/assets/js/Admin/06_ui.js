@@ -67,7 +67,10 @@
       S.memeEnabled = !!sessione.meme_enabled;
       S.imagePartyEnabled = !!sessione.image_party_enabled;
       S.fadeEnabled = !!sessione.fade_enabled;
+      S.sarabandaAudioEnabled = !!sessione.sarabanda_audio_enabled;
       S.sarabandaReverseEnabled = !!sessione.sarabanda_reverse_enabled;
+      S.sarabandaFastForwardEnabled = !!sessione.sarabanda_fast_forward_enabled;
+      S.sarabandaFastForwardRate = Number(sessione.sarabanda_fast_forward_rate || S.sarabandaFastForwardRate || 5);
       S.memeText = String(sessione.meme_text || '');
 
       Admin.ui.setButton(D.btnPuntata, sessione.stato === 'attesa' || sessione.stato === 'risultati');
@@ -148,6 +151,20 @@
           : (locked ? 'Modificabile solo prima dello stato domanda' : 'Applica FADE alla domanda corrente');
       }
 
+      if (D.sarabandaAudioLed) {
+        const eligible = !!sessione.sarabanda_audio_eligible;
+        const locked = !!sessione.sarabanda_audio_locked;
+        const enabled = !!sessione.sarabanda_audio_enabled;
+        D.sarabandaAudioLed.textContent = enabled ? 'SARABANDA ON' : 'SARABANDA OFF';
+        D.sarabandaAudioLed.disabled = !eligible || locked;
+        D.sarabandaAudioLed.classList.toggle('enabled', enabled);
+        D.sarabandaAudioLed.classList.toggle('disabled', !enabled || !eligible);
+        D.sarabandaAudioLed.classList.toggle('is-locked', locked);
+        D.sarabandaAudioLed.title = !eligible
+          ? 'Disponibile solo per SARABANDA con audio'
+          : (locked ? 'Modificabile solo prima dello stato domanda' : 'Abilita la modalita SARABANDA');
+      }
+
       if (D.btnSarabandaReverseToggle) {
         const eligible = !!sessione.sarabanda_audio_eligible;
         const locked = !!sessione.sarabanda_audio_locked;
@@ -162,7 +179,36 @@
           : (locked ? 'Modificabile solo prima dello stato domanda' : 'Riproduce il brano al contrario');
       }
 
-      Admin.actionsSupport.syncSarabandaAudioLed();
+      if (D.btnSarabandaFastToggle) {
+        const eligible = !!sessione.sarabanda_audio_eligible;
+        const locked = !!sessione.sarabanda_audio_locked;
+        const enabled = !!sessione.sarabanda_fast_forward_enabled;
+        D.btnSarabandaFastToggle.textContent = enabled ? 'FAST ON' : 'FAST OFF';
+        D.btnSarabandaFastToggle.disabled = !eligible || locked;
+        D.btnSarabandaFastToggle.classList.toggle('enabled', enabled);
+        D.btnSarabandaFastToggle.classList.toggle('disabled', !enabled || !eligible);
+        D.btnSarabandaFastToggle.classList.toggle('is-locked', locked);
+        D.btnSarabandaFastToggle.title = !eligible
+          ? 'Disponibile solo per SARABANDA con audio'
+          : (locked ? 'Modificabile solo prima dello stato domanda' : 'Riproduce il brano in fast forward');
+      }
+      if (Array.isArray(D.sarabandaFastRateButtons) && D.sarabandaFastRateButtons.length > 0) {
+        const eligible = !!sessione.sarabanda_audio_eligible;
+        const locked = !!sessione.sarabanda_audio_locked;
+        const currentRate = String(Number(sessione.sarabanda_fast_forward_rate || S.sarabandaFastForwardRate || 5));
+        D.sarabandaFastRateButtons.forEach((btn) => {
+          const isActive = String(btn.dataset.fastRate || '') === currentRate;
+          btn.disabled = !eligible || locked;
+          btn.classList.toggle('enabled', isActive && eligible && !locked);
+          btn.classList.toggle('disabled', !isActive || !eligible || locked);
+          btn.classList.toggle('is-active-rate', isActive);
+          btn.classList.toggle('is-locked', locked);
+          btn.title = !eligible
+            ? 'Disponibile solo per SARABANDA con audio'
+            : (locked ? 'Modificabile solo prima dello stato domanda' : `Velocita FAST ${btn.textContent}`);
+        });
+      }
+
       Admin.actionsSupport.syncSessioneDomandaInfo();
 
       Admin.actionsSupport.syncCurrentQuestionHighlight();

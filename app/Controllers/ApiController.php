@@ -24,6 +24,8 @@ use Throwable;
 
 class ApiController
 {
+    private const SARABANDA_FAST_FORWARD_SOURCE_SEC = 20;
+
     use HandlesAdminSessionActions;
     use HandlesAdminRuntimeActions;
     use HandlesAdminQuestionActions;
@@ -420,6 +422,15 @@ class ApiController
                 $sarabandaReverseEnabled = $sarabandaAudioEligible
                     ? $sarabandaAudioService->isReverseEnabledForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
                     : false;
+                $sarabandaFastForwardEnabled = $sarabandaAudioEligible
+                    ? $sarabandaAudioService->isFastForwardEnabledForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
+                    : false;
+                $sarabandaAudioEnabled = $sarabandaAudioEligible
+                    ? $sarabandaAudioService->isAudioEnabledForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
+                    : false;
+                $sarabandaFastForwardRate = $sarabandaAudioEligible
+                    ? $sarabandaAudioService->getFastForwardRateForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
+                    : SarabandaAudioModeService::DEFAULT_FAST_FORWARD_RATE;
 
                 $sessione['impostore_enabled'] = $enabled;
                 $sessione['impostore_eligible'] = (bool) $eligible;
@@ -439,6 +450,9 @@ class ApiController
                 $sessione['fade_locked'] = $locked;
                 $sessione['fade_question_id'] = (int) ($currentQuestion['id'] ?? 0);
                 $sessione['sarabanda_reverse_enabled'] = $sarabandaReverseEnabled;
+                $sessione['sarabanda_fast_forward_enabled'] = $sarabandaFastForwardEnabled;
+                $sessione['sarabanda_fast_forward_rate'] = $sarabandaFastForwardRate;
+                $sessione['sarabanda_audio_enabled'] = $sarabandaAudioEnabled;
                 $sessione['sarabanda_audio_eligible'] = (bool) $sarabandaAudioEligible;
                 $sessione['sarabanda_audio_locked'] = $locked;
                 $sessione['sarabanda_audio_question_id'] = (int) ($currentQuestion['id'] ?? 0);
@@ -451,6 +465,7 @@ class ApiController
 
             $this->json([
                 'success' => true,
+                'server_now' => round(microtime(true), 3),
                 'sessione' => $sessione,
                 'domanda' => $domandaPayload,
             ]);
@@ -588,19 +603,56 @@ class ApiController
                 return;
             }
 
+            $audioModeService = new SarabandaAudioModeService();
+            $audioEnabled = $audioModeService->isAudioEnabledForQuestion($sessioneId, (int) ($domanda['id'] ?? 0));
+            $reverseEnabled = $audioModeService->isReverseEnabledForQuestion($sessioneId, (int) ($domanda['id'] ?? 0));
+            $fastForwardEnabled = $audioModeService->isFastForwardEnabledForQuestion($sessioneId, (int) ($domanda['id'] ?? 0));
+            $fastForwardRate = $audioModeService->getFastForwardRateForQuestion($sessioneId, (int) ($domanda['id'] ?? 0));
+
             if (!$preview) {
                 $preview = [
                     'token' => $incomingToken,
                     'sessione_id' => $sessioneId,
                     'domanda_id' => (int) ($domanda['id'] ?? 0),
                     'audio_path' => $audioPath,
-                    'preview_sec' => (int) ($domanda['media_audio_preview_sec'] ?? 0),
-                    'reverse_audio' => (new SarabandaAudioModeService())->isReverseEnabledForQuestion($sessioneId, (int) ($domanda['id'] ?? 0)),
+                    'preview_sec' => $reverseEnabled
+                        ? max(10, (int) ($domanda['media_audio_preview_sec'] ?? 0))
+                        : ($fastForwardEnabled
+                            ? max(self::SARABANDA_FAST_FORWARD_SOURCE_SEC, (int) ($domanda['media_audio_preview_sec'] ?? 0))
+                            : (int) ($domanda['media_audio_preview_sec'] ?? 0)),
+                    'playback_duration_sec' => $fastForwardEnabled
+                        ? round(max(self::SARABANDA_FAST_FORWARD_SOURCE_SEC, (int) ($domanda['media_audio_preview_sec'] ?? 0)) / max(1, $fastForwardRate), 3)
+                        : ($reverseEnabled
+                            ? max(10, (int) ($domanda['media_audio_preview_sec'] ?? 0))
+                            : (int) ($domanda['media_audio_preview_sec'] ?? 0)),
+                    'audio_enabled' => $audioEnabled,
+                    'reverse_audio' => $reverseEnabled,
+                    'fast_forward_audio' => $fastForwardEnabled,
+                    'fast_forward_rate' => $fastForwardRate,
                     'created_at' => round(microtime(true), 3),
                 ];
             }
 
             $previewSec = (int) ($preview['preview_sec'] ?? (int) ($domanda['media_audio_preview_sec'] ?? 0));
+            if ((int) ($preview['reverse_audio'] ?? 0) === 1) {
+                $previewSec = max(10, $previewSec);
+                $preview['preview_sec'] = $previewSec;
+            } elseif ((int) ($preview['fast_forward_audio'] ?? 0) === 1) {
+                $previewSec = max(self::SARABANDA_FAST_FORWARD_SOURCE_SEC, $previewSec);
+                $preview['preview_sec'] = $previewSec;
+            }
+            $clientPlaybackDurationSec = (float) ($_POST['playback_duration_sec'] ?? 0);
+            $playbackDurationSec = $clientPlaybackDurationSec > 0
+                ? $clientPlaybackDurationSec
+                : (float) ($preview['playback_duration_sec'] ?? 0);
+            if ($playbackDurationSec <= 0) {
+                $playbackDurationSec = (int) ($preview['fast_forward_audio'] ?? 0) === 1
+                    ? round($previewSec / max(1, (float) ($preview['fast_forward_rate'] ?? $fastForwardRate)), 3)
+                    : $previewSec;
+                $preview['playback_duration_sec'] = $playbackDurationSec;
+            } else {
+                $preview['playback_duration_sec'] = $playbackDurationSec;
+            }
 
             if ($tipoDomanda !== 'SARABANDA') {
                 $preview['acknowledged_at'] = round(microtime(true), 3);
@@ -628,7 +680,7 @@ class ApiController
                 return;
             }
 
-            $startAt = round(microtime(true) + max(0, $previewSec), 3);
+            $startAt = round(microtime(true) + max(0, $playbackDurationSec), 3);
             $up = $pdo->prepare(
                 "UPDATE sessioni
                  SET inizio_domanda = :start_at

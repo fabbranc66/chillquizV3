@@ -61,7 +61,19 @@
   if (D.btnImpostoreToggle) D.btnImpostoreToggle.onclick = () => Admin.actions.toggleImpostoreCorrente();
   if (D.btnImagePartyToggle) D.btnImagePartyToggle.onclick = () => Admin.actions.toggleImagePartyCorrente();
   if (D.btnFadeToggle) D.btnFadeToggle.onclick = () => Admin.actions.toggleFadeCorrente();
+  if (D.sarabandaAudioLed) D.sarabandaAudioLed.onclick = () => Admin.actions.toggleSarabandaAudio();
   if (D.btnSarabandaReverseToggle) D.btnSarabandaReverseToggle.onclick = () => Admin.actions.toggleSarabandaReverse();
+  if (D.btnSarabandaFastToggle) D.btnSarabandaFastToggle.onclick = () => Admin.actions.toggleSarabandaFast();
+  if (Array.isArray(D.sarabandaFastRateButtons)) {
+    D.sarabandaFastRateButtons.forEach((btn) => {
+      btn.onclick = () => {
+        if (btn.disabled) return;
+        Admin.state.sarabandaFastForwardRate = Number(btn.dataset.fastRate || 5);
+        Admin.ui.aggiornaUI(Admin.state.currentSessionState || {});
+        Admin.actions.setSarabandaFastRate();
+      };
+    });
+  }
   if (D.btnDebugSessione) D.btnDebugSessione.onclick = () => Admin.actions.toggleDebugSessione();
   if (D.memeTextInput) {
     D.memeTextInput.oninput = () => {

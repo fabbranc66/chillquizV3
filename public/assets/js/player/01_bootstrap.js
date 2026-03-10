@@ -25,6 +25,7 @@
     currentState: null,
     activeScreenId: null,
     latestSessioneSnapshot: null,
+    serverClockOffsetMs: 0,
 
     pollingInterval: null,
     joinRequestPolling: null,

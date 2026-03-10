@@ -194,6 +194,28 @@ h2 {
     width: min(160px, 21vw);
 }
 
+.effect-inline-fast {
+    align-items: center;
+}
+
+.effect-rate-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.effect-rate-btn {
+    min-width: 46px;
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 999px;
+}
+
+.effect-rate-btn.is-active-rate {
+    box-shadow: 0 0 0 2px rgba(255,255,255,.18), 0 4px 10px rgba(0,0,0,.28);
+}
+
 .effect-led {
     display: inline-flex;
     align-items: center;

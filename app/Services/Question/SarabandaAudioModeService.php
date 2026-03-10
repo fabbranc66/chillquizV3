@@ -4,6 +4,52 @@ namespace App\Services\Question;
 
 class SarabandaAudioModeService
 {
+    public const DEFAULT_FAST_FORWARD_RATE = 5.0;
+    public const MIN_FAST_FORWARD_RATE = 2.0;
+    public const MAX_FAST_FORWARD_RATE = 5.0;
+
+    private function persistState(int $sessioneId, array $payload): bool
+    {
+        $json = json_encode($payload, JSON_UNESCAPED_UNICODE);
+        if (!is_string($json) || $json === '') {
+            return false;
+        }
+
+        return @file_put_contents($this->runtimeFile($sessioneId), $json, LOCK_EX) !== false;
+    }
+
+    private function normalizeFastForwardRate($rate): float
+    {
+        $normalized = round((float) $rate, 1);
+        if ($normalized < self::MIN_FAST_FORWARD_RATE) {
+            return self::MIN_FAST_FORWARD_RATE;
+        }
+        if ($normalized > self::MAX_FAST_FORWARD_RATE) {
+            return self::MAX_FAST_FORWARD_RATE;
+        }
+        return $normalized;
+    }
+
+    private function buildPayload(
+        int $sessioneId,
+        int $questionId,
+        bool $audioEnabled,
+        bool $reverseEnabled,
+        bool $fastForwardEnabled,
+        ?float $fastForwardRate = null
+    ): array
+    {
+        return [
+            'sessione_id' => $sessioneId,
+            'question_id' => $questionId,
+            'audio_enabled' => $audioEnabled ? 1 : 0,
+            'reverse_enabled' => $reverseEnabled ? 1 : 0,
+            'fast_forward_enabled' => $fastForwardEnabled ? 1 : 0,
+            'fast_forward_rate' => $this->normalizeFastForwardRate($fastForwardRate ?? self::DEFAULT_FAST_FORWARD_RATE),
+            'updated_at' => round(microtime(true), 3),
+        ];
+    }
+
     private function runtimeDir(): string
     {
         $dir = STORAGE_PATH . '/runtime/sarabanda_audio';
@@ -50,24 +96,94 @@ class SarabandaAudioModeService
             && (int) ($state['reverse_enabled'] ?? 0) === 1;
     }
 
+    public function isAudioEnabledForQuestion(int $sessioneId, int $questionId): bool
+    {
+        $state = $this->getRuntimeState($sessioneId);
+        if (!is_array($state)) {
+            return false;
+        }
+
+        return (int) ($state['question_id'] ?? 0) === $questionId
+            && (int) ($state['audio_enabled'] ?? 0) === 1;
+    }
+
+    public function isFastForwardEnabledForQuestion(int $sessioneId, int $questionId): bool
+    {
+        $state = $this->getRuntimeState($sessioneId);
+        if (!is_array($state)) {
+            return false;
+        }
+
+        return (int) ($state['question_id'] ?? 0) === $questionId
+            && (int) ($state['fast_forward_enabled'] ?? 0) === 1;
+    }
+
+    public function getFastForwardRateForQuestion(int $sessioneId, int $questionId): float
+    {
+        $state = $this->getRuntimeState($sessioneId);
+        if (!is_array($state) || (int) ($state['question_id'] ?? 0) !== $questionId) {
+            return self::DEFAULT_FAST_FORWARD_RATE;
+        }
+
+        return $this->normalizeFastForwardRate($state['fast_forward_rate'] ?? self::DEFAULT_FAST_FORWARD_RATE);
+    }
+
     public function setReverseEnabledForQuestion(int $sessioneId, int $questionId, bool $enabled): bool
     {
         if ($sessioneId <= 0 || $questionId <= 0) {
             return false;
         }
 
-        $payload = [
-            'sessione_id' => $sessioneId,
-            'question_id' => $questionId,
-            'reverse_enabled' => $enabled ? 1 : 0,
-            'updated_at' => round(microtime(true), 3),
-        ];
+        $existingRate = $this->getFastForwardRateForQuestion($sessioneId, $questionId);
+        $audioEnabled = $enabled ? true : $this->isAudioEnabledForQuestion($sessioneId, $questionId);
+        $payload = $this->buildPayload($sessioneId, $questionId, $audioEnabled, $enabled, false, $existingRate);
+        return $this->persistState($sessioneId, $payload);
+    }
 
-        $json = json_encode($payload, JSON_UNESCAPED_UNICODE);
-        if (!is_string($json) || $json === '') {
+    public function setAudioEnabledForQuestion(int $sessioneId, int $questionId, bool $enabled): bool
+    {
+        if ($sessioneId <= 0 || $questionId <= 0) {
             return false;
         }
 
-        return @file_put_contents($this->runtimeFile($sessioneId), $json, LOCK_EX) !== false;
+        $existingRate = $this->getFastForwardRateForQuestion($sessioneId, $questionId);
+        $reverseEnabled = $this->isReverseEnabledForQuestion($sessioneId, $questionId);
+        $fastForwardEnabled = $this->isFastForwardEnabledForQuestion($sessioneId, $questionId);
+        $payload = $this->buildPayload($sessioneId, $questionId, $enabled, $reverseEnabled, $fastForwardEnabled, $existingRate);
+        return $this->persistState($sessioneId, $payload);
+    }
+
+    public function setFastForwardEnabledForQuestion(int $sessioneId, int $questionId, bool $enabled, ?float $rate = null): bool
+    {
+        if ($sessioneId <= 0 || $questionId <= 0) {
+            return false;
+        }
+
+        $existingRate = $this->getFastForwardRateForQuestion($sessioneId, $questionId);
+        $audioEnabled = $enabled ? true : $this->isAudioEnabledForQuestion($sessioneId, $questionId);
+        $payload = $this->buildPayload($sessioneId, $questionId, $audioEnabled, false, $enabled, $rate ?? $existingRate);
+        return $this->persistState($sessioneId, $payload);
+    }
+
+    public function setFastForwardRateForQuestion(int $sessioneId, int $questionId, float $rate): bool
+    {
+        if ($sessioneId <= 0 || $questionId <= 0) {
+            return false;
+        }
+
+        $state = $this->getRuntimeState($sessioneId);
+        $reverseEnabled = is_array($state)
+            && (int) ($state['question_id'] ?? 0) === $questionId
+            && (int) ($state['reverse_enabled'] ?? 0) === 1;
+        $fastForwardEnabled = is_array($state)
+            && (int) ($state['question_id'] ?? 0) === $questionId
+            && (int) ($state['fast_forward_enabled'] ?? 0) === 1;
+
+        $audioEnabled = is_array($state)
+            && (int) ($state['question_id'] ?? 0) === $questionId
+            && (int) ($state['audio_enabled'] ?? 0) === 1;
+
+        $payload = $this->buildPayload($sessioneId, $questionId, $audioEnabled, $reverseEnabled, $fastForwardEnabled, $rate);
+        return $this->persistState($sessioneId, $payload);
     }
 }

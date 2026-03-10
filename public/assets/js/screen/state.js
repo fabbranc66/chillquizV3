@@ -3,6 +3,7 @@
   window.ScreenApp = window.ScreenApp || {};
   const ScreenApp = window.ScreenApp;
   const S = ScreenApp.store;
+  const Clock = window.ChillQuizClock;
 
   function persistDebugTiming() {
     try {
@@ -92,12 +93,12 @@
       S.timerTick = null;
     }
 
-    const nowSec = Date.now() / 1000;
-    const delayMs = start > nowSec ? Math.round((start - nowSec) * 1000) : 0;
+    const currentSec = Clock.nowSec(S);
+    const delayMs = start > currentSec ? Math.round((start - currentSec) * 1000) : 0;
 
     const tick = () => {
       markTimerStarted();
-      const elapsed = Math.max(0, (Date.now() / 1000) - start);
+      const elapsed = Math.max(0, Clock.nowSec(S) - start);
       const remaining = Math.max(0, max - elapsed);
       const visibleRemaining = Math.max(0, Math.ceil(remaining));
       const pct = max > 0 ? (remaining / max) : 0;

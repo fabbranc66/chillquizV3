@@ -3,6 +3,7 @@
   const Player = window.Player;
   const S = Player.state;
   const Support = Player.pollingSupport;
+  const Clock = window.ChillQuizClock;
 
   function startPolling() {
     if (S.pollingInterval) {
@@ -17,12 +18,18 @@
     S.statoRequestInFlight = true;
 
     try {
-      const response = await fetch(`${S.API_BASE}/stato/${S.sessioneId || 0}`);
+      const statoUrl = new URL(`${S.API_BASE}/stato/${S.sessioneId || 0}`, window.location.origin);
+      statoUrl.searchParams.set('viewer', 'player');
+      if (Number(S.partecipazioneId || 0) > 0) {
+        statoUrl.searchParams.set('partecipazione_id', String(Number(S.partecipazioneId || 0)));
+      }
+      const response = await fetch(statoUrl.toString());
       const data = await response.json();
 
       if (!data.success || !data.sessione) return;
 
       const sessione = data.sessione;
+      Clock.updateOffsetFromServerNow(S, data?.server_now || 0);
       S.latestSessioneSnapshot = sessione;
       const stato = sessione.stato;
       S.domandaTimerStart = Number(sessione?.timer_start || 0);

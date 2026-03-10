@@ -47,6 +47,7 @@ window.PLAYER_BOOTSTRAP = {
 };
 </script>
 
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/common/clock_sync.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/01_bootstrap.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/02_dom.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/player/03_utils.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
