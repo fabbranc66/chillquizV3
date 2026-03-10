@@ -14,6 +14,7 @@
     networkFadeError: 'Errore rete durante toggle FADE',
     networkSarabandaAudioError: 'Errore rete durante toggle SARABANDA',
     networkSarabandaReverseError: 'Errore rete durante toggle REVERSE SARABANDA',
+    networkSarabandaBrokenRecordError: 'Errore rete durante toggle DISCO ROTTO SARABANDA',
     networkSarabandaFastError: 'Errore rete durante toggle FAST SARABANDA',
     networkSarabandaFastRateError: 'Errore rete durante update velocita FAST SARABANDA',
     memeTextRequired: 'Inserisci prima il testo MEME',
@@ -26,11 +27,26 @@
   async function fetchAdminJson(action, sessioneId, body = null) {
     const res = await fetch(`${S.API_BASE}/admin/${action}/${sessioneId}`, {
       method: 'POST',
-      headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
       body,
     });
 
     return res.json();
+  }
+
+  async function ensureCurrentSession(sessioneId) {
+    const targetId = Number(sessioneId || 0);
+    if (targetId <= 0) return false;
+    if (Number(S.SESSIONE_ID || 0) === targetId && Number(D.sessioneSelect?.value || 0) === targetId) {
+      // Still persist server-side current session to keep generic screen/player aligned.
+    }
+
+    const formData = new FormData();
+    formData.append('sessione_id', String(targetId));
+    const data = await fetchAdminJson('set-corrente', 0, formData);
+    if (data?.success) {
+      S.SESSIONE_ID = targetId;
+    }
+    return !!data?.success;
   }
 
   function logActionResult(title, data, successMessage, fallbackError = 'Operazione fallita') {
@@ -42,8 +58,8 @@
     });
   }
 
-  async function refreshRuntimeContext() {
-    await Admin.actions.aggiornaStato();
+  async function refreshRuntimeContext(forceState = false) {
+    await Admin.actions.aggiornaStato(forceState);
     await Admin.actions.aggiornaJoinRichieste();
     await Admin.actions.aggiornaDomandaCorrenteMeta();
   }
@@ -54,6 +70,7 @@
     }
 
     D.debugSessionePanel.style.display = visible ? 'block' : 'none';
+    D.btnDebugSessione.textContent = visible ? 'DEBUG ON' : 'DEBUG OFF';
     D.btnDebugSessione.classList.toggle('enabled', visible);
     D.btnDebugSessione.classList.toggle('disabled', !visible);
   }
@@ -80,6 +97,7 @@
     copy: RUNTIME_COPY,
     readTargetSessioneId,
     fetchAdminJson,
+    ensureCurrentSession,
     logActionResult,
     refreshRuntimeContext,
     setDebugPanelVisible,

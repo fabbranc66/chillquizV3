@@ -354,6 +354,249 @@ class Partecipazione
         ];
     }
 
+    private function loadAnswerExecutionContext(
+        int $partecipazioneId,
+        int $domandaId,
+        int $opzioneId
+    ): ?array {
+        $partecipazione = $this->trova($partecipazioneId);
+        if (!$partecipazione) {
+            $this->lastError = 'Partecipazione non trovata';
+            return null;
+        }
+
+        $opzione = $this->loadOptionResultData($opzioneId);
+        if (!$opzione) {
+            $this->lastError = 'Opzione non valida';
+            return null;
+        }
+
+        $domanda = $this->loadDomandaRow($domandaId);
+        $sessionData = $this->loadAnswerSessionContext($partecipazioneId);
+        $validationError = $this->validateAnswerSessionContext($sessionData, $domandaId);
+        if ($validationError !== null) {
+            $this->lastError = $validationError;
+            return null;
+        }
+
+        $sessioneId = (int) ($sessionData['sessione_id'] ?? 0);
+        $existingResult = $this->loadExistingResult($partecipazioneId, $domandaId);
+        if ($existingResult !== null) {
+            return [
+                'existing_result' => $existingResult,
+            ];
+        }
+
+        $puntata = $this->loadCurrentLiveBet($sessioneId, $partecipazioneId);
+        if ($puntata <= 0) {
+            $this->lastError = 'Puntata non trovata per la domanda corrente';
+            return null;
+        }
+
+        return [
+            'partecipazione' => $partecipazione,
+            'opzione' => $opzione,
+            'domanda' => $domanda,
+            'session_data' => $sessionData,
+            'sessione_id' => $sessioneId,
+            'puntata' => $puntata,
+        ];
+    }
+
+    private function loadAnswerSystemSettings(): array
+    {
+        $sistema = new Sistema();
+
+        return [
+            'durata' => (int) $sistema->get('durata_domanda'),
+            'fattore_max' => (float) $sistema->get('fattore_velocita_max'),
+            'bonus_primo_attivo' => (int) $sistema->get('bonus_primo_attivo'),
+            'coeff_bonus_primo' => (float) $sistema->get('coefficiente_bonus_primo'),
+        ];
+    }
+
+    private function resolveAnswerRuntimeContext(
+        int $sessioneId,
+        int $domandaId,
+        ?array $domanda,
+        int $opzioneId,
+        string $rispostaDataTesto
+    ): array {
+        $modeMeta = $this->resolveQuestionModeMeta($sessioneId, $domandaId, $domanda);
+        $decoratedText = $this->decorateAnswerTextsForRuntime(
+            $sessioneId,
+            $opzioneId,
+            $modeMeta,
+            $rispostaDataTesto
+        );
+
+        return [
+            'mode_meta' => $modeMeta,
+            'risposta_data_testo' => $decoratedText,
+        ];
+    }
+
+    private function resolveAnswerBonuses(
+        array $settings,
+        int $corretta,
+        int $domandaId,
+        int $sessioneId,
+        int $partecipazioneId,
+        int $puntata,
+        array $modeMeta
+    ): array {
+        [$bonusPrimo, $isPrimoARispondere] = $this->resolveBonusPrimo(
+            (int) ($settings['bonus_primo_attivo'] ?? 0),
+            $corretta,
+            $domandaId,
+            $sessioneId,
+            $puntata,
+            (float) ($settings['coeff_bonus_primo'] ?? 0)
+        );
+
+        [$isImpostore, $bonusImpostore] = $this->resolveImpostoreBonus(
+            $modeMeta,
+            $sessioneId,
+            $domandaId,
+            $partecipazioneId,
+            $puntata,
+            $corretta
+        );
+
+        return [
+            'bonus_primo' => $bonusPrimo,
+            'is_primo' => $isPrimoARispondere,
+            'is_impostore' => $isImpostore,
+            'bonus_impostore' => $bonusImpostore,
+        ];
+    }
+
+    private function calculateAnswerTiming(array $sessionData, array $settings, ?float $tempoClient): array
+    {
+        $inizioDomanda = (float) ($sessionData['inizio_domanda'] ?? 0);
+        $durata = (int) ($settings['durata'] ?? 0);
+        [$tempoRisposta, $tempoRimanente] = $this->resolveTempoRisposta($inizioDomanda, $durata, $tempoClient);
+        $fattoreMax = (float) ($settings['fattore_max'] ?? 0);
+        $percentuale = $durata > 0 ? ($tempoRimanente / $durata) : 0;
+
+        return [
+            'tempo_risposta' => $tempoRisposta,
+            'tempo_rimanente' => $tempoRimanente,
+            'fattore_velocita' => round($percentuale * $fattoreMax, 2),
+        ];
+    }
+
+    private function loadMissingAnswerRows(int $sessioneId, int $domandaId): array
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT pl.partecipazione_id, pl.importo
+             FROM puntate_live pl
+             LEFT JOIN risposte r
+               ON r.partecipazione_id = pl.partecipazione_id
+              AND r.domanda_id = :domanda_id
+             WHERE pl.sessione_id = :sessione_id
+               AND pl.importo > 0
+               AND r.id IS NULL"
+        );
+
+        $stmt->execute([
+            'sessione_id' => $sessioneId,
+            'domanda_id' => $domandaId,
+        ]);
+
+        return $stmt->fetchAll() ?: [];
+    }
+
+    private function resolveMissingAnswerTempo(): float
+    {
+        $durataStmt = $this->pdo->query(
+            "SELECT valore
+             FROM configurazioni_sistema
+             WHERE chiave = 'durata_domanda'
+             LIMIT 1"
+        );
+
+        $durataRow = $durataStmt ? $durataStmt->fetch() : null;
+        return max(0, (float) ($durataRow['valore'] ?? 0));
+    }
+
+    private function persistMissingAnswers(
+        int $sessioneId,
+        int $domandaId,
+        array $rows,
+        float $tempoRispostaAssenza
+    ): int {
+        $processed = 0;
+        $started = false;
+
+        try {
+            if (!$this->pdo->inTransaction()) {
+                $this->pdo->beginTransaction();
+                $started = true;
+            }
+
+            $updateCapitale = $this->pdo->prepare(
+                "UPDATE partecipazioni
+                 SET capitale_attuale = capitale_attuale - :puntata
+                 WHERE id = :partecipazione_id"
+            );
+
+            $insertRisposta = $this->pdo->prepare(
+                "INSERT INTO risposte
+                 (partecipazione_id, domanda_id, opzione_id, puntata, corretta, punti, tempo_risposta, data_risposta)
+                 VALUES
+                 (:partecipazione_id, :domanda_id, NULL, :puntata, 0, :punti, :tempo_risposta, :data)"
+            );
+
+            $deleteLive = $this->pdo->prepare(
+                "DELETE FROM puntate_live
+                 WHERE sessione_id = :sessione_id
+                   AND partecipazione_id = :partecipazione_id"
+            );
+
+            foreach ($rows as $row) {
+                $partecipazioneId = (int) ($row['partecipazione_id'] ?? 0);
+                $puntata = (int) ($row['importo'] ?? 0);
+                if ($partecipazioneId <= 0 || $puntata <= 0) {
+                    continue;
+                }
+
+                $updateCapitale->execute([
+                    'puntata' => $puntata,
+                    'partecipazione_id' => $partecipazioneId,
+                ]);
+
+                $insertRisposta->execute([
+                    'partecipazione_id' => $partecipazioneId,
+                    'domanda_id' => $domandaId,
+                    'puntata' => $puntata,
+                    'punti' => -$puntata,
+                    'tempo_risposta' => $tempoRispostaAssenza,
+                    'data' => time(),
+                ]);
+
+                $deleteLive->execute([
+                    'sessione_id' => $sessioneId,
+                    'partecipazione_id' => $partecipazioneId,
+                ]);
+
+                unset($_SESSION['puntate'][$partecipazioneId]);
+                $processed++;
+            }
+
+            if ($started) {
+                $this->pdo->commit();
+            }
+        } catch (\Throwable $e) {
+            if ($started && $this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            throw $e;
+        }
+
+        return $processed;
+    }
+
     private function loadExistingResult(int $partecipazioneId, int $domandaId): ?array
     {
         $stmt = $this->pdo->prepare(
@@ -480,88 +723,52 @@ class Partecipazione
     ): ?array {
         $this->lastError = null;
 
-        $partecipazione = $this->trova($partecipazioneId);
-        if (!$partecipazione) {
-            $this->lastError = 'Partecipazione non trovata';
+        $executionContext = $this->loadAnswerExecutionContext($partecipazioneId, $domandaId, $opzioneId);
+        if ($executionContext === null) {
             return null;
         }
-
-        $opzione = $this->loadOptionResultData($opzioneId);
-        if (!$opzione) {
-            $this->lastError = 'Opzione non valida';
-            return null;
+        if (isset($executionContext['existing_result'])) {
+            return $executionContext['existing_result'];
         }
 
+        $opzione = $executionContext['opzione'];
+        $domanda = $executionContext['domanda'];
+        $sessionData = $executionContext['session_data'];
+        $sessioneId = (int) $executionContext['sessione_id'];
+        $puntata = (int) $executionContext['puntata'];
         $corretta = (int) ($opzione['corretta'] ?? 0);
         $rispostaDataTesto = (string) ($opzione['risposta_data_testo'] ?? '');
         $rispostaCorrettaTesto = (string) ($opzione['risposta_corretta_testo'] ?? '');
-        $domanda = $this->loadDomandaRow($domandaId);
-
         $difficolta = $domanda ? (float) ($domanda['difficolta'] ?? 1.0) : 1.0;
-        $modeMeta = [];
 
-        $sistema = new Sistema();
-
-        $durata = (int) $sistema->get('durata_domanda');
-        $fattoreMax = (float) $sistema->get('fattore_velocita_max');
-        $bonusPrimoAttivo = (int) $sistema->get('bonus_primo_attivo');
-        $coeffBonusPrimo = (float) $sistema->get('coefficiente_bonus_primo');
-
-        $sessionData = $this->loadAnswerSessionContext($partecipazioneId);
-
-        $validationError = $this->validateAnswerSessionContext($sessionData, $domandaId);
-        if ($validationError !== null) {
-            $this->lastError = $validationError;
-            return null;
-        }
-
-        $sessioneId = (int) $sessionData['sessione_id'];
-        $existingResult = $this->loadExistingResult($partecipazioneId, $domandaId);
-        if ($existingResult !== null) {
-            return $existingResult;
-        }
-
-        $puntata = $this->loadCurrentLiveBet($sessioneId, $partecipazioneId);
-        if ($puntata <= 0) {
-            $this->lastError = 'Puntata non trovata per la domanda corrente';
-            return null;
-        }
-
-        $inizioDomanda = (float) $sessionData['inizio_domanda'];
-        $modeMeta = $this->resolveQuestionModeMeta($sessioneId, $domandaId, $domanda);
-        $rispostaDataTesto = $this->decorateAnswerTextsForRuntime(
+        $settings = $this->loadAnswerSystemSettings();
+        $runtimeContext = $this->resolveAnswerRuntimeContext(
             $sessioneId,
+            $domandaId,
+            $domanda,
             $opzioneId,
-            $modeMeta,
             $rispostaDataTesto
         );
+        $modeMeta = $runtimeContext['mode_meta'];
+        $rispostaDataTesto = $runtimeContext['risposta_data_testo'];
 
-        [$tempoRisposta, $tempoRimanente] = $this->resolveTempoRisposta($inizioDomanda, $durata, $tempoClient);
+        $timing = $this->calculateAnswerTiming($sessionData, $settings, $tempoClient);
+        $tempoRisposta = (float) $timing['tempo_risposta'];
+        $fattoreVelocita = (float) $timing['fattore_velocita'];
 
-        $percentuale = $durata > 0 ? ($tempoRimanente / $durata) : 0;
-        $fattoreVelocita = round($percentuale * $fattoreMax, 2);
-
-        $bonusPrimo = 0;
-        $isPrimoARispondere = false;
-        $isImpostore = false;
-        $bonusImpostore = 0;
-
-        [$bonusPrimo, $isPrimoARispondere] = $this->resolveBonusPrimo(
-            $bonusPrimoAttivo,
+        $bonuses = $this->resolveAnswerBonuses(
+            $settings,
             $corretta,
             $domandaId,
             $sessioneId,
-            $puntata,
-            $coeffBonusPrimo
-        );
-        [$isImpostore, $bonusImpostore] = $this->resolveImpostoreBonus(
-            $modeMeta,
-            $sessioneId,
-            $domandaId,
             $partecipazioneId,
             $puntata,
-            $corretta
+            $modeMeta
         );
+        $bonusPrimo = (int) $bonuses['bonus_primo'];
+        $isPrimoARispondere = (bool) $bonuses['is_primo'];
+        $isImpostore = (bool) $bonuses['is_impostore'];
+        $bonusImpostore = (int) $bonuses['bonus_impostore'];
 
         $score = $this->calculateAnswerScore(
             $modeMeta,
@@ -619,106 +826,17 @@ class Partecipazione
 
         $this->ensurePuntateLiveTable();
 
-        $stmt = $this->pdo->prepare(
-            "SELECT pl.partecipazione_id, pl.importo
-             FROM puntate_live pl
-             LEFT JOIN risposte r
-               ON r.partecipazione_id = pl.partecipazione_id
-              AND r.domanda_id = :domanda_id
-             WHERE pl.sessione_id = :sessione_id
-               AND pl.importo > 0
-               AND r.id IS NULL"
-        );
-
-        $stmt->execute([
-            'sessione_id' => $sessioneId,
-            'domanda_id' => $domandaId,
-        ]);
-
-        $rows = $stmt->fetchAll();
+        $rows = $this->loadMissingAnswerRows($sessioneId, $domandaId);
         if (!$rows) {
             return 0;
         }
 
-        $durataStmt = $this->pdo->query(
-            "SELECT valore
-             FROM configurazioni_sistema
-             WHERE chiave = 'durata_domanda'
-             LIMIT 1"
+        return $this->persistMissingAnswers(
+            $sessioneId,
+            $domandaId,
+            $rows,
+            $this->resolveMissingAnswerTempo()
         );
-
-        $durataRow = $durataStmt ? $durataStmt->fetch() : null;
-        $tempoRispostaAssenza = max(0, (float) ($durataRow['valore'] ?? 0));
-
-        $processed = 0;
-        $started = false;
-
-        try {
-            if (!$this->pdo->inTransaction()) {
-                $this->pdo->beginTransaction();
-                $started = true;
-            }
-
-            $updateCapitale = $this->pdo->prepare(
-                "UPDATE partecipazioni
-                 SET capitale_attuale = capitale_attuale - :puntata
-                 WHERE id = :partecipazione_id"
-            );
-
-            $insertRisposta = $this->pdo->prepare(
-                "INSERT INTO risposte
-                 (partecipazione_id, domanda_id, opzione_id, puntata, corretta, punti, tempo_risposta, data_risposta)
-                 VALUES
-                 (:partecipazione_id, :domanda_id, NULL, :puntata, 0, :punti, :tempo_risposta, :data)"
-            );
-
-            $deleteLive = $this->pdo->prepare(
-                "DELETE FROM puntate_live
-                 WHERE sessione_id = :sessione_id
-                   AND partecipazione_id = :partecipazione_id"
-            );
-
-            foreach ($rows as $row) {
-                $partecipazioneId = (int) ($row['partecipazione_id'] ?? 0);
-                $puntata = (int) ($row['importo'] ?? 0);
-                if ($partecipazioneId <= 0 || $puntata <= 0) {
-                    continue;
-                }
-
-                $updateCapitale->execute([
-                    'puntata' => $puntata,
-                    'partecipazione_id' => $partecipazioneId,
-                ]);
-
-                $insertRisposta->execute([
-                    'partecipazione_id' => $partecipazioneId,
-                    'domanda_id' => $domandaId,
-                    'puntata' => $puntata,
-                    'punti' => -$puntata,
-                    'tempo_risposta' => $tempoRispostaAssenza,
-                    'data' => time(),
-                ]);
-
-                $deleteLive->execute([
-                    'sessione_id' => $sessioneId,
-                    'partecipazione_id' => $partecipazioneId,
-                ]);
-
-                unset($_SESSION['puntate'][$partecipazioneId]);
-                $processed++;
-            }
-
-            if ($started) {
-                $this->pdo->commit();
-            }
-        } catch (\Throwable $e) {
-            if ($started && $this->pdo->inTransaction()) {
-                $this->pdo->rollBack();
-            }
-            throw $e;
-        }
-
-        return $processed;
     }
 
     public function ripristinaCapitaleEliminatiFineFase(int $sessioneId): void

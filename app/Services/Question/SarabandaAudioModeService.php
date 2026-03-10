@@ -36,6 +36,7 @@ class SarabandaAudioModeService
         bool $audioEnabled,
         bool $reverseEnabled,
         bool $fastForwardEnabled,
+        bool $brokenRecordEnabled,
         ?float $fastForwardRate = null
     ): array
     {
@@ -45,6 +46,7 @@ class SarabandaAudioModeService
             'audio_enabled' => $audioEnabled ? 1 : 0,
             'reverse_enabled' => $reverseEnabled ? 1 : 0,
             'fast_forward_enabled' => $fastForwardEnabled ? 1 : 0,
+            'broken_record_enabled' => $brokenRecordEnabled ? 1 : 0,
             'fast_forward_rate' => $this->normalizeFastForwardRate($fastForwardRate ?? self::DEFAULT_FAST_FORWARD_RATE),
             'updated_at' => round(microtime(true), 3),
         ];
@@ -85,6 +87,20 @@ class SarabandaAudioModeService
         return is_array($decoded) ? $decoded : null;
     }
 
+    public function clearRuntimeState(int $sessioneId): bool
+    {
+        if ($sessioneId <= 0) {
+            return false;
+        }
+
+        $file = $this->runtimeFile($sessioneId);
+        if (!is_file($file)) {
+            return true;
+        }
+
+        return @unlink($file);
+    }
+
     public function isReverseEnabledForQuestion(int $sessioneId, int $questionId): bool
     {
         $state = $this->getRuntimeState($sessioneId);
@@ -118,6 +134,17 @@ class SarabandaAudioModeService
             && (int) ($state['fast_forward_enabled'] ?? 0) === 1;
     }
 
+    public function isBrokenRecordEnabledForQuestion(int $sessioneId, int $questionId): bool
+    {
+        $state = $this->getRuntimeState($sessioneId);
+        if (!is_array($state)) {
+            return false;
+        }
+
+        return (int) ($state['question_id'] ?? 0) === $questionId
+            && (int) ($state['broken_record_enabled'] ?? 0) === 1;
+    }
+
     public function getFastForwardRateForQuestion(int $sessioneId, int $questionId): float
     {
         $state = $this->getRuntimeState($sessioneId);
@@ -136,7 +163,7 @@ class SarabandaAudioModeService
 
         $existingRate = $this->getFastForwardRateForQuestion($sessioneId, $questionId);
         $audioEnabled = $enabled ? true : $this->isAudioEnabledForQuestion($sessioneId, $questionId);
-        $payload = $this->buildPayload($sessioneId, $questionId, $audioEnabled, $enabled, false, $existingRate);
+        $payload = $this->buildPayload($sessioneId, $questionId, $audioEnabled, $enabled, false, false, $existingRate);
         return $this->persistState($sessioneId, $payload);
     }
 
@@ -147,9 +174,10 @@ class SarabandaAudioModeService
         }
 
         $existingRate = $this->getFastForwardRateForQuestion($sessioneId, $questionId);
-        $reverseEnabled = $this->isReverseEnabledForQuestion($sessioneId, $questionId);
-        $fastForwardEnabled = $this->isFastForwardEnabledForQuestion($sessioneId, $questionId);
-        $payload = $this->buildPayload($sessioneId, $questionId, $enabled, $reverseEnabled, $fastForwardEnabled, $existingRate);
+        $reverseEnabled = $enabled ? $this->isReverseEnabledForQuestion($sessioneId, $questionId) : false;
+        $fastForwardEnabled = $enabled ? $this->isFastForwardEnabledForQuestion($sessioneId, $questionId) : false;
+        $brokenRecordEnabled = $enabled ? $this->isBrokenRecordEnabledForQuestion($sessioneId, $questionId) : false;
+        $payload = $this->buildPayload($sessioneId, $questionId, $enabled, $reverseEnabled, $fastForwardEnabled, $brokenRecordEnabled, $existingRate);
         return $this->persistState($sessioneId, $payload);
     }
 
@@ -161,7 +189,19 @@ class SarabandaAudioModeService
 
         $existingRate = $this->getFastForwardRateForQuestion($sessioneId, $questionId);
         $audioEnabled = $enabled ? true : $this->isAudioEnabledForQuestion($sessioneId, $questionId);
-        $payload = $this->buildPayload($sessioneId, $questionId, $audioEnabled, false, $enabled, $rate ?? $existingRate);
+        $payload = $this->buildPayload($sessioneId, $questionId, $audioEnabled, false, $enabled, false, $rate ?? $existingRate);
+        return $this->persistState($sessioneId, $payload);
+    }
+
+    public function setBrokenRecordEnabledForQuestion(int $sessioneId, int $questionId, bool $enabled): bool
+    {
+        if ($sessioneId <= 0 || $questionId <= 0) {
+            return false;
+        }
+
+        $existingRate = $this->getFastForwardRateForQuestion($sessioneId, $questionId);
+        $audioEnabled = $enabled ? true : $this->isAudioEnabledForQuestion($sessioneId, $questionId);
+        $payload = $this->buildPayload($sessioneId, $questionId, $audioEnabled, false, false, $enabled, $existingRate);
         return $this->persistState($sessioneId, $payload);
     }
 
@@ -178,12 +218,15 @@ class SarabandaAudioModeService
         $fastForwardEnabled = is_array($state)
             && (int) ($state['question_id'] ?? 0) === $questionId
             && (int) ($state['fast_forward_enabled'] ?? 0) === 1;
+        $brokenRecordEnabled = is_array($state)
+            && (int) ($state['question_id'] ?? 0) === $questionId
+            && (int) ($state['broken_record_enabled'] ?? 0) === 1;
 
         $audioEnabled = is_array($state)
             && (int) ($state['question_id'] ?? 0) === $questionId
             && (int) ($state['audio_enabled'] ?? 0) === 1;
 
-        $payload = $this->buildPayload($sessioneId, $questionId, $audioEnabled, $reverseEnabled, $fastForwardEnabled, $rate);
+        $payload = $this->buildPayload($sessioneId, $questionId, $audioEnabled, $reverseEnabled, $fastForwardEnabled, $brokenRecordEnabled, $rate);
         return $this->persistState($sessioneId, $payload);
     }
 }

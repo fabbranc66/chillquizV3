@@ -4,6 +4,7 @@ namespace App\Services\Sessione\Traits;
 
 use App\Services\Question\ImpostoreModeService;
 use App\Services\Question\MemeModeService;
+use App\Services\Question\SarabandaAudioModeService;
 
 trait ResetTrait
 {
@@ -27,6 +28,7 @@ trait ResetTrait
 
         (new ImpostoreModeService())->clearRuntimeState($this->sessioneId);
         (new MemeModeService())->clearRuntimeState($this->sessioneId);
+        (new SarabandaAudioModeService())->clearRuntimeState($this->sessioneId);
         $this->svuotaPuntateLive();
         $this->generaDomandeSessione();
     }

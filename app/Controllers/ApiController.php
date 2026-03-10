@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\Traits\HandlesAdminMediaActions;
 use App\Controllers\Traits\HandlesAdminAudioRuntimeActions;
+use App\Controllers\Traits\HandlesAdminQuestionRuntimeActions;
 use App\Controllers\Traits\HandlesAdminQuestionActions;
 use App\Controllers\Traits\HandlesAdminRuntimeActions;
 use App\Controllers\Traits\HandlesAdminSessionActions;
@@ -30,6 +31,7 @@ class ApiController
 
     use HandlesAdminSessionActions;
     use HandlesAdminAudioRuntimeActions;
+    use HandlesAdminQuestionRuntimeActions;
     use HandlesAdminRuntimeActions;
     use HandlesAdminQuestionActions;
     use HandlesAdminMediaActions;
@@ -97,36 +99,9 @@ class ApiController
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 
-    private function getRequestHeader(string $name): ?string
-    {
-        $key = 'HTTP_' . strtoupper(str_replace('-', '_', $name));
-
-        if (isset($_SERVER[$key])) {
-            return trim((string) $_SERVER[$key]);
-        }
-
-        if (function_exists('getallheaders')) {
-            $headers = getallheaders();
-            foreach ($headers as $headerName => $headerValue) {
-                if (strcasecmp((string) $headerName, $name) === 0) {
-                    return trim((string) $headerValue);
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private function getAdminToken(): string
-    {
-        $token = getenv('ADMIN_TOKEN');
-        return is_string($token) ? trim($token) : '';
-    }
-
     private function isAdminAuthorized(): bool
     {
-        $incoming = $this->getRequestHeader('X-ADMIN-TOKEN');
-        return (new AdminAuthService())->isApiAuthorized($incoming, null);
+        return (new AdminAuthService())->isApiAuthorized();
     }
 
     private function loadCurrentQuestionForSession(int $sessioneId): ?array
@@ -396,7 +371,8 @@ class ApiController
                 $enabled = $eligible
                     ? $impostoreService->isEnabledForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
                     : false;
-                $locked = in_array((string) ($sessione['stato'] ?? ''), ['domanda', 'conclusa'], true);
+                $locked = in_array((string) ($sessione['stato'] ?? ''), ['preview', 'domanda', 'conclusa'], true);
+                $audioLocked = in_array((string) ($sessione['stato'] ?? ''), ['domanda', 'conclusa'], true);
 
                 $memeService = new MemeModeService();
                 $memeState = $memeService->getRuntimeState((int) ($sessione['id'] ?? 0));
@@ -423,9 +399,10 @@ class ApiController
                 $sarabandaFastForwardEnabled = $sarabandaAudioEligible
                     ? $sarabandaAudioService->isFastForwardEnabledForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
                     : false;
-                $sarabandaAudioEnabled = $sarabandaAudioEligible
-                    ? $sarabandaAudioService->isAudioEnabledForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
+                $sarabandaBrokenRecordEnabled = $sarabandaAudioEligible
+                    ? $sarabandaAudioService->isBrokenRecordEnabledForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
                     : false;
+                $sarabandaAudioEnabled = (bool) $sarabandaAudioEligible;
                 $sarabandaFastForwardRate = $sarabandaAudioEligible
                     ? $sarabandaAudioService->getFastForwardRateForQuestion((int) ($sessione['id'] ?? 0), (int) ($currentQuestion['id'] ?? 0))
                     : SarabandaAudioModeService::DEFAULT_FAST_FORWARD_RATE;
@@ -449,15 +426,16 @@ class ApiController
                 $sessione['fade_question_id'] = (int) ($currentQuestion['id'] ?? 0);
                 $sessione['sarabanda_reverse_enabled'] = $sarabandaReverseEnabled;
                 $sessione['sarabanda_fast_forward_enabled'] = $sarabandaFastForwardEnabled;
+                $sessione['sarabanda_broken_record_enabled'] = $sarabandaBrokenRecordEnabled;
                 $sessione['sarabanda_fast_forward_rate'] = $sarabandaFastForwardRate;
                 $sessione['sarabanda_audio_enabled'] = $sarabandaAudioEnabled;
                 $sessione['sarabanda_audio_eligible'] = (bool) $sarabandaAudioEligible;
-                $sessione['sarabanda_audio_locked'] = $locked;
+                $sessione['sarabanda_audio_locked'] = $audioLocked;
                 $sessione['sarabanda_audio_question_id'] = (int) ($currentQuestion['id'] ?? 0);
             }
 
             $domandaPayload = null;
-            if (is_array($sessione) && (string) ($sessione['stato'] ?? '') === 'domanda') {
+            if (is_array($sessione) && in_array((string) ($sessione['stato'] ?? ''), ['preview', 'domanda'], true)) {
                 $domandaPayload = $service->domandaCorrente();
             }
 
@@ -605,6 +583,7 @@ class ApiController
             $audioEnabled = $audioModeService->isAudioEnabledForQuestion($sessioneId, (int) ($domanda['id'] ?? 0));
             $reverseEnabled = $audioModeService->isReverseEnabledForQuestion($sessioneId, (int) ($domanda['id'] ?? 0));
             $fastForwardEnabled = $audioModeService->isFastForwardEnabledForQuestion($sessioneId, (int) ($domanda['id'] ?? 0));
+            $brokenRecordEnabled = $audioModeService->isBrokenRecordEnabledForQuestion($sessioneId, (int) ($domanda['id'] ?? 0));
             $fastForwardRate = $audioModeService->getFastForwardRateForQuestion($sessioneId, (int) ($domanda['id'] ?? 0));
 
             if (!$preview) {
@@ -626,6 +605,7 @@ class ApiController
                     'audio_enabled' => $audioEnabled,
                     'reverse_audio' => $reverseEnabled,
                     'fast_forward_audio' => $fastForwardEnabled,
+                    'broken_record_audio' => $brokenRecordEnabled,
                     'fast_forward_rate' => $fastForwardRate,
                     'created_at' => round(microtime(true), 3),
                 ];
@@ -670,10 +650,10 @@ class ApiController
             $sessioneRow = $stmt->fetch() ?: null;
             $statoCorrente = (string) ($sessioneRow['stato'] ?? '');
 
-            if ($statoCorrente !== 'domanda') {
+            if ($statoCorrente !== 'preview') {
                 $this->json([
                     'success' => false,
-                    'error' => 'La sessione non e in stato domanda'
+                    'error' => 'La sessione non e in stato preview'
                 ]);
                 return;
             }

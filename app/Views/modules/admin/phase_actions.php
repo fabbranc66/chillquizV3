@@ -5,18 +5,14 @@
  * ELEMENTI USATI DA JS: #btnPuntata #btnDomanda #btnRisultati #btnProssima
  */ ?>
 <div class="module-debug-tag">admin/phase_actions.php</div>
-<!-- FASI -->
-<div class="row">
-    <button id="btnPuntata">Avvia Puntata</button>
-    <button id="btnDomanda">Avvia Domanda</button>
-    <button id="btnRisultati">Chiudi Domanda</button>
-    <button id="btnProssima">Prossima Fase</button>
-    <button id="btnRiavvia">Riavvia</button>
+<div class="phase-actions-layout">
+    <div class="phase-actions-block">
+        <div class="phase-actions-title">Controllo partita</div>
+        <div class="phase-actions-grid">
+            <button id="btnPuntata">Avvia Puntata</button>
+            <button id="btnDomanda">Avvia Domanda</button>
+            <button id="btnRisultati">Chiudi Domanda</button>
+            <button id="btnProssima">Prossima Fase</button>
+        </div>
+    </div>
 </div>
-<div class="row">
-    <button id="btnAudioPreview" style="display:none;">Anteprima audio</button>
-    <button id="btnSchermo">Attiva Schermo</button>
-    <button id="btnMedia">Gestione Media</button>
-    <button id="btnSettings">Settings</button>
-</div>
-

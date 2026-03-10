@@ -16,7 +16,9 @@ class ScreenController
             $sessioneId = (int) ($corrente['id'] ?? 0);
         }
 
-        $showModuleTags = (new AppSettings())->all()['show_module_tags'];
+        $settings = (new AppSettings())->all();
+        $showModuleTags = $settings['show_module_tags'];
+        $screenLogoPath = ltrim(trim((string) (($settings['configurazioni_sistema']['logo'] ?? ''))), '/');
 
         require BASE_PATH . '/app/Views/screen/index.php';
     }

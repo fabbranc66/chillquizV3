@@ -61,20 +61,35 @@
   if (D.btnImpostoreToggle) D.btnImpostoreToggle.onclick = () => Admin.actions.toggleImpostoreCorrente();
   if (D.btnImagePartyToggle) D.btnImagePartyToggle.onclick = () => Admin.actions.toggleImagePartyCorrente();
   if (D.btnFadeToggle) D.btnFadeToggle.onclick = () => Admin.actions.toggleFadeCorrente();
-  if (D.sarabandaAudioLed) D.sarabandaAudioLed.onclick = () => Admin.actions.toggleSarabandaAudio();
   if (D.btnSarabandaReverseToggle) D.btnSarabandaReverseToggle.onclick = () => Admin.actions.toggleSarabandaReverse();
+  if (D.btnSarabandaBrokenRecordToggle) D.btnSarabandaBrokenRecordToggle.onclick = () => Admin.actions.toggleSarabandaBrokenRecord();
   if (D.btnSarabandaFastToggle) D.btnSarabandaFastToggle.onclick = () => Admin.actions.toggleSarabandaFast();
   if (Array.isArray(D.sarabandaFastRateButtons)) {
     D.sarabandaFastRateButtons.forEach((btn) => {
       btn.onclick = () => {
         if (btn.disabled) return;
-        Admin.state.sarabandaFastForwardRate = Number(btn.dataset.fastRate || 5);
-        Admin.ui.aggiornaUI(Admin.state.currentSessionState || {});
+        const nextRate = Number(btn.dataset.fastRate || 5);
+        Admin.state.sarabandaFastForwardRate = nextRate;
+        const optimisticSessionState = Object.assign(
+          {},
+          Admin.state.currentSessionState || {},
+          {
+            sarabanda_fast_forward_enabled: true,
+            sarabanda_fast_forward_rate: nextRate,
+            sarabanda_reverse_enabled: false,
+            sarabanda_broken_record_enabled: false,
+          }
+        );
+        Admin.state.currentSessionState = optimisticSessionState;
+        Admin.ui.aggiornaUI(optimisticSessionState);
         Admin.actions.setSarabandaFastRate();
       };
     });
   }
   if (D.btnDebugSessione) D.btnDebugSessione.onclick = () => Admin.actions.toggleDebugSessione();
+  if (D.debugSessionePanel && D.btnDebugSessione) {
+    Runtime.setDebugPanelVisible(D.debugSessionePanel.style.display !== 'none');
+  }
   if (D.memeTextInput) {
     D.memeTextInput.oninput = () => {
       Runtime.persistMemeDraft(String(D.memeTextInput.value || ''));
@@ -168,11 +183,12 @@
   if (D.btnRisultati) D.btnRisultati.onclick = () => Admin.actions.callAdmin('risultati');
   if (D.btnProssima) D.btnProssima.onclick = () => Admin.actions.callAdmin('prossima');
   if (D.btnRiavvia) D.btnRiavvia.onclick = () => Admin.actions.callAdmin('riavvia');
-  if (D.btnAudioPreview) D.btnAudioPreview.onclick = () => Admin.actions.avviaAnteprimaAudio();
 
   if (D.btnSchermo) D.btnSchermo.onclick = () => Admin.actions.apriSchermo();
   if (D.btnMedia) D.btnMedia.onclick = () => Admin.actions.apriMedia();
+  if (D.btnHeaderMedia) D.btnHeaderMedia.onclick = () => Admin.actions.apriMedia();
   if (D.btnSettings) D.btnSettings.onclick = () => Admin.actions.apriSettings();
+  if (D.btnHeaderSettings) D.btnHeaderSettings.onclick = () => Admin.actions.apriSettings();
 
   if (D.btnClearLog) D.btnClearLog.onclick = () => Admin.log.clearLog();
 

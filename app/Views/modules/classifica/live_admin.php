@@ -7,8 +7,10 @@
 <div class="module-debug-tag">classifica/live_admin.php</div>
 <!-- CLASSIFICA LIVE -->
 <div class="live-wrap">
-    <div class="log-head">
-        <div class="log-title">📊 Classifica live (puntata + esito risposta)</div>
+    <div class="live-head">
+        <div class="live-kicker">LIVE SCORE</div>
+        <div class="live-title">Classifica live</div>
+        <div class="live-subtitle">Puntata, esito risposta e andamento in tempo reale</div>
     </div>
     <table class="live-table">
         <thead>

@@ -61,21 +61,36 @@
           : `Sessione nr ${S.SESSIONE_ID} del ${new Date().toLocaleDateString('it-IT')}`;
       }
 
-      if (D.statoDiv) D.statoDiv.textContent = 'Stato: ' + sessione.stato;
-      if (D.conclusaDiv) D.conclusaDiv.style.display = (sessione.stato === 'conclusa') ? 'block' : 'none';
+      const statoRaw = String(sessione?.stato || '').trim();
+      const statoLabel = statoRaw || 'preview';
+      if (D.statoDiv) {
+        D.statoDiv.classList.remove(
+          'state-banner-attesa',
+          'state-banner-puntata',
+          'state-banner-preview',
+          'state-banner-domanda',
+          'state-banner-risultati',
+          'state-banner-conclusa',
+          'state-banner-pending'
+        );
+        D.statoDiv.classList.add(`state-banner-${statoLabel}`);
+        const value = D.statoDiv.querySelector('.state-banner-value');
+        if (value) value.textContent = statoLabel.toUpperCase();
+      }
       S.impostoreEnabled = !!sessione.impostore_enabled;
       S.memeEnabled = !!sessione.meme_enabled;
       S.imagePartyEnabled = !!sessione.image_party_enabled;
       S.fadeEnabled = !!sessione.fade_enabled;
       S.sarabandaAudioEnabled = !!sessione.sarabanda_audio_enabled;
       S.sarabandaReverseEnabled = !!sessione.sarabanda_reverse_enabled;
+      S.sarabandaBrokenRecordEnabled = !!sessione.sarabanda_broken_record_enabled;
       S.sarabandaFastForwardEnabled = !!sessione.sarabanda_fast_forward_enabled;
       S.sarabandaFastForwardRate = Number(sessione.sarabanda_fast_forward_rate || S.sarabandaFastForwardRate || 5);
       S.memeText = String(sessione.meme_text || '');
 
       Admin.ui.setButton(D.btnPuntata, sessione.stato === 'attesa' || sessione.stato === 'risultati');
       Admin.ui.setButton(D.btnDomanda, sessione.stato === 'puntata');
-      Admin.ui.setButton(D.btnRisultati, sessione.stato === 'domanda');
+      Admin.ui.setButton(D.btnRisultati, sessione.stato === 'preview' || sessione.stato === 'domanda');
       Admin.ui.setButton(D.btnProssima, sessione.stato === 'risultati');
 
       Admin.ui.setButton(D.btnNuova, true);
@@ -84,8 +99,6 @@
       Admin.ui.setButton(D.btnSchermo, true);
       Admin.ui.setButton(D.btnMedia, true);
       Admin.ui.setButton(D.btnSettings, true);
-      Admin.ui.setButton(D.btnQuizConfigV2, true);
-
       if (D.btnImpostoreToggle) {
         const eligible = !!sessione.impostore_eligible;
         const locked = !!sessione.impostore_locked;
@@ -97,7 +110,7 @@
         D.btnImpostoreToggle.classList.toggle('is-locked', locked);
         D.btnImpostoreToggle.title = !eligible
           ? 'Non disponibile per SARABANDA'
-          : (locked ? 'Modificabile solo prima dello stato domanda' : 'Applica IMPOSTORE alla domanda corrente');
+          : (locked ? 'Modificabile solo prima dello stato preview/domanda' : 'Applica IMPOSTORE alla domanda corrente');
       }
 
       if (D.memeTextInput) {
@@ -120,7 +133,7 @@
         D.btnMemeToggle.classList.toggle('is-locked', locked);
         D.btnMemeToggle.title = !eligible
           ? 'Non disponibile per SARABANDA'
-          : (locked ? 'Modificabile solo prima dello stato domanda' : 'Applica MEME alla domanda corrente');
+          : (locked ? 'Modificabile solo prima dello stato preview/domanda' : 'Applica MEME alla domanda corrente');
       }
 
       if (D.btnImagePartyToggle) {
@@ -134,7 +147,7 @@
         D.btnImagePartyToggle.classList.toggle('is-locked', locked);
         D.btnImagePartyToggle.title = !eligible
           ? 'Richiede un\'immagine e non e disponibile per SARABANDA'
-          : (locked ? 'Modificabile solo prima dello stato domanda' : 'Applica PIXELATE alla domanda corrente');
+          : (locked ? 'Modificabile solo prima dello stato preview/domanda' : 'Applica PIXELATE alla domanda corrente');
       }
 
       if (D.btnFadeToggle) {
@@ -148,21 +161,21 @@
         D.btnFadeToggle.classList.toggle('is-locked', locked);
         D.btnFadeToggle.title = !eligible
           ? 'Richiede un\'immagine e non e disponibile per SARABANDA'
-          : (locked ? 'Modificabile solo prima dello stato domanda' : 'Applica FADE alla domanda corrente');
+          : (locked ? 'Modificabile solo prima dello stato preview/domanda' : 'Applica FADE alla domanda corrente');
       }
 
       if (D.sarabandaAudioLed) {
         const eligible = !!sessione.sarabanda_audio_eligible;
         const locked = !!sessione.sarabanda_audio_locked;
         const enabled = !!sessione.sarabanda_audio_enabled;
-        D.sarabandaAudioLed.textContent = enabled ? 'SARABANDA ON' : 'SARABANDA OFF';
-        D.sarabandaAudioLed.disabled = !eligible || locked;
+        D.sarabandaAudioLed.textContent = enabled ? 'SARABANDA AUTO' : 'SARABANDA OFF';
+        D.sarabandaAudioLed.disabled = true;
         D.sarabandaAudioLed.classList.toggle('enabled', enabled);
         D.sarabandaAudioLed.classList.toggle('disabled', !enabled || !eligible);
         D.sarabandaAudioLed.classList.toggle('is-locked', locked);
         D.sarabandaAudioLed.title = !eligible
           ? 'Disponibile solo per SARABANDA con audio'
-          : (locked ? 'Modificabile solo prima dello stato domanda' : 'Abilita la modalita SARABANDA');
+          : 'Riconoscimento automatico SARABANDA sulla domanda corrente';
       }
 
       if (D.btnSarabandaReverseToggle) {
@@ -176,7 +189,7 @@
         D.btnSarabandaReverseToggle.classList.toggle('is-locked', locked);
         D.btnSarabandaReverseToggle.title = !eligible
           ? 'Disponibile solo per SARABANDA con audio'
-          : (locked ? 'Modificabile solo prima dello stato domanda' : 'Riproduce il brano al contrario');
+          : (locked ? 'Modificabile solo prima dello stato preview/domanda' : 'Riproduce il brano al contrario');
       }
 
       if (D.btnSarabandaFastToggle) {
@@ -190,14 +203,28 @@
         D.btnSarabandaFastToggle.classList.toggle('is-locked', locked);
         D.btnSarabandaFastToggle.title = !eligible
           ? 'Disponibile solo per SARABANDA con audio'
-          : (locked ? 'Modificabile solo prima dello stato domanda' : 'Riproduce il brano in fast forward');
+          : (locked ? 'Modificabile solo prima dello stato preview/domanda' : 'Riproduce il brano in fast forward');
+      }
+      if (D.btnSarabandaBrokenRecordToggle) {
+        const eligible = !!sessione.sarabanda_audio_eligible;
+        const locked = !!sessione.sarabanda_audio_locked;
+        const enabled = !!sessione.sarabanda_broken_record_enabled;
+        D.btnSarabandaBrokenRecordToggle.textContent = enabled ? 'DISCO ROTTO ON' : 'DISCO ROTTO OFF';
+        D.btnSarabandaBrokenRecordToggle.disabled = !eligible || locked;
+        D.btnSarabandaBrokenRecordToggle.classList.toggle('enabled', enabled);
+        D.btnSarabandaBrokenRecordToggle.classList.toggle('disabled', !enabled || !eligible);
+        D.btnSarabandaBrokenRecordToggle.classList.toggle('is-locked', locked);
+        D.btnSarabandaBrokenRecordToggle.title = !eligible
+          ? 'Disponibile solo per SARABANDA con audio'
+          : (locked ? 'Modificabile solo prima dello stato preview/domanda' : 'Riproduce il brano con effetto disco rotto');
       }
       if (Array.isArray(D.sarabandaFastRateButtons) && D.sarabandaFastRateButtons.length > 0) {
         const eligible = !!sessione.sarabanda_audio_eligible;
         const locked = !!sessione.sarabanda_audio_locked;
+        const fastEnabled = !!sessione.sarabanda_fast_forward_enabled;
         const currentRate = String(Number(sessione.sarabanda_fast_forward_rate || S.sarabandaFastForwardRate || 5));
         D.sarabandaFastRateButtons.forEach((btn) => {
-          const isActive = String(btn.dataset.fastRate || '') === currentRate;
+          const isActive = fastEnabled && String(btn.dataset.fastRate || '') === currentRate;
           btn.disabled = !eligible || locked;
           btn.classList.toggle('enabled', isActive && eligible && !locked);
           btn.classList.toggle('disabled', !isActive || !eligible || locked);
@@ -205,7 +232,7 @@
           btn.classList.toggle('is-locked', locked);
           btn.title = !eligible
             ? 'Disponibile solo per SARABANDA con audio'
-            : (locked ? 'Modificabile solo prima dello stato domanda' : `Velocita FAST ${btn.textContent}`);
+            : (locked ? 'Modificabile solo prima dello stato preview/domanda' : `Velocita FAST ${btn.textContent}`);
         });
       }
 

@@ -45,14 +45,14 @@
     container.innerHTML = [
       Support.rowLine('Esito', esito),
       Support.rowLine('Tempo risposta', tempo),
-      Support.rowLine('Puntata', `${POINTS_SYMBOL} ${puntata}`),
+      Support.rowLine('Puntata', `${POINTS_SYMBOL} ${Support.formatNumber(puntata)}`),
       Support.rowLine('Coeff. difficolta', `x${Support.formatCoeff(difficolta)}`),
-      Support.rowLine('Vincita difficolta', `${vincitaDifficolta}`, true),
+      Support.rowLine('Vincita difficolta', `${Support.formatNumber(vincitaDifficolta)}`, true),
       Support.rowLine('Coeff. velocita', `x${Support.formatCoeff(fattoreVelocita)}`),
-      Support.rowLine('Vincita velocita', `${vincitaVelocita}`, true),
-      Support.rowLine('Bonus primo', `${bonusPrimo}`, true),
-      Support.rowLine('Bonus impostore', `${bonusImpostore}`, true),
-      Support.rowLine('Vincita totale', `${vincitaTotale}`, true),
+      Support.rowLine('Vincita velocita', `${Support.formatNumber(vincitaVelocita)}`, true),
+      Support.rowLine('Bonus primo', `${Support.formatNumber(bonusPrimo)}`, true),
+      Support.rowLine('Bonus impostore', `${Support.formatNumber(bonusImpostore)}`, true),
+      Support.rowLine('Vincita totale', `${vincitaTotale === '-' ? '-' : Support.formatNumber(vincitaTotale)}`, true),
       Support.rowLine('Punti attuali', Support.formatCapitaleBreakdown(capitale, vincitaTotale, POINTS_SYMBOL)),
     ].join('');
   }
@@ -79,14 +79,14 @@
     container.innerHTML = [
       Support.rowLine('Esito', esito),
       Support.rowLine('Tempo risposta', tempo),
-      Support.rowLine('Puntata', `${POINTS_SYMBOL} ${puntata}`),
+      Support.rowLine('Puntata', `${POINTS_SYMBOL} ${Support.formatNumber(puntata)}`),
       Support.rowLine('Coeff. difficolta', `x${Support.formatCoeff(difficolta)}`),
-      Support.rowLine('Vincita difficolta', `${vincitaDifficolta}`, true),
+      Support.rowLine('Vincita difficolta', `${Support.formatNumber(vincitaDifficolta)}`, true),
       Support.rowLine('Coeff. velocita', `x${Support.formatCoeff(fattoreVelocita)}`),
-      Support.rowLine('Vincita velocita', `${vincitaVelocita}`, true),
-      Support.rowLine('Bonus primo', `${bonusPrimo}`, true),
-      Support.rowLine('Bonus impostore', `${bonusImpostore}`, true),
-      Support.rowLine('Vincita totale', `${punti}`, true),
+      Support.rowLine('Vincita velocita', `${Support.formatNumber(vincitaVelocita)}`, true),
+      Support.rowLine('Bonus primo', `${Support.formatNumber(bonusPrimo)}`, true),
+      Support.rowLine('Bonus impostore', `${Support.formatNumber(bonusImpostore)}`, true),
+      Support.rowLine('Vincita totale', `${Support.formatNumber(punti)}`, true),
       Support.rowLine('Punti attuali', Support.formatCapitaleBreakdown(capitale, punti, POINTS_SYMBOL)),
     ].join('');
   }
@@ -124,7 +124,7 @@
         div.innerHTML = `
           <strong>${index + 1}.</strong>
           ${nome}
-          <span>${POINTS_SYMBOL} ${capitale}</span>
+          <span>${POINTS_SYMBOL} ${Support.formatNumber(capitale)}</span>
         `;
 
         container.appendChild(div);

@@ -31,7 +31,6 @@
 
       const res = await fetch(`${S.API_BASE}/admin/nuova-sessione/0`, {
         method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
         body: formData,
       });
 
@@ -66,7 +65,6 @@
 
       const res = await fetch(`${S.API_BASE}/admin/sessioni-lista/0`, {
         method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
       });
 
       const data = await res.json();
@@ -123,7 +121,6 @@
 
       const res = await fetch(`${S.API_BASE}/admin/argomenti-lista/0`, {
         method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
       });
 
       const data = await res.json();
@@ -180,7 +177,6 @@
 
       const res = await fetch(`${S.API_BASE}/admin/sessione-update/0`, {
         method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
         body: formData,
       });
 
@@ -214,7 +210,6 @@
 
       const res = await fetch(`${S.API_BASE}/admin/set-corrente/0`, {
         method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
         body: formData,
       });
 

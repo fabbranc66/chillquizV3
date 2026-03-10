@@ -26,7 +26,7 @@
       if (byId) return byId;
     }
 
-    const nomeGiocatore = (D.displayName?.innerText || '').trim().toLowerCase();
+    const nomeGiocatore = ((D.displayName && D.displayName.innerText) || '').trim().toLowerCase();
     if (!nomeGiocatore) return null;
 
     return lista.find((r) => (r.nome || '').trim().toLowerCase() === nomeGiocatore) || null;
@@ -37,7 +37,7 @@
     if (!miaRiga) return;
 
     const capitale = Number(miaRiga.capitale_attuale ?? 0);
-    if (D.capitaleValue) D.capitaleValue.innerText = String(capitale);
+    if (D.capitaleValue) D.capitaleValue.innerText = formatNumber(capitale);
   }
 
   function formatTempoRisposta(value) {
@@ -62,10 +62,16 @@
     return numeric.toFixed(2).replace('.', ',');
   }
 
+  function formatNumber(value) {
+    const numeric = Number(value);
+    if (!Number.isFinite(numeric)) return '0';
+    return new Intl.NumberFormat('it-IT').format(numeric);
+  }
+
   function formatSignedPoints(value) {
     const numeric = Number(value);
     if (!Number.isFinite(numeric)) return '0';
-    return numeric >= 0 ? `+${numeric}` : `${numeric}`;
+    return numeric >= 0 ? `+${formatNumber(numeric)}` : `${formatNumber(numeric)}`;
   }
 
   function formatCapitaleBreakdown(capitaleAttuale, vincitaTotale, pointsSymbol = '&#9733;') {
@@ -73,11 +79,11 @@
     const vincita = Number(vincitaTotale);
 
     if (!Number.isFinite(capitale) || !Number.isFinite(vincita)) {
-      return `${pointsSymbol} ${Number.isFinite(capitale) ? capitale : 0}`;
+      return `${pointsSymbol} ${Number.isFinite(capitale) ? formatNumber(capitale) : 0}`;
     }
 
     const capitalePrecedente = capitale - vincita;
-    return `${pointsSymbol} ${capitalePrecedente} ${formatSignedPoints(vincita)} = ${pointsSymbol} ${capitale}`;
+    return `${pointsSymbol} ${formatNumber(capitalePrecedente)} ${formatSignedPoints(vincita)} = ${pointsSymbol} ${formatNumber(capitale)}`;
   }
 
   Player.classificaSupport = {
@@ -90,6 +96,7 @@
     rowLine,
     forceDisplayString,
     formatCoeff,
+    formatNumber,
     formatSignedPoints,
     formatCapitaleBreakdown,
   };

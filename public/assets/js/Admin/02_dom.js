@@ -15,6 +15,7 @@
     btnFadeToggle: document.getElementById('btnFadeToggle'),
     sarabandaAudioLed: document.getElementById('sarabandaAudioLed'),
     btnSarabandaReverseToggle: document.getElementById('btnSarabandaReverseToggle'),
+    btnSarabandaBrokenRecordToggle: document.getElementById('btnSarabandaBrokenRecordToggle'),
     btnSarabandaFastToggle: document.getElementById('btnSarabandaFastToggle'),
     sarabandaFastRateGroup: document.getElementById('sarabandaFastRateGroup'),
     sarabandaFastRateButtons: Array.from(document.querySelectorAll('[data-fast-rate]')),
@@ -77,7 +78,6 @@
     btnProssima: document.getElementById('btnProssima'),
 
     btnRiavvia: document.getElementById('btnRiavvia'),
-    btnAudioPreview: document.getElementById('btnAudioPreview'),
     btnSchermo: document.getElementById('btnSchermo'),
     btnMedia: document.getElementById('btnMedia'),
     btnSettings: document.getElementById('btnSettings'),
@@ -85,7 +85,9 @@
     btnToggleClassificaPanel: document.getElementById('btnToggleClassifica'),
     btnToggleJoinPanel: document.getElementById('btnToggleJoinRequests'),
     btnToggleLogPanel: document.getElementById('btnToggleLog'),
-    btnQuizConfigV2: document.getElementById('btnQuizConfigV2'),
+    btnHeaderMedia: document.getElementById('btnHeaderMedia'),
+    btnHeaderSettings: document.getElementById('btnHeaderSettings'),
+    btnHeaderLogout: document.getElementById('btnHeaderLogout'),
     btnClearLog: document.getElementById('btnClearLog'),
 
     panelClassifica: document.getElementById('panel-classifica'),
@@ -95,7 +97,6 @@
     panelLog: document.getElementById('panel-log'),
 
     statoDiv: document.getElementById('stato'),
-    conclusaDiv: document.getElementById('conclusa'),
     logEl: document.getElementById('log'),
     classificaLiveEl: document.getElementById('classifica-live'),
     joinRichiesteEl: document.getElementById('join-richieste'),

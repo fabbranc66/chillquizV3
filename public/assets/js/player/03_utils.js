@@ -5,6 +5,27 @@
 
   let alertTimer = null;
 
+  function formatThousands(value) {
+    const numeric = Number(value);
+    if (!Number.isFinite(numeric)) return '0';
+    return new Intl.NumberFormat('it-IT').format(numeric);
+  }
+
+  function normalizeCapitaleDisplay() {
+    if (!D.capitaleValue) return;
+
+    const raw = String(D.capitaleValue.textContent || '').trim();
+    if (raw === '') return;
+
+    const normalized = raw.replace(/[^\d-]/g, '');
+    if (normalized === '' || normalized === '-') return;
+
+    const formatted = formatThousands(Number(normalized));
+    if (D.capitaleValue.textContent !== formatted) {
+      D.capitaleValue.textContent = formatted;
+    }
+  }
+
   Player.utils = {
     safeString(v) {
       return String(v ?? '').trim();
@@ -18,6 +39,13 @@
     isDomandaAttiva(stato) {
       return stato === 'domanda';
     },
+
+    isQuestionStage(stato) {
+      return stato === 'preview' || stato === 'domanda';
+    },
+
+    formatThousands,
+    normalizeCapitaleDisplay,
   };
 
   Player.copy = {
@@ -87,4 +115,18 @@
       D.uiAlert.classList.add('hidden');
     },
   };
+
+  if (D.capitaleValue) {
+    normalizeCapitaleDisplay();
+
+    const observer = new MutationObserver(() => {
+      normalizeCapitaleDisplay();
+    });
+
+    observer.observe(D.capitaleValue, {
+      childList: true,
+      characterData: true,
+      subtree: true,
+    });
+  }
 })();

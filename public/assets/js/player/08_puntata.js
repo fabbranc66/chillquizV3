@@ -8,13 +8,13 @@
   const STEP = 250;
 
   function capitaleAttuale() {
-    const raw = String(D.capitaleValue?.innerText || '').replace(/[^\d.-]/g, '');
+    const raw = String((D.capitaleValue && D.capitaleValue.innerText) || '').replace(/[^\d.-]/g, '');
     const value = Number(raw);
     return Number.isFinite(value) && value > 0 ? Math.floor(value) : 0;
   }
 
   function puntataCorrente() {
-    const value = Number(D.inputPuntata?.value || 0);
+    const value = Number((D.inputPuntata && D.inputPuntata.value) || 0);
     return Number.isFinite(value) && value > 0 ? Math.floor(value) : 0;
   }
 
@@ -30,7 +30,7 @@
   async function handlePuntata() {
     if (S.puntataInviata) return;
 
-    const importoRaw = D.inputPuntata?.value;
+    const importoRaw = D.inputPuntata && D.inputPuntata.value;
     const importo = Number(importoRaw);
 
     if (!importo || importo <= 0) {

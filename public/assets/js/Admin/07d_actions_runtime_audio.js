@@ -62,6 +62,11 @@
 
         if (data.success) {
           S.sarabandaAudioEnabled = !!data.enabled;
+          if (!data.enabled) {
+            S.sarabandaReverseEnabled = false;
+            S.sarabandaFastForwardEnabled = false;
+            S.sarabandaBrokenRecordEnabled = false;
+          }
           await Runtime.refreshRuntimeContext();
         }
       } catch (e) {
@@ -95,7 +100,10 @@
 
         if (data.success) {
           S.sarabandaReverseEnabled = !!data.enabled;
-          if (data.enabled) S.sarabandaFastForwardEnabled = false;
+          if (data.enabled) {
+            S.sarabandaFastForwardEnabled = false;
+            S.sarabandaBrokenRecordEnabled = false;
+          }
           await Runtime.refreshRuntimeContext();
         }
       } catch (e) {
@@ -131,7 +139,10 @@
         if (data.success) {
           S.sarabandaFastForwardEnabled = !!data.enabled;
           S.sarabandaFastForwardRate = Number(data.rate || S.sarabandaFastForwardRate || 5);
-          if (data.enabled) S.sarabandaReverseEnabled = false;
+          if (data.enabled) {
+            S.sarabandaReverseEnabled = false;
+            S.sarabandaBrokenRecordEnabled = false;
+          }
           await Runtime.refreshRuntimeContext();
         }
       } catch (e) {
@@ -139,6 +150,43 @@
           ok: false,
           title: 'sarabanda-fast-toggle',
           message: Copy.networkSarabandaFastError,
+          data: { error: String(e?.message || e) },
+        });
+      }
+    },
+
+    async toggleSarabandaBrokenRecord() {
+      const targetSessioneId = Runtime.readTargetSessioneId();
+      if (targetSessioneId <= 0) {
+        addLog({ ok: false, title: 'sarabanda-broken-record-toggle', message: Copy.invalidSession, data: {} });
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('sessione_id', String(targetSessioneId));
+      formData.append('enabled', S.sarabandaBrokenRecordEnabled ? '0' : '1');
+
+      try {
+        const data = await Runtime.fetchAdminJson('sarabanda-broken-record-toggle', 0, formData);
+        Runtime.logActionResult(
+          'sarabanda-broken-record-toggle',
+          data,
+          `DISCO ROTTO ${data.enabled ? 'attivato' : 'disattivato'}`
+        );
+
+        if (data.success) {
+          S.sarabandaBrokenRecordEnabled = !!data.enabled;
+          if (data.enabled) {
+            S.sarabandaReverseEnabled = false;
+            S.sarabandaFastForwardEnabled = false;
+          }
+          await Runtime.refreshRuntimeContext();
+        }
+      } catch (e) {
+        addLog({
+          ok: false,
+          title: 'sarabanda-broken-record-toggle',
+          message: 'Errore rete durante toggle DISCO ROTTO SARABANDA',
           data: { error: String(e?.message || e) },
         });
       }
@@ -165,7 +213,10 @@
         );
 
         if (data.success) {
+          S.sarabandaFastForwardEnabled = !!data.enabled;
           S.sarabandaFastForwardRate = Number(data.rate || rate);
+          S.sarabandaReverseEnabled = false;
+          S.sarabandaBrokenRecordEnabled = false;
           await Runtime.refreshRuntimeContext();
         }
       } catch (e) {

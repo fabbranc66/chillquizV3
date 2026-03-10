@@ -9,10 +9,36 @@
   const Runtime = Admin.runtimeSupport;
   const Copy = Runtime.copy;
 
+  async function syncCurrentSessionForGlobalViews(sessioneId) {
+    const targetId = Number(sessioneId || 0);
+    if (targetId <= 0) return true;
+    try {
+      return await Runtime.ensureCurrentSession(targetId);
+    } catch (e) {
+      addLog({
+        ok: false,
+        title: 'set-corrente',
+        message: 'Impossibile sincronizzare la sessione corrente',
+        data: { sessione_id: targetId, error: String((e && e.message) || e) },
+      });
+      return false;
+    }
+  }
+
+  function resolveActiveSessioneId() {
+    const targetId = Number(Runtime.readTargetSessioneId() || 0);
+    if (targetId > 0 && targetId !== Number(S.SESSIONE_ID || 0)) {
+      S.SESSIONE_ID = targetId;
+    }
+    return Number(S.SESSIONE_ID || 0);
+  }
+
   Object.assign(Admin.actions, {
     async aggiornaPartecipanti() {
       try {
-        const res = await fetch(`${S.API_BASE}/classifica/${S.SESSIONE_ID}`);
+        const sessioneId = resolveActiveSessioneId();
+        if (!sessioneId) return;
+        const res = await fetch(`${S.API_BASE}/classifica/${sessioneId}`);
         const data = await res.json();
         if (!data.success) return;
 
@@ -42,10 +68,11 @@
     },
 
     async aggiornaJoinRichieste() {
-      if (S.joinRequestInFlight || !S.SESSIONE_ID) return;
+      const sessioneId = resolveActiveSessioneId();
+      if (S.joinRequestInFlight || !sessioneId) return;
       S.joinRequestInFlight = true;
       try {
-        const data = await Runtime.fetchAdminJson('join-richieste', S.SESSIONE_ID);
+        const data = await Runtime.fetchAdminJson('join-richieste', sessioneId);
         if (!data.success) return;
 
         renderJoinRichieste(data.richieste ?? []);
@@ -55,10 +82,11 @@
     },
 
     async aggiornaDomandaCorrenteMeta() {
-      if (S.domandaMetaRequestInFlight || !S.SESSIONE_ID) return;
+      const sessioneId = resolveActiveSessioneId();
+      if (S.domandaMetaRequestInFlight || !sessioneId) return;
       S.domandaMetaRequestInFlight = true;
       try {
-        const res = await fetch(`${S.API_BASE}/domanda/${S.SESSIONE_ID}`);
+        const res = await fetch(`${S.API_BASE}/domanda/${sessioneId}`);
         const data = await res.json();
 
         if (!data.success) {
@@ -90,7 +118,8 @@
       const formData = new FormData();
       formData.append('request_id', requestId);
 
-      const data = await Runtime.fetchAdminJson(action, S.SESSIONE_ID, formData);
+      const sessioneId = resolveActiveSessioneId();
+      const data = await Runtime.fetchAdminJson(action, sessioneId, formData);
       Runtime.logActionResult(
         action === 'approva-join' ? 'Join approvata' : 'Join rifiutata',
         data,
@@ -104,7 +133,11 @@
     },
 
     async callAdmin(action) {
-      const data = await Runtime.fetchAdminJson(action, S.SESSIONE_ID);
+      const sessioneId = resolveActiveSessioneId();
+      if (!await syncCurrentSessionForGlobalViews(sessioneId)) {
+        return;
+      }
+      const data = await Runtime.fetchAdminJson(action, sessioneId);
       addLog({
         ok: !!data.success,
         title: action,
@@ -114,7 +147,7 @@
         data,
       });
 
-      await Runtime.refreshRuntimeContext();
+      await Runtime.refreshRuntimeContext(true);
     },
 
     apriMedia() {
@@ -124,11 +157,15 @@
       addLog({ ok: true, title: 'Media', message: 'Aperta gestione media', data: {} });
     },
 
-    apriSchermo() {
+    async apriSchermo() {
+      const sessioneId = resolveActiveSessioneId();
+      if (!await syncCurrentSessionForGlobalViews(sessioneId)) {
+        return;
+      }
       const url = new URL(window.location.href);
       url.searchParams.set('url', 'screen');
       window.open(url.toString(), '_blank', 'noopener,noreferrer');
-      addLog({ ok: true, title: 'Screen', message: 'Schermo aperto sulla sessione corrente', data: { sessione_id: S.SESSIONE_ID } });
+      addLog({ ok: true, title: 'Screen', message: 'Schermo aperto sulla sessione corrente', data: { sessione_id: sessioneId } });
     },
 
     apriSettings() {
@@ -138,31 +175,41 @@
       addLog({ ok: true, title: 'Settings', message: 'Aperto pannello settings', data: {} });
     },
 
-    async aggiornaStato() {
-      if (S.statoRequestInFlight || !S.SESSIONE_ID) return;
+    async aggiornaStato(force = false) {
+      const sessioneId = resolveActiveSessioneId();
+      if (!sessioneId) return;
+      if (S.statoRequestInFlight && !force) return;
+      const requestSeq = Number(S.statoRequestSeq || 0) + 1;
+      S.statoRequestSeq = requestSeq;
       S.statoRequestInFlight = true;
       try {
         if (!S.memeDraftText) {
           S.memeDraftText = Support.loadMemeDraft();
         }
-        const res = await fetch(`${S.API_BASE}/stato/${S.SESSIONE_ID}`);
+        const res = await fetch(`${S.API_BASE}/stato/${sessioneId}`);
         const data = await res.json();
-        if (data.success) {
+        if (data.success && requestSeq >= Number(S.statoAppliedSeq || 0)) {
+          S.statoAppliedSeq = requestSeq;
           Admin.ui.aggiornaUI(data.sessione);
         }
       } finally {
-        S.statoRequestInFlight = false;
+        if (requestSeq >= Number(S.statoAppliedSeq || 0)) {
+          S.statoRequestInFlight = false;
+        } else if (Number(S.statoRequestSeq || 0) === requestSeq) {
+          S.statoRequestInFlight = false;
+        }
       }
     },
 
     async aggiornaDebugSessione(forceOpen = false) {
-      if (S.debugSessioneInFlight || !S.SESSIONE_ID) return;
+      const sessioneId = resolveActiveSessioneId();
+      if (S.debugSessioneInFlight || !sessioneId) return;
       S.debugSessioneInFlight = true;
       try {
         const formData = new FormData();
-        formData.append('sessione_id', String(S.SESSIONE_ID));
+        formData.append('sessione_id', String(sessioneId));
 
-        const data = await Runtime.fetchAdminJson('debug-sessione', S.SESSIONE_ID, formData);
+        const data = await Runtime.fetchAdminJson('debug-sessione', sessioneId, formData);
 
         if (!data.success) {
           addLog({ ok: false, title: 'debug-sessione', message: data.error || 'Errore debug sessione', data });
@@ -171,8 +218,8 @@
 
         const debugPayload = Object.assign({}, data.debug || {});
         try {
-          const playerTimingRaw = window.localStorage.getItem(`chillquiz_debug_timing_player_${S.SESSIONE_ID}`);
-          const screenTimingRaw = window.localStorage.getItem(`chillquiz_debug_timing_screen_${S.SESSIONE_ID}`);
+          const playerTimingRaw = window.localStorage.getItem(`chillquiz_debug_timing_player_${sessioneId}`);
+          const screenTimingRaw = window.localStorage.getItem(`chillquiz_debug_timing_screen_${sessioneId}`);
           debugPayload.client_timing = {
             player: playerTimingRaw ? JSON.parse(playerTimingRaw) : null,
             screen: screenTimingRaw ? JSON.parse(screenTimingRaw) : null,
@@ -210,155 +257,6 @@
       Runtime.setDebugPanelVisible(nextVisible);
       if (nextVisible) {
         Admin.actions.aggiornaDebugSessione(true);
-      }
-    },
-
-    async toggleImpostoreCorrente() {
-      const targetSessioneId = Runtime.readTargetSessioneId();
-      if (targetSessioneId <= 0) {
-        addLog({ ok: false, title: 'impostore-toggle', message: Copy.invalidSession, data: {} });
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append('sessione_id', String(targetSessioneId));
-      formData.append('enabled', S.impostoreEnabled ? '0' : '1');
-
-      try {
-        const data = await Runtime.fetchAdminJson('impostore-toggle', 0, formData);
-        Runtime.logActionResult(
-          'impostore-toggle',
-          data,
-          `IMPOSTORE ${data.enabled ? 'attivato' : 'disattivato'} per la domanda corrente`
-        );
-
-        if (data.success) {
-          S.impostoreEnabled = !!data.enabled;
-          await Runtime.refreshRuntimeContext();
-        }
-      } catch (e) {
-        addLog({
-          ok: false,
-          title: 'impostore-toggle',
-          message: Copy.networkImpostoreError,
-          data: { error: String(e?.message || e) },
-        });
-      }
-    },
-
-    async toggleMemeCorrente() {
-      const targetSessioneId = Runtime.readTargetSessioneId();
-      if (targetSessioneId <= 0) {
-        addLog({ ok: false, title: 'meme-toggle', message: Copy.invalidSession, data: {} });
-        return;
-      }
-
-      const nextEnabled = !S.memeEnabled;
-      const memeText = Support.sanitizeMemeText(D.memeTextInput?.value || S.memeDraftText || S.memeText || '');
-      if (nextEnabled && memeText === '') {
-        addLog({ ok: false, title: 'meme-toggle', message: Copy.memeTextRequired, data: {} });
-        if (D.memeTextInput) D.memeTextInput.focus();
-        return;
-      }
-
-      if (memeText !== '') {
-        Runtime.persistMemeDraft(memeText);
-      }
-
-      const formData = new FormData();
-      formData.append('sessione_id', String(targetSessioneId));
-      formData.append('enabled', nextEnabled ? '1' : '0');
-      formData.append('meme_text', memeText);
-
-      try {
-        const data = await Runtime.fetchAdminJson('meme-toggle', 0, formData);
-        Runtime.logActionResult(
-          'meme-toggle',
-          data,
-          `MEME ${data.enabled ? 'attivato' : 'disattivato'} per la domanda corrente`
-        );
-
-        if (data.success) {
-          S.memeText = Support.sanitizeMemeText(data.meme_text || '');
-          if (memeText !== '') {
-            Runtime.persistMemeDraft(memeText);
-          }
-          Support.refreshMemeToggleUi(!!data.enabled, S.memeText);
-          await Runtime.refreshRuntimeContext();
-        }
-      } catch (e) {
-        addLog({
-          ok: false,
-          title: 'meme-toggle',
-          message: Copy.networkMemeError,
-          data: { error: String(e?.message || e) },
-        });
-      }
-    },
-
-    async toggleImagePartyCorrente() {
-      const targetSessioneId = Runtime.readTargetSessioneId();
-      if (targetSessioneId <= 0) {
-        addLog({ ok: false, title: 'image-party-toggle', message: Copy.invalidSession, data: {} });
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append('sessione_id', String(targetSessioneId));
-      formData.append('enabled', S.imagePartyEnabled ? '0' : '1');
-
-      try {
-        const data = await Runtime.fetchAdminJson('image-party-toggle', 0, formData);
-        Runtime.logActionResult(
-          'image-party-toggle',
-          data,
-          `PIXELATE ${data.enabled ? 'attivato' : 'disattivato'} per la domanda corrente`
-        );
-
-        if (data.success) {
-          S.imagePartyEnabled = !!data.enabled;
-          await Runtime.refreshRuntimeContext();
-        }
-      } catch (e) {
-        addLog({
-          ok: false,
-          title: 'image-party-toggle',
-          message: Copy.networkImagePartyError,
-          data: { error: String(e?.message || e) },
-        });
-      }
-    },
-
-    async toggleFadeCorrente() {
-      const targetSessioneId = Runtime.readTargetSessioneId();
-      if (targetSessioneId <= 0) {
-        addLog({ ok: false, title: 'fade-toggle', message: Copy.invalidSession, data: {} });
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append('sessione_id', String(targetSessioneId));
-      formData.append('enabled', S.fadeEnabled ? '0' : '1');
-
-      try {
-        const data = await Runtime.fetchAdminJson('fade-toggle', 0, formData);
-        Runtime.logActionResult(
-          'fade-toggle',
-          data,
-          `FADE ${data.enabled ? 'attivato' : 'disattivato'} per la domanda corrente`
-        );
-
-        if (data.success) {
-          S.fadeEnabled = !!data.enabled;
-          await Runtime.refreshRuntimeContext();
-        }
-      } catch (e) {
-        addLog({
-          ok: false,
-          title: 'fade-toggle',
-          message: Copy.networkFadeError,
-          data: { error: String(e?.message || e) },
-        });
       }
     },
 

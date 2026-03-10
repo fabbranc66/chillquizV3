@@ -163,6 +163,7 @@
     ScreenApp.domandaAudio.clearAudioPreviewRuntime();
     S.currentDomandaData = null;
     S.sarabandaPreviewStartedQuestionId = 0;
+    S.sarabandaPreviewConsumedQuestionId = 0;
     ScreenApp.state.hideRisultatiView();
     ScreenApp.state.showOnly('placeholder');
 
@@ -177,7 +178,7 @@
     ScreenApp.domandaSupport.clearDomandaMedia();
     S.domandaRenderizzata = false;
 
-    if (!ScreenApp.state.isDomandaState()) {
+    if (!ScreenApp.state.isQuestionStage()) {
       ScreenApp.state.renderPlaceholder(S.currentState);
     }
   }
@@ -302,7 +303,7 @@
       opzioni.innerHTML = '';
       S.optionRevealTimer = setTimeout(() => {
         S.optionRevealTimer = null;
-        if (!ScreenApp.state.isDomandaState()) return;
+        if (!ScreenApp.state.isQuestionStage()) return;
         if (Number(S.currentDomandaData?.id || 0) !== domandaId) return;
         renderOptions();
       }, delayMs);
@@ -315,7 +316,7 @@
   }
 
   async function fetchCurrent() {
-    if (!ScreenApp.state.isDomandaState()) {
+    if (!ScreenApp.state.isQuestionStage()) {
       hideView();
       return;
     }
@@ -324,7 +325,7 @@
       const url = new URL(`${ScreenApp.api.apiBase}/domanda/${S.sessioneId || 0}`, window.location.origin);
       url.searchParams.set('viewer', 'screen');
       const data = await ScreenApp.api.fetchJson(url.toString());
-      if (!ScreenApp.state.isDomandaState()) return;
+      if (!ScreenApp.state.isQuestionStage()) return;
 
       if (!data.success) {
         if (!S.domandaRenderizzata) showLoadingView();

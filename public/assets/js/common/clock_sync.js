@@ -3,7 +3,8 @@
   window.ChillQuizClock = window.ChillQuizClock || {};
 
   function getOffsetMs(store) {
-    return Number(store?.serverClockOffsetMs || 0);
+    if (!store) return 0;
+    return Number(store.serverClockOffsetMs || 0);
   }
 
   function nowMs(store) {

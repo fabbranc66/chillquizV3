@@ -9,7 +9,6 @@ final class AdminAuthService
 {
     private const SESSION_AUTH_KEY = 'chillquiz_admin_authenticated';
     private const SESSION_USER_KEY = 'chillquiz_admin_username';
-    private const SESSION_API_TOKEN_KEY = 'chillquiz_admin_api_token';
     private const TABLE_NAME = 'admin_users';
     private const USERS_FILE = STORAGE_PATH . '/auth/admin_users.json';
     private const DEFAULT_USERNAME = 'admin';
@@ -221,7 +220,6 @@ final class AdminAuthService
     {
         $_SESSION[self::SESSION_AUTH_KEY] = true;
         $_SESSION[self::SESSION_USER_KEY] = trim($username);
-        $_SESSION[self::SESSION_API_TOKEN_KEY] = bin2hex(random_bytes(32));
         session_regenerate_id(true);
     }
 
@@ -229,47 +227,13 @@ final class AdminAuthService
     {
         unset(
             $_SESSION[self::SESSION_AUTH_KEY],
-            $_SESSION[self::SESSION_USER_KEY],
-            $_SESSION[self::SESSION_API_TOKEN_KEY]
+            $_SESSION[self::SESSION_USER_KEY]
         );
         session_regenerate_id(true);
     }
 
-    public function getApiToken(): string
-    {
-        if (!$this->isAuthenticated()) {
-            return '';
-        }
-
-        $token = (string) ($_SESSION[self::SESSION_API_TOKEN_KEY] ?? '');
-        if ($token !== '') {
-            return $token;
-        }
-
-        $token = bin2hex(random_bytes(32));
-        $_SESSION[self::SESSION_API_TOKEN_KEY] = $token;
-        return $token;
-    }
-
     public function isApiAuthorized(?string $incomingHeaderToken = null, ?string $incomingQueryToken = null): bool
     {
-        if ($this->isAuthenticated()) {
-            return true;
-        }
-
-        $configuredToken = getenv('ADMIN_TOKEN');
-        $configuredToken = is_string($configuredToken) ? trim($configuredToken) : '';
-        if ($configuredToken === '') {
-            return false;
-        }
-
-        foreach ([$incomingHeaderToken, $incomingQueryToken] as $incoming) {
-            $candidate = is_string($incoming) ? trim($incoming) : '';
-            if ($candidate !== '' && hash_equals($configuredToken, $candidate)) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->isAuthenticated();
     }
 }

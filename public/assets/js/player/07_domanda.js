@@ -2,8 +2,6 @@
 (() => {
   const Player = window.Player;
   const S = Player.state;
-  const EFFECT_IMAGE_MARGIN_RATIO = 0.08;
-
   const PUBLIC_BASE = String(S.PUBLIC_BASE_URL || '/');
 
   function resolveMediaUrl(path) {
@@ -163,19 +161,18 @@
 
   function drawPixelatedImage(image, canvas, blockSize) {
     if (!image || !canvas) return;
-    const imageStyle = window.getComputedStyle(image);
-    const padLeft = Math.max(0, parseFloat(imageStyle.paddingLeft || '0') || 0);
-    const padRight = Math.max(0, parseFloat(imageStyle.paddingRight || '0') || 0);
-    const padTop = Math.max(0, parseFloat(imageStyle.paddingTop || '0') || 0);
-    const padBottom = Math.max(0, parseFloat(imageStyle.paddingBottom || '0') || 0);
-    const displayWidth = Math.max(
-      1,
-      Math.round(canvas.clientWidth || image.clientWidth || image.width || 1)
-    );
-    const displayHeight = Math.max(
-      1,
-      Math.round(canvas.clientHeight || image.clientHeight || image.height || 1)
-    );
+    const drawRect = resolveEffectDrawRect(image, canvas);
+    if (!drawRect) return;
+    const {
+      displayWidth,
+      displayHeight,
+      sourceWidth,
+      sourceHeight,
+      drawWidth,
+      drawHeight,
+      offsetX,
+      offsetY,
+    } = drawRect;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -183,20 +180,6 @@
     canvas.height = displayHeight;
     ctx.imageSmoothingEnabled = false;
     ctx.clearRect(0, 0, displayWidth, displayHeight);
-
-    const innerWidth = Math.max(1, Math.round(displayWidth - padLeft - padRight));
-    const innerHeight = Math.max(1, Math.round(displayHeight - padTop - padBottom));
-    const marginX = Math.round(innerWidth * EFFECT_IMAGE_MARGIN_RATIO);
-    const marginY = Math.round(innerHeight * EFFECT_IMAGE_MARGIN_RATIO);
-    const fittedWidth = Math.max(1, innerWidth - (marginX * 2));
-    const fittedHeight = Math.max(1, innerHeight - (marginY * 2));
-    const sourceWidth = Math.max(1, image.naturalWidth || image.width || displayWidth);
-    const sourceHeight = Math.max(1, image.naturalHeight || image.height || displayHeight);
-    const containScale = Math.min(fittedWidth / sourceWidth, fittedHeight / sourceHeight);
-    const drawWidth = Math.max(1, Math.round(sourceWidth * containScale));
-    const drawHeight = Math.max(1, Math.round(sourceHeight * containScale));
-    const offsetX = Math.round(padLeft + marginX + ((fittedWidth - drawWidth) / 2));
-    const offsetY = Math.round(padTop + marginY + ((fittedHeight - drawHeight) / 2));
 
     const scaledWidth = Math.max(1, Math.round(drawWidth / Math.max(1, blockSize)));
     const scaledHeight = Math.max(1, Math.round(drawHeight / Math.max(1, blockSize)));
@@ -214,33 +197,24 @@
 
   function drawFadeImage(image, canvas, progress) {
     if (!image || !canvas) return;
-    const imageStyle = window.getComputedStyle(image);
-    const padLeft = Math.max(0, parseFloat(imageStyle.paddingLeft || '0') || 0);
-    const padRight = Math.max(0, parseFloat(imageStyle.paddingRight || '0') || 0);
-    const padTop = Math.max(0, parseFloat(imageStyle.paddingTop || '0') || 0);
-    const padBottom = Math.max(0, parseFloat(imageStyle.paddingBottom || '0') || 0);
-    const displayWidth = Math.max(1, Math.round(canvas.clientWidth || image.clientWidth || image.width || 1));
-    const displayHeight = Math.max(1, Math.round(canvas.clientHeight || image.clientHeight || image.height || 1));
+    const drawRect = resolveEffectDrawRect(image, canvas);
+    if (!drawRect) return;
+    const {
+      displayWidth,
+      displayHeight,
+      sourceWidth,
+      sourceHeight,
+      drawWidth,
+      drawHeight,
+      offsetX,
+      offsetY,
+    } = drawRect;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     canvas.width = displayWidth;
     canvas.height = displayHeight;
     ctx.clearRect(0, 0, displayWidth, displayHeight);
-
-    const innerWidth = Math.max(1, Math.round(displayWidth - padLeft - padRight));
-    const innerHeight = Math.max(1, Math.round(displayHeight - padTop - padBottom));
-    const marginX = Math.round(innerWidth * EFFECT_IMAGE_MARGIN_RATIO);
-    const marginY = Math.round(innerHeight * EFFECT_IMAGE_MARGIN_RATIO);
-    const fittedWidth = Math.max(1, innerWidth - (marginX * 2));
-    const fittedHeight = Math.max(1, innerHeight - (marginY * 2));
-    const sourceWidth = Math.max(1, image.naturalWidth || image.width || displayWidth);
-    const sourceHeight = Math.max(1, image.naturalHeight || image.height || displayHeight);
-    const containScale = Math.min(fittedWidth / sourceWidth, fittedHeight / sourceHeight);
-    const drawWidth = Math.max(1, Math.round(sourceWidth * containScale));
-    const drawHeight = Math.max(1, Math.round(sourceHeight * containScale));
-    const offsetX = Math.round(padLeft + marginX + ((fittedWidth - drawWidth) / 2));
-    const offsetY = Math.round(padTop + marginY + ((fittedHeight - drawHeight) / 2));
 
     const clampedProgress = Math.max(0, Math.min(1, progress));
     const darkness = 1 - clampedProgress;
@@ -256,6 +230,29 @@
       ctx.fillStyle = `rgba(0, 0, 0, ${Math.max(0, Math.min(0.84, darkness * 0.84))})`;
       ctx.fillRect(offsetX, offsetY, drawWidth, drawHeight);
     }
+  }
+
+  function resolveEffectDrawRect(image, canvas) {
+    const displayWidth = Math.max(1, Math.round(canvas.clientWidth || image.clientWidth || image.width || 1));
+    const displayHeight = Math.max(1, Math.round(canvas.clientHeight || image.clientHeight || image.height || 1));
+    const sourceWidth = Math.max(1, image.naturalWidth || image.width || displayWidth);
+    const sourceHeight = Math.max(1, image.naturalHeight || image.height || displayHeight);
+    const containScale = Math.min(displayWidth / sourceWidth, displayHeight / sourceHeight);
+    const drawWidth = Math.max(1, Math.round(sourceWidth * containScale));
+    const drawHeight = Math.max(1, Math.round(sourceHeight * containScale));
+    const offsetX = Math.round((displayWidth - drawWidth) / 2);
+    const offsetY = Math.round((displayHeight - drawHeight) / 2);
+
+    return {
+      displayWidth,
+      displayHeight,
+      sourceWidth,
+      sourceHeight,
+      drawWidth,
+      drawHeight,
+      offsetX,
+      offsetY,
+    };
   }
 
   function startPixelateRender(domanda, forceClear = false) {
@@ -286,7 +283,7 @@
       const totalSec = Math.max(1, Number(S.domandaTimerMax || 10));
       const startSec = Number(S.domandaTimerStart || 0);
       const elapsedSec = startSec > 0 ? Math.max(0, (Date.now() / 1000) - startSec) : 0;
-      const shouldShowRealImage = !!domanda?.show_correct || elapsedSec >= totalSec;
+      const shouldShowRealImage = !!(domanda && domanda.show_correct) || elapsedSec >= totalSec;
 
       if (shouldShowRealImage) {
         stopPixelateRender();
@@ -313,10 +310,10 @@
   function buildDomandaRenderKey(domanda) {
     if (!domanda || !Array.isArray(domanda.opzioni)) return '';
     const optionKey = domanda.opzioni.map((opzione) => [
-      Number(opzione?.id || 0),
-      String(opzione?.testo || ''),
-      String(opzione?.display_text || ''),
-      opzione?.is_meme_display ? '1' : '0',
+      Number((opzione && opzione.id) || 0),
+      String((opzione && opzione.testo) || ''),
+      String((opzione && opzione.display_text) || ''),
+      (opzione && opzione.is_meme_display) ? '1' : '0',
     ].join(':')).join('|');
 
     return [
@@ -344,8 +341,8 @@
   }
 
   function normalizeBadgeQuestionType(domanda) {
-    const tipo = String(domanda?.tipo_domanda || 'CLASSIC').trim().toUpperCase();
-    const hasAudio = String(domanda?.media_audio_path || '').trim() !== '';
+    const tipo = String((domanda && domanda.tipo_domanda) || 'CLASSIC').trim().toUpperCase();
+    const hasAudio = String((domanda && domanda.media_audio_path) || '').trim() !== '';
     if (tipo === 'SARABANDA' && !hasAudio) return 'CLASSIC';
     return tipo || 'CLASSIC';
   }
@@ -397,7 +394,7 @@
   }
 
   function getMemeRotationStep(domanda) {
-    const rotationMs = Math.max(100, Number(domanda?.meme_rotation_ms || 300));
+    const rotationMs = Math.max(100, Number((domanda && domanda.meme_rotation_ms) || 300));
     const start = Number(S.domandaTimerStart || 0);
     const elapsedMs = start > 0
       ? Math.max(0, Math.floor(((Date.now() / 1000) - start) * 1000))

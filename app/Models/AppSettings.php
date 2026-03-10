@@ -30,6 +30,7 @@ class AppSettings
         $defaultConfigurazioni = [
             'capitale_iniziale' => '1000',
             'coefficiente_rientro_zero' => '0.40',
+            'logo' => 'upload/image/logo-chillquiz-1773183162-5169.png',
         ];
 
         foreach ($defaultConfigurazioni as $key => $value) {

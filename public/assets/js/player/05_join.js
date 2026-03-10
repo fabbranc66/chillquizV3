@@ -6,9 +6,22 @@
   const Alert = Player.uiAlert;
   const Copy = Player.copy;
 
+  function formatNumber(value) {
+    const support = Player.classificaSupport;
+    if (support && typeof support.formatNumber === 'function') {
+      return support.formatNumber(value);
+    }
+
+    const numeric = Number(value);
+    if (!Number.isFinite(numeric)) return '0';
+    return new Intl.NumberFormat('it-IT').format(numeric);
+  }
+
   function completeJoin(nome, capitale) {
     if (D.displayName) D.displayName.innerText = nome;
-    if (D.capitaleValue) D.capitaleValue.innerText = String(capitale);
+    if (D.capitaleValue) {
+      D.capitaleValue.innerText = formatNumber(capitale);
+    }
 
     S.currentState = null;
     Player.polling.startPolling();
@@ -20,7 +33,7 @@
   }
 
   async function handleJoin() {
-    const nome = (D.inputNome?.value || '').trim();
+    const nome = ((D.inputNome && D.inputNome.value) || '').trim();
     if (!nome) {
       Alert.show({
         title: Copy.joinNameRequiredTitle,

@@ -44,8 +44,13 @@
     return String(S.currentState || '') === 'domanda';
   }
 
+  function isQuestionStage() {
+    const state = String(S.currentState || '');
+    return state === 'preview' || state === 'domanda';
+  }
+
   function canUseAudioPreview() {
-    return isDomandaState() && Number(S.sessioneId || 0) > 0;
+    return String(S.currentState || '') === 'preview' && Number(S.sessioneId || 0) > 0;
   }
 
   function setupSessionQr() {
@@ -183,6 +188,7 @@
 
   ScreenApp.state = {
     isDomandaState,
+    isQuestionStage,
     canUseAudioPreview,
     setupSessionQr,
     resetStageTimer,

@@ -17,6 +17,87 @@ trait HandlesAdminMediaActions
                 ]);
                 return true;
 
+            case 'settings-logo-upload':
+                if (!isset($_FILES['logo_file']) || !is_array($_FILES['logo_file'])) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'File logo mancante'
+                    ]);
+                    return true;
+                }
+
+                $file = $_FILES['logo_file'];
+
+                if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Upload logo non valido'
+                    ]);
+                    return true;
+                }
+
+                $maxSizeBytes = 8 * 1024 * 1024;
+                $size = (int) ($file['size'] ?? 0);
+                if ($size <= 0 || $size > $maxSizeBytes) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Dimensione logo non valida (max 8MB)'
+                    ]);
+                    return true;
+                }
+
+                $tmpName = (string) ($file['tmp_name'] ?? '');
+                $detectedMime = @mime_content_type($tmpName) ?: '';
+                if (strpos($detectedMime, 'image/') !== 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Il logo deve essere un\'immagine'
+                    ]);
+                    return true;
+                }
+
+                $originalName = (string) ($file['name'] ?? '');
+                $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+                $allowedExt = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
+                if (!in_array($ext, $allowedExt, true)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Formato logo non supportato'
+                    ]);
+                    return true;
+                }
+
+                $uploadDir = BASE_PATH . '/public/upload/image';
+                if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true) && !is_dir($uploadDir)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Impossibile creare cartella logo'
+                    ]);
+                    return true;
+                }
+
+                $fileName = 'admin-logo-' . time() . '-' . random_int(1000, 9999) . '.' . $ext;
+                $destPath = $uploadDir . '/' . $fileName;
+
+                if (!move_uploaded_file($tmpName, $destPath)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Errore salvataggio logo'
+                    ]);
+                    return true;
+                }
+
+                $logoPath = '/upload/image/' . $fileName;
+                $settingsModel = new AppSettings();
+                $settingsModel->saveConfigurazioni(['logo' => $logoPath]);
+
+                $this->json([
+                    'success' => true,
+                    'logo_path' => $logoPath,
+                    'settings' => $settingsModel->all()
+                ]);
+                return true;
+
             case 'settings-save':
                 $settingsModel = new AppSettings();
 

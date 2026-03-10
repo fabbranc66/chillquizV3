@@ -32,8 +32,7 @@
 <script>
 window.MEDIA_BOOTSTRAP = {
     basePublicUrl: <?= json_encode(chillquiz_public_base_url(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>,
-    apiBase: <?= json_encode(chillquiz_api_base_url(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>,
-    adminToken: <?= json_encode((string)($adminToken ?? ''), JSON_UNESCAPED_UNICODE) ?>
+    apiBase: <?= json_encode(chillquiz_api_base_url(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>
 };
 </script>
 <script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/media.js'), ENT_QUOTES, 'UTF-8') ?>"></script>

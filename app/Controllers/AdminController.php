@@ -34,8 +34,9 @@ class AdminController
         $sessioneId = (int) ($corrente['id'] ?? 0);
         $nomeSessione = trim((string) (($corrente['nome_sessione'] ?? $corrente['nome'] ?? $corrente['titolo'] ?? '')));
 
-        $showModuleTags = (new AppSettings())->all()['show_module_tags'];
-        $adminToken = $this->auth->getApiToken();
+        $settings = (new AppSettings())->all();
+        $showModuleTags = $settings['show_module_tags'];
+        $adminLogoPath = ltrim(trim((string) (($settings['configurazioni_sistema']['logo'] ?? ''))), '/');
         $adminUsername = $this->auth->getAuthenticatedUsername();
 
         require BASE_PATH . '/app/Views/admin/index.php';
@@ -44,7 +45,6 @@ class AdminController
     public function media(): void
     {
         $this->requireAuth();
-        $adminToken = $this->auth->getApiToken();
         require BASE_PATH . '/app/Views/admin/media.php';
     }
 
@@ -52,18 +52,8 @@ class AdminController
     {
         $this->requireAuth();
         $settings = (new AppSettings())->all();
-        $adminToken = $this->auth->getApiToken();
 
         require BASE_PATH . '/app/Views/admin/settings.php';
-    }
-
-    public function quizConfigV2(): void
-    {
-        $this->requireAuth();
-        $showModuleTags = (new AppSettings())->all()['show_module_tags'];
-        $adminToken = $this->auth->getApiToken();
-
-        require BASE_PATH . '/app/Views/admin/quiz_config_v2.php';
     }
 
     public function login(): void

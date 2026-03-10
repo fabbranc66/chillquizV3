@@ -3,65 +3,39 @@
 namespace App\Services\Sessione\Traits;
 
 use App\Models\Partecipazione;
-use App\Services\Question\FadeModeService;
-use App\Services\Question\ImagePartyModeService;
-use App\Services\Question\ImpostoreModeService;
-use App\Services\Question\MemeModeService;
-use App\Services\Question\QuestionRuntimeModeService;
+use App\Services\Question\QuestionGameplayRuntimeService;
 use RuntimeException;
 
 trait TransizioniTrait
 {
-    private function clearRuntimeModes(): void
+    private function transizioniGameplayRuntime(): QuestionGameplayRuntimeService
     {
-        (new ImpostoreModeService())->clearRuntimeState($this->sessioneId);
-        (new MemeModeService())->clearRuntimeState($this->sessioneId);
-        (new ImagePartyModeService())->clearRuntimeState($this->sessioneId);
-        (new FadeModeService())->clearRuntimeState($this->sessioneId);
+        return new QuestionGameplayRuntimeService();
     }
 
-    private function resolveCurrentQuestionModeMeta(array $domandaCorrente): array
+    private function persistQuestionStartState(string $state, ?float $timestamp): void
     {
-        $domandaId = (int) ($domandaCorrente['id'] ?? 0);
-        return (new QuestionRuntimeModeService())->resolveFromRow($this->sessioneId, $domandaId, $domandaCorrente);
+        $stmt = $this->pdo->prepare(
+            "UPDATE sessioni SET stato = ?, inizio_domanda = ?, mostra_corretta_fino = NULL WHERE id = ?"
+        );
+
+        $stmt->execute([$state, $timestamp, $this->sessioneId]);
+
+        $this->sessione['stato'] = $state;
+        $this->sessione['inizio_domanda'] = $timestamp;
+        $this->sessione['mostra_corretta_fino'] = null;
     }
 
-    private function prepareRuntimeQuestionModes(array $domandaCorrente, array $modeMeta): void
+    private function activateQuestionFromPreview(?float $timestamp = null): void
     {
-        $domandaId = (int) ($domandaCorrente['id'] ?? 0);
-        $tipoDomanda = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
-
-        if ($tipoDomanda === 'IMPOSTORE') {
-            (new ImpostoreModeService())->assignForQuestion($this->sessioneId, $domandaId);
-        }
-
-        if ($tipoDomanda === 'MEME') {
-            (new MemeModeService())->prepareForQuestion($this->sessioneId, $domandaId);
-        }
-    }
-
-    private function resolveQuestionStartTimestamp(array $domandaCorrente, array $modeMeta): ?float
-    {
-        $tipoDomanda = strtoupper(trim((string) ($modeMeta['tipo_domanda'] ?? 'CLASSIC')));
-        $hasAudio = trim((string) ($domandaCorrente['media_audio_path'] ?? '')) !== '';
-
-        if ($tipoDomanda === 'SARABANDA' && $hasAudio) {
-            return null;
-        }
-
-        return round(microtime(true), 3);
-    }
-
-    private function persistQuestionStartState(?float $timestamp): void
-    {
+        $startAt = $timestamp !== null ? $timestamp : (float) ($this->sessione['inizio_domanda'] ?? 0);
         $stmt = $this->pdo->prepare(
             "UPDATE sessioni SET stato = 'domanda', inizio_domanda = ?, mostra_corretta_fino = NULL WHERE id = ?"
         );
-
-        $stmt->execute([$timestamp, $this->sessioneId]);
+        $stmt->execute([$startAt, $this->sessioneId]);
 
         $this->sessione['stato'] = 'domanda';
-        $this->sessione['inizio_domanda'] = $timestamp;
+        $this->sessione['inizio_domanda'] = $startAt;
         $this->sessione['mostra_corretta_fino'] = null;
     }
 
@@ -96,7 +70,6 @@ trait TransizioniTrait
         $this->generaDomandeSessione();
         $this->svuotaPuntateLive();
         $this->resetRevealCorretta();
-        $this->clearRuntimeModes();
         $this->aggiornaStato('puntata');
     }
 
@@ -111,13 +84,13 @@ trait TransizioniTrait
         }
 
         $domandaCorrente = $this->domandaCorrente();
-        $modeMeta = $this->resolveCurrentQuestionModeMeta(is_array($domandaCorrente) ? $domandaCorrente : []);
-        $this->prepareRuntimeQuestionModes(is_array($domandaCorrente) ? $domandaCorrente : [], $modeMeta);
-        $timestamp = $this->resolveQuestionStartTimestamp(
-            is_array($domandaCorrente) ? $domandaCorrente : [],
-            $modeMeta
-        );
-        $this->persistQuestionStartState($timestamp);
+        $domandaCorrente = is_array($domandaCorrente) ? $domandaCorrente : [];
+        $runtime = $this->transizioniGameplayRuntime();
+        $modeMeta = $runtime->resolveModeMeta($this->sessioneId, $domandaCorrente);
+        $runtime->prepareRuntimeQuestionModes($this->sessioneId, $domandaCorrente, $modeMeta);
+        $initialState = $runtime->resolveQuestionInitialState($domandaCorrente, $modeMeta);
+        $timestamp = $runtime->resolveQuestionStartTimestamp($domandaCorrente, $modeMeta);
+        $this->persistQuestionStartState($initialState, $timestamp);
 
     }
 
@@ -136,6 +109,7 @@ trait TransizioniTrait
         $partecipazioneModel->ripristinaCapitaleEliminatiFineFase($this->sessioneId);
         $this->svuotaPuntateLive();
         $this->resetRevealCorretta();
+        $this->transizioniGameplayRuntime()->clearRuntimeModes($this->sessioneId);
         $this->aggiornaStato('risultati');
     }
 
@@ -169,11 +143,11 @@ trait TransizioniTrait
             $this->sessione['stato'] = 'puntata';
             $this->sessione['inizio_domanda'] = null;
             $this->sessione['mostra_corretta_fino'] = null;
-            $this->clearRuntimeModes();
+            $this->transizioniGameplayRuntime()->clearRuntimeModes($this->sessioneId);
         } else {
             $this->resetRevealCorretta();
             $this->aggiornaStato('conclusa');
-            $this->clearRuntimeModes();
+            $this->transizioniGameplayRuntime()->clearRuntimeModes($this->sessioneId);
         }
     }
 }

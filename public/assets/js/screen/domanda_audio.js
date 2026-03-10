@@ -17,11 +17,8 @@
   function hasInteractiveBadgeAudio() {
     if (!ScreenApp.state.canUseAudioPreview()) return false;
     if (!ScreenApp.domandaSupport.isSarabandaQuestionType(S.currentDomandaData)) return false;
-    if (!S.sarabandaAudioEnabled) return false;
-    const currentAudio = String(S.currentDomandaData?.media_audio_path || '').trim() !== '';
-    const pendingAudio = String(S.pendingAudioPreview?.audio_path || '').trim() !== '';
-    const storedAudio = String(AudioSupport.readStoredAudioPreview()?.audio_path || '').trim() !== '';
-    return currentAudio || pendingAudio || storedAudio;
+    if (Number(S.sarabandaPreviewConsumedQuestionId || 0) === Number(S.currentDomandaData?.id || 0)) return false;
+    return true;
   }
 
   async function handleQuestionTypeBadgeClick() {
@@ -39,9 +36,15 @@
       }
 
       S.pendingAudioPreview = preview;
-      await AudioSupport.playScreenAudioPreview(preview);
+      const played = await AudioSupport.playScreenAudioPreview(preview);
+      if (played) {
+        S.sarabandaPreviewConsumedQuestionId = Number(S.currentDomandaData?.id || 0);
+      }
     } finally {
       S.audioPreviewPlayInFlight = false;
+      if (S.currentDomandaData) {
+        renderQuestionTypeBadge(S.currentDomandaData);
+      }
     }
   }
 
@@ -59,6 +62,9 @@
       wrap.classList.add('hidden');
       wrap.classList.remove('is-interactive');
       wrap.classList.add('is-static');
+      wrap.setAttribute('aria-disabled', 'true');
+      wrap.setAttribute('tabindex', '-1');
+      wrap.setAttribute('role', 'button');
     }
   }
 
@@ -91,14 +97,27 @@
     label.innerText = '';
     label.classList.add('hidden');
 
-    wrap.classList.toggle('is-interactive', hasInteractiveBadgeAudio());
-    wrap.classList.toggle('is-static', !hasInteractiveBadgeAudio());
+    const currentState = String(S.currentState || '');
+    const interactive = currentState === 'preview' && hasInteractiveBadgeAudio();
+    wrap.classList.toggle('is-interactive', interactive);
+    wrap.classList.toggle('is-static', !interactive);
+    wrap.setAttribute('role', 'button');
+    wrap.setAttribute('aria-disabled', interactive ? 'false' : 'true');
+    wrap.setAttribute('tabindex', interactive ? '0' : '-1');
     wrap.classList.remove('hidden');
   }
 
   function bindBadgeAudioEvents() {
     const { wrap } = ScreenApp.domandaSupport.getQuestionTypeBadgeNodes();
-    if (wrap) wrap.addEventListener('click', handleQuestionTypeBadgeClick);
+    if (!wrap) return;
+
+    wrap.addEventListener('click', handleQuestionTypeBadgeClick);
+    wrap.addEventListener('keydown', (event) => {
+      const key = String(event.key || '');
+      if (key !== 'Enter' && key !== ' ' && key !== 'Spacebar') return;
+      event.preventDefault();
+      handleQuestionTypeBadgeClick();
+    });
   }
 
   function bindUnlockEvents() {

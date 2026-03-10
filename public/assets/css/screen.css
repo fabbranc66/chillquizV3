@@ -18,6 +18,24 @@ body {
     position: relative;
 }
 
+.stage-logo {
+    position: absolute;
+    top: 10px;
+    left: 22px;
+    z-index: 5;
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.stage-logo-image {
+    display: block;
+    width: 240px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 22px rgba(0,0,0,.24));
+}
+
 .stage-header,
 .stage-footer {
     text-align: center;
@@ -52,12 +70,13 @@ body {
 
 .stage-hud-left {
     position: absolute;
-    top: 22px;
-    left: var(--hud-left);
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 4;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 10px;
 }
 
@@ -77,6 +96,12 @@ body {
 
 .question-type-badge.is-static {
     cursor: default;
+}
+
+.question-type-badge:focus-visible {
+    outline: 4px solid rgba(255, 214, 10, 0.95);
+    outline-offset: 6px;
+    border-radius: 14px;
 }
 
 .question-type-badge-image {
@@ -499,6 +524,15 @@ body.module-tags-off .module-debug-tag {
     .stage {
         gap: 12px;
         padding: 16px 22px;
+    }
+
+    .stage-logo {
+        top: 10px;
+        left: 22px;
+    }
+
+    .stage-logo-image {
+        width: 180px;
     }
 
     .stage-main {

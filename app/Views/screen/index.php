@@ -72,6 +72,14 @@ if ($isLocalHost) {
 <body class="<?= !empty($showModuleTags) ? 'module-tags-on' : 'module-tags-off' ?>">
 
 <div class="stage">
+    <div class="stage-logo" aria-hidden="true">
+        <img
+            src="<?= htmlspecialchars(chillquiz_public_url($screenLogoPath !== '' ? $screenLogoPath : 'upload/image/logo-chillquiz-1773183162-5169.png'), ENT_QUOTES, 'UTF-8') ?>"
+            alt="ChillQuiz"
+            class="stage-logo-image"
+        >
+    </div>
+
     <div class="stage-hud-left">
         <div class="stage-timer" id="stage-timer" aria-label="Timer domanda">
             <span class="stage-timer-indicator" id="stage-timer-indicator">
@@ -113,6 +121,7 @@ window.SCREEN_BOOTSTRAP = {
 <script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/state.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/risultati.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/domanda_support.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/domanda_audio_playback.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/domanda_audio_support.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/domanda_audio.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/screen/domanda.js'), ENT_QUOTES, 'UTF-8') ?>"></script>

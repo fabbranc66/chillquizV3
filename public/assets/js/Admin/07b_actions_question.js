@@ -31,7 +31,6 @@
       try {
         const res = await fetch(`${S.API_BASE}/admin/domanda-media-list/0`, {
           method: 'POST',
-          headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
           cache: 'no-store',
         });
 
@@ -83,7 +82,6 @@
 
       const res = await fetch(`${S.API_BASE}/admin/domanda-media-upload/0`, {
         method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
         body: formData,
       });
 
@@ -199,7 +197,6 @@
 
       const res = await fetch(`${S.API_BASE}/admin/domanda-dettaglio/${targetSessioneId}`, {
         method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
         body: formData,
       });
 
@@ -279,7 +276,6 @@
 
       const res = await fetch(`${S.API_BASE}/admin/domanda-update/${targetSessioneId}`, {
         method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
         body: formData,
       });
 
@@ -313,7 +309,6 @@
 
       const res = await fetch(`${S.API_BASE}/admin/domande-sessione/0`, {
         method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
         body: formData,
       });
 
@@ -403,7 +398,6 @@
         S.sessionImageSearchInFlight = true;
         const res = await fetch(`${S.API_BASE}/admin/sessione-image-search/0`, {
           method: 'POST',
-          headers: { 'X-ADMIN-TOKEN': S.ADMIN_TOKEN },
           body: formData,
         });
 

@@ -11,7 +11,21 @@ trait TimerTrait
 
     public function verificaTimer(): void
     {
-        if (($this->sessione['stato'] ?? '') !== 'domanda') {
+        $stato = (string) ($this->sessione['stato'] ?? '');
+        if ($stato === 'preview') {
+            $startAt = (float) ($this->sessione['inizio_domanda'] ?? 0);
+            if ($startAt <= 0) {
+                return;
+            }
+
+            $now = round(microtime(true), 3);
+            if ($now >= $startAt) {
+                $this->activateQuestionFromPreview($startAt);
+            }
+            return;
+        }
+
+        if ($stato !== 'domanda') {
             return;
         }
 

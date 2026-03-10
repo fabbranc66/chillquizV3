@@ -28,6 +28,7 @@
     serverClockOffsetMs: 0,
 
     pollingInterval: null,
+    previewBoundaryTimer: null,
     joinRequestPolling: null,
     timerInterval: null,
     statoRequestInFlight: false,

@@ -6,7 +6,6 @@ const rawBasePublicUrl = String(
 );
 const BASE_PUBLIC_URL = rawBasePublicUrl.endsWith('/') ? rawBasePublicUrl : `${rawBasePublicUrl}/`;
 const API_BASE = String(MEDIA_BOOTSTRAP.apiBase || `${BASE_PUBLIC_URL}index.php?url=api`);
-const ADMIN_TOKEN = MEDIA_BOOTSTRAP.adminToken || '';
 
 function mediaUrl(filePath) {
     if (!filePath) return '';
@@ -30,8 +29,7 @@ function escapeHtml(value) {
 
 async function loadMedia() {
     const res = await fetch(`${API_BASE}/admin/media-list/0`, {
-        method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': ADMIN_TOKEN }
+        method: 'POST'
     });
     const data = await res.json();
 
@@ -77,7 +75,6 @@ async function toggleMedia(id, attiva) {
 
     const res = await fetch(`${API_BASE}/admin/media-attiva/0`, {
         method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': ADMIN_TOKEN },
         body: formData
     });
 
@@ -97,7 +94,6 @@ async function eliminaMedia(id) {
 
     const res = await fetch(`${API_BASE}/admin/media-elimina/0`, {
         method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': ADMIN_TOKEN },
         body: formData
     });
 
@@ -113,8 +109,7 @@ async function eliminaMedia(id) {
 
 async function disattivaMedia() {
     const res = await fetch(`${API_BASE}/admin/media-disattiva/0`, {
-        method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': ADMIN_TOKEN }
+        method: 'POST'
     });
 
     const data = await res.json();
@@ -141,7 +136,6 @@ async function uploadMedia(event) {
 
     const res = await fetch(`${API_BASE}/admin/media-upload/0`, {
         method: 'POST',
-        headers: { 'X-ADMIN-TOKEN': ADMIN_TOKEN },
         body: formData
     });
 

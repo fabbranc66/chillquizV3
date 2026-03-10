@@ -3,8 +3,7 @@
 namespace App\Services\Sessione\Traits;
 
 use App\Models\Sistema;
-use App\Services\Question\ImpostoreModeService;
-use App\Services\Question\QuestionRuntimeModeService;
+use App\Services\Question\QuestionGameplayRuntimeService;
 
 trait ClassificaTrait
 {
@@ -19,79 +18,9 @@ trait ClassificaTrait
         return number_format($value, 2, ',', '');
     }
 
-    private function resolveCurrentModeMeta(int $domandaId): array
+    private function classificaGameplayRuntime(): QuestionGameplayRuntimeService
     {
-        $domandaCorrenteRow = $this->loadDomandaCorrenteRow($domandaId);
-        return (new QuestionRuntimeModeService())->resolveFromRow($this->sessioneId, $domandaId, $domandaCorrenteRow);
-    }
-
-    private function buildClassificaScoreContext(int $domandaId, Sistema $sistema): array
-    {
-        $modeMeta = $this->resolveCurrentModeMeta($domandaId);
-
-        return [
-            'durata_domanda' => (int) ($sistema->get('durata_domanda') ?? 0),
-            'fattore_velocita_max' => (float) ($sistema->get('fattore_velocita_max') ?? 1),
-            'bonus_primo_attivo' => (int) ($sistema->get('bonus_primo_attivo') ?? 0) === 1,
-            'coefficiente_bonus_primo' => (float) ($sistema->get('coefficiente_bonus_primo') ?? 0),
-            'mode_meta' => $modeMeta,
-            'runtime_state' => (new QuestionRuntimeModeService())->buildRuntimeState($this->sessioneId, $domandaId, $modeMeta),
-            'impostore_service' => new ImpostoreModeService(),
-        ];
-    }
-
-    private function calculateRowScoreParts(array $row, array $context): array
-    {
-        $puntata = (int) ($row['ultima_puntata'] ?? 0);
-        $difficolta = (float) ($row['difficolta_domanda'] ?? 1.0);
-        $tempoRisposta = $row['tempo_risposta'] === null ? null : (float) $row['tempo_risposta'];
-        $durataDomanda = (int) ($context['durata_domanda'] ?? 0);
-        $fattoreVelocitaMax = (float) ($context['fattore_velocita_max'] ?? 1);
-        $runtimeState = is_array($context['runtime_state'] ?? null) ? $context['runtime_state'] : [];
-        $modeMeta = is_array($context['mode_meta'] ?? null) ? $context['mode_meta'] : [];
-        $impostoreService = $context['impostore_service'] ?? new ImpostoreModeService();
-
-        $fattoreVelocita = 0.0;
-        if ($tempoRisposta !== null && $durataDomanda > 0) {
-            $tempoRimanente = max(0, $durataDomanda - $tempoRisposta);
-            $fattoreVelocita = round(($tempoRimanente / $durataDomanda) * $fattoreVelocitaMax, 2);
-        }
-
-        $vincitaDifficolta = 0;
-        $vincitaVelocita = 0;
-        $bonusPrimo = 0;
-        $bonusImpostore = 0;
-        $vincitaDomanda = null;
-
-        if (($row['esito'] ?? null) === 'corretta') {
-            $vincitaDifficolta = (int) round($puntata * $difficolta);
-            $vincitaVelocita = (int) round($puntata * $fattoreVelocita);
-
-            if (!empty($context['bonus_primo_attivo']) && !empty($row['primo_a_rispondere'])) {
-                $bonusPrimo = (int) round($puntata * (float) ($context['coefficiente_bonus_primo'] ?? 0));
-            }
-
-            if (
-                !empty($runtimeState['is_impostore_mode'])
-                && (int) ($runtimeState['impostore_partecipazione_id'] ?? 0) > 0
-                && (int) ($row['partecipazione_id'] ?? 0) === (int) ($runtimeState['impostore_partecipazione_id'] ?? 0)
-            ) {
-                $bonusImpostore = $impostoreService->calculateBonus($modeMeta, $puntata, true, true);
-            }
-
-            $vincitaDomanda = $vincitaDifficolta + $vincitaVelocita + $bonusPrimo + $bonusImpostore;
-        } elseif (($row['esito'] ?? null) === 'errata') {
-            $vincitaDomanda = -$puntata;
-        }
-
-        return [
-            'fattore_velocita' => $fattoreVelocita,
-            'vincita_difficolta' => $vincitaDifficolta,
-            'vincita_velocita' => $vincitaVelocita,
-            'bonus_primo' => $bonusPrimo,
-            'bonus_impostore' => $bonusImpostore,
-            'vincita_domanda' => $vincitaDomanda,
-        ];
+        return new QuestionGameplayRuntimeService();
     }
 
     private function loadClassificaRows(int $domandaId): array
@@ -186,7 +115,7 @@ trait ClassificaTrait
 
         $tempoRisposta = $row['tempo_risposta'] === null ? null : (float) $row['tempo_risposta'];
         $vincitaDomandaRaw = $row['vincita_domanda_raw'] === null ? null : (int) $row['vincita_domanda_raw'];
-        $scoreParts = $this->calculateRowScoreParts($row, $context);
+        $scoreParts = $this->classificaGameplayRuntime()->calculateClassificaScoreParts($row, $context);
         $vincitaDomandaCalcolata = $scoreParts['vincita_domanda'];
 
         if (
@@ -228,7 +157,13 @@ trait ClassificaTrait
 
         $sistema = new Sistema();
         $domandaId = $this->domandaCorrenteId();
-        $context = $this->buildClassificaScoreContext($domandaId, $sistema);
+        $domandaRow = $this->loadDomandaCorrenteRow($domandaId);
+        $context = $this->classificaGameplayRuntime()->buildClassificaScoreContext(
+            $this->sessioneId,
+            $domandaId,
+            $domandaRow,
+            $sistema
+        );
         $rows = $this->loadClassificaRows($domandaId);
 
         foreach ($rows as $index => $row) {

@@ -10,11 +10,24 @@
 
 <div class="container">
 
-<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-    <h2 style="margin:0;">Regia ChillQuiz</h2>
-    <div style="display:flex;align-items:center;gap:10px;font-size:13px;">
-        <span>Admin: <?= htmlspecialchars((string)($adminUsername ?? 'admin'), ENT_QUOTES, 'UTF-8') ?></span>
-        <a href="<?= htmlspecialchars(chillquiz_public_url('index.php?url=admin/logout'), ENT_QUOTES, 'UTF-8') ?>" style="color:#fff;font-weight:700;">Logout</a>
+<div class="admin-topbar">
+    <div class="admin-topbar-logo-wrap">
+        <img
+            src="<?= htmlspecialchars(chillquiz_public_url($adminLogoPath !== '' ? $adminLogoPath : 'upload/image/logo-chillquiz-1773183162-5169.png'), ENT_QUOTES, 'UTF-8') ?>"
+            alt="ChillQuiz"
+            class="admin-topbar-logo"
+        >
+    </div>
+    <div class="admin-topbar-main">
+        <div class="admin-topbar-title-wrap">
+            <span class="admin-topbar-kicker">REGIA</span>
+        </div>
+        <div class="admin-topbar-actions">
+            <span>Admin: <?= htmlspecialchars((string)($adminUsername ?? 'admin'), ENT_QUOTES, 'UTF-8') ?></span>
+            <button id="btnHeaderMedia" type="button">Gestione Media</button>
+            <button id="btnHeaderSettings" type="button">Settings</button>
+            <button id="btnHeaderLogout" type="button" onclick="window.location.href='<?= htmlspecialchars(chillquiz_public_url('index.php?url=admin/logout'), ENT_QUOTES, 'UTF-8') ?>'">Logout</button>
+        </div>
     </div>
 </div>
 
@@ -23,6 +36,7 @@
     <button id="btnToggleClassifica" type="button">Classifica</button>
     <button id="btnToggleJoinRequests" type="button">Richieste</button>
     <button id="btnToggleLog" type="button">Log</button>
+    <button id="btnDebugSessione" type="button">DEBUG OFF</button>
 </div>
 
 <div class="kahoot-panel" id="panel-info">
@@ -59,7 +73,6 @@
 window.ADMIN_BOOTSTRAP = {
     sessioneId: <?= (int)($sessioneId ?? 0) ?>,
     nomeSessione: <?= json_encode((string)($nomeSessione ?? ''), JSON_UNESCAPED_UNICODE) ?>,
-    adminToken: <?= json_encode((string)($adminToken ?? ''), JSON_UNESCAPED_UNICODE) ?>,
     adminUsername: <?= json_encode((string)($adminUsername ?? ''), JSON_UNESCAPED_UNICODE) ?>,
     publicBaseUrl: <?= json_encode(chillquiz_public_base_url(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>,
     apiBase: <?= json_encode(chillquiz_api_base_url(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>
@@ -78,6 +91,7 @@ window.ADMIN_BOOTSTRAP = {
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/admin/07c_runtime_support.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/admin/07c_actions_runtime.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/admin/07d_actions_runtime_audio.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/admin/07e_actions_runtime_question.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 <script defer src="<?= htmlspecialchars(chillquiz_asset_url('assets/js/admin/08_main.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
 
 </body>

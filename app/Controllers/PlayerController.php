@@ -21,7 +21,9 @@ class PlayerController
             exit;
         }
 
-        $showModuleTags = (new AppSettings())->all()['show_module_tags'];
+        $settings = (new AppSettings())->all();
+        $showModuleTags = $settings['show_module_tags'];
+        $playerLogoPath = ltrim(trim((string) (($settings['configurazioni_sistema']['logo'] ?? ''))), '/');
 
         require BASE_PATH . '/app/Views/player/index.php';
     }

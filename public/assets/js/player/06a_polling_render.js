@@ -3,7 +3,7 @@
   const Player = window.Player;
   const S = Player.state;
   const D = Player.dom;
-  const { isDomandaAttiva } = Player.utils;
+  const { isDomandaAttiva, isQuestionStage } = Player.utils;
   const Clock = window.ChillQuizClock;
 
   function persistDebugTiming() {
@@ -22,7 +22,7 @@
     const currentDomandaId = Number(domandaId || 0);
     if (currentDomandaId <= 0) return;
 
-    if (Number(S.debugTiming?.domandaId || 0) !== currentDomandaId) {
+    if (Number((S.debugTiming && S.debugTiming.domandaId) || 0) !== currentDomandaId) {
       S.debugTiming = {
         domandaId: currentDomandaId,
         timerStartedAtMs: 0,
@@ -43,7 +43,7 @@
 
   function resolveTimingDomandaId() {
     return Number(
-      S.debugTiming?.domandaId
+      (S.debugTiming && S.debugTiming.domandaId)
       || S.badgeQuestionId
       || S.questionShownDomandaId
       || 0
@@ -62,6 +62,10 @@
     S.domandaTimerStart = 0;
     S.domandaTimerQuestionId = 0;
     S.sarabandaPreviewStartedQuestionId = 0;
+    if (S.previewBoundaryTimer) {
+      clearTimeout(S.previewBoundaryTimer);
+      S.previewBoundaryTimer = null;
+    }
     if (S.optionRevealTimer) {
       clearTimeout(S.optionRevealTimer);
       S.optionRevealTimer = null;
@@ -80,17 +84,17 @@
 
     if (nextState === 'puntata' || nextState === 'attesa' || nextState === 'conclusa') {
       resetRoundForNewQuestionCycle();
-    } else if (nextState === 'domanda') {
+    } else if (nextState === 'preview' || nextState === 'domanda') {
       S.rispostaInviata = false;
       S.selectedAnswerDomandaId = 0;
       S.selectedAnswerOptionId = 0;
-      S.domandaTimerStart = 0;
-      S.domandaTimerQuestionId = 0;
       S.sarabandaPreviewStartedQuestionId = 0;
     }
 
     if (nextState !== 'risultati') {
-      Player.classifica.clearImmediateResult?.();
+      if (Player.classifica && typeof Player.classifica.clearImmediateResult === 'function') {
+        Player.classifica.clearImmediateResult();
+      }
     }
 
     return true;
@@ -111,10 +115,10 @@
   }
 
   function renderTimer(sessione) {
-    const max = Number(sessione?.timer_max || 0);
-    const start = Number(sessione?.timer_start || 0);
+    const max = Number((sessione && sessione.timer_max) || 0);
+    const start = Number((sessione && sessione.timer_start) || 0);
 
-    if (!isDomandaAttiva(sessione?.stato) || max <= 0 || start <= 0) {
+    if (!isDomandaAttiva(sessione && sessione.stato) || max <= 0 || start <= 0) {
       resetTimerUI();
       return;
     }
@@ -171,28 +175,35 @@
   }
 
   function renderState(sessione, stateChanged = false) {
-    const stato = sessione?.stato;
+    const stato = sessione && sessione.stato;
 
-    if (!isDomandaAttiva(stato) && stato !== 'puntata') {
+    if (!isQuestionStage(stato) && stato !== 'puntata') {
       S.domandaFetchNonce++;
       Player.domanda.resetDomandaView();
-      Player.domanda.clearQuestionTypeBadge?.();
+      if (Player.domanda && typeof Player.domanda.clearQuestionTypeBadge === 'function') {
+        Player.domanda.clearQuestionTypeBadge();
+      }
     }
 
     switch (stato) {
-      case 'domanda':
-        resetTimerUI();
-        if (D.opzioniDiv) {
-          D.opzioniDiv.innerHTML = '';
-          D.opzioniDiv.classList.add('hidden');
+      case 'preview':
+        Player.screens.showOnly('screen-domanda');
+        if (Player.domanda && typeof Player.domanda.fetchTipoDomandaBadge === 'function') {
+          Player.domanda.fetchTipoDomandaBadge();
         }
+        resetTimerUI();
+        break;
+
+      case 'domanda':
         Player.screens.showOnly('screen-domanda');
         break;
 
       case 'risultati':
         Player.screens.showOnly('screen-risultati');
-        if (D.risultatiTitle) D.risultatiTitle.textContent = 'Risultati';
+        if (D.risultatiKicker) D.risultatiKicker.textContent = 'Esito round';
+        if (D.risultatiTitle) D.risultatiTitle.textContent = '';
         if (D.risultatoPersonale) D.risultatoPersonale.classList.remove('hidden');
+        if (D.classificaFinalePlaceholder) D.classificaFinalePlaceholder.classList.add('hidden');
         if (D.classifica) D.classifica.classList.add('hidden');
         Player.classifica.fetchClassifica();
         resetTimerUI();
@@ -200,8 +211,10 @@
 
       case 'conclusa':
         Player.screens.showOnly('screen-risultati');
-        if (D.risultatiTitle) D.risultatiTitle.textContent = 'Classifica finale';
+        if (D.risultatiKicker) D.risultatiKicker.textContent = 'Classifica finale';
+        if (D.risultatiTitle) D.risultatiTitle.textContent = '';
         if (D.risultatoPersonale) D.risultatoPersonale.classList.add('hidden');
+        if (D.classificaFinalePlaceholder) D.classificaFinalePlaceholder.classList.remove('hidden');
         if (D.classifica) D.classifica.classList.remove('hidden');
         Player.classifica.fetchClassifica();
         resetTimerUI();
@@ -209,21 +222,26 @@
 
       case 'attesa':
         Player.screens.showOnly('screen-lobby');
+        if (D.classificaFinalePlaceholder) D.classificaFinalePlaceholder.classList.add('hidden');
         if (D.classifica) D.classifica.classList.add('hidden');
         resetTimerUI();
         break;
 
       case 'puntata':
         Player.screens.showOnly('screen-puntata');
+        if (D.classificaFinalePlaceholder) D.classificaFinalePlaceholder.classList.add('hidden');
         if (D.classifica) D.classifica.classList.add('hidden');
         if (stateChanged) {
-          Player.puntata.prepareScreen?.();
+          if (Player.puntata && typeof Player.puntata.prepareScreen === 'function') {
+            Player.puntata.prepareScreen();
+          }
         }
         resetTimerUI();
         break;
 
       default:
         Player.screens.showOnly('screen-lobby');
+        if (D.classificaFinalePlaceholder) D.classificaFinalePlaceholder.classList.add('hidden');
         if (D.classifica) D.classifica.classList.add('hidden');
         resetTimerUI();
         break;

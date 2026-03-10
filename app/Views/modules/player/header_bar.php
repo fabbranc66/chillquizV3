@@ -7,6 +7,14 @@
 <div class="module-debug-tag">player/header_bar.php</div>
 <!-- HEADER -->
 <div class="header">
+    <div class="player-header-logo-wrap" aria-hidden="true">
+        <img
+            src="<?= htmlspecialchars(chillquiz_public_url($playerLogoPath !== '' ? $playerLogoPath : 'upload/image/logo-chillquiz-1773183162-5169.png'), ENT_QUOTES, 'UTF-8') ?>"
+            alt="ChillQuiz"
+            class="player-header-logo"
+        >
+    </div>
+
     <div id="player-display-name">Player</div>
 
     <div class="header-timer-wrap" id="player-header-timer-wrap" aria-label="Timer domanda">
@@ -19,4 +27,5 @@
     <div class="capitale" title="Punti giocatore">
         &#9733; <span id="capitale-value">0</span>
     </div>
+
 </div>

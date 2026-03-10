@@ -4,16 +4,71 @@
   const S = Player.state;
   const Support = Player.pollingSupport;
   const Clock = window.ChillQuizClock;
+  const { isQuestionStage } = Player.utils;
 
   function getNextPollDelayMs() {
     const sessione = S.latestSessioneSnapshot || null;
-    const stato = String(sessione?.stato || '');
-    const currentType = String(S.currentDomandaData?.tipo_domanda || '').toUpperCase();
-    const waitingSarabandaIntro = stato === 'domanda'
-      && currentType === 'SARABANDA'
-      && Number(sessione?.timer_start || 0) > Clock.nowSec(S);
+    const stato = String((sessione && sessione.stato) || '');
+    const currentType = String((S.currentDomandaData && S.currentDomandaData.tipo_domanda) || '').toUpperCase();
+    const waitingSarabandaIntro = currentType === 'SARABANDA'
+      && (
+        stato === 'preview'
+        || (stato === 'domanda' && Number((sessione && sessione.timer_start) || 0) > Clock.nowSec(S))
+      );
+
+    if (stato === 'conclusa') {
+      return null;
+    }
+
+    if (stato === 'risultati') {
+      return 2500;
+    }
 
     return waitingSarabandaIntro ? 100 : 1000;
+  }
+
+  function clearPreviewBoundaryPoll() {
+    if (S.previewBoundaryTimer) {
+      clearTimeout(S.previewBoundaryTimer);
+      S.previewBoundaryTimer = null;
+    }
+  }
+
+  function schedulePreviewBoundaryPoll(sessione, domandaId) {
+    clearPreviewBoundaryPoll();
+    const stato = String((sessione && sessione.stato) || '');
+    const timerStart = Number((sessione && sessione.timer_start) || 0);
+    const currentDomandaId = Number(domandaId || 0);
+    if (stato !== 'preview' || currentDomandaId <= 0 || timerStart <= 0) {
+      return;
+    }
+
+    const delayMs = Clock.computeDelayMsFromStart(S, timerStart);
+    if (delayMs <= 0) {
+      return;
+    }
+
+    S.previewBoundaryTimer = setTimeout(() => {
+      S.previewBoundaryTimer = null;
+
+      if (
+        String(S.currentState || '') === 'preview'
+        && Number(S.domandaTimerQuestionId || 0) === currentDomandaId
+      ) {
+        S.currentState = 'domanda';
+        if (S.latestSessioneSnapshot && typeof S.latestSessioneSnapshot === 'object') {
+          S.latestSessioneSnapshot.stato = 'domanda';
+          S.latestSessioneSnapshot.timer_start = timerStart;
+        }
+
+        Support.renderState(S.latestSessioneSnapshot || sessione || null, true);
+        if (S.currentDomandaData) {
+          Player.domanda.renderDomanda(S.currentDomandaData, S.latestSessioneSnapshot || sessione || null);
+        }
+      }
+
+      fetchStato();
+    }, delayMs + 15);
   }
 
   function scheduleNextPoll() {
@@ -21,7 +76,11 @@
       clearTimeout(S.pollingInterval);
       S.pollingInterval = null;
     }
-    S.pollingInterval = setTimeout(fetchStato, getNextPollDelayMs());
+    const delayMs = getNextPollDelayMs();
+    if (delayMs === null) {
+      return;
+    }
+    S.pollingInterval = setTimeout(fetchStato, delayMs);
   }
 
   function startPolling() {
@@ -44,39 +103,37 @@
       if (!data.success || !data.sessione) return;
 
       const sessione = data.sessione;
-      Clock.updateOffsetFromServerNow(S, data?.server_now || 0);
+      Clock.updateOffsetFromServerNow(S, (data && data.server_now) || 0);
       S.latestSessioneSnapshot = sessione;
       const stato = sessione.stato;
-      const currentDomandaId = Number(data?.domanda?.id || 0);
-      S.domandaTimerStart = Number(sessione?.timer_start || 0);
-      S.domandaTimerMax = Number(sessione?.timer_max || 0);
+      const currentDomandaId = Number((data && data.domanda && data.domanda.id) || 0);
+      S.domandaTimerStart = Number((sessione && sessione.timer_start) || 0);
+      S.domandaTimerMax = Number((sessione && sessione.timer_max) || 0);
       if (currentDomandaId > 0) {
         S.domandaTimerQuestionId = currentDomandaId;
-        if (stato === 'domanda' && S.domandaTimerStart > 0) {
-          S.sarabandaPreviewStartedQuestionId = currentDomandaId;
-          if (Player.domanda && typeof Player.domanda.renderDomanda === 'function' && data.domanda) {
-            Player.domanda.renderDomanda(data.domanda, sessione);
-          }
-          if (Support && typeof Support.renderTimer === 'function') {
-            Support.renderTimer(sessione);
-          }
-        }
+      }
+      if (stato === 'domanda' && S.domandaTimerStart > 0) {
+        S.sarabandaPreviewStartedQuestionId = currentDomandaId;
       }
       if (stato !== 'domanda') {
         S.sarabandaPreviewStartedQuestionId = 0;
       }
+      if (stato !== 'preview') {
+        clearPreviewBoundaryPoll();
+      }
+      schedulePreviewBoundaryPoll(sessione, currentDomandaId);
       const stateChanged = Support.handleStateTransition(stato);
 
-      if (stato === 'domanda') {
+      if (!(stato === 'puntata' && !stateChanged)) {
+        Support.renderState(sessione, stateChanged);
+      }
+
+      if (isQuestionStage(stato)) {
         if (data.domanda) {
           Player.domanda.renderDomanda(data.domanda, sessione);
         } else {
           Player.domanda.fetchDomanda();
         }
-      }
-
-      if (!(stato === 'puntata' && !stateChanged)) {
-        Support.renderState(sessione, stateChanged);
       }
     } catch (err) {
       console.error(err);

@@ -27,8 +27,10 @@
     timerLabel: document.getElementById('player-header-timer-label') || document.getElementById('player-timer-label'),
 
     // risultati/classifica
+    risultatiKicker: document.querySelector('#screen-risultati .risultati-kicker'),
     risultatiTitle: document.getElementById('screen-risultati-title'),
     risultatoPersonale: document.getElementById('risultato-personale'),
+    classificaFinalePlaceholder: document.getElementById('classifica-finale-placeholder'),
     classifica: document.getElementById('classifica'),
 
     // ui alert

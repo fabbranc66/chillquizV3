@@ -522,14 +522,14 @@
     const locked = !!sessione.sarabanda_audio_locked;
     const enabled = !!sessione.sarabanda_audio_enabled;
 
-    D.sarabandaAudioLed.textContent = enabled ? 'SARABANDA ON' : 'SARABANDA OFF';
-    D.sarabandaAudioLed.disabled = !eligible || locked;
+    D.sarabandaAudioLed.textContent = enabled ? 'SARABANDA AUTO' : 'SARABANDA OFF';
+    D.sarabandaAudioLed.disabled = true;
     D.sarabandaAudioLed.classList.toggle('enabled', enabled);
     D.sarabandaAudioLed.classList.toggle('disabled', !enabled || !eligible);
     D.sarabandaAudioLed.classList.toggle('is-locked', locked);
     D.sarabandaAudioLed.title = !eligible
       ? 'Disponibile solo per SARABANDA con audio'
-      : (locked ? 'Modificabile solo prima dello stato domanda' : 'Abilita la modalita SARABANDA');
+      : 'Riconoscimento automatico SARABANDA sulla domanda corrente';
   }
 
   Admin.actions = Admin.actions || {};

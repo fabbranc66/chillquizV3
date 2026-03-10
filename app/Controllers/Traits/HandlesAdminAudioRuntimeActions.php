@@ -48,6 +48,7 @@ trait HandlesAdminAudioRuntimeActions
                 $audioEnabled = $audioModeService->isAudioEnabledForQuestion($targetSessioneId, $questionId);
                 $reverseEnabled = $audioModeService->isReverseEnabledForQuestion($targetSessioneId, $questionId);
                 $fastForwardEnabled = $audioModeService->isFastForwardEnabledForQuestion($targetSessioneId, $questionId);
+                $brokenRecordEnabled = $audioModeService->isBrokenRecordEnabledForQuestion($targetSessioneId, $questionId);
                 $fastForwardRate = $audioModeService->getFastForwardRateForQuestion($targetSessioneId, $questionId);
                 $effectivePreviewSec = $reverseEnabled
                     ? max(10, $previewSec > 0 ? $previewSec : 0)
@@ -68,6 +69,7 @@ trait HandlesAdminAudioRuntimeActions
                     'audio_enabled' => $audioEnabled,
                     'reverse_audio' => $reverseEnabled,
                     'fast_forward_audio' => $fastForwardEnabled,
+                    'broken_record_audio' => $brokenRecordEnabled,
                     'fast_forward_rate' => $fastForwardRate,
                     'created_at' => time(),
                 ];
@@ -97,6 +99,9 @@ trait HandlesAdminAudioRuntimeActions
 
             case 'sarabanda-fast-rate-set':
                 return $this->setSarabandaFastRate($sessioneId, $action);
+
+            case 'sarabanda-broken-record-toggle':
+                return $this->toggleSarabandaBrokenRecord($sessioneId, $action);
         }
 
         return false;
@@ -237,14 +242,44 @@ trait HandlesAdminAudioRuntimeActions
         $rate = (float) ($_POST['rate'] ?? SarabandaAudioModeService::DEFAULT_FAST_FORWARD_RATE);
         $service = new SarabandaAudioModeService();
         $questionId = (int) ($currentQuestion['id'] ?? 0);
-        $service->setFastForwardRateForQuestion($targetSessioneId, $questionId, $rate);
+        $service->setFastForwardEnabledForQuestion($targetSessioneId, $questionId, true, $rate);
 
         $this->json([
             'success' => true,
             'action' => $action,
             'sessione_id' => $targetSessioneId,
             'domanda_id' => $questionId,
+            'enabled' => $service->isFastForwardEnabledForQuestion($targetSessioneId, $questionId),
             'rate' => $service->getFastForwardRateForQuestion($targetSessioneId, $questionId),
+        ]);
+        return true;
+    }
+
+    private function toggleSarabandaBrokenRecord(int $sessioneId, string $action): bool
+    {
+        [$ok, $error, , $currentQuestion] = $this->validateSarabandaAudioRuntime(
+            (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0),
+            'DISCO ROTTO modificabile solo prima dello stato domanda',
+            'DISCO ROTTO disponibile solo per SARABANDA con audio'
+        );
+
+        if (!$ok) {
+            $this->json(['success' => false, 'error' => $error]);
+            return true;
+        }
+
+        $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+        $enabled = (int) ($_POST['enabled'] ?? 0) === 1;
+        $service = new SarabandaAudioModeService();
+        $questionId = (int) ($currentQuestion['id'] ?? 0);
+        $service->setBrokenRecordEnabledForQuestion($targetSessioneId, $questionId, $enabled);
+
+        $this->json([
+            'success' => true,
+            'action' => $action,
+            'sessione_id' => $targetSessioneId,
+            'domanda_id' => $questionId,
+            'enabled' => $service->isBrokenRecordEnabledForQuestion($targetSessioneId, $questionId),
         ]);
         return true;
     }
