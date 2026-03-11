@@ -249,17 +249,18 @@
       showCorrect,
       correctOptionId,
     } = ScreenApp.domandaSupport.getQuestionRenderState(domanda);
+    const isPreviewStage = String(S.currentState || '') === 'preview';
 
     const titolo = document.getElementById('domanda-testo');
     const opzioni = document.getElementById('opzioni');
     if (!titolo || !opzioni) return;
 
-    titolo.innerText = (isImpostoreMasked || isSarabandaIntro || isImageParty || isFadeMode) ? '' : (domanda.testo || '');
+    titolo.innerText = (isImpostoreMasked || isPreviewStage || isImageParty || isFadeMode) ? '' : (domanda.testo || '');
     ScreenApp.domandaSupport.renderStatusMessage(domanda, isMemeMode, isImpostoreMasked, isImageParty, isFadeMode);
     ScreenApp.domandaAudio.renderQuestionTypeBadge(domanda);
     ScreenApp.domandaSupport.renderQuestionMediaForState(domanda, isImpostoreMasked, isSarabandaIntro, isImageParty, isFadeMode);
 
-    if (isSarabandaIntro) {
+    if (isPreviewStage) {
       clearAndHideOptions();
       S.domandaRenderizzata = true;
       showView();

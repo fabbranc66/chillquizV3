@@ -80,13 +80,16 @@ if ($isLocalHost) {
         >
     </div>
 
-    <div class="stage-hud-left">
+    <div class="stage-hud-center">
         <div class="stage-timer" id="stage-timer" aria-label="Timer domanda">
             <span class="stage-timer-indicator" id="stage-timer-indicator">
                 <span class="stage-timer-indicator-inner"></span>
             </span>
             <span class="stage-timer-label" id="stage-timer-label">0s</span>
         </div>
+    </div>
+
+    <div class="stage-hud-audio-left">
         <div id="question-type-badge-screen" class="question-type-badge hidden" aria-live="polite">
             <img id="question-type-badge-image-screen" class="question-type-badge-image hidden" alt="Tipologia domanda">
             <span id="question-type-badge-label-screen" class="question-type-badge-label hidden"></span>

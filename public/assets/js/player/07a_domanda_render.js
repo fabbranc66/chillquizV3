@@ -94,7 +94,8 @@
       RenderSupport.persistDebugTiming();
     }
     const tipoDomanda = Support.normalizeBadgeQuestionType(domanda);
-    const isSarabandaIntro = tipoDomanda === 'SARABANDA' && String(S.currentState || '') === 'preview';
+    const isPreviewStage = String(S.currentState || '') === 'preview';
+    const isSarabandaIntro = tipoDomanda === 'SARABANDA' && isPreviewStage;
     const showCorrect = !!domanda.show_correct;
     const correctOptionId = String(domanda.correct_option_id || '');
     const isImpostoreMasked = !!domanda.impostore_masked;
@@ -110,7 +111,7 @@
       return;
     }
 
-    D.domandaTesto.innerText = (isSarabandaIntro || isMemeMode || isImpostoreMasked || isImageParty || isFadeMode) ? '' : (domanda.testo || '');
+    D.domandaTesto.innerText = (isPreviewStage || isMemeMode || isImpostoreMasked || isImageParty || isFadeMode) ? '' : (domanda.testo || '');
     RenderSupport.renderStatusMessage(domanda, isMemeMode, isImpostoreMasked, isImpostore, isImageParty, isFadeMode);
 
     S.badgeQuestionId = domandaId;
@@ -132,12 +133,12 @@
       RenderSupport.renderDomandaMedia(domanda, false);
     }
 
-    if (isSarabandaIntro) {
+    if (isPreviewStage) {
       RenderSupport.clearAndHideOptions();
       S.questionShownAtPerf = 0;
       S.questionShownDomandaId = domandaId;
       S.questionShownTimerStart = Number(S.domandaTimerStart || 0);
-      S.renderedDomandaKey = `${renderKey}::intro`;
+      S.renderedDomandaKey = `${renderKey}::preview`;
       return;
     }
 
