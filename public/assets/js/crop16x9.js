@@ -116,8 +116,54 @@
   }
 
   function naturalCropRect() {
-    const displayW = dom.stageImage.clientWidth;
-    const displayH = dom.stageImage.clientHeight;
+    const imageBounds = dom.stageImage.getBoundingClientRect();
+    const rectBounds = dom.cropRect.getBoundingClientRect();
+    const displayW = Number(imageBounds.width || 0);
+    const displayH = Number(imageBounds.height || 0);
+    if (
+      displayW <= 0
+      || displayH <= 0
+      || state.imageNaturalWidth <= 0
+      || state.imageNaturalHeight <= 0
+    ) {
+      return null;
+    }
+
+    const rectDisplayX = rectBounds.left - imageBounds.left;
+    const rectDisplayY = rectBounds.top - imageBounds.top;
+    const rectDisplayW = rectBounds.width;
+    const rectDisplayH = rectBounds.height;
+
+    if (rectDisplayW <= 0 || rectDisplayH <= 0) {
+      return null;
+    }
+
+    const scaleX = state.imageNaturalWidth / displayW;
+    const scaleY = state.imageNaturalHeight / displayH;
+
+    const x = Math.max(0, Math.round(rectDisplayX * scaleX));
+    const y = Math.max(0, Math.round(rectDisplayY * scaleY));
+    let w = Math.max(16, Math.round(rectDisplayW * scaleX));
+    let h = Math.max(9, Math.round(rectDisplayH * scaleY));
+
+    const ratioH = Math.max(1, Math.round(w / RATIO));
+    h = ratioH;
+
+    if (x + w > state.imageNaturalWidth) {
+      w = state.imageNaturalWidth - x;
+      h = Math.max(1, Math.round(w / RATIO));
+    }
+    if (y + h > state.imageNaturalHeight) {
+      h = state.imageNaturalHeight - y;
+      w = Math.max(1, Math.round(h * RATIO));
+    }
+
+    return { x, y, w, h };
+  }
+
+  function naturalCropRectForPreview() {
+    const displayW = Number(dom.stageImage.clientWidth || 0);
+    const displayH = Number(dom.stageImage.clientHeight || 0);
     if (displayW <= 0 || displayH <= 0 || state.imageNaturalWidth <= 0 || state.imageNaturalHeight <= 0) {
       return null;
     }
@@ -146,7 +192,7 @@
   }
 
   function renderPreview() {
-    const crop = naturalCropRect();
+    const crop = naturalCropRectForPreview();
     if (!crop || !dom.previewCanvas || !dom.stageImage.complete) return;
 
     dom.previewCanvas.width = crop.w;
@@ -273,6 +319,14 @@
       showLog('Carica prima un\'immagine valida', false);
       return;
     }
+
+    if (dom.cropRect.style.display === 'none') {
+      showLog('Riquadro crop non visibile', false);
+      return;
+    }
+
+    endInteraction();
+    renderRect();
 
     const crop = naturalCropRect();
     if (!crop) {
