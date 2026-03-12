@@ -13,6 +13,47 @@
         </div>
     </div>
     <div id="domande-sessione-list" class="qa-list">Nessuna domanda caricata</div>
+
+    <div id="qa-replace-panel" class="qa-replace-panel" style="display:none;">
+        <div class="qa-subtitle">Sostituzione domanda</div>
+        <div id="qa-replace-current" class="qa-selected-info">Nessuna domanda selezionata per sostituzione</div>
+        <div class="qa-grid">
+            <div class="qa-col">
+                <label for="qa-replace-search" class="qa-label">Cerca domanda</label>
+                <input id="qa-replace-search" type="text" class="qa-input qa-full" placeholder="Testo o codice domanda">
+            </div>
+            <div class="qa-col">
+                <label for="qa-replace-argomento" class="qa-label">Argomento</label>
+                <select id="qa-replace-argomento" class="qa-input qa-full">
+                    <option value="">Tutti gli argomenti</option>
+                </select>
+            </div>
+            <div class="qa-col">
+                <label for="qa-replace-tipo" class="qa-label">Tipo domanda</label>
+                <select id="qa-replace-tipo" class="qa-input qa-full">
+                    <option value="">Tutti i tipi</option>
+                    <option value="CLASSIC">CLASSIC</option>
+                    <option value="MEDIA">MEDIA</option>
+                    <option value="SARABANDA">SARABANDA</option>
+                    <option value="IMPOSTORE">IMPOSTORE</option>
+                    <option value="MEME">MEME</option>
+                    <option value="MAJORITY">MAJORITY</option>
+                    <option value="RANDOM_BONUS">RANDOM_BONUS</option>
+                    <option value="BOMB">BOMB</option>
+                    <option value="CHAOS">CHAOS</option>
+                    <option value="AUDIO_PARTY">AUDIO_PARTY</option>
+                </select>
+            </div>
+            <div class="qa-col-auto">
+                <button id="btnQaReplaceSearch" type="button">Cerca candidati</button>
+            </div>
+            <div class="qa-col-auto">
+                <button id="btnQaReplaceClose" type="button">Chiudi sostituzione</button>
+            </div>
+        </div>
+        <div id="qa-replace-results" class="qa-replace-results">Nessun candidato caricato</div>
+    </div>
+
     <div id="session-image-search-report" class="qa-search-report" style="display:none;">
         <div class="qa-subtitle">Suggerimenti immagini sessione corrente</div>
         <div id="session-image-search-summary" class="qa-search-summary">Nessuna analisi eseguita</div>

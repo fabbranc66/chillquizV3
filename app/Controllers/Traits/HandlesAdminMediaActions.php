@@ -7,6 +7,123 @@ use App\Models\ScreenMedia;
 
 trait HandlesAdminMediaActions
 {
+    private function cropAllowedImagePrefixes(): array
+    {
+        return [
+            '/upload/image/',
+            '/upload/domanda/image/',
+        ];
+    }
+
+    private function cropNormalizeRelativePath(string $path): string
+    {
+        $normalized = '/' . ltrim(str_replace('\\', '/', trim($path)), '/');
+        $normalized = preg_replace('#/+#', '/', $normalized) ?: $normalized;
+        return $normalized;
+    }
+
+    private function cropIsAllowedImagePath(string $path): bool
+    {
+        foreach ($this->cropAllowedImagePrefixes() as $prefix) {
+            if (strpos($path, $prefix) === 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function cropAbsolutePathFromRelative(string $path): ?string
+    {
+        $normalized = $this->cropNormalizeRelativePath($path);
+        if (!$this->cropIsAllowedImagePath($normalized)) {
+            return null;
+        }
+
+        if (strpos($normalized, '..') !== false) {
+            return null;
+        }
+
+        return BASE_PATH . '/public' . $normalized;
+    }
+
+    private function cropSupportedExtension(string $path): string
+    {
+        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+        return in_array($ext, $allowed, true) ? $ext : '';
+    }
+
+    private function cropMimeForExtension(string $ext): string
+    {
+        if ($ext === 'jpg' || $ext === 'jpeg') {
+            return 'image/jpeg';
+        }
+        if ($ext === 'png') {
+            return 'image/png';
+        }
+        if ($ext === 'webp') {
+            return 'image/webp';
+        }
+        return '';
+    }
+
+    private function cropListImageFiles(): array
+    {
+        $sources = [
+            ['dir' => BASE_PATH . '/public/upload/image', 'prefix' => '/upload/image/'],
+            ['dir' => BASE_PATH . '/public/upload/domanda/image', 'prefix' => '/upload/domanda/image/'],
+        ];
+
+        $result = [];
+        $seen = [];
+        foreach ($sources as $src) {
+            $dir = (string) ($src['dir'] ?? '');
+            $prefix = (string) ($src['prefix'] ?? '');
+            if ($dir === '' || !is_dir($dir)) {
+                continue;
+            }
+
+            $files = @scandir($dir);
+            if (!is_array($files)) {
+                continue;
+            }
+
+            foreach ($files as $file) {
+                if ($file === '.' || $file === '..') {
+                    continue;
+                }
+
+                $fullPath = $dir . DIRECTORY_SEPARATOR . $file;
+                if (!is_file($fullPath)) {
+                    continue;
+                }
+
+                $ext = $this->cropSupportedExtension($file);
+                if ($ext === '') {
+                    continue;
+                }
+
+                $rel = $prefix . $file;
+                if (isset($seen[$rel])) {
+                    continue;
+                }
+                $seen[$rel] = true;
+
+                $result[] = [
+                    'file_path' => $rel,
+                    'label' => ltrim($rel, '/'),
+                ];
+            }
+        }
+
+        usort($result, static function (array $a, array $b): int {
+            return strcmp((string) ($a['label'] ?? ''), (string) ($b['label'] ?? ''));
+        });
+
+        return $result;
+    }
+
     private function handleAdminSettingsAction(string $action): bool
     {
         switch ($action) {
@@ -198,6 +315,149 @@ trait HandlesAdminMediaActions
     private function handleAdminUploadAction(string $action): bool
     {
         switch ($action) {
+            case 'crop-image-list':
+                $this->json([
+                    'success' => true,
+                    'images' => $this->cropListImageFiles(),
+                ]);
+                return true;
+
+            case 'crop-image-save':
+                $sourcePathRaw = (string) ($_POST['source_path'] ?? '');
+                $sourcePath = $this->cropNormalizeRelativePath($sourcePathRaw);
+                $sourceAbs = $this->cropAbsolutePathFromRelative($sourcePath);
+                if ($sourceAbs === null || !is_file($sourceAbs)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sorgente immagine non valida'
+                    ]);
+                    return true;
+                }
+
+                $ext = $this->cropSupportedExtension($sourcePath);
+                if ($ext === '') {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Formato sorgente non supportato (usa jpg, jpeg, png, webp)'
+                    ]);
+                    return true;
+                }
+
+                if (!isset($_FILES['cropped_image']) || !is_array($_FILES['cropped_image'])) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'File crop mancante'
+                    ]);
+                    return true;
+                }
+
+                $file = $_FILES['cropped_image'];
+                if (($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Upload crop non valido'
+                    ]);
+                    return true;
+                }
+
+                $tmpName = (string) ($file['tmp_name'] ?? '');
+                if ($tmpName === '' || !is_uploaded_file($tmpName)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'File crop non valido'
+                    ]);
+                    return true;
+                }
+
+                $maxSizeBytes = 20 * 1024 * 1024;
+                $size = (int) ($file['size'] ?? 0);
+                if ($size <= 0 || $size > $maxSizeBytes) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Dimensione crop non valida (max 20MB)'
+                    ]);
+                    return true;
+                }
+
+                $detectedMime = (string) (@mime_content_type($tmpName) ?: '');
+                $expectedMime = $this->cropMimeForExtension($ext);
+                if ($expectedMime === '' || stripos($detectedMime, 'image/') !== 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Il file crop deve essere un\'immagine valida'
+                    ]);
+                    return true;
+                }
+
+                if ($detectedMime !== '' && stripos($detectedMime, $expectedMime) !== 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Formato crop non compatibile con il file sorgente'
+                    ]);
+                    return true;
+                }
+
+                $saveMode = trim((string) ($_POST['save_mode'] ?? 'overwrite'));
+                if ($saveMode !== 'copy') {
+                    $saveMode = 'overwrite';
+                }
+
+                $targetRelPath = $sourcePath;
+                if ($saveMode === 'copy') {
+                    $suffixRaw = trim((string) ($_POST['copy_suffix'] ?? '-169'));
+                    $suffixSafe = preg_replace('/[^a-zA-Z0-9_-]+/', '-', $suffixRaw) ?: '-169';
+                    $suffixSafe = trim((string) $suffixSafe, '-');
+                    if ($suffixSafe === '') {
+                        $suffixSafe = '169';
+                    }
+                    $suffixSafe = '-' . $suffixSafe;
+
+                    $dirRel = str_replace('\\', '/', dirname($sourcePath));
+                    if ($dirRel === '.' || $dirRel === DIRECTORY_SEPARATOR) {
+                        $dirRel = '';
+                    }
+                    $baseName = pathinfo($sourcePath, PATHINFO_FILENAME);
+                    $targetRelPath = ($dirRel !== '' ? $dirRel . '/' : '') . $baseName . $suffixSafe . '.' . $ext;
+                    $targetRelPath = $this->cropNormalizeRelativePath($targetRelPath);
+                }
+
+                $targetAbs = $this->cropAbsolutePathFromRelative($targetRelPath);
+                if ($targetAbs === null) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Percorso destinazione non valido'
+                    ]);
+                    return true;
+                }
+
+                $targetDir = dirname($targetAbs);
+                if (!is_dir($targetDir) && !mkdir($targetDir, 0775, true) && !is_dir($targetDir)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Impossibile creare cartella destinazione'
+                    ]);
+                    return true;
+                }
+
+                if (!move_uploaded_file($tmpName, $targetAbs)) {
+                    $raw = @file_get_contents($tmpName);
+                    if (!is_string($raw) || $raw === '' || @file_put_contents($targetAbs, $raw) === false) {
+                        $this->json([
+                            'success' => false,
+                            'error' => 'Errore salvataggio file crop'
+                        ]);
+                        return true;
+                    }
+                }
+
+                $this->json([
+                    'success' => true,
+                    'source_path' => $sourcePath,
+                    'output_path' => $targetRelPath,
+                    'save_mode' => $saveMode,
+                ]);
+                return true;
+
             case 'media-upload':
                 if (!isset($_FILES['immagine']) || !is_array($_FILES['immagine'])) {
                     $this->json([

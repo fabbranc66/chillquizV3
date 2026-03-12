@@ -84,6 +84,18 @@
     }, delayMs);
   }
 
+  function stopAllPollingOnFinalState() {
+    if (S.pollStato) {
+      clearTimeout(S.pollStato);
+      S.pollStato = null;
+    }
+    if (S.pollMedia) {
+      clearInterval(S.pollMedia);
+      S.pollMedia = null;
+    }
+    clearPreviewBoundaryPoll();
+  }
+
   function shouldPollAudioPreview() {
     return String(S.currentState || '') === 'preview';
   }
@@ -131,6 +143,9 @@
       Clock.updateOffsetFromServerNow(S, data?.server_now || 0);
       S.latestSessioneSnapshot = data.sessione || null;
       S.currentState = data.sessione?.stato || null;
+      if (String(S.currentState || '') === 'conclusa' || String(S.currentState || '') === 'fine') {
+        stopAllPollingOnFinalState();
+      }
       if (ScreenApp.state && typeof ScreenApp.state.applyStateLayoutClass === 'function') {
         ScreenApp.state.applyStateLayoutClass(S.currentState || '');
       }

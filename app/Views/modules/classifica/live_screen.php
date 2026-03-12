@@ -6,7 +6,8 @@
  */ ?>
 <div class="module-debug-tag">classifica/live_screen.php</div>
 <div id="screen-risultati" class="scoreboard-wrap hidden">
-    <h2 class="scoreboard-title">Classifica</h2>
+    <h2 id="scoreboard-title-screen" class="scoreboard-title">Classifica</h2>
+    <div id="scoreboard-podium" class="scoreboard-podium hidden" aria-live="polite"></div>
     <div id="meme-alert-screen" class="meme-alert hidden" aria-live="polite">
         <div class="meme-alert-card">
             <div class="meme-alert-title">Momento MEME</div>

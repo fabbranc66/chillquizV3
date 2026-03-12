@@ -99,11 +99,26 @@
   if (D.btnToggleDomandeSessione) D.btnToggleDomandeSessione.onclick = () => Admin.actions.toggleDomandeSessione();
   if (D.btnToggleDomandaEditor) D.btnToggleDomandaEditor.onclick = () => Admin.actions.toggleDomandaEditor();
   if (D.btnSearchSessionImages) D.btnSearchSessionImages.onclick = () => Admin.actions.cercaImmaginiSessioneCorrente();
+  if (D.btnQaReplaceSearch) D.btnQaReplaceSearch.onclick = () => Admin.actions.caricaCandidatiSostituzione();
+  if (D.btnQaReplaceClose) D.btnQaReplaceClose.onclick = () => Admin.actions.chiudiSostituzioneDomanda();
+  if (D.qaReplaceSearch) {
+    D.qaReplaceSearch.onkeydown = (ev) => {
+      if (ev.key === 'Enter') {
+        ev.preventDefault();
+        Admin.actions.caricaCandidatiSostituzione();
+      }
+    };
+  }
+  if (D.qaReplaceArgomento) D.qaReplaceArgomento.onchange = () => Admin.actions.caricaCandidatiSostituzione();
+  if (D.qaReplaceTipo) D.qaReplaceTipo.onchange = () => Admin.actions.caricaCandidatiSostituzione();
   if (Admin.actions.resetSessionImageSearchReport) Admin.actions.resetSessionImageSearchReport();
 
   if (D.sessioneSelect) {
     D.sessioneSelect.onchange = () => {
       Admin.actions.popolaFormSessioneDaSelect();
+      if (Admin.actions.chiudiSostituzioneDomanda) {
+        Admin.actions.chiudiSostituzioneDomanda();
+      }
       if (Admin.actions.resetSessionImageSearchReport) {
         Admin.actions.resetSessionImageSearchReport();
       }

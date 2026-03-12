@@ -73,7 +73,8 @@ trait ClassificaTrait
              ORDER BY
                 CASE WHEN r_corrente.tempo_risposta IS NULL THEN 1 ELSE 0 END ASC,
                 r_corrente.tempo_risposta ASC,
-                p.capitale_attuale DESC"
+                p.capitale_attuale DESC,
+                p.id ASC"
         );
 
         $stmt->execute([

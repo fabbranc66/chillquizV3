@@ -438,6 +438,7 @@
     const id = Number(sessione.id || 0);
     const numeroDomande = Number(sessione.numero_domande || 0);
     const poolTipo = String(sessione.pool_tipo || 'tutti').trim();
+    const selezioneTipo = String(sessione.selezione_tipo || 'random').trim();
     const argomentoId = sessione.argomento_id ?? '';
 
     if (D.inputSessioneNome) {
@@ -450,6 +451,9 @@
     if (D.inputSessionePoolTipo) {
       if (poolTipo === 'sarabanda') D.inputSessionePoolTipo.value = 'sarabanda';
       else D.inputSessionePoolTipo.value = (poolTipo === 'mono' || poolTipo === 'fisso') ? 'fisso' : 'misto';
+    }
+    if (D.inputSessioneSelezioneTipo) {
+      D.inputSessioneSelezioneTipo.value = selezioneTipo === 'manuale' ? 'manuale' : 'random';
     }
     if (D.inputSessioneArgomentoId) {
       D.inputSessioneArgomentoId.value = (argomentoId === null || argomentoId === undefined) ? '' : String(argomentoId);

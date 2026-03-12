@@ -48,6 +48,12 @@ class AdminController
         require BASE_PATH . '/app/Views/admin/media.php';
     }
 
+    public function crop16x9(): void
+    {
+        $this->requireAuth();
+        require BASE_PATH . '/app/Views/admin/crop16x9.php';
+    }
+
     public function settings(): void
     {
         $this->requireAuth();

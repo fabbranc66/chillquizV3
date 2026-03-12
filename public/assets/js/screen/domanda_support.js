@@ -12,6 +12,32 @@
     return `${window.location.origin}${ScreenApp.api.publicBaseUrl}${clean}`;
   }
 
+  function appendCacheBust(url, token) {
+    const rawUrl = String(url || '').trim();
+    if (!rawUrl) return '';
+    const safeToken = String(token || '').trim();
+    if (!safeToken) return rawUrl;
+    return `${rawUrl}${rawUrl.includes('?') ? '&' : '?'}v=${encodeURIComponent(safeToken)}`;
+  }
+
+  function resolveScreenImageUrlWithRefresh(path) {
+    const baseUrl = resolveMediaUrl(path);
+    if (!baseUrl) return '';
+
+    const pathKey = String(path || '').trim();
+    const nowMs = Date.now();
+    const shouldRefresh = pathKey !== String(S.currentImagePathKey || '')
+      || (nowMs - Number(S.currentImageCacheBustMs || 0)) >= 4000;
+
+    if (shouldRefresh) {
+      S.currentImagePathKey = pathKey;
+      S.currentImageCacheBustMs = nowMs;
+    }
+
+    const token = shouldRefresh ? String(S.currentImageCacheBustMs) : '';
+    return appendCacheBust(baseUrl, token);
+  }
+
   function getDomandaMediaNodes() {
     return {
       wrap: document.getElementById('domanda-media-screen'),
@@ -128,13 +154,16 @@
       wrap.classList.add('media-slot-empty');
       wrap.classList.remove('is-image-party');
     }
+
+    S.currentImagePathKey = '';
+    S.currentImageCacheBustMs = 0;
   }
 
   function renderDomandaMedia(domanda, imageOnly, overrides = {}) {
     const { wrap, image, canvas, audio, caption } = getDomandaMediaNodes();
     if (!wrap) return;
 
-    const imageUrl = resolveMediaUrl(overrides.media_image_path || domanda?.media_image_path);
+    const imageUrl = resolveScreenImageUrlWithRefresh(overrides.media_image_path || domanda?.media_image_path);
     const audioUrl = resolveMediaUrl(overrides.media_audio_path || domanda?.media_audio_path);
     const captionText = imageOnly ? '' : String(overrides.media_caption ?? domanda?.media_caption ?? '').trim();
     let hasAny = false;

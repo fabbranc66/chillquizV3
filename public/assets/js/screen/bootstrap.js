@@ -32,6 +32,8 @@
     domandaRenderizzata: false,
     currentDomandaData: null,
     mediaAttiva: null,
+    currentImagePathKey: '',
+    currentImageCacheBustMs: 0,
     optionRevealTimer: null,
     previewBoundaryTimer: null,
     pixelateTimer: null,

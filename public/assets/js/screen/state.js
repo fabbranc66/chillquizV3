@@ -93,6 +93,15 @@
     const badge = document.getElementById('stage-questions-left');
     if (!badge) return;
 
+    const stato = String(sessione?.stato || S.currentState || '');
+    if (stato === 'conclusa' || stato === 'fine') {
+      badge.innerText = '';
+      badge.classList.add('hidden');
+      badge.classList.remove('is-final');
+      badge.classList.remove('is-last');
+      return;
+    }
+
     const totaleDomande = Number(sessione?.numero_domande || 0);
     const domandaCorrente = Number(sessione?.domanda_corrente || 0);
 
@@ -100,14 +109,19 @@
       badge.innerText = '';
       badge.classList.add('hidden');
       badge.classList.remove('is-final');
+      badge.classList.remove('is-last');
       return;
     }
 
     const mancanti = Math.max(0, totaleDomande - domandaCorrente);
-    const label = mancanti === 1 ? 'domanda' : 'domande';
-
-    badge.innerText = `Mancano ${mancanti} ${label}`;
+    if (mancanti === 0) {
+      badge.innerText = 'ULTIMA DOMANDA';
+    } else {
+      const label = mancanti === 1 ? 'domanda' : 'domande';
+      badge.innerText = `Mancano ${mancanti} ${label}`;
+    }
     badge.classList.remove('hidden');
+    badge.classList.toggle('is-last', mancanti === 0);
     badge.classList.toggle('is-final', mancanti <= 3);
   }
 

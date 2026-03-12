@@ -30,6 +30,14 @@
                 </select>
             </label>
 
+            <label class="system-field system-field-selection">
+                <span class="system-field-label">Selezione</span>
+                <select id="sessione-selezione-tipo">
+                    <option value="random">Random</option>
+                    <option value="manuale">Manuale</option>
+                </select>
+            </label>
+
             <label class="system-field system-field-topic">
                 <span class="system-field-label">Argomento</span>
                 <select id="sessione-argomento-id">

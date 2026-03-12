@@ -16,8 +16,8 @@
         || (stato === 'domanda' && Number((sessione && sessione.timer_start) || 0) > Clock.nowSec(S))
       );
 
-    if (stato === 'conclusa') {
-      return 5000;
+    if (stato === 'conclusa' || stato === 'fine') {
+      return null;
     }
 
     if (stato === 'risultati') {

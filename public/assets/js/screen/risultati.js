@@ -84,6 +84,37 @@
     }, 15000);
   }
 
+  function arrangeRankedItemsByColumns(ranked, columns) {
+    if (!Array.isArray(ranked) || ranked.length <= 1 || Number(columns || 1) <= 1) {
+      return Array.isArray(ranked) ? ranked : [];
+    }
+
+    const total = ranked.length;
+    const cols = Math.max(1, Number(columns || 1));
+    const baseLen = Math.floor(total / cols);
+    const extra = total % cols;
+    const colLens = Array.from({ length: cols }, (_, col) => baseLen + (col < extra ? 1 : 0));
+
+    const colChunks = [];
+    let start = 0;
+    for (let col = 0; col < cols; col += 1) {
+      const len = colLens[col];
+      colChunks.push(ranked.slice(start, start + len));
+      start += len;
+    }
+
+    const maxRows = Math.max(...colLens, 0);
+    const arranged = [];
+    for (let row = 0; row < maxRows; row += 1) {
+      for (let col = 0; col < cols; col += 1) {
+        const item = colChunks[col]?.[row];
+        if (item) arranged.push(item);
+      }
+    }
+
+    return arranged;
+  }
+
   function getOrderedScoreboard(lista) {
     const parseScore = (value) => {
       if (typeof value === 'number') {
@@ -101,27 +132,39 @@
       ? (totalPlayers <= 8 ? 1 : (totalPlayers <= 16 ? 2 : (totalPlayers <= 24 ? 3 : 4)))
       : 1;
 
+    const prevRankMap = (ScreenApp.store && ScreenApp.store.scoreboardLastRanksByParticipant)
+      ? ScreenApp.store.scoreboardLastRanksByParticipant
+      : null;
+    const getPrevRank = (row) => {
+      const id = Number(row?.partecipazione_id || 0);
+      if (!prevRankMap || id <= 0) return 0;
+      return Number(prevRankMap[id] || 0);
+    };
+
     const ranked = [...lista]
-      .sort((a, b) => parseScore(b.capitale_attuale ?? 0) - parseScore(a.capitale_attuale ?? 0))
+      .sort((a, b) => {
+        const scoreDiff = parseScore(b.capitale_attuale ?? 0) - parseScore(a.capitale_attuale ?? 0);
+        if (scoreDiff !== 0) return scoreDiff;
+
+        const prevA = getPrevRank(a);
+        const prevB = getPrevRank(b);
+        if (prevA > 0 && prevB > 0 && prevA !== prevB) {
+          return prevA - prevB;
+        }
+
+        const idA = Number(a?.partecipazione_id || 0);
+        const idB = Number(b?.partecipazione_id || 0);
+        if (idA > 0 && idB > 0 && idA !== idB) {
+          return idA - idB;
+        }
+
+        const nomeA = String(a?.nome || '');
+        const nomeB = String(b?.nome || '');
+        return nomeA.localeCompare(nomeB, 'it', { sensitivity: 'base' });
+      })
       .map((row, index) => ({ ...row, __rank: index + 1 }));
 
-    if (columns <= 1 || ranked.length <= 1) {
-      return { items: ranked, columns };
-    }
-
-    const rows = Math.ceil(ranked.length / columns);
-    const arranged = [];
-
-    for (let row = 0; row < rows; row += 1) {
-      for (let col = 0; col < columns; col += 1) {
-        const sourceIndex = (col * rows) + row;
-        if (sourceIndex < ranked.length) {
-          arranged.push(ranked[sourceIndex]);
-        }
-      }
-    }
-
-    return { items: arranged, columns };
+    return { ranked, items: arrangeRankedItemsByColumns(ranked, columns), columns };
   }
 
   function getCurrentQuestionNumber() {
@@ -282,6 +325,65 @@
     return toGroupedIt(parsed);
   }
 
+  function isFinalScoreboardState() {
+    const state = String(ScreenApp.store?.currentState || '').toLowerCase();
+    return state === 'conclusa' || state === 'fine';
+  }
+
+  function renderScoreboardHeader(isFinalState) {
+    const titleEl = document.getElementById('scoreboard-title-screen');
+    if (!titleEl) return;
+    titleEl.innerText = isFinalState ? 'CLASSIFICA FINALE' : 'Classifica';
+    titleEl.classList.toggle('scoreboard-title--final', isFinalState);
+  }
+
+  function renderFinalPodium(sortedByRank) {
+    const podiumEl = document.getElementById('scoreboard-podium');
+    if (!podiumEl) return;
+
+    if (!Array.isArray(sortedByRank) || sortedByRank.length === 0) {
+      podiumEl.innerHTML = '';
+      podiumEl.classList.add('hidden');
+      return;
+    }
+
+    const topThree = sortedByRank.slice(0, 3);
+    const byRank = {};
+    topThree.forEach((row) => {
+      const rank = Number(row?.__rank || 0);
+      if (rank >= 1 && rank <= 3) byRank[rank] = row;
+    });
+
+    const visualOrder = [2, 1, 3];
+    const medalByRank = { 1: '🥇', 2: '🥈', 3: '🥉' };
+    const labelByRank = { 1: '1 posto', 2: '2 posto', 3: '3 posto' };
+    const heightByRank = { 1: 'podium-col--first', 2: 'podium-col--second', 3: 'podium-col--third' };
+
+    podiumEl.innerHTML = visualOrder
+      .map((rank) => {
+        const player = byRank[rank];
+        if (!player) {
+          return `<div class="podium-col ${heightByRank[rank]} is-empty"></div>`;
+        }
+        const nome = String(player.nome || 'Giocatore');
+        const punti = formatThousands(player.capitale_attuale ?? 0);
+        return `
+          <div class="podium-col ${heightByRank[rank]}" aria-label="${labelByRank[rank]}">
+            <div class="podium-medal">${medalByRank[rank]}</div>
+            <div class="podium-player" title="${nome}">
+              <span class="podium-player-name">${nome}</span>
+              <span class="podium-player-points">${punti}</span>
+            </div>
+            <div class="podium-base">
+              <span class="podium-rank">#${rank}</span>
+            </div>
+          </div>
+        `;
+      })
+      .join('');
+    podiumEl.classList.remove('hidden');
+  }
+
   function renderScoreboardItems(lista) {
     return lista.map((p, index) => {
       const nome = p.nome || 'Giocatore';
@@ -303,10 +405,13 @@
 
   function renderClassifica(lista) {
     const listEl = document.getElementById('scoreboard-list');
+    const isFinalState = isFinalScoreboardState();
+    renderScoreboardHeader(isFinalState);
     if (!listEl) return;
 
     if (!Array.isArray(lista) || lista.length === 0) {
       listEl.innerHTML = '<div class="scoreboard-empty">Nessun giocatore in classifica.</div>';
+      renderFinalPodium([]);
       clearMemeAlert();
       return;
     }
@@ -314,14 +419,21 @@
     const ordered = getOrderedScoreboard(lista);
     const currentQuestionNumber = getCurrentQuestionNumber();
     const baselineRankMap = resolveTrendBaseline(currentQuestionNumber);
-    const itemsWithTrend = ordered.items.map((row) => ({
+    const rankedWithTrend = ordered.ranked.map((row) => ({
       ...row,
       __trend: resolveTrendData(row, baselineRankMap),
     }));
-    const currentRankMap = buildRankMapByParticipant(ordered.items);
+    const currentRankMap = buildRankMapByParticipant(rankedWithTrend);
+    const visibleRanked = isFinalState
+      ? rankedWithTrend.filter((row) => Number(row.__rank || 0) > 3)
+      : rankedWithTrend;
+    const visibleItems = arrangeRankedItemsByColumns(visibleRanked, ordered.columns);
 
-    applyScoreboardLayout(listEl, ordered.columns, lista.length);
-    listEl.innerHTML = renderScoreboardItems(itemsWithTrend);
+    renderFinalPodium(isFinalState ? rankedWithTrend : []);
+    applyScoreboardLayout(listEl, ordered.columns, visibleItems.length);
+    listEl.innerHTML = visibleItems.length > 0
+      ? renderScoreboardItems(visibleItems)
+      : '<div class="scoreboard-empty">Classifica completa visualizzata nel podio.</div>';
     updateTrendMemory(currentQuestionNumber, currentRankMap);
 
     renderMemeAlert(lista);

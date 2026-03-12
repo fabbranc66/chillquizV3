@@ -42,5 +42,6 @@
     domandaMetaRequestInFlight: false,
     sessionImageSearchInFlight: false,
     debugSessioneInFlight: false,
+    replaceQuestionContext: null,
   };
 })();

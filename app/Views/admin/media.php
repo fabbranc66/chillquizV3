@@ -10,6 +10,7 @@
 <div class="container">
     <p><a class="back" href="<?= htmlspecialchars(chillquiz_public_url('index.php?url=admin/index'), ENT_QUOTES, 'UTF-8') ?>">&larr; Torna alla regia</a></p>
     <h1>Gestione media screen</h1>
+    <p><a class="back" href="<?= htmlspecialchars(chillquiz_public_url('index.php?url=admin/crop16x9'), ENT_QUOTES, 'UTF-8') ?>">Apri tool crop 16:9</a></p>
 
     <div class="card">
         <form id="upload-form" class="upload-form">

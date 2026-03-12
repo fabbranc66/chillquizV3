@@ -13,6 +13,9 @@
       const nomeSessione = Support.extractNomeForNewSession(D.inputSessioneNome?.value || '');
       const numeroDomande = Number(D.inputSessioneNumeroDomande?.value || 0);
       const poolRaw = String(D.inputSessionePoolTipo?.value || 'misto').trim();
+      const selezioneTipo = String(D.inputSessioneSelezioneTipo?.value || 'random').trim() === 'manuale'
+        ? 'manuale'
+        : 'random';
       const argomentoRaw = String(D.inputSessioneArgomentoId?.value || '').trim();
 
       const poolTipo = poolRaw === 'sarabanda'
@@ -27,7 +30,7 @@
       }
       formData.append('pool_tipo', poolTipo);
       formData.append('argomento_id', argomentoId);
-      formData.append('selezione_tipo', 'random');
+      formData.append('selezione_tipo', selezioneTipo);
 
       const res = await fetch(`${S.API_BASE}/admin/nuova-sessione/0`, {
         method: 'POST',
@@ -160,6 +163,9 @@
       const nomeSessione = String(D.inputSessioneNome?.value || '').trim();
       const numeroDomande = Number(D.inputSessioneNumeroDomande?.value || 0);
       const poolRaw = String(D.inputSessionePoolTipo?.value || 'misto').trim();
+      const selezioneTipo = String(D.inputSessioneSelezioneTipo?.value || 'random').trim() === 'manuale'
+        ? 'manuale'
+        : 'random';
       const argomentoRaw = String(D.inputSessioneArgomentoId?.value || '').trim();
 
       const poolTipo = poolRaw === 'sarabanda'
@@ -173,7 +179,7 @@
       formData.append('numero_domande', Number.isFinite(numeroDomande) && numeroDomande > 0 ? String(Math.floor(numeroDomande)) : '10');
       formData.append('pool_tipo', poolTipo);
       formData.append('argomento_id', argomentoId);
-      formData.append('selezione_tipo', 'random');
+      formData.append('selezione_tipo', selezioneTipo);
 
       const res = await fetch(`${S.API_BASE}/admin/sessione-update/0`, {
         method: 'POST',

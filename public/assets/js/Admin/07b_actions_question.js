@@ -1,4 +1,4 @@
-// admin/07b_actions_question.js
+﻿// admin/07b_actions_question.js
 (() => {
   const Admin = window.Admin;
   const S = Admin.state;
@@ -295,6 +295,179 @@
       }
     },
 
+    syncReplaceArgomentoOptions() {
+      if (!D.qaReplaceArgomento) return;
+      const options = ['<option value="">Tutti gli argomenti</option>'];
+      const argomenti = Array.isArray(C.argomentiCache) ? C.argomentiCache : [];
+      argomenti.forEach((argomento) => {
+        const id = Number(argomento.id || 0);
+        if (id <= 0) return;
+        const nome = escapeHtml(String(argomento.nome || `Argomento ${id}`));
+        options.push(`<option value="${id}">${nome}</option>`);
+      });
+      D.qaReplaceArgomento.innerHTML = options.join('');
+    },
+
+    chiudiSostituzioneDomanda() {
+      if (D.qaReplacePanel) D.qaReplacePanel.style.display = 'none';
+      if (D.qaReplaceCurrent) D.qaReplaceCurrent.textContent = 'Nessuna domanda selezionata per sostituzione';
+      if (D.qaReplaceResults) D.qaReplaceResults.textContent = 'Nessun candidato caricato';
+      if (D.qaReplaceSearch) D.qaReplaceSearch.value = '';
+      if (D.qaReplaceArgomento) D.qaReplaceArgomento.value = '';
+      if (D.qaReplaceTipo) D.qaReplaceTipo.value = '';
+      S.replaceQuestionContext = null;
+    },
+
+    async apriSostituzioneDomanda(payload = {}) {
+      const sessioneId = Number(payload.sessioneId || D.sessioneSelect?.value || S.SESSIONE_ID || 0);
+      const posizione = Number(payload.posizione || 0);
+      const domandaId = Number(payload.domandaId || 0);
+      if (sessioneId <= 0 || posizione <= 0 || domandaId <= 0) {
+        addLog({
+          ok: false,
+          title: 'domanda-sostituisci',
+          message: 'Impossibile aprire sostituzione: dati domanda non validi',
+          data: payload,
+        });
+        return;
+      }
+
+      const testo = String(payload.testo || '').trim();
+      const summary = `Posizione #${posizione} · [${domandaId}] ${testo || 'domanda selezionata'}`;
+      S.replaceQuestionContext = { sessioneId, posizione, domandaId };
+
+      Admin.actions.syncReplaceArgomentoOptions();
+      if (D.qaReplaceCurrent) D.qaReplaceCurrent.textContent = summary;
+      if (D.qaReplacePanel) D.qaReplacePanel.style.display = 'block';
+      if (D.qaReplaceResults) D.qaReplaceResults.textContent = 'Caricamento candidati...';
+
+      await Admin.actions.caricaCandidatiSostituzione();
+    },
+
+    async caricaCandidatiSostituzione() {
+      if (!D.qaReplaceResults) return;
+      const ctx = S.replaceQuestionContext || null;
+      if (!ctx) {
+        D.qaReplaceResults.textContent = 'Seleziona prima una domanda da sostituire';
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('sessione_id', String(ctx.sessioneId));
+      formData.append('posizione_source', String(ctx.posizione));
+      formData.append('domanda_source_id', String(ctx.domandaId));
+      formData.append('q', String(D.qaReplaceSearch?.value || '').trim());
+      formData.append('argomento_id', String(D.qaReplaceArgomento?.value || '').trim());
+      formData.append('tipo_domanda', String(D.qaReplaceTipo?.value || '').trim().toUpperCase());
+      formData.append('limit', '40');
+
+      D.qaReplaceResults.textContent = 'Ricerca candidati in corso...';
+
+      const res = await fetch(`${S.API_BASE}/admin/domande-candidati/0`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!data.success) {
+        D.qaReplaceResults.innerHTML = `<div>Errore caricamento candidati: ${escapeHtml(data.error || 'errore sconosciuto')}</div>`;
+        addLog({
+          ok: false,
+          title: 'domande-candidati',
+          message: data.error || 'Errore caricamento candidati sostituzione',
+          data,
+        });
+        return;
+      }
+
+      const candidati = Array.isArray(data.candidati) ? data.candidati : [];
+      if (candidati.length === 0) {
+        D.qaReplaceResults.innerHTML = '<div>Nessun candidato trovato con i filtri correnti</div>';
+        return;
+      }
+
+      D.qaReplaceResults.innerHTML = candidati.map((row) => {
+        const id = Number(row.id || 0);
+        const codice = escapeHtml(String(row.codice_domanda || '-'));
+        const testo = escapeHtml(String(row.testo || ''));
+        const tipo = escapeHtml(String(row.tipo_domanda || 'CLASSIC'));
+        const argomento = escapeHtml(String(row.argomento_nome || '-'));
+        return `<div class="qa-replace-item">
+          <div class="qa-replace-item-main">[${id}] ${testo}</div>
+          <div class="qa-replace-item-meta">codice=${codice} · tipo=${tipo} · argomento=${argomento}</div>
+          <div class="qa-replace-item-actions">
+            <button type="button" class="qa-mini-btn" data-qa-replace-target="${id}">Usa questa domanda</button>
+          </div>
+        </div>`;
+      }).join('');
+
+      D.qaReplaceResults.querySelectorAll('[data-qa-replace-target]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const domandaNuovaId = Number(button.getAttribute('data-qa-replace-target') || 0);
+          Admin.actions.sostituisciDomandaSessione(domandaNuovaId, false);
+        });
+      });
+    },
+
+    async sostituisciDomandaSessione(domandaNuovaId, confirmCorrente = false) {
+      const ctx = S.replaceQuestionContext || null;
+      if (!ctx) {
+        addLog({ ok: false, title: 'domanda-sostituisci', message: 'Nessuna domanda selezionata da sostituire', data: {} });
+        return;
+      }
+
+      const targetId = Number(domandaNuovaId || 0);
+      if (targetId <= 0) {
+        addLog({ ok: false, title: 'domanda-sostituisci', message: 'Domanda sostitutiva non valida', data: { domanda_nuova_id: domandaNuovaId } });
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('sessione_id', String(ctx.sessioneId));
+      formData.append('posizione_source', String(ctx.posizione));
+      formData.append('domanda_nuova_id', String(targetId));
+      formData.append('confirm_corrente', confirmCorrente ? '1' : '0');
+
+      const res = await fetch(`${S.API_BASE}/admin/domanda-sostituisci/0`, {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+
+      if (!data.success) {
+        if (data.requires_confirmation) {
+          const ok = window.confirm('Stai sostituendo la domanda corrente. Confermi la sostituzione?');
+          if (ok) {
+            await Admin.actions.sostituisciDomandaSessione(targetId, true);
+          }
+          return;
+        }
+
+        addLog({
+          ok: false,
+          title: 'domanda-sostituisci',
+          message: data.error || 'Errore durante sostituzione domanda',
+          data,
+        });
+        return;
+      }
+
+      const replaced = data.replaced || {};
+      addLog({
+        ok: true,
+        title: 'domanda-sostituisci',
+        message: `Sostituita domanda in posizione #${ctx.posizione}: ${Number(replaced.domanda_vecchia_id || 0)} -> ${Number(replaced.domanda_nuova_id || 0)}`,
+        data,
+      });
+
+      await Admin.actions.caricaDomandeSessione(ctx.sessioneId);
+      await Admin.actions.aggiornaDomandaCorrenteMeta();
+      if (D.domandaEditorWrapper && D.domandaEditorWrapper.style.display !== 'none') {
+        await Admin.actions.caricaDomandaEditor();
+      }
+      await Admin.actions.caricaCandidatiSostituzione();
+    },
+
     async caricaDomandeSessione(sessioneId) {
       if (!D.domandeSessioneList) return;
       if (D.domandaEditorWrapper && D.domandaEditorWrapper.parentElement === D.domandeSessioneList) {
@@ -321,8 +494,15 @@
       const domande = Array.isArray(data.domande) ? data.domande : [];
       if (domande.length === 0) {
         D.domandeSessioneList.innerHTML = 'Nessuna domanda caricata';
+        Admin.actions.chiudiSostituzioneDomanda();
         return;
       }
+
+      const domandeByPosizione = new Map();
+      domande.forEach((row) => {
+        const posizione = Number(row.posizione || 0);
+        if (posizione > 0) domandeByPosizione.set(posizione, row);
+      });
 
       D.domandeSessioneList.innerHTML = domande.map((domanda) => {
         const posizione = Number(domanda.posizione || 0);
@@ -333,6 +513,7 @@
         const tipo = escapeHtml(String(domanda.tipo_domanda || 'CLASSIC'));
         const fase = escapeHtml(String(domanda.fase_domanda || 'domanda'));
         const imagePath = Support.normalizePath(domanda.media_image_path || '');
+        const imagePathEscaped = escapeHtml(imagePath);
         const imageUrl = imagePath ? Support.resolveMediaUrl(imagePath) : '';
         const hasMedia = imagePath !== '' || String(domanda.media_audio_path || '').trim() !== '';
         const thumbHtml = imageUrl
@@ -352,6 +533,14 @@
             <div class="qa-item-meta">
               codice=${codice} · tipo=${tipo} · fase=${fase} · media=${hasMedia ? 'si' : 'no'}
             </div>
+            <div class="qa-item-actions">
+              <button type="button" class="qa-mini-btn qa-item-replace-btn" data-replace-posizione="${posizione}" data-replace-domanda-id="${id}">
+                Sostituisci
+              </button>
+              <button type="button" class="qa-mini-btn qa-item-image-edit-btn" data-image-path="${imagePathEscaped}" ${imagePath ? '' : 'disabled'}>
+                Modifica immagine
+              </button>
+            </div>
           </div>
         </div>`;
       }).join('');
@@ -361,13 +550,55 @@
           const domandaId = Number(btn.getAttribute('data-edit-domanda-id') || 0);
           Admin.actions.caricaDomandaEditorDaLista(domandaId, btn);
         };
-        btn.onclick = openEditor;
+        btn.onclick = (ev) => {
+          if (ev.target && ev.target.closest && ev.target.closest('.qa-item-replace-btn')) return;
+          openEditor();
+        };
         btn.onkeydown = (ev) => {
           if (ev.key === 'Enter' || ev.key === ' ') {
+            if (ev.target && ev.target.closest && ev.target.closest('.qa-item-replace-btn')) return;
             ev.preventDefault();
             openEditor();
           }
         };
+      });
+
+      D.domandeSessioneList.querySelectorAll('.qa-item-replace-btn').forEach((button) => {
+        button.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          const posizione = Number(button.getAttribute('data-replace-posizione') || 0);
+          const domandaId = Number(button.getAttribute('data-replace-domanda-id') || 0);
+          const row = domandeByPosizione.get(posizione) || {};
+          Admin.actions.apriSostituzioneDomanda({
+            sessioneId: Number(sessioneId || 0),
+            posizione,
+            domandaId,
+            testo: String(row.testo || ''),
+          });
+        });
+      });
+
+      D.domandeSessioneList.querySelectorAll('.qa-item-image-edit-btn').forEach((button) => {
+        button.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          const imagePath = String(button.getAttribute('data-image-path') || '').trim();
+          if (!imagePath) {
+            addLog({
+              ok: false,
+              title: 'crop16x9',
+              message: 'Nessuna immagine associata a questa domanda',
+              data: {},
+            });
+            return;
+          }
+
+          const basePublic = String(S.PUBLIC_BASE_URL || '/');
+          const normalizedBase = basePublic.endsWith('/') ? basePublic : `${basePublic}/`;
+          const targetUrl = `${normalizedBase}index.php?url=admin/crop16x9&source=${encodeURIComponent(imagePath)}`;
+          window.open(targetUrl, '_blank', 'noopener,noreferrer');
+        });
       });
 
       Support.syncCurrentQuestionHighlight();
@@ -452,7 +683,11 @@
       if (isHidden) {
         const sessioneId = Number(D.sessioneSelect?.value || S.SESSIONE_ID || 0);
         Admin.actions.caricaDomandeSessione(sessioneId);
+      } else {
+        Admin.actions.chiudiSostituzioneDomanda();
       }
     },
   });
 })();
+
+

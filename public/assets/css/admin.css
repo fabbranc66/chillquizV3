@@ -434,7 +434,7 @@ h2 {
 }
 
 .system-actions-grid-editor {
-    grid-template-columns: fit-content(420px) fit-content(96px) fit-content(160px) fit-content(300px);
+    grid-template-columns: fit-content(420px) fit-content(96px) fit-content(140px) fit-content(140px) fit-content(300px);
     gap: 18px;
     align-items: end;
     justify-content: start;
@@ -445,7 +445,7 @@ h2 {
 }
 
 #panel-system .system-actions-grid-editor {
-    grid-template-columns: fit-content(420px) fit-content(96px) fit-content(160px) fit-content(300px);
+    grid-template-columns: fit-content(420px) fit-content(96px) fit-content(140px) fit-content(140px) fit-content(300px);
     gap: 18px;
 }
 
@@ -1282,6 +1282,44 @@ textarea {
     gap: 3px;
 }
 
+.qa-replace-panel {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.03);
+}
+
+.qa-replace-results {
+    display: grid;
+    gap: 3px;
+    margin-top: 8px;
+}
+
+.qa-replace-item {
+    padding: 8px 10px;
+    border-radius: 9px;
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.03);
+}
+
+.qa-replace-item-main {
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.qa-replace-item-meta {
+    margin-top: 3px;
+    font-size: 12px;
+    opacity: .88;
+}
+
+.qa-replace-item-actions {
+    margin-top: 6px;
+    display: flex;
+    justify-content: flex-end;
+}
+
 .qa-search-report {
     margin-top: 12px;
     padding-top: 12px;
@@ -1505,6 +1543,16 @@ textarea {
     font-size: 12px;
     opacity: .9;
     margin-top: 3px;
+}
+
+.qa-item-actions {
+    margin-top: 6px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.qa-item-replace-btn {
+    margin-left: auto;
 }
 
 @media (max-width: 640px) {
