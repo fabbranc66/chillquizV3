@@ -87,6 +87,7 @@ if ($isLocalHost) {
             </span>
             <span class="stage-timer-label" id="stage-timer-label">0s</span>
         </div>
+        <div id="stage-questions-left" class="stage-questions-left hidden" aria-live="polite"></div>
     </div>
 
     <div class="stage-hud-audio-left">

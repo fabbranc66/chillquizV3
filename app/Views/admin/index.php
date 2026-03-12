@@ -43,16 +43,16 @@
 <?php require BASE_PATH . '/app/Views/modules/admin/info_bar.php'; ?>
 </div>
 
+<div class="kahoot-panel" id="panel-phase">
+<?php require BASE_PATH . '/app/Views/modules/admin/phase_actions.php'; ?>
+</div>
+
 <div class="kahoot-panel" id="panel-classifica">
 <?php require BASE_PATH . '/app/Views/modules/classifica/live_admin.php'; ?>
 </div>
 
 <div class="kahoot-panel" id="panel-join">
 <?php require BASE_PATH . '/app/Views/modules/admin/join_requests.php'; ?>
-</div>
-
-<div class="kahoot-panel" id="panel-phase">
-<?php require BASE_PATH . '/app/Views/modules/admin/phase_actions.php'; ?>
 </div>
 
 <div class="kahoot-panel" id="panel-system">

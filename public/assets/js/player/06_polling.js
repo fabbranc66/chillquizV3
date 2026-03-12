@@ -17,7 +17,7 @@
       );
 
     if (stato === 'conclusa') {
-      return null;
+      return 5000;
     }
 
     if (stato === 'risultati') {

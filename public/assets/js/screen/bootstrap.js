@@ -57,6 +57,10 @@
     memeRotationStep: -1,
     memeAlertTimer: null,
     lastMemeAlertKey: '',
+    scoreboardLastRanksByParticipant: null,
+    scoreboardLastQuestionNumber: 0,
+    scoreboardTrendBaselineByParticipant: null,
+    scoreboardTrendBaselineQuestionNumber: 0,
     debugTiming: {
       domandaId: 0,
       timerStartedAtMs: 0,

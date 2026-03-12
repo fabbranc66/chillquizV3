@@ -876,6 +876,7 @@ pre.json {
 
 .live-table {
     width: 100%;
+    table-layout: auto;
     border-collapse: separate;
     border-spacing: 0;
     background: linear-gradient(180deg, rgba(22,22,22,.96), rgba(14,14,14,.96));
@@ -883,6 +884,19 @@ pre.json {
     border-radius: 14px;
     overflow: hidden;
     box-shadow: 0 10px 20px rgba(0,0,0,.24);
+}
+
+.live-table-scroll {
+    max-height: 228px;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    border-radius: 14px;
+}
+
+.live-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 .live-table th,

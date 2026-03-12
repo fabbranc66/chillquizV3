@@ -22,6 +22,7 @@
     sessioneId,
 
     partecipazioneId: null,
+    capitaleRaw: 0,
     currentState: null,
     activeScreenId: null,
     latestSessioneSnapshot: null,

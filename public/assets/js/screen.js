@@ -177,18 +177,82 @@ function renderClassificaRisultati(classifica) {
     return;
   }
 
-  const ordinata = [...classifica]
-    .sort((a, b) => Number(b.capitale_attuale ?? 0) - Number(a.capitale_attuale ?? 0))
-    .slice(0, 10);
+  const totalPlayers = Array.isArray(classifica) ? classifica.length : 0;
+  const isDesktop = !!(window.matchMedia && window.matchMedia('(min-width: 1024px)').matches);
+  const columns = isDesktop
+    ? (totalPlayers <= 8 ? 1 : (totalPlayers <= 16 ? 2 : (totalPlayers <= 24 ? 3 : 4)))
+    : 1;
 
-  listEl.innerHTML = ordinata.map((p, index) => {
+  const parseScore = (value) => {
+    if (typeof value === 'number') {
+      return Number.isFinite(value) ? value : 0;
+    }
+    const normalized = String(value ?? '').trim().replace(/[^\d-]/g, '');
+    if (normalized === '' || normalized === '-') return 0;
+    const parsed = Number.parseInt(normalized, 10);
+    return Number.isFinite(parsed) ? parsed : 0;
+  };
+
+  const ordinata = [...classifica]
+    .sort((a, b) => parseScore(b.capitale_attuale ?? 0) - parseScore(a.capitale_attuale ?? 0))
+    .map((row, index) => ({ ...row, __rank: index + 1 }));
+
+  const rows = columns > 1 ? Math.ceil(ordinata.length / columns) : ordinata.length;
+  const visualOrder = [];
+
+  if (columns > 1) {
+    for (let row = 0; row < rows; row += 1) {
+      for (let col = 0; col < columns; col += 1) {
+        const sourceIndex = (col * rows) + row;
+        if (sourceIndex < ordinata.length) {
+          visualOrder.push(ordinata[sourceIndex]);
+        }
+      }
+    }
+  } else {
+    visualOrder.push(...ordinata);
+  }
+
+  const formatThousands = (value) => {
+    const toGroupedIt = (n) => {
+      const sign = n < 0 ? '-' : '';
+      const abs = Math.abs(Math.trunc(n));
+      return `${sign}${String(abs).replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
+    };
+
+    if (typeof value === 'number') {
+      return Number.isFinite(value) ? toGroupedIt(value) : '0';
+    }
+    const normalized = String(value ?? '').trim().replace(/[^\d-]/g, '');
+    if (normalized === '' || normalized === '-') return '0';
+    const parsed = Number.parseInt(normalized, 10);
+    if (!Number.isFinite(parsed)) return '0';
+    return toGroupedIt(parsed);
+  };
+
+  listEl.style.setProperty('--scoreboard-cols', String(Math.max(1, Number(columns || 1))));
+  if (totalPlayers <= 32 && Number(columns || 1) > 0) {
+    const viewportWidth = Math.max(320, window.innerWidth || document.documentElement.clientWidth || 0);
+    const fullWrapWidth = Math.min(2400, Math.max(320, viewportWidth - 20));
+    const colGap = 10;
+    const colWidth = Math.max(180, (fullWrapWidth - (3 * colGap)) / 4);
+    const maxWidth = (columns * colWidth) + ((columns - 1) * colGap);
+    listEl.style.maxWidth = `${maxWidth}px`;
+    listEl.style.marginInline = 'auto';
+  } else {
+    listEl.style.maxWidth = '';
+    listEl.style.marginInline = '';
+  }
+
+  listEl.innerHTML = visualOrder.map((p, index) => {
     const nome = p.nome || 'Giocatore';
-    const punti = Number(p.capitale_attuale ?? 0);
+    const punti = p.capitale_attuale ?? 0;
+    const rank = Number(p.__rank || (index + 1));
     return `
       <div class="scoreboard-item">
-        <div class="score-rank">#${index + 1}</div>
-        <div>${nome}</div>
-        <div class="score-points">${punti}</div>
+        <div class="score-rank">#${rank}</div>
+        <div class="score-name" title="${nome}">${nome}</div>
+        <div class="score-points">${formatThousands(punti)}</div>
       </div>
     `;
   }).join('');

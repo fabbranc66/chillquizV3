@@ -18,25 +18,34 @@
     S.lastImmediateResult = null;
   }
 
-  function getMiaRigaClassifica(lista) {
-    if (!Array.isArray(lista) || lista.length === 0) return null;
+  function isMiaRigaClassifica(riga) {
+    if (!riga || typeof riga !== 'object') return false;
 
-    if (S.partecipazioneId) {
-      const byId = lista.find((r) => Number(r.partecipazione_id || 0) === Number(S.partecipazioneId));
-      if (byId) return byId;
+    if (Number(S.partecipazioneId || 0) > 0) {
+      return Number(riga.partecipazione_id || 0) === Number(S.partecipazioneId || 0);
     }
 
     const nomeGiocatore = ((D.displayName && D.displayName.innerText) || '').trim().toLowerCase();
-    if (!nomeGiocatore) return null;
+    if (!nomeGiocatore) return false;
 
-    return lista.find((r) => (r.nome || '').trim().toLowerCase() === nomeGiocatore) || null;
+    return (riga.nome || '').trim().toLowerCase() === nomeGiocatore;
+  }
+
+  function getMiaRigaClassifica(lista) {
+    if (!Array.isArray(lista) || lista.length === 0) return null;
+    return lista.find(isMiaRigaClassifica) || null;
   }
 
   function aggiornaCapitaleDaClassifica(lista) {
     const miaRiga = getMiaRigaClassifica(lista);
     if (!miaRiga) return;
 
-    const capitale = Number(miaRiga.capitale_attuale ?? 0);
+    const capitale = parseIntegerLike(miaRiga.capitale_attuale ?? 0);
+    if (Player.utils && typeof Player.utils.setCapitaleRaw === 'function') {
+      Player.utils.setCapitaleRaw(capitale);
+      return;
+    }
+
     if (D.capitaleValue) D.capitaleValue.innerText = formatNumber(capitale);
   }
 
@@ -47,8 +56,9 @@
     return numeric.toFixed(2).replace('.', ',');
   }
 
-  function rowLine(label, value, right = false) {
-    return `<div class="risultato-row${right ? ' row-right' : ''}"><span class="riga-testo">${label}: ${value}</span></div>`;
+  function rowLine(label, value, right = false, extraClass = '') {
+    const className = String(extraClass || '').trim();
+    return `<div class="risultato-row${right ? ' row-right' : ''}${className ? ` ${className}` : ''}"><span class="riga-testo">${label}: ${value}</span></div>`;
   }
 
   function forceDisplayString(value) {
@@ -62,15 +72,28 @@
     return numeric.toFixed(2).replace('.', ',');
   }
 
+  function parseIntegerLike(value) {
+    if (typeof value === 'number') {
+      return Number.isFinite(value) ? Math.trunc(value) : 0;
+    }
+
+    const normalized = String(value ?? '').trim().replace(/[^\d-]/g, '');
+    if (normalized === '' || normalized === '-') return 0;
+
+    const parsed = Number.parseInt(normalized, 10);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+
   function formatNumber(value) {
-    const numeric = Number(value);
-    if (!Number.isFinite(numeric)) return '0';
-    return new Intl.NumberFormat('it-IT').format(numeric);
+    const numeric = parseIntegerLike(value);
+    const sign = numeric < 0 ? '-' : '';
+    const abs = Math.abs(numeric);
+    const grouped = String(abs).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `${sign}${grouped}`;
   }
 
   function formatSignedPoints(value) {
-    const numeric = Number(value);
-    if (!Number.isFinite(numeric)) return '0';
+    const numeric = parseIntegerLike(value);
     return numeric >= 0 ? `+${formatNumber(numeric)}` : `${formatNumber(numeric)}`;
   }
 
@@ -90,6 +113,7 @@
     getImmediateResult,
     setImmediateResult,
     clearImmediateResult,
+    isMiaRigaClassifica,
     getMiaRigaClassifica,
     aggiornaCapitaleDaClassifica,
     formatTempoRisposta,

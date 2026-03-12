@@ -26,18 +26,16 @@
     }
 
     const esito = miaRiga.esito ?? '-';
-    const puntata = Number(miaRiga.ultima_puntata ?? 0);
-    const difficolta = Number(miaRiga.difficolta_domanda ?? 0);
-    const fattoreVelocita = Number(miaRiga.fattore_velocita ?? 0);
-    const vincitaDifficolta = Number(miaRiga.vincita_difficolta ?? 0);
-    const vincitaVelocita = Number(miaRiga.vincita_velocita ?? 0);
-    const bonusPrimo = Number(miaRiga.bonus_primo ?? 0);
-    const bonusImpostore = Number(miaRiga.bonus_impostore ?? 0);
+    const puntata = miaRiga.ultima_puntata ?? 0;
+    const vincitaDifficolta = miaRiga.vincita_difficolta ?? 0;
+    const vincitaVelocita = miaRiga.vincita_velocita ?? 0;
+    const bonusPrimo = miaRiga.bonus_primo ?? 0;
+    const bonusImpostore = miaRiga.bonus_impostore ?? 0;
     const vincitaTotale = (miaRiga.vincita_domanda === null || miaRiga.vincita_domanda === undefined)
       ? '-'
-      : Number(miaRiga.vincita_domanda);
+      : (miaRiga.vincita_domanda);
     const tempo = Support.forceDisplayString(miaRiga.tempo_risposta_display || Support.formatTempoRisposta(miaRiga.tempo_risposta));
-    const capitale = Number(miaRiga.capitale_attuale ?? 0);
+    const capitale = miaRiga.capitale_attuale ?? 0;
     container.classList.remove('esito-corretta', 'esito-errata');
     if (esito === 'corretta') container.classList.add('esito-corretta');
     else if (esito === 'errata') container.classList.add('esito-errata');
@@ -46,14 +44,12 @@
       Support.rowLine('Esito', esito),
       Support.rowLine('Tempo risposta', tempo),
       Support.rowLine('Puntata', `${POINTS_SYMBOL} ${Support.formatNumber(puntata)}`),
-      Support.rowLine('Coeff. difficolta', `x${Support.formatCoeff(difficolta)}`),
       Support.rowLine('Vincita difficolta', `${Support.formatNumber(vincitaDifficolta)}`, true),
-      Support.rowLine('Coeff. velocita', `x${Support.formatCoeff(fattoreVelocita)}`),
       Support.rowLine('Vincita velocita', `${Support.formatNumber(vincitaVelocita)}`, true),
       Support.rowLine('Bonus primo', `${Support.formatNumber(bonusPrimo)}`, true),
       Support.rowLine('Bonus impostore', `${Support.formatNumber(bonusImpostore)}`, true),
-      Support.rowLine('Vincita totale', `${vincitaTotale === '-' ? '-' : Support.formatNumber(vincitaTotale)}`, true),
-      Support.rowLine('Punti attuali', Support.formatCapitaleBreakdown(capitale, vincitaTotale, POINTS_SYMBOL)),
+      Support.rowLine('Vincita totale', `${vincitaTotale === '-' ? '-' : Support.formatNumber(vincitaTotale)}`, true, 'row-vincita-totale'),
+      Support.rowLine('Punti', `${POINTS_SYMBOL} ${Support.formatNumber(capitale)}`, false, 'row-punti-totali'),
     ].join('');
   }
 
@@ -63,16 +59,14 @@
     Support.setImmediateResult(risultato);
 
     const esito = risultato.corretta ? 'corretta' : 'errata';
-    const puntata = Number(risultato.puntata ?? 0);
-    const difficolta = Number(risultato.difficolta_domanda ?? 0);
-    const fattoreVelocita = Number(risultato.fattore_velocita ?? 0);
-    const vincitaDifficolta = Number(risultato.vincita_difficolta ?? 0);
-    const vincitaVelocita = Number(risultato.vincita_velocita ?? 0);
-    const bonusPrimo = Number(risultato.bonus_primo ?? 0);
-    const bonusImpostore = Number(risultato.bonus_impostore ?? 0);
-    const punti = Number(risultato.punti ?? 0);
+    const puntata = risultato.puntata ?? 0;
+    const vincitaDifficolta = risultato.vincita_difficolta ?? 0;
+    const vincitaVelocita = risultato.vincita_velocita ?? 0;
+    const bonusPrimo = risultato.bonus_primo ?? 0;
+    const bonusImpostore = risultato.bonus_impostore ?? 0;
+    const punti = risultato.punti ?? 0;
     const tempo = Support.forceDisplayString(risultato.tempo_risposta_display || Support.formatTempoRisposta(risultato.tempo_risposta ?? 0));
-    const capitale = Number(risultato.capitale ?? 0);
+    const capitale = risultato.capitale ?? 0;
     container.classList.remove('esito-corretta', 'esito-errata');
     container.classList.add(risultato.corretta ? 'esito-corretta' : 'esito-errata');
 
@@ -80,14 +74,12 @@
       Support.rowLine('Esito', esito),
       Support.rowLine('Tempo risposta', tempo),
       Support.rowLine('Puntata', `${POINTS_SYMBOL} ${Support.formatNumber(puntata)}`),
-      Support.rowLine('Coeff. difficolta', `x${Support.formatCoeff(difficolta)}`),
       Support.rowLine('Vincita difficolta', `${Support.formatNumber(vincitaDifficolta)}`, true),
-      Support.rowLine('Coeff. velocita', `x${Support.formatCoeff(fattoreVelocita)}`),
       Support.rowLine('Vincita velocita', `${Support.formatNumber(vincitaVelocita)}`, true),
       Support.rowLine('Bonus primo', `${Support.formatNumber(bonusPrimo)}`, true),
       Support.rowLine('Bonus impostore', `${Support.formatNumber(bonusImpostore)}`, true),
-      Support.rowLine('Vincita totale', `${Support.formatNumber(punti)}`, true),
-      Support.rowLine('Punti attuali', Support.formatCapitaleBreakdown(capitale, punti, POINTS_SYMBOL)),
+      Support.rowLine('Vincita totale', `${Support.formatNumber(punti)}`, true, 'row-vincita-totale'),
+      Support.rowLine('Punti', `${POINTS_SYMBOL} ${Support.formatNumber(capitale)}`, false, 'row-punti-totali'),
     ].join('');
   }
 
@@ -98,7 +90,17 @@
       if (!data.success) return;
 
       const classificaOrdinata = Array.isArray(data.classifica)
-        ? [...data.classifica].sort((a, b) => Number(b.capitale_attuale ?? 0) - Number(a.capitale_attuale ?? 0))
+        ? [...data.classifica].sort((a, b) => {
+          const parseScore = (value) => {
+            const direct = Number(value);
+            if (Number.isFinite(direct)) return direct;
+            const normalized = String(value ?? '').replace(/[^\d-]/g, '');
+            if (normalized === '' || normalized === '-') return 0;
+            const parsed = Number.parseInt(normalized, 10);
+            return Number.isFinite(parsed) ? parsed : 0;
+          };
+          return parseScore(b.capitale_attuale ?? 0) - parseScore(a.capitale_attuale ?? 0);
+        })
         : [];
 
       Support.aggiornaCapitaleDaClassifica(classificaOrdinata);
@@ -119,11 +121,22 @@
         div.className = 'classifica-item';
 
         const nome = riga.nome || '-';
-        const capitale = Number(riga.capitale_attuale ?? 0);
+        const capitale = riga.capitale_attuale ?? 0;
+        const isMe = typeof Support.isMiaRigaClassifica === 'function'
+          ? Support.isMiaRigaClassifica(riga)
+          : false;
+
+        if (isMe) {
+          div.classList.add('classifica-item--me');
+          div.setAttribute('aria-current', 'true');
+          div.title = 'La tua posizione in classifica';
+        }
+
+        const nomeLabel = `<span class="classifica-name${isMe ? ' classifica-name--me' : ''}">${nome}</span>`;
 
         div.innerHTML = `
           <strong>${index + 1}.</strong>
-          ${nome}
+          ${nomeLabel}
           <span>${POINTS_SYMBOL} ${Support.formatNumber(capitale)}</span>
         `;
 

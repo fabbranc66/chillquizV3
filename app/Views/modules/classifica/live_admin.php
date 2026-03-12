@@ -12,20 +12,22 @@
         <div class="live-title">Classifica live</div>
         <div class="live-subtitle">Puntata, esito risposta e andamento in tempo reale</div>
     </div>
-    <table class="live-table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Giocatore</th>
-                <th>Capitale</th>
-                <th>Puntata</th>
-                <th>Esito</th>
-                <th>Tempo risposta (s)</th>
-                <th>Vincita domanda</th>
-            </tr>
-        </thead>
-        <tbody id="classifica-live">
-            <tr><td colspan="7">Nessun dato</td></tr>
-        </tbody>
-    </table>
+    <div class="live-table-scroll">
+        <table class="live-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Giocatore</th>
+                    <th>Capitale</th>
+                    <th>Puntata</th>
+                    <th>Esito</th>
+                    <th>Tempo risposta (s)</th>
+                    <th>Vincita domanda</th>
+                </tr>
+            </thead>
+            <tbody id="classifica-live">
+                <tr><td colspan="7">Nessun dato</td></tr>
+            </tbody>
+        </table>
+    </div>
 </div>

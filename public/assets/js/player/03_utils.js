@@ -1,14 +1,29 @@
 // 03_utils.js
 (() => {
   const Player = window.Player;
+  const S = Player.state;
   const D = Player.dom;
 
   let alertTimer = null;
 
   function formatThousands(value) {
-    const numeric = Number(value);
-    if (!Number.isFinite(numeric)) return '0';
-    return new Intl.NumberFormat('it-IT').format(numeric);
+    const toGroupedIt = (n) => {
+      const sign = n < 0 ? '-' : '';
+      const abs = Math.abs(Math.trunc(n));
+      return `${sign}${String(abs).replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
+    };
+
+    if (typeof value === 'number') {
+      return Number.isFinite(value) ? toGroupedIt(value) : '0';
+    }
+
+    const raw = String(value ?? '').trim();
+    if (raw === '' || raw === '-') return '0';
+    const normalized = raw.replace(/[^\d-]/g, '');
+    if (normalized === '' || normalized === '-') return '0';
+    const parsed = Number.parseInt(normalized, 10);
+    if (!Number.isFinite(parsed)) return '0';
+    return toGroupedIt(parsed);
   }
 
   function normalizeCapitaleDisplay() {
@@ -20,10 +35,29 @@
     const normalized = raw.replace(/[^\d-]/g, '');
     if (normalized === '' || normalized === '-') return;
 
-    const formatted = formatThousands(Number(normalized));
+    const numeric = Number(normalized);
+    if (Number.isFinite(numeric)) {
+      S.capitaleRaw = numeric;
+    }
+
+    const formatted = formatThousands(numeric);
     if (D.capitaleValue.textContent !== formatted) {
       D.capitaleValue.textContent = formatted;
     }
+  }
+
+  function setCapitaleRaw(value) {
+    const numeric = Number(value);
+    S.capitaleRaw = Number.isFinite(numeric) ? Math.floor(numeric) : 0;
+
+    if (D.capitaleValue) {
+      D.capitaleValue.textContent = formatThousands(S.capitaleRaw);
+    }
+  }
+
+  function getCapitaleRaw() {
+    const numeric = Number(S.capitaleRaw);
+    return Number.isFinite(numeric) ? Math.floor(numeric) : 0;
   }
 
   Player.utils = {
@@ -46,6 +80,8 @@
 
     formatThousands,
     normalizeCapitaleDisplay,
+    setCapitaleRaw,
+    getCapitaleRaw,
   };
 
   Player.copy = {

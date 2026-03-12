@@ -7,6 +7,11 @@
   const Copy = Player.copy;
 
   function formatNumber(value) {
+    const utils = Player.utils;
+    if (utils && typeof utils.formatThousands === 'function') {
+      return utils.formatThousands(value);
+    }
+
     const support = Player.classificaSupport;
     if (support && typeof support.formatNumber === 'function') {
       return support.formatNumber(value);
@@ -14,12 +19,16 @@
 
     const numeric = Number(value);
     if (!Number.isFinite(numeric)) return '0';
-    return new Intl.NumberFormat('it-IT').format(numeric);
+    const sign = numeric < 0 ? '-' : '';
+    const abs = Math.abs(Math.trunc(numeric));
+    return `${sign}${String(abs).replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`;
   }
 
   function completeJoin(nome, capitale) {
     if (D.displayName) D.displayName.innerText = nome;
-    if (D.capitaleValue) {
+    if (Player.utils && typeof Player.utils.setCapitaleRaw === 'function') {
+      Player.utils.setCapitaleRaw(capitale);
+    } else if (D.capitaleValue) {
       D.capitaleValue.innerText = formatNumber(capitale);
     }
 

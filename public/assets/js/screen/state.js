@@ -53,6 +53,16 @@
     return String(S.currentState || '') === 'preview' && Number(S.sessioneId || 0) > 0;
   }
 
+  function applyStateLayoutClass(state) {
+    const body = document.body;
+    if (!body) return;
+    body.classList.remove('screen-state-attesa', 'screen-state-puntata', 'screen-state-domanda');
+    const currentState = String(state || '');
+    if (currentState === 'attesa' || currentState === 'puntata' || currentState === 'domanda') {
+      body.classList.add(`screen-state-${currentState}`);
+    }
+  }
+
   function setupSessionQr() {
     if (!S.sessioneId) return;
 
@@ -76,12 +86,37 @@
 
     if (indicator) indicator.style.setProperty('--progress', '0deg');
     if (label) label.innerText = '0s';
+    renderQuestionsLeft(S.latestSessioneSnapshot || null);
+  }
+
+  function renderQuestionsLeft(sessione) {
+    const badge = document.getElementById('stage-questions-left');
+    if (!badge) return;
+
+    const totaleDomande = Number(sessione?.numero_domande || 0);
+    const domandaCorrente = Number(sessione?.domanda_corrente || 0);
+
+    if (totaleDomande <= 0 || domandaCorrente <= 0) {
+      badge.innerText = '';
+      badge.classList.add('hidden');
+      badge.classList.remove('is-final');
+      return;
+    }
+
+    const mancanti = Math.max(0, totaleDomande - domandaCorrente);
+    const label = mancanti === 1 ? 'domanda' : 'domande';
+
+    badge.innerText = `Mancano ${mancanti} ${label}`;
+    badge.classList.remove('hidden');
+    badge.classList.toggle('is-final', mancanti <= 3);
   }
 
   function renderStageTimer(sessione) {
     const indicator = document.getElementById('stage-timer-indicator');
     const label = document.getElementById('stage-timer-label');
     if (!indicator || !label) return;
+
+    renderQuestionsLeft(sessione || S.latestSessioneSnapshot || null);
 
     const max = Number(sessione?.timer_max || 0);
     const start = Number(sessione?.timer_start || 0);
@@ -141,13 +176,23 @@
 
   function renderPlaceholder(state) {
     if (state === 'risultati') return;
+    applyStateLayoutClass(state);
 
+    const placeholder = document.getElementById('screen-placeholder');
     const img = document.getElementById('state-image');
     const message = document.getElementById('placeholder-message');
     if (!img || !message) return;
 
     const meta = getStateMeta(state);
     message.innerText = meta.message;
+
+    if (placeholder) {
+      const currentState = String(state || '');
+      placeholder.classList.toggle(
+        'stage-placeholder--waiting',
+        currentState === 'attesa' || currentState === 'puntata'
+      );
+    }
 
     if (S.mediaAttiva && S.mediaAttiva.file_path) {
       const mediaPath = String(S.mediaAttiva.file_path || '').startsWith('/')
@@ -171,6 +216,14 @@
     placeholder.classList.toggle('hidden', which !== 'placeholder');
     domanda.classList.toggle('hidden', which !== 'domanda');
     risultati.classList.toggle('hidden', which !== 'risultati');
+
+    if (which === 'domanda') {
+      applyStateLayoutClass(S.currentState || 'domanda');
+    } else if (which === 'placeholder') {
+      applyStateLayoutClass(S.currentState || '');
+    } else {
+      applyStateLayoutClass('');
+    }
   }
 
   function showRisultatiView() {
@@ -192,9 +245,11 @@
     canUseAudioPreview,
     setupSessionQr,
     resetStageTimer,
+    renderQuestionsLeft,
     renderStageTimer,
     getStateMeta,
     renderPlaceholder,
+    applyStateLayoutClass,
     showOnly,
     showRisultatiView,
     hideRisultatiView,

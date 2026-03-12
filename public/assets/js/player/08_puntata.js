@@ -5,33 +5,43 @@
   const D = Player.dom;
   const Alert = Player.uiAlert;
   const Copy = Player.copy;
+  const Utils = Player.utils || {};
   const STEP = 250;
 
+  function parseIntegerAmount(value) {
+    const digitsOnly = String(value ?? '').replace(/[^\d]/g, '');
+    if (digitsOnly === '') return 0;
+    const parsed = Number.parseInt(digitsOnly, 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+  }
+
   function capitaleAttuale() {
-    const raw = String((D.capitaleValue && D.capitaleValue.innerText) || '').replace(/[^\d.-]/g, '');
-    const value = Number(raw);
-    return Number.isFinite(value) && value > 0 ? Math.floor(value) : 0;
+    if (typeof Utils.getCapitaleRaw === 'function') {
+      return Utils.getCapitaleRaw();
+    }
+    return parseIntegerAmount((D.capitaleValue && D.capitaleValue.innerText) || '');
   }
 
   function puntataCorrente() {
-    const value = Number((D.inputPuntata && D.inputPuntata.value) || 0);
-    return Number.isFinite(value) && value > 0 ? Math.floor(value) : 0;
+    return parseIntegerAmount((D.inputPuntata && D.inputPuntata.value) || '');
   }
 
   function setPuntata(value) {
     if (!D.inputPuntata) return;
 
     const capitale = capitaleAttuale();
-    const normalized = Math.max(0, Math.floor(Number(value) || 0));
+    const normalized = parseIntegerAmount(value);
     const clamped = capitale > 0 ? Math.min(normalized, capitale) : normalized;
-    D.inputPuntata.value = clamped > 0 ? String(clamped) : '';
+    const formatter = typeof Utils.formatThousands === 'function'
+      ? Utils.formatThousands
+      : (n) => String(n);
+    D.inputPuntata.value = clamped > 0 ? formatter(clamped) : '';
   }
 
   async function handlePuntata() {
     if (S.puntataInviata) return;
 
-    const importoRaw = D.inputPuntata && D.inputPuntata.value;
-    const importo = Number(importoRaw);
+    const importo = parseIntegerAmount(D.inputPuntata && D.inputPuntata.value);
 
     if (!importo || importo <= 0) {
       Alert.show({
@@ -47,7 +57,7 @@
     try {
       const formData = new FormData();
       formData.append('partecipazione_id', String(S.partecipazioneId || 0));
-      formData.append('puntata', String(parseInt(String(importo), 10)));
+      formData.append('puntata', String(importo));
 
       const response = await fetch(`${S.API_BASE}/puntata/${S.sessioneId || 0}`, {
         method: 'POST',
@@ -94,6 +104,13 @@
 
   function prepareScreen() {
     setPuntata('');
+  }
+
+  if (D.inputPuntata) {
+    D.inputPuntata.addEventListener('input', () => {
+      const current = parseIntegerAmount(D.inputPuntata.value);
+      setPuntata(current);
+    });
   }
 
   Player.puntata = {

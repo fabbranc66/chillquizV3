@@ -131,6 +131,12 @@
       Clock.updateOffsetFromServerNow(S, data?.server_now || 0);
       S.latestSessioneSnapshot = data.sessione || null;
       S.currentState = data.sessione?.stato || null;
+      if (ScreenApp.state && typeof ScreenApp.state.applyStateLayoutClass === 'function') {
+        ScreenApp.state.applyStateLayoutClass(S.currentState || '');
+      }
+      if (ScreenApp.state && typeof ScreenApp.state.renderQuestionsLeft === 'function') {
+        ScreenApp.state.renderQuestionsLeft(data.sessione || null);
+      }
       if (String(S.currentState || '') === 'preview') {
         ScreenApp.state.showOnly('domanda');
       }

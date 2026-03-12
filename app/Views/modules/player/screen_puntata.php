@@ -21,7 +21,7 @@
     </div>
     <div class="puntata-panel">
         <label class="puntata-input-label" for="puntata">Quanto vuoi rischiare?</label>
-        <input type="number" id="puntata" placeholder="Importo">
+        <input type="text" id="puntata" placeholder="Importo" inputmode="numeric" pattern="[0-9.]*" autocomplete="off">
         <div class="puntata-actions">
             <button id="btn-puntata-dec" type="button" class="btn-secondary">-250</button>
             <button id="btn-puntata-allin" type="button" class="btn-secondary">All-in</button>
