@@ -434,10 +434,10 @@ h2 {
 }
 
 .system-actions-grid-editor {
-    grid-template-columns: fit-content(420px) fit-content(96px) fit-content(140px) fit-content(140px) fit-content(300px);
+    grid-template-columns: minmax(280px, 2fr) minmax(88px, 96px) minmax(120px, 140px) minmax(120px, 140px) minmax(220px, 260px) minmax(84px, 92px);
     gap: 18px;
     align-items: end;
-    justify-content: start;
+    justify-content: stretch;
 }
 
 #panel-system .system-actions-grid {
@@ -445,7 +445,7 @@ h2 {
 }
 
 #panel-system .system-actions-grid-editor {
-    grid-template-columns: fit-content(420px) fit-content(96px) fit-content(140px) fit-content(140px) fit-content(300px);
+    grid-template-columns: minmax(280px, 2fr) minmax(88px, 96px) minmax(120px, 140px) minmax(120px, 140px) minmax(220px, 260px) minmax(84px, 92px);
     gap: 18px;
 }
 
@@ -482,9 +482,9 @@ h2 {
 
 .system-actions-form input,
 .system-actions-form select {
-    width: auto;
+    width: 100%;
     margin: 0;
-    justify-self: start;
+    justify-self: stretch;
 }
 
 .system-actions-buttons {
@@ -555,19 +555,24 @@ h2 {
 }
 
 #panel-system #sessione-nome {
-    width: 360px;
+    width: 100%;
 }
 
 #panel-system #sessione-numero-domande {
-    width: 88px;
+    width: 100%;
 }
 
 #panel-system #sessione-pool-tipo {
-    width: 150px;
+    width: 100%;
 }
 
 #panel-system #sessione-argomento-id {
-    width: 260px;
+    width: 100%;
+}
+
+#panel-system #sessione-selezione-tipo,
+#panel-system #sessione-max-per-argomento {
+    width: 100%;
 }
 
 .container {
@@ -1549,10 +1554,18 @@ textarea {
     margin-top: 6px;
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
 }
 
 .qa-item-replace-btn {
     margin-left: auto;
+}
+
+.qa-item-move-btn {
+    min-width: 28px;
+    padding: 4px 0;
+    margin-left: 0;
 }
 
 @media (max-width: 640px) {

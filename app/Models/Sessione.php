@@ -15,6 +15,7 @@ class Sessione
     public function __construct()
     {
         $this->pdo = Database::getInstance();
+        $this->ensureMaxPerArgomentoColumn();
     }
 
     public function crea(int $configurazioneId, ?string $nome = null, array $sessionConfig = []): int
@@ -34,6 +35,7 @@ class Sessione
             'pool_tipo' => $configSnapshot['pool_tipo'],
             'argomento_id' => $configSnapshot['argomento_id'],
             'selezione_tipo' => $configSnapshot['selezione_tipo'],
+            'max_per_argomento' => $configSnapshot['max_per_argomento'],
             'pin' => $pin,
             'creata_il' => time(),
         ];
@@ -41,18 +43,18 @@ class Sessione
         if ($nomeColumn !== null) {
             $stmt = $this->pdo->prepare(
                 "INSERT INTO sessioni
-                 (numero_domande, pool_tipo, argomento_id, selezione_tipo, pin, {$nomeColumn}, stato, domanda_corrente, creata_il)
+                 (numero_domande, pool_tipo, argomento_id, selezione_tipo, max_per_argomento, pin, {$nomeColumn}, stato, domanda_corrente, creata_il)
                  VALUES
-                 (:numero_domande, :pool_tipo, :argomento_id, :selezione_tipo, :pin, :nome_sessione, 'attesa', 1, :creata_il)"
+                 (:numero_domande, :pool_tipo, :argomento_id, :selezione_tipo, :max_per_argomento, :pin, :nome_sessione, 'attesa', 1, :creata_il)"
             );
 
             $params['nome_sessione'] = $nomeSessione;
         } else {
             $stmt = $this->pdo->prepare(
                 "INSERT INTO sessioni
-                 (numero_domande, pool_tipo, argomento_id, selezione_tipo, pin, stato, domanda_corrente, creata_il)
+                 (numero_domande, pool_tipo, argomento_id, selezione_tipo, max_per_argomento, pin, stato, domanda_corrente, creata_il)
                  VALUES
-                 (:numero_domande, :pool_tipo, :argomento_id, :selezione_tipo, :pin, 'attesa', 1, :creata_il)"
+                 (:numero_domande, :pool_tipo, :argomento_id, :selezione_tipo, :max_per_argomento, :pin, 'attesa', 1, :creata_il)"
             );
         }
 
@@ -97,12 +99,25 @@ class Sessione
 
         $selezioneRaw = trim((string) ($input['selezione_tipo'] ?? $base['selezione_tipo']));
         $selezioneTipo = $selezioneRaw === 'manuale' ? 'manuale' : 'random';
+        $maxPerArgomentoRaw = $input['max_per_argomento'] ?? $base['max_per_argomento'] ?? null;
+        $maxPerArgomento = null;
+        if ($maxPerArgomentoRaw !== '' && $maxPerArgomentoRaw !== null) {
+            $maxPerArgomentoInt = (int) $maxPerArgomentoRaw;
+            if ($maxPerArgomentoInt > 0) {
+                $maxPerArgomento = $maxPerArgomentoInt;
+            }
+        }
+
+        if ($poolTipo !== 'tutti' || $selezioneTipo !== 'random') {
+            $maxPerArgomento = null;
+        }
 
         return [
             'numero_domande' => $numeroDomande,
             'pool_tipo' => $poolTipo,
             'argomento_id' => $argomentoId,
             'selezione_tipo' => $selezioneTipo,
+            'max_per_argomento' => $maxPerArgomento,
         ];
     }
 
@@ -137,6 +152,7 @@ class Sessione
                 'pool_tipo' => $poolTipo,
                 'argomento_id' => $v2['argomento_id'] !== null ? (int) $v2['argomento_id'] : null,
                 'selezione_tipo' => $selezione === 'manuale' ? 'manuale' : 'random',
+                'max_per_argomento' => null,
             ];
         }
 
@@ -145,6 +161,7 @@ class Sessione
             'pool_tipo' => 'tutti',
             'argomento_id' => null,
             'selezione_tipo' => 'random',
+            'max_per_argomento' => null,
         ];
     }
 
@@ -193,6 +210,15 @@ class Sessione
     public function ensureNomeSessioneColumn(): void
     {
         // intentionally no-op
+    }
+
+    private function ensureMaxPerArgomentoColumn(): void
+    {
+        if ($this->hasColumn('sessioni', 'max_per_argomento')) {
+            return;
+        }
+
+        $this->pdo->exec("ALTER TABLE sessioni ADD COLUMN max_per_argomento INT NULL AFTER selezione_tipo");
     }
 
     private function generaPin(): string
@@ -244,8 +270,8 @@ class Sessione
 
         $nomeColumn = $this->resolveSessionNameColumn();
         $select = $nomeColumn !== null
-            ? "SELECT id, pin, {$nomeColumn} AS nome_sessione, stato, domanda_corrente, numero_domande, pool_tipo, argomento_id, selezione_tipo, creata_il FROM sessioni ORDER BY id DESC LIMIT :lim"
-            : "SELECT id, pin, stato, domanda_corrente, numero_domande, pool_tipo, argomento_id, selezione_tipo, creata_il FROM sessioni ORDER BY id DESC LIMIT :lim";
+            ? "SELECT id, pin, {$nomeColumn} AS nome_sessione, stato, domanda_corrente, numero_domande, pool_tipo, argomento_id, selezione_tipo, max_per_argomento, creata_il FROM sessioni ORDER BY id DESC LIMIT :lim"
+            : "SELECT id, pin, stato, domanda_corrente, numero_domande, pool_tipo, argomento_id, selezione_tipo, max_per_argomento, creata_il FROM sessioni ORDER BY id DESC LIMIT :lim";
 
         $stmt = $this->pdo->prepare($select);
         $stmt->bindValue(':lim', $safeLimit, PDO::PARAM_INT);
@@ -297,6 +323,16 @@ class Sessione
 
         $selezioneRaw = trim((string) ($input['selezione_tipo'] ?? 'random'));
         $selezioneTipo = $selezioneRaw === 'manuale' ? 'manuale' : 'random';
+        $maxPerArgomento = null;
+        if ($poolTipo === 'tutti' && $selezioneTipo === 'random') {
+            $maxRaw = $input['max_per_argomento'] ?? null;
+            if ($maxRaw !== null && $maxRaw !== '') {
+                $maxInt = (int) $maxRaw;
+                if ($maxInt > 0) {
+                    $maxPerArgomento = $maxInt;
+                }
+            }
+        }
 
         $nomeColumn = $this->resolveSessionNameColumn();
         $nomeSessione = trim((string) ($input['nome_sessione'] ?? ''));
@@ -308,7 +344,8 @@ class Sessione
                      numero_domande = :numero_domande,
                      pool_tipo = :pool_tipo,
                      argomento_id = :argomento_id,
-                     selezione_tipo = :selezione_tipo
+                     selezione_tipo = :selezione_tipo,
+                     max_per_argomento = :max_per_argomento
                  WHERE id = :id"
             );
 
@@ -318,6 +355,7 @@ class Sessione
                 'pool_tipo' => $poolTipo,
                 'argomento_id' => $argomentoId,
                 'selezione_tipo' => $selezioneTipo,
+                'max_per_argomento' => $maxPerArgomento,
                 'id' => $id,
             ]);
         }
@@ -327,7 +365,8 @@ class Sessione
              SET numero_domande = :numero_domande,
                  pool_tipo = :pool_tipo,
                  argomento_id = :argomento_id,
-                 selezione_tipo = :selezione_tipo
+                 selezione_tipo = :selezione_tipo,
+                 max_per_argomento = :max_per_argomento
              WHERE id = :id"
         );
 
@@ -336,6 +375,7 @@ class Sessione
             'pool_tipo' => $poolTipo,
             'argomento_id' => $argomentoId,
             'selezione_tipo' => $selezioneTipo,
+            'max_per_argomento' => $maxPerArgomento,
             'id' => $id,
         ]);
     }

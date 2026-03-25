@@ -136,6 +136,13 @@
   if (D.inputSessionePoolTipo) {
     D.inputSessionePoolTipo.onchange = () => {
       Admin.actions.syncArgomentoFieldState();
+      Admin.actions.syncMaxPerArgomentoFieldState();
+    };
+  }
+
+  if (D.inputSessioneSelezioneTipo) {
+    D.inputSessioneSelezioneTipo.onchange = () => {
+      Admin.actions.syncMaxPerArgomentoFieldState();
     };
   }
 

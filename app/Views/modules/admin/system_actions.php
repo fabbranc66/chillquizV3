@@ -44,6 +44,11 @@
                     <option value="">Argomento (solo se fisso)</option>
                 </select>
             </label>
+
+            <label class="system-field system-field-topic-limit">
+                <span class="system-field-label">Max per argomento</span>
+                <input id="sessione-max-per-argomento" type="number" min="1" placeholder="Solo per misto random">
+            </label>
         </div>
 
         <div class="system-actions-buttons system-actions-buttons-primary">

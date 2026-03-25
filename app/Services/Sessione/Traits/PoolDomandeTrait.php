@@ -9,6 +9,58 @@ use RuntimeException;
 
 trait PoolDomandeTrait
 {
+    private function loadEligibleQuestionRows(string $poolTipo, ?int $argomentoId, string $selezione): array
+    {
+        $query = 'SELECT id, argomento_id FROM domande WHERE attiva = 1';
+        $params = [];
+
+        if ($poolTipo === 'mono' && $argomentoId) {
+            $query .= ' AND argomento_id = ?';
+            $params[] = $argomentoId;
+        }
+
+        if ($poolTipo === 'sarabanda') {
+            $query .= " AND UPPER(COALESCE(tipo_domanda, 'CLASSIC')) = ?";
+            $params[] = 'SARABANDA';
+        }
+
+        $query .= ($selezione === 'random')
+            ? ' ORDER BY RAND()'
+            : ' ORDER BY id ASC';
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll() ?: [];
+    }
+
+    private function applyTopicLimitToQuestions(array $domande, int $numeroDomande, ?int $maxPerArgomento): array
+    {
+        if ($maxPerArgomento === null || $maxPerArgomento <= 0) {
+            return array_slice($domande, 0, $numeroDomande);
+        }
+
+        $selected = [];
+        $countsByTopic = [];
+
+        foreach ($domande as $domanda) {
+            $topicId = (int) ($domanda['argomento_id'] ?? 0);
+            $currentCount = (int) ($countsByTopic[$topicId] ?? 0);
+            if ($currentCount >= $maxPerArgomento) {
+                continue;
+            }
+
+            $selected[] = ['id' => (int) $domanda['id']];
+            $countsByTopic[$topicId] = $currentCount + 1;
+
+            if (count($selected) >= $numeroDomande) {
+                break;
+            }
+        }
+
+        return $selected;
+    }
+
     public function generaDomandeSessione(): void
     {
         $stmt = $this->pdo->prepare("\n            SELECT COUNT(*) as totale\n            FROM sessione_domande\n            WHERE sessione_id = ?\n        ");
@@ -42,32 +94,18 @@ trait PoolDomandeTrait
         $poolTipo = $config['pool_tipo'] ?? 'tutti';
         $argomentoId = $config['argomento_id'] ?? null;
         $selezione = $config['selezione_tipo'] ?? 'random';
-
-        $query = 'SELECT id FROM domande WHERE attiva = 1';
-        $params = [];
-
-        if ($poolTipo === 'mono' && $argomentoId) {
-            $query .= ' AND argomento_id = ?';
-            $params[] = $argomentoId;
-        }
-
-        if ($poolTipo === 'sarabanda') {
-            $query .= " AND UPPER(COALESCE(tipo_domanda, 'CLASSIC')) = ?";
-            $params[] = 'SARABANDA';
-        }
-
-        $query .= ($selezione === 'random')
-            ? ' ORDER BY RAND()'
-            : ' ORDER BY id ASC';
-
-        $query .= ' LIMIT ' . $numeroDomande;
-
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute($params);
-        $domande = $stmt->fetchAll();
+        $maxPerArgomento = isset($config['max_per_argomento']) ? (int) $config['max_per_argomento'] : 0;
+        $eligibleQuestions = $this->loadEligibleQuestionRows($poolTipo, $argomentoId, $selezione);
+        $domande = ($poolTipo === 'tutti' && $selezione === 'random' && $maxPerArgomento > 0)
+            ? $this->applyTopicLimitToQuestions($eligibleQuestions, $numeroDomande, $maxPerArgomento)
+            : array_slice(array_map(static fn (array $row): array => ['id' => (int) $row['id']], $eligibleQuestions), 0, $numeroDomande);
 
         if (count($domande) < $numeroDomande) {
-            throw new RuntimeException('Domande insufficienti per generare la sessione.');
+            throw new RuntimeException(
+                $poolTipo === 'tutti' && $selezione === 'random' && $maxPerArgomento > 0
+                    ? 'Domande insufficienti per generare la sessione con il limite per argomento impostato.'
+                    : 'Domande insufficienti per generare la sessione.'
+            );
         }
 
         $this->persistSessionQuestions($domande);

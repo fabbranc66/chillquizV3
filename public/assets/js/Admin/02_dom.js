@@ -29,6 +29,7 @@
     inputSessionePoolTipo: document.getElementById('sessione-pool-tipo'),
     inputSessioneSelezioneTipo: document.getElementById('sessione-selezione-tipo'),
     inputSessioneArgomentoId: document.getElementById('sessione-argomento-id'),
+    inputSessioneMaxPerArgomento: document.getElementById('sessione-max-per-argomento'),
     btnNuova: document.getElementById('btnNuova'),
     btnSetCorrente: document.getElementById('btnSetCorrente'),
     btnSalvaSessione: document.getElementById('btnSalvaSessione'),

@@ -69,12 +69,14 @@ trait HandlesAdminSessionActions
                 $poolTipo = trim((string) ($_POST['pool_tipo'] ?? ''));
                 $argomentoRaw = $_POST['argomento_id'] ?? null;
                 $selezioneTipo = trim((string) ($_POST['selezione_tipo'] ?? ''));
+                $maxPerArgomento = (int) ($_POST['max_per_argomento'] ?? 0);
 
                 $configInput = [
                     'numero_domande' => $numeroDomande > 0 ? $numeroDomande : null,
                     'pool_tipo' => $poolTipo,
                     'argomento_id' => $argomentoRaw,
                     'selezione_tipo' => $selezioneTipo,
+                    'max_per_argomento' => $maxPerArgomento > 0 ? $maxPerArgomento : null,
                 ];
 
                 $sessioneModel = new Sessione();
@@ -90,6 +92,7 @@ trait HandlesAdminSessionActions
                     'pool_tipo' => (string) ($sessioneCreata['pool_tipo'] ?? ''),
                     'argomento_id' => $sessioneCreata['argomento_id'] ?? null,
                     'selezione_tipo' => (string) ($sessioneCreata['selezione_tipo'] ?? ''),
+                    'max_per_argomento' => $sessioneCreata['max_per_argomento'] ?? null,
                 ]);
                 return true;
 
@@ -149,6 +152,7 @@ trait HandlesAdminSessionActions
                 $poolTipo = trim((string) ($_POST['pool_tipo'] ?? 'tutti'));
                 $argomentoRaw = $_POST['argomento_id'] ?? null;
                 $selezioneTipo = trim((string) ($_POST['selezione_tipo'] ?? 'random'));
+                $maxPerArgomento = (int) ($_POST['max_per_argomento'] ?? 0);
 
                 $sessioneModel = new Sessione();
                 $ok = $sessioneModel->aggiornaSnapshot($targetSessioneId, [
@@ -157,6 +161,7 @@ trait HandlesAdminSessionActions
                     'pool_tipo' => $poolTipo,
                     'argomento_id' => $argomentoRaw,
                     'selezione_tipo' => $selezioneTipo,
+                    'max_per_argomento' => $maxPerArgomento > 0 ? $maxPerArgomento : null,
                 ]);
 
                 $aggiornata = $sessioneModel->trova($targetSessioneId) ?: null;

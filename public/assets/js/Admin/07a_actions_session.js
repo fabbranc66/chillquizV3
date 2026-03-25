@@ -17,11 +17,15 @@
         ? 'manuale'
         : 'random';
       const argomentoRaw = String(D.inputSessioneArgomentoId?.value || '').trim();
+      const maxPerArgomentoRaw = String(D.inputSessioneMaxPerArgomento?.value || '').trim();
 
       const poolTipo = poolRaw === 'sarabanda'
         ? 'sarabanda'
         : ((poolRaw === 'fisso' || poolRaw === 'mono') ? 'mono' : 'tutti');
       const argomentoId = poolTipo === 'mono' && Number(argomentoRaw) > 0 ? String(Number(argomentoRaw)) : '';
+      const maxPerArgomento = poolTipo === 'tutti' && selezioneTipo === 'random' && Number(maxPerArgomentoRaw) > 0
+        ? String(Math.floor(Number(maxPerArgomentoRaw)))
+        : '';
 
       const formData = new FormData();
       if (nomeSessione !== '') formData.append('nome', nomeSessione);
@@ -31,6 +35,7 @@
       formData.append('pool_tipo', poolTipo);
       formData.append('argomento_id', argomentoId);
       formData.append('selezione_tipo', selezioneTipo);
+      formData.append('max_per_argomento', maxPerArgomento);
 
       const res = await fetch(`${S.API_BASE}/admin/nuova-sessione/0`, {
         method: 'POST',
@@ -119,6 +124,17 @@
       }
     },
 
+    syncMaxPerArgomentoFieldState() {
+      if (!D.inputSessioneMaxPerArgomento || !D.inputSessionePoolTipo || !D.inputSessioneSelezioneTipo) return;
+      const poolTipo = String(D.inputSessionePoolTipo.value || 'misto');
+      const selezioneTipo = String(D.inputSessioneSelezioneTipo.value || 'random');
+      const enabled = poolTipo === 'misto' && selezioneTipo === 'random';
+      D.inputSessioneMaxPerArgomento.disabled = !enabled;
+      if (!enabled) {
+        D.inputSessioneMaxPerArgomento.value = '';
+      }
+    },
+
     async caricaArgomenti() {
       if (!D.inputSessioneArgomentoId) return;
 
@@ -137,6 +153,7 @@
         C.argomentiCache.map((argomento) => `<option value="${Number(argomento.id || 0)}">${escapeHtml(String(argomento.nome || `Argomento ${Number(argomento.id || 0)}`))}</option>`).join('');
 
       Admin.actions.syncArgomentoFieldState();
+      Admin.actions.syncMaxPerArgomentoFieldState();
     },
 
     popolaFormSessioneDaSelect() {
@@ -167,11 +184,15 @@
         ? 'manuale'
         : 'random';
       const argomentoRaw = String(D.inputSessioneArgomentoId?.value || '').trim();
+      const maxPerArgomentoRaw = String(D.inputSessioneMaxPerArgomento?.value || '').trim();
 
       const poolTipo = poolRaw === 'sarabanda'
         ? 'sarabanda'
         : ((poolRaw === 'fisso' || poolRaw === 'mono') ? 'mono' : 'tutti');
       const argomentoId = poolTipo === 'mono' && Number(argomentoRaw) > 0 ? String(Number(argomentoRaw)) : '';
+      const maxPerArgomento = poolTipo === 'tutti' && selezioneTipo === 'random' && Number(maxPerArgomentoRaw) > 0
+        ? String(Math.floor(Number(maxPerArgomentoRaw)))
+        : '';
 
       const formData = new FormData();
       formData.append('sessione_id', String(targetId));
@@ -180,6 +201,7 @@
       formData.append('pool_tipo', poolTipo);
       formData.append('argomento_id', argomentoId);
       formData.append('selezione_tipo', selezioneTipo);
+      formData.append('max_per_argomento', maxPerArgomento);
 
       const res = await fetch(`${S.API_BASE}/admin/sessione-update/0`, {
         method: 'POST',

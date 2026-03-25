@@ -289,6 +289,147 @@ trait HandlesAdminQuestionActions
                 ]);
                 return true;
 
+            case 'domanda-riordina':
+                $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
+                $posizioneSource = (int) ($_POST['posizione_source'] ?? 0);
+                $direction = strtolower(trim((string) ($_POST['direction'] ?? '')));
+                $step = $direction === 'up' ? -1 : ($direction === 'down' ? 1 : 0);
+
+                if ($targetSessioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non valida'
+                    ]);
+                    return true;
+                }
+
+                if ($posizioneSource <= 0 || $step === 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Parametri riordino non validi'
+                    ]);
+                    return true;
+                }
+
+                $pdo = \App\Core\Database::getInstance();
+                $sessionMeta = $this->loadSessioneProgressForQuestionReplace($pdo, $targetSessioneId);
+                if (!$sessionMeta) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Sessione non trovata'
+                    ]);
+                    return true;
+                }
+
+                $domandaCorrente = (int) ($sessionMeta['domanda_corrente'] ?? 0);
+                $targetPosizione = $posizioneSource + $step;
+                if ($targetPosizione <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Spostamento non consentito'
+                    ]);
+                    return true;
+                }
+
+                if ($domandaCorrente > 0 && ($posizioneSource < $domandaCorrente || $targetPosizione < $domandaCorrente)) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Riordino bloccato: domanda gia passata.',
+                        'code' => 'QUESTION_PASSED',
+                        'sessione' => $sessionMeta,
+                    ]);
+                    return true;
+                }
+
+                $rowStmt = $pdo->prepare(
+                    "SELECT posizione, domanda_id
+                     FROM sessione_domande
+                     WHERE sessione_id = :sessione_id
+                       AND posizione IN (:posizione_source, :posizione_target)
+                     ORDER BY posizione ASC"
+                );
+                $rowStmt->execute([
+                    'sessione_id' => $targetSessioneId,
+                    'posizione_source' => $posizioneSource,
+                    'posizione_target' => $targetPosizione,
+                ]);
+                $rows = $rowStmt->fetchAll() ?: [];
+
+                if (count($rows) !== 2) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Posizione destinazione non disponibile'
+                    ]);
+                    return true;
+                }
+
+                $byPosizione = [];
+                foreach ($rows as $row) {
+                    $byPosizione[(int) ($row['posizione'] ?? 0)] = (int) ($row['domanda_id'] ?? 0);
+                }
+
+                if (!isset($byPosizione[$posizioneSource], $byPosizione[$targetPosizione])) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Dati riordino incoerenti'
+                    ]);
+                    return true;
+                }
+
+                try {
+                    $pdo->beginTransaction();
+
+                    $tmpPosizione = -999999;
+                    $swapOne = $pdo->prepare(
+                        "UPDATE sessione_domande
+                         SET posizione = :new_posizione
+                         WHERE sessione_id = :sessione_id
+                           AND posizione = :current_posizione"
+                    );
+
+                    $swapOne->execute([
+                        'new_posizione' => $tmpPosizione,
+                        'sessione_id' => $targetSessioneId,
+                        'current_posizione' => $posizioneSource,
+                    ]);
+                    $swapOne->execute([
+                        'new_posizione' => $posizioneSource,
+                        'sessione_id' => $targetSessioneId,
+                        'current_posizione' => $targetPosizione,
+                    ]);
+                    $swapOne->execute([
+                        'new_posizione' => $targetPosizione,
+                        'sessione_id' => $targetSessioneId,
+                        'current_posizione' => $tmpPosizione,
+                    ]);
+
+                    $pdo->commit();
+                } catch (\Throwable $e) {
+                    if ($pdo->inTransaction()) {
+                        $pdo->rollBack();
+                    }
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Errore durante il riordino delle domande'
+                    ]);
+                    return true;
+                }
+
+                $this->json([
+                    'success' => true,
+                    'action' => $action,
+                    'sessione_id' => $targetSessioneId,
+                    'sessione' => $sessionMeta,
+                    'moved' => [
+                        'direction' => $direction,
+                        'from' => $posizioneSource,
+                        'to' => $targetPosizione,
+                        'domanda_source_id' => $byPosizione[$posizioneSource],
+                        'domanda_target_id' => $byPosizione[$targetPosizione],
+                    ],
+                ]);
+                return true;
+
             case 'domanda-sostituisci':
                 $targetSessioneId = (int) ($_POST['sessione_id'] ?? $sessioneId ?? 0);
                 $posizioneSource = (int) ($_POST['posizione_source'] ?? 0);

@@ -440,6 +440,7 @@
     const poolTipo = String(sessione.pool_tipo || 'tutti').trim();
     const selezioneTipo = String(sessione.selezione_tipo || 'random').trim();
     const argomentoId = sessione.argomento_id ?? '';
+    const maxPerArgomento = Number(sessione.max_per_argomento || 0);
 
     if (D.inputSessioneNome) {
       D.inputSessioneNome.value = buildSessionLabel(sessione);
@@ -458,7 +459,11 @@
     if (D.inputSessioneArgomentoId) {
       D.inputSessioneArgomentoId.value = (argomentoId === null || argomentoId === undefined) ? '' : String(argomentoId);
     }
+    if (D.inputSessioneMaxPerArgomento) {
+      D.inputSessioneMaxPerArgomento.value = maxPerArgomento > 0 ? String(maxPerArgomento) : '';
+    }
     Admin.actions.syncArgomentoFieldState();
+    Admin.actions.syncMaxPerArgomentoFieldState();
   }
 
   function fillDomandaEditorFromData(domanda) {

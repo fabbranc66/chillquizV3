@@ -497,6 +497,8 @@
         Admin.actions.chiudiSostituzioneDomanda();
         return;
       }
+      const totalDomande = domande.length;
+      const domandaCorrente = Number(S.currentSessionState?.domanda_corrente || 0);
 
       const domandeByPosizione = new Map();
       domande.forEach((row) => {
@@ -508,6 +510,8 @@
         const posizione = Number(domanda.posizione || 0);
         const id = Number(domanda.domanda_id || 0);
         const isCurrent = posizione > 0 && posizione === Number(S.currentSessionState?.domanda_corrente || 0);
+        const canMoveUp = posizione > 1 && !(domandaCorrente > 0 && (posizione <= domandaCorrente || (posizione - 1) < domandaCorrente));
+        const canMoveDown = posizione < totalDomande && !(domandaCorrente > 0 && (posizione < domandaCorrente || (posizione + 1) < domandaCorrente));
         const codice = escapeHtml(String(domanda.codice_domanda || '-'));
         const testo = escapeHtml(String(domanda.testo || ''));
         const tipo = escapeHtml(String(domanda.tipo_domanda || 'CLASSIC'));
@@ -534,6 +538,12 @@
               codice=${codice} · tipo=${tipo} · fase=${fase} · media=${hasMedia ? 'si' : 'no'}
             </div>
             <div class="qa-item-actions">
+              <button type="button" class="qa-mini-btn qa-item-move-btn" data-move-direction="up" data-move-posizione="${posizione}" ${canMoveUp ? '' : 'disabled'}>
+                ↑
+              </button>
+              <button type="button" class="qa-mini-btn qa-item-move-btn" data-move-direction="down" data-move-posizione="${posizione}" ${canMoveDown ? '' : 'disabled'}>
+                ↓
+              </button>
               <button type="button" class="qa-mini-btn qa-item-replace-btn" data-replace-posizione="${posizione}" data-replace-domanda-id="${id}">
                 Sostituisci
               </button>
@@ -576,6 +586,64 @@
             domandaId,
             testo: String(row.testo || ''),
           });
+        });
+      });
+
+      D.domandeSessioneList.querySelectorAll('.qa-item-move-btn').forEach((button) => {
+        button.addEventListener('click', async (ev) => {
+          ev.preventDefault();
+          ev.stopPropagation();
+
+          const posizione = Number(button.getAttribute('data-move-posizione') || 0);
+          const direction = String(button.getAttribute('data-move-direction') || '').trim().toLowerCase();
+          if (posizione <= 0 || !['up', 'down'].includes(direction)) {
+            addLog({
+              ok: false,
+              title: 'domanda-riordina',
+              message: 'Parametri riordino non validi',
+              data: { posizione, direction },
+            });
+            return;
+          }
+
+          button.disabled = true;
+          const formDataMove = new FormData();
+          formDataMove.append('sessione_id', String(Number(sessioneId || 0)));
+          formDataMove.append('posizione_source', String(posizione));
+          formDataMove.append('direction', direction);
+
+          try {
+            const resMove = await fetch(`${S.API_BASE}/admin/domanda-riordina/0`, {
+              method: 'POST',
+              body: formDataMove,
+            });
+
+            const moveData = await resMove.json();
+            addLog({
+              ok: !!moveData.success,
+              title: 'domanda-riordina',
+              message: moveData.success
+                ? `Domanda spostata da #${Number(moveData.moved?.from || 0)} a #${Number(moveData.moved?.to || 0)}`
+                : (moveData.error || 'Errore riordino domande'),
+              data: moveData,
+            });
+
+            if (!moveData.success) {
+              return;
+            }
+
+            await Admin.actions.caricaDomandeSessione(sessioneId);
+            await Admin.actions.aggiornaDomandaCorrenteMeta();
+          } catch (e) {
+            addLog({
+              ok: false,
+              title: 'domanda-riordina',
+              message: 'Errore rete durante il riordino domande',
+              data: { error: String(e?.message || e), posizione, direction },
+            });
+          } finally {
+            button.disabled = false;
+          }
         });
       });
 

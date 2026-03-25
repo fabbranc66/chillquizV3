@@ -28,6 +28,9 @@ trait ConfigQuizTrait
                 'pool_tipo' => $poolTipo,
                 'argomento_id' => $this->sessione['argomento_id'] !== null ? (int) $this->sessione['argomento_id'] : null,
                 'selezione_tipo' => ($this->sessione['selezione_tipo'] ?? 'random') === 'manuale' ? 'manuale' : 'random',
+                'max_per_argomento' => isset($this->sessione['max_per_argomento']) && $this->sessione['max_per_argomento'] !== null
+                    ? (int) $this->sessione['max_per_argomento']
+                    : null,
                 'modalita' => null,
             ];
         }
@@ -39,6 +42,7 @@ trait ConfigQuizTrait
                 'pool_tipo' => 'tutti',
                 'argomento_id' => null,
                 'selezione_tipo' => 'random',
+                'max_per_argomento' => null,
                 'modalita' => null,
             ];
         }
@@ -59,6 +63,7 @@ trait ConfigQuizTrait
                 'pool_tipo' => 'tutti',
                 'argomento_id' => null,
                 'selezione_tipo' => 'random',
+                'max_per_argomento' => null,
                 'modalita' => null,
             ];
         }
@@ -74,6 +79,7 @@ trait ConfigQuizTrait
             'pool_tipo' => $poolTipo,
             'argomento_id' => $v2['argomento_id'] !== null ? (int) $v2['argomento_id'] : null,
             'selezione_tipo' => ($v2['selezione_tipo'] ?? 'auto') === 'manuale' ? 'manuale' : 'random',
+            'max_per_argomento' => null,
             'modalita' => $v2['modalita'] ?? 'mista',
         ];
     }

@@ -26,8 +26,9 @@ class SelezioneDomande
         $poolTipo = $sessionConfig['pool_tipo'];
         $argomentoId = $sessionConfig['argomento_id'];
         $selezioneTipo = $sessionConfig['selezione_tipo'];
+        $maxPerArgomento = (int) ($sessionConfig['max_per_argomento'] ?? 0);
 
-        $sql = 'SELECT id FROM domande WHERE attiva = 1';
+        $sql = 'SELECT id, argomento_id FROM domande WHERE attiva = 1';
         $params = [];
 
         if ($poolTipo === 'mono' && $argomentoId) {
@@ -46,20 +47,50 @@ class SelezioneDomande
             $sql .= ' ORDER BY id ASC';
         }
 
-        $sql .= ' LIMIT ' . $numero;
-
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
 
-        $domande = $stmt->fetchAll();
+        $domande = $stmt->fetchAll() ?: [];
+        if ($poolTipo === 'tutti' && $selezioneTipo === 'random' && $maxPerArgomento > 0) {
+            $domande = $this->applyTopicLimit($domande, $numero, $maxPerArgomento);
+        } else {
+            $domande = array_slice(
+                array_map(static fn (array $row): array => ['id' => (int) $row['id']], $domande),
+                0,
+                $numero
+            );
+        }
 
         $this->salvaDomandeSessione($sessioneId, $domande);
+    }
+
+    private function applyTopicLimit(array $domande, int $numero, int $maxPerArgomento): array
+    {
+        $selected = [];
+        $countsByTopic = [];
+
+        foreach ($domande as $row) {
+            $topicId = (int) ($row['argomento_id'] ?? 0);
+            $currentCount = (int) ($countsByTopic[$topicId] ?? 0);
+            if ($currentCount >= $maxPerArgomento) {
+                continue;
+            }
+
+            $selected[] = ['id' => (int) $row['id']];
+            $countsByTopic[$topicId] = $currentCount + 1;
+
+            if (count($selected) >= $numero) {
+                break;
+            }
+        }
+
+        return $selected;
     }
 
     private function loadSessionConfig(int $sessioneId): ?array
     {
         $stmt = $this->pdo->prepare(
-            'SELECT numero_domande, pool_tipo, argomento_id, selezione_tipo FROM sessioni WHERE id = :id LIMIT 1'
+            'SELECT numero_domande, pool_tipo, argomento_id, selezione_tipo, max_per_argomento FROM sessioni WHERE id = :id LIMIT 1'
         );
 
         $stmt->execute(['id' => $sessioneId]);
@@ -84,6 +115,7 @@ class SelezioneDomande
             'pool_tipo' => $poolTipo,
             'argomento_id' => $row['argomento_id'] !== null ? (int) $row['argomento_id'] : null,
             'selezione_tipo' => ($row['selezione_tipo'] ?? 'random') === 'manuale' ? 'manuale' : 'random',
+            'max_per_argomento' => $row['max_per_argomento'] !== null ? (int) $row['max_per_argomento'] : null,
         ];
     }
 
