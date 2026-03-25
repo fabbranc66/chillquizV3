@@ -861,7 +861,11 @@ class Partecipazione
         }
 
         $capitaleRipristinoBase = (int) ($ultimoConPunti['capitale_attuale'] ?? 0);
-        $capitaleRipristino = (int) floor($capitaleRipristinoBase * 0.25);
+        $coeffDefault = 0.40;
+        $coeffSetting = (float) ((new Sistema())->get('coefficiente_rientro_zero') ?? 0);
+        $coeff = $coeffSetting > 0 ? $coeffSetting : $coeffDefault;
+        $coeff = max(0.01, min(1.0, $coeff));
+        $capitaleRipristino = max(1, (int) floor($capitaleRipristinoBase * $coeff));
 
         if ($capitaleRipristino <= 0) {
             return;
@@ -905,6 +909,74 @@ class Partecipazione
         $stmt->execute(['sessione_id' => $sessioneId]);
 
         return $stmt->fetchAll();
+    }
+
+    public function eliminaDaSessione(int $partecipazioneId, int $sessioneId): bool
+    {
+        if ($partecipazioneId <= 0 || $sessioneId <= 0) {
+            return false;
+        }
+
+        $started = false;
+
+        try {
+            if (!$this->pdo->inTransaction()) {
+                $this->pdo->beginTransaction();
+                $started = true;
+            }
+
+            $deletePuntateLive = $this->pdo->prepare(
+                "DELETE FROM puntate_live
+                 WHERE sessione_id = :sessione_id
+                   AND partecipazione_id = :partecipazione_id"
+            );
+            $deletePuntateLive->execute([
+                'sessione_id' => $sessioneId,
+                'partecipazione_id' => $partecipazioneId,
+            ]);
+
+            $deleteRisposte = $this->pdo->prepare(
+                "DELETE FROM risposte
+                 WHERE partecipazione_id = :partecipazione_id"
+            );
+            $deleteRisposte->execute([
+                'partecipazione_id' => $partecipazioneId,
+            ]);
+
+            $clearJoinRequests = $this->pdo->prepare(
+                "DELETE FROM join_richieste
+                 WHERE sessione_id = :sessione_id
+                   AND partecipazione_id = :partecipazione_id"
+            );
+            $clearJoinRequests->execute([
+                'sessione_id' => $sessioneId,
+                'partecipazione_id' => $partecipazioneId,
+            ]);
+
+            $deletePartecipazione = $this->pdo->prepare(
+                "DELETE FROM partecipazioni
+                 WHERE id = :id
+                   AND sessione_id = :sessione_id"
+            );
+            $deletePartecipazione->execute([
+                'id' => $partecipazioneId,
+                'sessione_id' => $sessioneId,
+            ]);
+
+            unset($_SESSION['puntate'][$partecipazioneId]);
+
+            if ($started) {
+                $this->pdo->commit();
+            }
+
+            return $deletePartecipazione->rowCount() > 0;
+        } catch (\Throwable $e) {
+            if ($started && $this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+
+            return false;
+        }
     }
 
     private function ensurePuntateLiveTable(): void

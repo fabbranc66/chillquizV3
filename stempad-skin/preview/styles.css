@@ -1,0 +1,254 @@
+:root {
+  --bg: #000000;
+  --cyan: #00d9ff;
+  --red: #ff2424;
+  --line-blue: #1f4d6b;
+  --line-red: #5e1d1d;
+  --panel-glow: rgba(255, 255, 255, 0.12);
+  --gray: #5b5b5b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: #ffffff;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.skin {
+  width: 100%;
+  min-height: 100vh;
+  padding: 18px 26px 30px;
+  display: grid;
+  grid-template-columns: 1fr 360px 1fr;
+  gap: 18px;
+}
+
+.deck {
+  position: relative;
+  padding-top: 34px;
+}
+
+.track-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-size: 14px;
+  color: var(--cyan);
+  margin: 0 18px 10px;
+}
+
+.track-meta strong {
+  font-size: 40px;
+}
+
+.topline {
+  height: 2px;
+  margin: 36px 18px 18px;
+}
+
+.topline.blue {
+  background: var(--line-blue);
+}
+
+.topline.red {
+  background: var(--line-red);
+}
+
+.deck-grid {
+  display: grid;
+  grid-template-columns: 88px 88px 88px 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 0 18px;
+}
+
+.deck-grid.reverse {
+  grid-template-columns: 1fr 88px 88px 88px;
+}
+
+.pad-column {
+  display: grid;
+  gap: 14px;
+}
+
+.pad {
+  height: 88px;
+  border-radius: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.15), inset 0 0 14px rgba(255, 255, 255, 0.28);
+}
+
+.pad.green {
+  background: linear-gradient(180deg, #8fff58 0%, #1ca900 30%, #045000 100%);
+}
+
+.pad.yellow {
+  background: linear-gradient(180deg, #fff58c 0%, #d8b700 32%, #6e5200 100%);
+}
+
+.pad.blue {
+  background: linear-gradient(180deg, #8de3ff 0%, #1386e0 32%, #003966 100%);
+}
+
+.pad.pink {
+  background: linear-gradient(180deg, #ff8bd2 0%, #af176b 34%, #440022 100%);
+}
+
+.pad.icon,
+.mini {
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  text-transform: uppercase;
+}
+
+.fx-zone h2,
+.curve h2 {
+  margin: 0 0 10px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.stem-icons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.mini {
+  height: 88px;
+  border-radius: 18px;
+  border: 3px solid rgba(202, 171, 255, 0.28);
+  color: #ffffff;
+  background: linear-gradient(180deg, #beb5ff 0%, #6851c8 38%, #24134f 100%);
+  box-shadow: 0 0 16px rgba(126, 91, 255, 0.32);
+}
+
+.fx-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 14px;
+}
+
+.fx-buttons button,
+.curve-buttons button {
+  border: 3px solid rgba(255, 154, 60, 0.45);
+  border-radius: 18px;
+  color: #ffffff;
+  background: linear-gradient(180deg, #ffdda2 0%, #cf6f25 24%, #5c1f82 100%);
+  min-height: 88px;
+  font-size: 22px;
+  box-shadow: 0 0 16px rgba(255, 120, 40, 0.26);
+}
+
+.curve {
+  padding-top: 112px;
+}
+
+.curve-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.curve-buttons .pink {
+  background: linear-gradient(180deg, #ff88bf 0%, #a02f6f 34%, #251227 100%);
+}
+
+.curve-buttons .green {
+  background: linear-gradient(180deg, #8cff73 0%, #26bc16 34%, #15301b 100%);
+}
+
+.meters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 16px;
+}
+
+.meter-group {
+  display: grid;
+  grid-template-columns: 28px 28px 54px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.leds {
+  height: 780px;
+  border-radius: 16px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.26) 0 46px,
+      transparent 46px 66px
+    );
+  opacity: 0.85;
+}
+
+.slider {
+  height: 780px;
+  width: 54px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #555555 0%, #666666 12%, #444444 12%, #444444 100%);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.06);
+}
+
+.slider.blue::before,
+.slider.magenta::before {
+  content: "";
+  display: block;
+  width: 54px;
+  height: 100px;
+  border-radius: 10px 10px 0 0;
+}
+
+.slider.blue::before {
+  background: linear-gradient(180deg, #a7ebff 0%, #0d87d7 42%, #094a7a 100%);
+}
+
+.slider.magenta::before {
+  background: linear-gradient(180deg, #ff96d3 0%, #c32771 42%, #5f1030 100%);
+}
+
+.labels {
+  display: grid;
+  gap: 52px;
+  align-content: end;
+  font-size: 26px;
+  font-weight: 700;
+  padding-top: 490px;
+}
+
+.labels strong {
+  font-size: 64px;
+  line-height: 1;
+}
+
+.labels.cyan {
+  color: var(--cyan);
+}
+
+.labels.red {
+  color: var(--red);
+}
+
+@media (max-width: 1500px) {
+  .skin {
+    grid-template-columns: 1fr;
+  }
+
+  .center {
+    order: -1;
+  }
+
+  .meters {
+    grid-template-columns: 1fr;
+  }
+}

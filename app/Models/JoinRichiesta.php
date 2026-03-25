@@ -272,7 +272,7 @@ class JoinRichiesta
         $coeff = max(0.01, min(1.0, $coeff));
 
         $base = (int) ($ultimo['capitale_attuale'] ?? 0);
-        $capitaleRientro = (int) floor($base * $coeff);
+        $capitaleRientro = max(1, (int) floor($base * $coeff));
 
         if ($capitaleRientro <= 0) {
             return;

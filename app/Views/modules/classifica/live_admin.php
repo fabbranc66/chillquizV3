@@ -23,10 +23,11 @@
                     <th>Esito</th>
                     <th>Tempo risposta (s)</th>
                     <th>Vincita domanda</th>
+                    <th>Azioni</th>
                 </tr>
             </thead>
             <tbody id="classifica-live">
-                <tr><td colspan="7">Nessun dato</td></tr>
+                <tr><td colspan="8">Nessun dato</td></tr>
             </tbody>
         </table>
     </div>

@@ -4,6 +4,7 @@ namespace App\Controllers\Traits;
 
 use App\Core\Database;
 use App\Models\JoinRichiesta;
+use App\Models\Partecipazione;
 use App\Models\Sessione;
 use App\Services\Question\FadeModeService;
 use App\Services\Question\ImagePartyModeService;
@@ -153,6 +154,27 @@ trait HandlesAdminRuntimeActions
                     'request_id' => $richiestaId,
                     'stato' => $stato,
                     'error' => $ok ? null : 'Impossibile aggiornare richiesta'
+                ]);
+                return true;
+
+            case 'elimina-partecipante':
+                $partecipazioneId = (int) ($_POST['partecipazione_id'] ?? 0);
+                if ($partecipazioneId <= 0) {
+                    $this->json([
+                        'success' => false,
+                        'error' => 'Partecipante non valido'
+                    ]);
+                    return true;
+                }
+
+                $partecipazioneModel = new Partecipazione();
+                $ok = $partecipazioneModel->eliminaDaSessione($partecipazioneId, $sessioneId);
+
+                $this->json([
+                    'success' => $ok,
+                    'action' => $action,
+                    'partecipazione_id' => $partecipazioneId,
+                    'error' => $ok ? null : 'Impossibile eliminare il partecipante dalla sessione'
                 ]);
                 return true;
         }

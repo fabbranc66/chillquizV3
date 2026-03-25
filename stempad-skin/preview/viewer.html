@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StemPad Preview Viewer</title>
+  <style>
+    :root {
+      --bg: #050507;
+      --panel: #101217;
+      --line: #232838;
+      --text: #f3f5f7;
+      --muted: #98a2b3;
+      --accent: #00d9ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(0, 217, 255, 0.14), transparent 28%),
+        radial-gradient(circle at top right, rgba(255, 42, 114, 0.14), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+
+    .wrap {
+      max-width: 1800px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+    }
+
+    p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    button {
+      border: 1px solid #2f3b57;
+      background: #171d2a;
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      border-color: var(--accent);
+    }
+
+    .frame {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 14px;
+      background: #000;
+    }
+
+    .caption {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>StemPad Preview</h1>
+    <p>Viewer locale per controllare le varianti PNG della skin.</p>
+
+    <div class="toolbar">
+      <button type="button" onclick="setImage('stempad-remix.png', 'Versione 1: bozzetto iniziale')">Apri v1</button>
+      <button type="button" onclick="setImage('stempad-remix-v2.png', 'Versione 2: glow e layout piu curato')">Apri v2</button>
+      <button type="button" onclick="setImage('stempad-remix-v3.png', 'Versione 3: piu ordinata, allineata e senza sovrapposizioni')">Apri v3</button>
+    </div>
+
+    <div class="frame">
+      <img id="preview" src="./stempad-remix-v2.png" alt="Anteprima StemPad">
+      <div class="caption" id="caption">Versione 2: glow e layout piu curato</div>
+    </div>
+  </div>
+
+  <script>
+    function setImage(file, caption) {
+      document.getElementById("preview").src = "./" + file;
+      document.getElementById("caption").textContent = caption;
+    }
+  </script>
+</body>
+</html>

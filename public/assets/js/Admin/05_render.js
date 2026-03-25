@@ -16,7 +16,7 @@
       if (!classificaLiveEl) return;
 
       if (!Array.isArray(lista) || lista.length === 0) {
-        classificaLiveEl.innerHTML = '<tr><td colspan="7">Nessun partecipante</td></tr>';
+        classificaLiveEl.innerHTML = '<tr><td colspan="8">Nessun partecipante</td></tr>';
         return;
       }
 
@@ -37,10 +37,13 @@
         const isPrimoVincente = primoVeloceCorretto && Number(primoVeloceCorretto.partecipazione_id) === Number(p.partecipazione_id);
         const rowClass = isPrimoVincente ? 'live-row-primo' : '';
 
-        const nomeSafe = escapeHtml(p.nome ?? '-');
+        const nomeRaw = String(p.nome ?? '-');
+        const nomeSafe = escapeHtml(nomeRaw);
         const nomeConIcona = isPrimoVincente
           ? `<span class="first-win-icon" title="Primo a rispondere correttamente">&#129351;&#9889;</span>${nomeSafe}`
           : nomeSafe;
+        const partecipazioneId = Number(p.partecipazione_id ?? 0);
+        const nomeJs = nomeRaw.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 
         return `
           <tr class="${rowClass}">
@@ -51,6 +54,7 @@
             <td>${esito}<\/td>
             <td>${tempo}<\/td>
             <td>${vincita}<\/td>
+            <td><button class="btn-join-no" onclick="eliminaPartecipante(${partecipazioneId}, '${nomeJs}')">Elimina</button></td>
           </tr>
         `;
       }).join('');

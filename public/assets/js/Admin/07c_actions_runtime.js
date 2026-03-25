@@ -132,6 +132,34 @@
       }
     },
 
+    async eliminaPartecipante(partecipazioneId, nome = '') {
+      const id = Number(partecipazioneId || 0);
+      if (id <= 0) return;
+
+      const playerName = String(nome || `#${id}`).trim();
+      const confirmed = window.confirm(`Eliminare ${playerName} dalla sessione corrente?`);
+      if (!confirmed) return;
+
+      const formData = new FormData();
+      formData.append('partecipazione_id', String(id));
+
+      const sessioneId = resolveActiveSessioneId();
+      const data = await Runtime.fetchAdminJson('elimina-partecipante', sessioneId, formData);
+
+      Runtime.logActionResult(
+        'Partecipante eliminato',
+        data,
+        data.success
+          ? `${playerName} rimosso dalla sessione`
+          : `Errore rimozione ${playerName}`
+      );
+
+      if (data.success) {
+        Admin.actions.aggiornaJoinRichieste();
+        Admin.actions.aggiornaPartecipanti();
+      }
+    },
+
     async callAdmin(action) {
       const sessioneId = resolveActiveSessioneId();
       if (!await syncCurrentSessionForGlobalViews(sessioneId)) {
@@ -263,4 +291,5 @@
   });
 
   window.gestisciJoin = (requestId, action) => Admin.actions.gestisciJoin(requestId, action);
+  window.eliminaPartecipante = (partecipazioneId, nome) => Admin.actions.eliminaPartecipante(partecipazioneId, nome);
 })();
